@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ecs-flex-operator
+  labels:
+    release: {{ .Release.Name }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: ecs-flex-operator
+  template:
+    metadata:
+      labels:
+        name: ecs-flex-operator
+        release: {{ .Release.Name }}
+    spec:
+      serviceAccountName: "ecs-flex-operator"
+      containers:
+      - name: operator
+        image: {{ .Values.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        ports:
+        - containerPort: 60000
+          name: metrics
+        command:
+        - ecs-flex-operator
+        env:
+{{- if .Values.logReceiver.create }}
+        - name: LOG_RECEIVER_TYPE
+          value: "Syslog"
+        - name: LOG_RECEIVER
+          value: tcp://ecs-flex-rsyslog-service.{{ .Release.Namespace }}.svc.cluster.local:514
+        - name: LOG_RECEIVER_TYPE
+          value: {{ .Values.logReceiver.type }}
+{{- else }}
+  {{- if .Values.logReceiver.host }}
+        - name: LOG_RECEIVER_TYPE
+          value: {{ .Values.logReceiver.type }}
+  {{- end }}
+  {{- if .Values.logReceiver.host }}
+        - name: LOG_RECEIVER_HOST
+          value: {{ .Values.logReceiver.host }}
+  {{- end }}
+  {{- if .Values.logReceiver.protocol }}
+        - name: LOG_RECEIVER_PROTO
+          value: {{ .Values.logReceiver.protocol }}
+  {{- end }}
+  {{- if .Values.logReceiver.port }}
+        - name: LOG_RECEIVER_PORT
+          value: "{{ .Values.logReceiver.port }}"
+  {{- end }}
+{{- end }}
+        - name: WATCH_NAMESPACE
+{{- if eq .Values.watchNamespace "" }}
+          value: ""
+{{- else }}
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+{{- end }}
+        - name: OPERATOR_NAME
+          value: ecs-flex-operator

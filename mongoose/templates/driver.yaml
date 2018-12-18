@@ -1,0 +1,51 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-driver
+  labels:
+    app: {{ .Release.Name }}-driver
+    release: {{ .Release.Name }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  clusterIP: "None"
+  ports:
+  - name: data
+    port: 1099
+    targetPort: 1099
+  selector:
+    name: {{ .Release.Name }}-driver
+---
+apiVersion: apps/v1
+kind: StatefulSet 
+metadata:
+  name: {{ .Release.Name }}-driver
+  namespace: {{ .Release.Namespace }}
+spec:
+  replicas: {{ .Values.driver.replicas }}
+  selector:
+    matchLabels:
+      name: {{ .Release.Name }}-driver
+  serviceName: {{ .Release.Name }}-driver
+  podManagementPolicy: Parallel
+  template:
+    metadata:
+      labels:
+        name: {{ .Release.Name }}-driver
+        release: {{ .Release.Name }}
+    spec:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - topologyKey: "kubernetes.io/hostname"
+            labelSelector:
+              matchExpressions:
+              - key:      "app"
+                operator: In
+                values:
+                - {{ .Release.Name }}-driver
+      containers:
+      - name: driver
+        image: {{ .Values.driver.image.name }}:{{ .Values.driver.image.tag }}
+        imagePullPolicy: {{ .Values.driver.image.pullPolicy }}
+        ports:
+        - containerPort: 1099

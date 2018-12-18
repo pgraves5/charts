@@ -1,0 +1,19 @@
+# Default values for Zookeeper operator
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+# The private docker registry hosting containers for Zookeeper Operator
+registry: index.docker.io
+
+# Specifies which namespace the Operator should watch for new ClusterResource resources
+# Default: "" == Watch ALL namespaces
+watchNamespace: ""
+
+# The number of replicas for the ECS Flex Operator deployment
+replicaCount: 1
+# The image configured for the ECS Flex Operator
+image:
+  repository: emccorp/zookeeper-operator
+  tag: latest
+  pullPolicy: IfNotPresent
+

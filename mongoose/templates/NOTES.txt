@@ -1,0 +1,7 @@
+Congratulations! You've deployed Mongoose.  A horizontally scalable, high
+performance and extensively configurable S3 load testing tool.
+
+To start viewing your load-test results, simply follow the logs of the controller
+pod:
+
+    kubectl logs -f `kubectl get pod --no-headers -l name={{ .Release.Name }}-controller | head -1 | cut -d " " -f1`

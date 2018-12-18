@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: zookeeper-operator
+  labels:
+    release: {{ .Release.Name }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: zookeeper-operator
+  template:
+    metadata:
+      labels:
+        name: zookeeper-operator
+        release: {{ .Release.Name }}
+    spec:
+      containers:
+        - name: zookeeper-operator
+          image: {{ .Values.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+          - containerPort: 60000
+            name: metrics
+          command:
+          - zookeeper-operator
+          imagePullPolicy: Always
+          env:
+            - name: WATCH_NAMESPACE
+{{- if eq .Values.watchNamespace "" }}
+              value: ""
+{{- else }}
+              valueFrom:
+                  fieldRef:
+                    fieldPath: metadata.namespace
+{{- end }}
+            - name: OPERATOR_NAME
+              value: "zookeeper-operator"

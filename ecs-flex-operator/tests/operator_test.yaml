@@ -1,0 +1,56 @@
+suite: test operator
+templates:
+  - operator.yaml
+tests:
+  - it: should create a deployment
+    asserts:
+    - isKind:
+        of: Deployment
+  - it: should have name ending with operator
+    asserts:
+    - matchRegex:
+        path: metadata.name
+        pattern: ^.+-operator$
+  - it: should have a selector
+    asserts:
+    - matchRegex:
+        path: spec.selector.matchLabels.name
+        pattern: ^.+-operator$
+  - it: should have a name label
+    asserts:
+    - matchRegex:
+        path: spec.template.metadata.labels.name
+        pattern: ^.+-operator$
+  - it: should configure the image
+    set:
+      registry: REGISTRY
+      image.repository: REPO
+      image.tag: TAG
+      image.pullPolicy: ALWAYS
+    asserts:
+      - equal:
+          path: spec.template.spec.containers[0].image
+          value: REGISTRY/REPO:TAG
+      - equal:
+          path: spec.template.spec.containers[0].imagePullPolicy
+          value: ALWAYS
+  - it: should configure a customer syslog receiver with all params
+    set:
+      logReceiver.host:     SYSLOG
+      logReceiver.protocol: tcp
+      logReceiver.port:     514
+    asserts:
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: SYSLOG_RECEIVER
+            value: tcp://SYSLOG:514
+  - it: should enable a syslog receiver
+    set:
+      logReceiver.create: true
+    asserts:
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: SYSLOG_RECEIVER
+            value: tcp://ecs-flex-rsyslog-service.NAMESPACE.svc.cluster.local:514

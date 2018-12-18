@@ -1,0 +1,40 @@
+suite: test ecs-cluster resource
+templates:
+  - ecs_cluster.yaml
+tests:
+  - it: should create a custom resource
+    asserts:
+      - isKind:
+          of: ECSCluster
+  - it: should customize the log agent
+    set:
+      registry: my-registry
+      logAgent.image.repository: my-log-agent
+      logAgent.image.tag: latest
+      logAgent.image.pullPolicy: ALWAYS
+    asserts:
+      - equal:
+          path: spec.logAgent.image.repository
+          value: my-registry/my-log-agent
+      - equal:
+          path: spec.logAgent.image.tag
+          value: latest
+      - equal:
+          path: spec.logAgent.image.pullPolicy
+          value: ALWAYS
+  - it: should customize the storage storage
+    set:
+      registry: my-registry
+      storageServer.image.repository: my-ss
+      storageServer.image.tag: latest
+      storageServer.image.pullPolicy: ALWAYS
+    asserts:
+    - equal:
+        path: spec.storageServer.image.repository
+        value: my-registry/my-ss
+    - equal:
+        path: spec.storageServer.image.tag
+        value: latest
+    - equal:
+        path: spec.storageServer.image.pullPolicy
+        value: ALWAYS

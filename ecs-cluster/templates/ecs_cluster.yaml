@@ -1,0 +1,241 @@
+apiVersion: "ecs.dellemc.com/v1beta1"
+kind: "ECSCluster"
+metadata:
+  name: {{ .Release.Name }}
+  labels:
+    release: {{ .Release.Name }}
+spec:
+{{- if .Values.replicas }}
+  replicas: {{ .Values.replicas }}
+{{- end }}
+  memoryProfile: {{ .Values.memoryProfile }}
+
+  chunkManager:
+{{- if .Values.chunkManager.replicas }}
+    replicas: {{ .Values.chunkManager.replicas }}
+{{- end }}
+    image:
+      repository: {{ .Values.registry }}/{{ .Values.chunkManager.image.repository }}
+      tag: {{ .Values.chunkManager.image.tag }}
+      pullPolicy: {{ .Values.chunkManager.image.pullPolicy }}
+
+  blob:
+{{- if .Values.blob.replicas }}
+    replicas: {{ .Values.blob.replicas }}
+{{- end }}
+    image:
+      repository: {{ .Values.registry }}/{{ .Values.blob.image.repository }}
+      tag: {{ .Values.blob.image.tag }}
+      pullPolicy: {{ .Values.blob.image.pullPolicy }}
+
+  vnest:
+{{- if .Values.vnest.replicas }}
+    replicas: {{ .Values.vnest.replicas }}
+{{- end }}
+    image:
+      repository: {{ .Values.registry }}/{{ .Values.vnest.image.repository }}
+      tag: {{ .Values.vnest.image.tag }}
+      pullPolicy: {{ .Values.vnest.image.pullPolicy }}
+
+  zookeeper:
+{{- if .Values.vnest.replicas }}
+    size: {{ .Values.zookeeper.replicas }}
+{{- end }}
+    labels:
+      app: zookeeper
+      component: zk
+      release: {{ .Release.Name }}
+
+    image:
+      repository: {{ .Values.registry }}/{{ .Values.zookeeper.image.repository }}
+      tag: {{ .Values.zookeeper.image.tag }}
+      pullPolicy: {{ .Values.zookeeper.image.pullPolicy }}
+
+  storageServer:
+{{- if .Values.storageServer.replicas }}
+    replicas: {{ .Values.storageServer.replicas }}
+{{- end }}
+
+    image:
+      repository: {{ .Values.registry }}/{{ .Values.storageServer.image.repository }}
+      tag: {{ .Values.storageServer.image.tag }}
+      pullPolicy: {{ .Values.storageServer.image.pullPolicy }}
+
+    volumes:
+      volumesCount: {{ .Values.storageServer.persistence.volumesCount }}
+{{- if .Values.storageServer.persistence.storageClassName }}
+      storageClassName: {{ .Values.storageServer.persistence.storageClassName }}
+{{- end }}
+      resources:
+        requests:
+          storage: {{ .Values.storageServer.persistence.size }}
+
+  storageServerManager:
+{{- if .Values.storageServerManager.replicas }}
+    replicas: {{ .Values.storageServerManager.replicas }}
+{{- end }}
+
+    image:
+      repository: {{ .Values.registry }}/{{ .Values.storageServerManager.image.repository }}
+      tag: {{ .Values.storageServerManager.image.tag }}
+      pullPolicy: {{ .Values.storageServerManager.image.pullPolicy }}
+
+  recordManager:
+{{- if .Values.recordManager.replicas }}
+    replicas: {{ .Values.recordManager.replicas }}
+{{- end }}
+
+    image:
+      repository: {{ .Values.registry }}/{{ .Values.recordManager.image.repository }}
+      tag: {{ .Values.recordManager.image.tag }}
+      pullPolicy: {{ .Values.recordManager.image.pullPolicy }}
+
+  metering:
+{{- if .Values.metering.replicas }}
+    replicas: {{ .Values.metering.replicas }}
+{{- end }}
+
+    image:
+      repository: {{ .Values.registry }}/{{ .Values.metering.image.repository }}
+      tag: {{ .Values.metering.image.tag }}
+      pullPolicy: {{ .Values.metering.image.pullPolicy }}
+
+  event:
+{{- if .Values.event.replicas }}
+    replicas: {{ .Values.event.replicas }}
+  {{- end }}
+
+    image:
+      repository: {{ .Values.registry }}/{{ .Values.event.image.repository }}
+      tag: {{ .Values.event.image.tag }}
+      pullPolicy: {{ .Values.event.image.pullPolicy }}
+
+  resource:
+{{- if .Values.resource.replicas }}
+    replicas: {{ .Values.resource.replicas }}
+{{- end }}
+
+    image:
+      repository: {{ .Values.registry }}/{{ .Values.resource.image.repository }}
+      tag: {{ .Values.resource.image.tag }}
+      pullPolicy: {{ .Values.resource.image.pullPolicy }}
+
+  diagnostic:
+{{- if .Values.diagnostic.replicas }}
+    replicas: {{ .Values.diagnostic.replicas }}
+{{- end }}
+
+    image:
+      repository: {{ .Values.registry }}/{{ .Values.diagnostic.image.repository }}
+      tag: {{ .Values.diagnostic.image.tag }}
+      pullPolicy: {{ .Values.diagnostic.image.pullPolicy }}
+{{- if .Values.diagnostic.service }}
+    service:
+      {{ toYaml .Values.diagnostic.service | nindent 6 | trim }}
+{{- end }}
+
+  geoReceiver:
+{{- if .Values.geoReceiver.replicas }}
+    replicas: {{ .Values.geoReceiver.replicas }}
+{{- end }}
+
+    image:
+      repository: {{ .Values.registry }}/{{ .Values.geoReceiver.image.repository }}
+      tag: {{ .Values.geoReceiver.image.tag }}
+      pullPolicy: {{ .Values.geoReceiver.image.pullPolicy }}
+{{- if .Values.geoReceiver.service }}
+    service:
+      {{ toYaml .Values.geoReceiver.service | nindent 6 | trim }}
+{{- end }}
+
+  spaceReclaimer:
+{{- if .Values.spaceReclaimer.replicas }}
+    replicas: {{ .Values.spaceReclaimer.replicas }}
+{{- end }}
+
+    image:
+      repository: {{ .Values.registry }}/{{ .Values.spaceReclaimer.image.repository }}
+      tag: {{ .Values.spaceReclaimer.image.tag }}
+      pullPolicy: {{ .Values.spaceReclaimer.image.pullPolicy }}
+
+  stat:
+{{- if .Values.stat.replicas }}
+    replicas: {{ .Values.stat.replicas }}
+{{- end }}
+
+    image:
+      repository: {{ .Values.registry }}/{{ .Values.stat.image.repository }}
+      tag: {{ .Values.stat.image.tag }}
+      pullPolicy: {{ .Values.stat.image.pullPolicy }}
+
+  control:
+{{- if .Values.control.replicas }}
+    replicas: {{ .Values.control.replicas }}
+{{- end }}
+
+    image:
+      repository: {{ .Values.registry }}/{{ .Values.control.image.repository }}
+      tag: {{ .Values.control.image.tag }}
+      pullPolicy: {{ .Values.control.image.pullPolicy }}
+
+  objectHeads:
+{{- if .Values.objectHeads.replicas }}
+    replicas: {{ .Values.objectHeads.replicas }}
+{{- end }}
+
+    image:
+      repository: {{ .Values.registry }}/{{ .Values.objectHeads.image.repository }}
+      tag: {{ .Values.objectHeads.image.tag }}
+      pullPolicy: {{ .Values.objectHeads.image.pullPolicy }}
+    service:
+      {{ toYaml .Values.objectHeads.service | nindent 6 | trim }}
+
+  portal:
+{{- if .Values.portal.replicas }}
+    replicas: {{ .Values.portal.replicas }}
+{{- end }}
+    image:
+      repository: {{ .Values.registry }}/{{ .Values.portal.image.repository }}
+      tag: {{ .Values.portal.image.tag }}
+      pullPolicy: {{ .Values.portal.image.pullPolicy }}
+
+  nginx:
+{{- if .Values.portal.replicas }}
+    replicas: {{ .Values.nginx.replicas }}
+{{- end }}
+    image:
+      repository: {{ .Values.registry }}/{{ .Values.nginx.image.repository }}
+      tag: {{ .Values.nginx.image.tag }}
+      pullPolicy: {{ .Values.nginx.image.pullPolicy }}
+    service:
+      {{ toYaml .Values.nginx.service | nindent 6 | trim }}
+
+  provision:
+    enabled: {{.Values.provision.enable }}
+    image:
+      repository: {{ .Values.registry }}/{{ .Values.provision.image.repository }}
+      tag: {{ .Values.provision.image.tag }}
+      pullPolicy: {{ .Values.provision.image.pullPolicy }}
+
+  syslogAgent:
+    image:
+      repository: {{ .Values.registry }}/{{ .Values.syslogAgent.image.repository }}
+      tag: {{ .Values.syslogAgent.image.tag }}
+      pullPolicy: {{ .Values.syslogAgent.image.pullPolicy }}
+
+  fluentbitAgent:
+    image:
+      repository: {{ .Values.registry }}/{{ .Values.fluentbitAgent.image.repository }}
+      tag: {{ .Values.fluentbitAgent.image.tag }}
+      pullPolicy: {{ .Values.fluentbitAgent.image.pullPolicy }}
+
+  fabricProxy:
+    interface: {{ .Values.fabricProxy.interface }}
+{{- if .Values.fabricProxy.replicas }}
+    replicas: {{ .Values.fabricProxy.replicas }}
+{{- end }}
+    image:
+      repository: {{ .Values.registry }}/{{ .Values.fabricProxy.image.repository }}
+      tag: {{ .Values.fabricProxy.image.tag }}
+      pullPolicy: {{ .Values.fabricProxy.image.pullPolicy }}
+
