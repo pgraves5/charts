@@ -26,6 +26,6 @@ $ helm repo update
 2. Create the repository using your token:
 
 ```bash
-$ helm repo add sample 'https://MY_PRIVATE_TOKEN@raw.githubusercontent.com/EMCECS/charts/master/docs'
+$ helm repo add ecs 'https://MY_PRIVATE_TOKEN@raw.githubusercontent.com/EMCECS/charts/master/docs'
 $ helm repo update
 ```
