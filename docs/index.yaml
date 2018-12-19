@@ -3,7 +3,7 @@ entries:
   ecs-cluster:
   - apiVersion: v1
     appVersion: "1.0"
-    created: 2018-12-19T14:01:23.738275194-06:00
+    created: 2018-12-19T17:37:23.851130224-06:00
     description: |
       Elastic Cloud Storage is a highly scalable, S3 compatible object storage service
     digest: 1321c284474dfc6a1ca33ec89966a459df025591f749009e2bbcd210469bef91
@@ -18,10 +18,10 @@ entries:
   ecs-flex-operator:
   - apiVersion: v1
     appVersion: "1.0"
-    created: 2018-12-19T14:01:23.738850026-06:00
+    created: 2018-12-19T17:37:23.851510815-06:00
     description: |
       Dell EMC Elastic Cloud Storage is highly scalable, and high performance S3 compatible object storage platform.
-    digest: b58ce9f593ed302d455325c5687432c9f5982e661d077aea1f84a05df49c87f1
+    digest: 09796c14014bf73be204ca96b607ead0908fe434574bb84ff0c6b47d94a618be
     icon: https://avatars0.githubusercontent.com/u/12926680
     maintainers:
     - name: Dell EMC
@@ -33,7 +33,7 @@ entries:
   mongoose:
   - apiVersion: v1
     appVersion: "1.0"
-    created: 2018-12-19T14:01:23.739356503-06:00
+    created: 2018-12-19T17:37:23.852032384-06:00
     description: |
       Mongoose is a horizontally scalable and configurable S3 performance testing utility
     digest: ce3c61af57a8edad00c8f3a0535c8cd3a7c5122d22d6f77d10ce577b5f61f5f7
@@ -47,7 +47,7 @@ entries:
     version: 0.1.0
   zookeeper-operator:
   - appVersion: 2.6.0
-    created: 2018-12-19T14:01:23.739732025-06:00
+    created: 2018-12-19T17:37:23.853043064-06:00
     description: |
       Zookeeper operator deploys a custom resource for a zookeeper cluster, and a
       pod to provision and scale zookeeper clusters.
@@ -66,4 +66,4 @@ entries:
     urls:
     - zookeeper-operator-0.0.1.tgz
     version: 0.0.1
-generated: 2018-12-19T14:01:23.737228781-06:00
+generated: 2018-12-19T17:37:23.850110259-06:00

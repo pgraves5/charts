@@ -18,6 +18,10 @@ spec:
         release: {{ .Release.Name }}
         app: ecs-flex-rsyslog
     spec:
+{{- if .Values.registrySecret }}
+      imagePullSecrets:
+      - name: {{ .Values.registrySecret }}
+{{- end }}
       volumes:
         - name: conf
           configMap:

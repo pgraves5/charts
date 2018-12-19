@@ -16,6 +16,10 @@ spec:
         release: {{ .Release.Name }}
     spec:
       serviceAccountName: "ecs-flex-operator"
+{{- if .Values.registrySecret }}
+      imagePullSecrets:
+        - name: {{ .Values.registrySecret }}
+{{- end }}
       containers:
       - name: operator
         image: {{ .Values.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}
@@ -58,6 +62,10 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: metadata.namespace
+{{- end }}
+{{- if .Values.registrySecret }}
+        - name: REGISTRY_SECRET
+          value: {{ .Values.registrySecret }}
 {{- end }}
         - name: OPERATOR_NAME
           value: ecs-flex-operator

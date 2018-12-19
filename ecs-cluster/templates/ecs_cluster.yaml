@@ -5,6 +5,9 @@ metadata:
   labels:
     release: {{ .Release.Name }}
 spec:
+{{- if .Values.registrySecret }}
+  registrySecret: {{ .Values.registrySecret }}
+{{- end }}
 {{- if .Values.replicas }}
   replicas: {{ .Values.replicas }}
 {{- end }}

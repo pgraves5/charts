@@ -5,6 +5,9 @@
 # The private docker registry hosting containers for ECS Flex
 registry: index.docker.io
 
+# Name of a Kubernetes secret with Docker credentials for the private registry
+# registrySecret: ecs-flex-registry
+
 # Default: "" == Watch ALL namespaces
 watchNamespace: ""
 

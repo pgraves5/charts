@@ -4,6 +4,10 @@ kind: ServiceAccount
 metadata:
   name: ecs-flex-operator
   namespace: {{ .Release.Namespace }}
+{{- if .Values.registrySecret }}
+imagePullSecrets:
+  - name: {{ .Values.registrySecret }}
+{{- end }}
 ---
 {{- if eq .Values.watchNamespace "" }}
 kind: ClusterRole
