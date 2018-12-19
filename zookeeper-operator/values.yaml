@@ -14,6 +14,6 @@ replicaCount: 1
 # The image configured for the ECS Flex Operator
 image:
   repository: emccorp/zookeeper-operator
-  tag: latest
+  tag: stable
   pullPolicy: IfNotPresent
 
