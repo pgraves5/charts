@@ -23,10 +23,8 @@ $ helm repo update
 
 1. Create an authentication token in Github with read access to the charts repository.
 
-  - Navigate to your account settings
-  - Select _"Developer settings" on the left-side menu
-  - Select "Personal access tokens" on the left-side menu
-  - Click "Create new token" at the top right
+  - Navigate to your account [personal access tokens](https://github.com/settings/tokens)
+  - Click "Create new token" at the top right. This will select all permissions for repositories.
   - Add a token description
   - Select the "repo" permissions checkbox
   - Copy the token for use in the next step
