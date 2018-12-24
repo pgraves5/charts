@@ -3,10 +3,10 @@ entries:
   ecs-cluster:
   - apiVersion: v1
     appVersion: "1.0"
-    created: 2018-12-19T17:37:23.851130224-06:00
+    created: 2018-12-24T07:56:59.73424563-06:00
     description: |
       Elastic Cloud Storage is a highly scalable, S3 compatible object storage service
-    digest: 1321c284474dfc6a1ca33ec89966a459df025591f749009e2bbcd210469bef91
+    digest: 0645d79f6ee6081123a39bb339d4511f27d792e6339bcc893e6f845d44182ef9
     icon: https://avatars0.githubusercontent.com/u/12926680
     maintainers:
     - name: Dell EMC

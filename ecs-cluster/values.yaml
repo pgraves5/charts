@@ -345,6 +345,6 @@ fabricProxy:
   # Docker repository to be used for fabric proxy instances
   image:
     repository: emccorp/fabric-proxy
-    tag: 3.3.0.0.b.1
+    tag: stable
     pullPolicy: IfNotPresent
 
