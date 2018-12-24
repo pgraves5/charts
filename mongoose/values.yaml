@@ -13,6 +13,7 @@ stepLimitFailCount: 0
 load:
   concurrencyLimit: 10
   itemDataSize: "1KB-10KB"
+  netTimeout: 250000
 
 # Number of driver replicas to deploy
 replicas: 2
