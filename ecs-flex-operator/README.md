@@ -25,7 +25,7 @@ my-cluster    14h
 
 ### Namespace Access
 
-The ECS Flex Operator can be configured to manage all namespaces within a Kubernetes cluster, or all namespaces. To configure a specific namespace, simply set the `global.watchNamespace setting`:
+The ECS Flex Operator can be configured to manage all namespaces within a Kubernetes cluster, or all namespaces. To configure a specific namespace, simply set the `global.watchNamespace` setting:
 
 ```bash
 $ helm install --name ecs-flex \
@@ -67,7 +67,7 @@ The ECS Flex operator supports the configuration of either a platform-level logg
 
 The ECS Flex operator will automatically configure logging sidecar containers to forward logs to either a Syslog or Elasticsearch based log receiver. These options can be set via Helm:
 
-To connect to a Elasticsearch-based receiver:
+*To connect to a Elasticsearch-based receiver:*
 
 ```bash
 $ helm install --name ecs-flex \
@@ -78,7 +78,7 @@ $ helm install --name ecs-flex \
     ecs/ecs-flex-operator
 ```
 
-To connect to a Syslog-based receiver:
+*To connect to a Syslog-based receiver:*
 
 ```bash
 $ helm install --name ecs-flex \
