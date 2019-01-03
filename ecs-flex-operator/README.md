@@ -6,6 +6,7 @@ This Helm chart deploys an [operator](https://coreos.com/operators/) capable of 
 
 * [Description](#description)
 * [Requirements](#requirements)
+* [Quick Start](#quick-start)
 * [Configuration](#configuration)
   * [Namespace Access](#namespace-access)
   * [Private Docker Registry](#private-docker-registry)
@@ -32,6 +33,39 @@ my-cluster    14h
 
 * A [Helm](https://helm.sh) installation with access to install to one or more namespaces.
 * A Kubernetes Storage Class capable of dynamically creating `ReadWriteOnce` (`RWO`) volumes. This is available in many public Kubernetes services, such as AWS EKS and Google GKE. For more information see the [storage class section](#sc-setup) below.
+
+## Quick Start
+
+1. First, [install and setup Helm](https://docs.helm.sh/using_helm/#quickstart).  *_Note:_* you'll likely need to setup role-based access controls for Helm to have rights to install packages, so be sure to read that part.
+
+2. Setup the [EMCECS Helm Repository](https://github.com/EMCECS/charts).
+
+```bash
+$ helm repo add ecs https://emcecs.github.io/charts
+$ helm repo update
+```
+
+3. Install the ECS Flex Operator. This allows you to create and manage ECS clusters.
+
+```bash
+$ helm install --name ecs-flex ecs/ecs-flex-operator
+NAME:   ecs-flex
+...
+```
+
+There are [configuration options](#configuration) you can peruse later at your heart's delight.
+
+4. Install an ECS Cluster.
+
+```bash
+$ helm install --name my-cluster
+NAME:   my-cluster
+...
+```
+
+There are [configuration options](../ecs-cluster#configuration) for that, too.
+
+5. Check the notes printed after the install. They offer a helpful guide to get access to your cluster via S3.
 
 ## Configuration
 
