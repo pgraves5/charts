@@ -36,7 +36,8 @@ In this development phase, both the Helm repostory and referenced Docker registr
 2. Create the repository using your token:
 
 ```bash
-$ helm repo add ecs "https://MY_PRIVATE_TOKEN@raw.githubusercontent.com/emcecs/charts/master/docs"
+$ helm repo add ecs \
+  "https://MY_PRIVATE_TOKEN@raw.githubusercontent.com/emcecs/charts/master/docs"
 $ helm repo update
 ```
 
@@ -60,7 +61,10 @@ ecs/zookeeper-operator          	0.0.1        	2.6.0      	Zookeeper operator de
 3. Add a Kubernetes secret for [private Docker registry](https://kubernetes.io/docs/concepts/containers/images/#specifying-imagepullsecrets-on-a-pod)
 
 ```bash
-$ kubectl create secret docker-registry ecs-flex-registry --docker-username=<DOCKER_USERNAME> --docker-password=<DOCKER_PASSWORD> --docker-email=<DOCKER_EMAIL>
+$ kubectl create secret docker-registry ecs-flex-registry \
+  --docker-username=<DOCKER_USERNAME> \
+  --docker-password=<DOCKER_PASSWORD> \
+  --docker-email=<DOCKER_EMAIL>
 ```
 
 You can then set it in the Helm chart installations (`ecs-flex-operator` and `ecs-cluster`) with a Helm setting: `--set global.registrySecret=<SECRET_NAME>`.  If you set the `registrySecret` setting in the ecs-flex-operator, it will be assumed in any operator created ECS clusters; however, the parameter can still be set in an `ecs-cluster` release.
