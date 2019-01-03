@@ -2,6 +2,18 @@
 
 This Helm chart deploys an [operator](https://coreos.com/operators/) capable of deploying and upgrading ECS S3-compatible object storage systems.
 
+## Table of Contents
+
+* [Description](#description)
+* [Requirements](#requirements)
+* [Configuration](#configuration)
+  * [Namespace Access](#namespace-access)
+  * [Private Docker Registry](#private-docker-registry)
+  * [Log Aggregation](#log-aggregation)
+    * [Platform-level logging](#platform-level-logging)
+    * [Configuring a log receiver](#configuring-a-log-receiver)
+* [Private Kubernetes Storage Class Setup](#sc-setup)
+
 ## Description
 
 The ECS Flex Operator includes a pair of Kubernetes deployments that manage Zookeeper and ECS Clusters. The operator will create a `Custom Resource Definition` for each managed cluster type.
@@ -33,11 +45,15 @@ $ helm install --name ecs-flex \
     ecs/ecs-flex-operator
 ```
 
+To use the operator with any namespace on the Kubernetes cluster, you can retain the default configuration, which is to set the `global.watchNamespace` setting to an empty string (`""`).
+
 ### Private Docker Registry
 
-While the ECS Flex container images are hosted publicly, the ECS Flex operator supports configuration of a private Docker registry for offline Kubernetes clusters or those that do not have access to public registries. To configure a private registry:
+While the ECS Flex container images are hosted publicly, the ECS Flex operator also supports configuration of a private Docker registry for offline Kubernetes clusters or those that do not have access to public registries. To configure a private registry:
 
-1. Download the ECS Flex container image bundle from support.emc.com and upload the images to your private registry.
+1. Download the ECS Flex container image bundle from [support.emc.com] and upload the images to your private registry.
+
+_*TODO: Add download link once available*_
 
 2. Add a Kubernetes secret for the [private Docker registry](https://kubernetes.io/docs/concepts/containers/images/#specifying-imagepullsecrets-on-a-pod)
 
