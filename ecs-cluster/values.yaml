@@ -2,8 +2,12 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-# The private docker registry hosting containers for ECS Flex
-registry: index.docker.io
+global:
+  # Name of a Kubernetes secret with Docker credentials for the private registry
+  # registrySecret: ecs-flex-registry
+
+  # The private docker registry hosting containers for ECS Flex
+  registry: index.docker.io
 
 # The default number of replicas for each service
 replicas: 4

@@ -4,12 +4,12 @@ kind: ServiceAccount
 metadata:
   name: ecs-flex-operator
   namespace: {{ .Release.Namespace }}
-{{- if .Values.registrySecret }}
+{{- if .Values.global.registrySecret }}
 imagePullSecrets:
-  - name: {{ .Values.registrySecret }}
+  - name: {{ .Values.global.registrySecret }}
 {{- end }}
 ---
-{{- if eq .Values.watchNamespace "" }}
+{{- if eq .Values.global.watchNamespace "" }}
 kind: ClusterRole
 {{- else }}
 kind: Role
@@ -74,7 +74,7 @@ rules:
   - get
   - list
 ---
-{{- if eq .Values.watchNamespace "" }}
+{{- if eq .Values.global.watchNamespace "" }}
 kind: ClusterRoleBinding
 {{- else }}
 kind: RoleBinding
@@ -87,11 +87,11 @@ metadata:
 subjects:
 - kind: ServiceAccount
   name: ecs-flex-operator
-{{- if eq .Values.watchNamespace "" }}
+{{- if eq .Values.global.watchNamespace "" }}
   namespace: {{ .Release.Namespace }}
 {{- end }}
 roleRef:
-{{- if eq .Values.watchNamespace "" }}
+{{- if eq .Values.global.watchNamespace "" }}
   kind: ClusterRole
 {{- else }}
   kind: Role

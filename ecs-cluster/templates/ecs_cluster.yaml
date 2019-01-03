@@ -5,8 +5,8 @@ metadata:
   labels:
     release: {{ .Release.Name }}
 spec:
-{{- if .Values.registrySecret }}
-  registrySecret: {{ .Values.registrySecret }}
+{{- if .Values.global.registrySecret }}
+  registrySecret: {{ .Values.global.registrySecret }}
 {{- end }}
 {{- if .Values.replicas }}
   replicas: {{ .Values.replicas }}
@@ -18,7 +18,7 @@ spec:
     replicas: {{ .Values.chunkManager.replicas }}
 {{- end }}
     image:
-      repository: {{ .Values.registry }}/{{ .Values.chunkManager.image.repository }}
+      repository: {{ .Values.global.registry }}/{{ .Values.chunkManager.image.repository }}
       tag: {{ .Values.chunkManager.image.tag }}
       pullPolicy: {{ .Values.chunkManager.image.pullPolicy }}
 
@@ -27,7 +27,7 @@ spec:
     replicas: {{ .Values.blob.replicas }}
 {{- end }}
     image:
-      repository: {{ .Values.registry }}/{{ .Values.blob.image.repository }}
+      repository: {{ .Values.global.registry }}/{{ .Values.blob.image.repository }}
       tag: {{ .Values.blob.image.tag }}
       pullPolicy: {{ .Values.blob.image.pullPolicy }}
 
@@ -36,7 +36,7 @@ spec:
     replicas: {{ .Values.vnest.replicas }}
 {{- end }}
     image:
-      repository: {{ .Values.registry }}/{{ .Values.vnest.image.repository }}
+      repository: {{ .Values.global.registry }}/{{ .Values.vnest.image.repository }}
       tag: {{ .Values.vnest.image.tag }}
       pullPolicy: {{ .Values.vnest.image.pullPolicy }}
 
@@ -50,7 +50,7 @@ spec:
       release: {{ .Release.Name }}
 
     image:
-      repository: {{ .Values.registry }}/{{ .Values.zookeeper.image.repository }}
+      repository: {{ .Values.global.registry }}/{{ .Values.zookeeper.image.repository }}
       tag: {{ .Values.zookeeper.image.tag }}
       pullPolicy: {{ .Values.zookeeper.image.pullPolicy }}
 
@@ -60,7 +60,7 @@ spec:
 {{- end }}
 
     image:
-      repository: {{ .Values.registry }}/{{ .Values.storageServer.image.repository }}
+      repository: {{ .Values.global.registry }}/{{ .Values.storageServer.image.repository }}
       tag: {{ .Values.storageServer.image.tag }}
       pullPolicy: {{ .Values.storageServer.image.pullPolicy }}
 
@@ -79,7 +79,7 @@ spec:
 {{- end }}
 
     image:
-      repository: {{ .Values.registry }}/{{ .Values.storageServerManager.image.repository }}
+      repository: {{ .Values.global.registry }}/{{ .Values.storageServerManager.image.repository }}
       tag: {{ .Values.storageServerManager.image.tag }}
       pullPolicy: {{ .Values.storageServerManager.image.pullPolicy }}
 
@@ -89,7 +89,7 @@ spec:
 {{- end }}
 
     image:
-      repository: {{ .Values.registry }}/{{ .Values.recordManager.image.repository }}
+      repository: {{ .Values.global.registry }}/{{ .Values.recordManager.image.repository }}
       tag: {{ .Values.recordManager.image.tag }}
       pullPolicy: {{ .Values.recordManager.image.pullPolicy }}
 
@@ -99,7 +99,7 @@ spec:
 {{- end }}
 
     image:
-      repository: {{ .Values.registry }}/{{ .Values.metering.image.repository }}
+      repository: {{ .Values.global.registry }}/{{ .Values.metering.image.repository }}
       tag: {{ .Values.metering.image.tag }}
       pullPolicy: {{ .Values.metering.image.pullPolicy }}
 
@@ -109,7 +109,7 @@ spec:
   {{- end }}
 
     image:
-      repository: {{ .Values.registry }}/{{ .Values.event.image.repository }}
+      repository: {{ .Values.global.registry }}/{{ .Values.event.image.repository }}
       tag: {{ .Values.event.image.tag }}
       pullPolicy: {{ .Values.event.image.pullPolicy }}
 
@@ -119,7 +119,7 @@ spec:
 {{- end }}
 
     image:
-      repository: {{ .Values.registry }}/{{ .Values.resource.image.repository }}
+      repository: {{ .Values.global.registry }}/{{ .Values.resource.image.repository }}
       tag: {{ .Values.resource.image.tag }}
       pullPolicy: {{ .Values.resource.image.pullPolicy }}
 
@@ -129,7 +129,7 @@ spec:
 {{- end }}
 
     image:
-      repository: {{ .Values.registry }}/{{ .Values.diagnostic.image.repository }}
+      repository: {{ .Values.global.registry }}/{{ .Values.diagnostic.image.repository }}
       tag: {{ .Values.diagnostic.image.tag }}
       pullPolicy: {{ .Values.diagnostic.image.pullPolicy }}
 {{- if .Values.diagnostic.service }}
@@ -143,7 +143,7 @@ spec:
 {{- end }}
 
     image:
-      repository: {{ .Values.registry }}/{{ .Values.geoReceiver.image.repository }}
+      repository: {{ .Values.global.registry }}/{{ .Values.geoReceiver.image.repository }}
       tag: {{ .Values.geoReceiver.image.tag }}
       pullPolicy: {{ .Values.geoReceiver.image.pullPolicy }}
 {{- if .Values.geoReceiver.service }}
@@ -157,7 +157,7 @@ spec:
 {{- end }}
 
     image:
-      repository: {{ .Values.registry }}/{{ .Values.spaceReclaimer.image.repository }}
+      repository: {{ .Values.global.registry }}/{{ .Values.spaceReclaimer.image.repository }}
       tag: {{ .Values.spaceReclaimer.image.tag }}
       pullPolicy: {{ .Values.spaceReclaimer.image.pullPolicy }}
 
@@ -167,7 +167,7 @@ spec:
 {{- end }}
 
     image:
-      repository: {{ .Values.registry }}/{{ .Values.stat.image.repository }}
+      repository: {{ .Values.global.registry }}/{{ .Values.stat.image.repository }}
       tag: {{ .Values.stat.image.tag }}
       pullPolicy: {{ .Values.stat.image.pullPolicy }}
 
@@ -177,7 +177,7 @@ spec:
 {{- end }}
 
     image:
-      repository: {{ .Values.registry }}/{{ .Values.control.image.repository }}
+      repository: {{ .Values.global.registry }}/{{ .Values.control.image.repository }}
       tag: {{ .Values.control.image.tag }}
       pullPolicy: {{ .Values.control.image.pullPolicy }}
 
@@ -187,7 +187,7 @@ spec:
 {{- end }}
 
     image:
-      repository: {{ .Values.registry }}/{{ .Values.objectHeads.image.repository }}
+      repository: {{ .Values.global.registry }}/{{ .Values.objectHeads.image.repository }}
       tag: {{ .Values.objectHeads.image.tag }}
       pullPolicy: {{ .Values.objectHeads.image.pullPolicy }}
     service:
@@ -198,7 +198,7 @@ spec:
     replicas: {{ .Values.portal.replicas }}
 {{- end }}
     image:
-      repository: {{ .Values.registry }}/{{ .Values.portal.image.repository }}
+      repository: {{ .Values.global.registry }}/{{ .Values.portal.image.repository }}
       tag: {{ .Values.portal.image.tag }}
       pullPolicy: {{ .Values.portal.image.pullPolicy }}
 
@@ -207,7 +207,7 @@ spec:
     replicas: {{ .Values.nginx.replicas }}
 {{- end }}
     image:
-      repository: {{ .Values.registry }}/{{ .Values.nginx.image.repository }}
+      repository: {{ .Values.global.registry }}/{{ .Values.nginx.image.repository }}
       tag: {{ .Values.nginx.image.tag }}
       pullPolicy: {{ .Values.nginx.image.pullPolicy }}
     service:
@@ -216,19 +216,19 @@ spec:
   provision:
     enabled: {{.Values.provision.enable }}
     image:
-      repository: {{ .Values.registry }}/{{ .Values.provision.image.repository }}
+      repository: {{ .Values.global.registry }}/{{ .Values.provision.image.repository }}
       tag: {{ .Values.provision.image.tag }}
       pullPolicy: {{ .Values.provision.image.pullPolicy }}
 
   syslogAgent:
     image:
-      repository: {{ .Values.registry }}/{{ .Values.syslogAgent.image.repository }}
+      repository: {{ .Values.global.registry }}/{{ .Values.syslogAgent.image.repository }}
       tag: {{ .Values.syslogAgent.image.tag }}
       pullPolicy: {{ .Values.syslogAgent.image.pullPolicy }}
 
   fluentbitAgent:
     image:
-      repository: {{ .Values.registry }}/{{ .Values.fluentbitAgent.image.repository }}
+      repository: {{ .Values.global.registry }}/{{ .Values.fluentbitAgent.image.repository }}
       tag: {{ .Values.fluentbitAgent.image.tag }}
       pullPolicy: {{ .Values.fluentbitAgent.image.pullPolicy }}
 
@@ -238,7 +238,7 @@ spec:
     replicas: {{ .Values.fabricProxy.replicas }}
 {{- end }}
     image:
-      repository: {{ .Values.registry }}/{{ .Values.fabricProxy.image.repository }}
+      repository: {{ .Values.global.registry }}/{{ .Values.fabricProxy.image.repository }}
       tag: {{ .Values.fabricProxy.image.tag }}
       pullPolicy: {{ .Values.fabricProxy.image.pullPolicy }}
 

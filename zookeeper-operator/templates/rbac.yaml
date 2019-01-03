@@ -1,4 +1,4 @@
-{{- if eq .Values.watchNamespace "" }}
+{{- if eq .Values.global.watchNamespace "" }}
 kind: ClusterRole
 {{- else }}
 kind: Role
@@ -43,7 +43,7 @@ rules:
   verbs:
   - "*"
 ---
-{{- if eq .Values.watchNamespace "" }}
+{{- if eq .Values.global.watchNamespace "" }}
 kind: ClusterRoleBinding
 {{- else }}
 kind: RoleBinding
@@ -56,11 +56,11 @@ metadata:
 subjects:
 - kind: ServiceAccount
   name: default
-{{- if eq .Values.watchNamespace "" }}
+{{- if eq .Values.global.watchNamespace "" }}
   namespace: {{ .Release.Namespace }}
 {{- end }}
 roleRef:
-{{- if eq .Values.watchNamespace "" }}
+{{- if eq .Values.global.watchNamespace "" }}
   kind: ClusterRole
 {{- else }}
   kind: Role
