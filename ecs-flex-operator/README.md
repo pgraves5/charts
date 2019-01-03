@@ -131,6 +131,7 @@ provisioner: kubernetes.io/vsphere-volume
 parameters:
   diskformat: zeroedthick
   fstype: xfs
+EOF
 ```
 
 ### Dell EMC VxFlex OS
