@@ -2,14 +2,17 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-# The private docker registry hosting containers for ECS Flex
-registry: index.docker.io
+# These global settings relate to both the ECS Flex operator as well as the
+# Zookeeper Operator subchart
+global:
+  # Name of a Kubernetes secret with Docker credentials for the private registry
+  # registrySecret: ecs-flex-registry
 
-# Name of a Kubernetes secret with Docker credentials for the private registry
-# registrySecret: ecs-flex-registry
+  # The private docker registry hosting containers for ECS Flex
+  registry: index.docker.io
 
-# Default: "" == Watch ALL namespaces
-watchNamespace: ""
+  # Default: "" == Watch ALL namespaces
+  watchNamespace: ""
 
 # The number of replicas for the ECS Flex Operator deployment
 replicaCount: 1

@@ -1,0 +1,35 @@
+Thank you for installing {{ .Chart.Name }}. This release provides a Dell EMC
+Elastic Cloud Storage (ECS) Clusters for a highly scalable, private,
+S3-compatible object storage.
+
+Your release is named {{ .Release.Name }}.
+
+To get started, simply read your access keys and endpoint(s):
+
+  $ read -r ACCESS_KEY SECRET_KEY \
+        <<<$(kubectl get secret {{ .Release.Name }}-initial-user -o jsonpath='{.data.*}')
+{{- if eq .Values.objectHeads.service.type "LoadBalancer" }}
+  $ read -r INTERNAL_ENDPOINT EXTERNAL_ENDPOINT \
+        <<<$(kubectl get svc {{ .Release.Name }}-heads \
+        -o jsonpath='{.spec.clusterIP} {.status.loadBalancer.ingress[0].ip}')
+
+NOTE: It may take a couple minutes for the Kubernetes cluster to assign a
+      Load Balancer address. If it isn't set after a prolonged period, ensure
+      that the Kubernetes cluster supports a "LoadBalancer" service type, or
+      contact your Kubernetes provider support.
+{{- else }}
+  $ read -r INTERNAL_ENDPOINT <<<$(kubectl get svc {{ .Release.Name }}-heads \
+        -o jsonpath='{.spec.clusterIP}')
+
+NOTE: This cluster has been provisioned with only an internal ClusterIP. If you
+      require external access, you will need to ensure that your Kubernetes
+      cluster support a "LoadBalancer" service type, and configure the cluster
+      accordingly.
+
+      In fact, you can change that parameter via Helm:
+
+  $ helm upgrade {{ .Release.Name }} --set objectHeads.service.type=LoadBalancer
+
+NOTE: Ensure that you retain any other configuration settings by using a custom
+      "values.yaml" file, or other "--set" options.
+{{- end }}

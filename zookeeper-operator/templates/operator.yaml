@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: zookeeper-operator
-          image: {{ .Values.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}
+          image: {{ .Values.global.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
           - containerPort: 60000
@@ -27,7 +27,7 @@ spec:
           imagePullPolicy: Always
           env:
             - name: WATCH_NAMESPACE
-{{- if eq .Values.watchNamespace "" }}
+{{- if eq .Values.global.watchNamespace "" }}
               value: ""
 {{- else }}
               valueFrom:

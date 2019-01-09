@@ -18,9 +18,9 @@ spec:
         release: {{ .Release.Name }}
         app: ecs-flex-rsyslog
     spec:
-{{- if .Values.registrySecret }}
+{{- if .Values.global.registrySecret }}
       imagePullSecrets:
-      - name: {{ .Values.registrySecret }}
+      - name: {{ .Values.global.registrySecret }}
 {{- end }}
       volumes:
         - name: conf
@@ -33,7 +33,7 @@ spec:
 {{- end }}
       containers:
       - name: rsyslog
-        image: {{.Values.registry }}/{{ .Values.logReceiver.image.repository }}:{{ .Values.logReceiver.image.tag }}
+        image: {{.Values.global.registry }}/{{ .Values.logReceiver.image.repository }}:{{ .Values.logReceiver.image.tag }}
         imagePullPolicy: {{ .Values.logReceiver.image.pullPolicy }}
         livenessProbe:
           tcpSocket:
