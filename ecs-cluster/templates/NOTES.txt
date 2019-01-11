@@ -8,7 +8,7 @@ To get started, simply read your access keys and endpoint(s):
 
   $ read -r ACCESS_KEY SECRET_KEY \
         <<<$(kubectl get secret {{ .Release.Name }}-initial-user -o jsonpath='{.data.*}')
-{{- if eq .Values.objectHeads.service.type "LoadBalancer" }}
+{{- if and (.Values.objectHeads) (.Values.objectHeads.service) (eq .Values.objectHeads.service.type "LoadBalancer") }}
   $ read -r INTERNAL_ENDPOINT EXTERNAL_ENDPOINT \
         <<<$(kubectl get svc {{ .Release.Name }}-heads \
         -o jsonpath='{.spec.clusterIP} {.status.loadBalancer.ingress[0].ip}')
