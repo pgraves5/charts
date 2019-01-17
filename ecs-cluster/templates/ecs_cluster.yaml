@@ -217,7 +217,7 @@ spec:
       {{ toYaml .Values.nginx.service | nindent 6 | trim }}
 
   provision:
-    enabled: {{.Values.provision.enable }}
+    enabled: {{.Values.provision.enabled }}
     image:
       repository: {{ .Values.global.registry }}/{{ .Values.provision.image.repository }}
       tag: {{ .Values.provision.image.tag }}
