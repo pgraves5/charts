@@ -71,7 +71,7 @@ There are [configuration options](../ecs-cluster#configuration) for that, too.
 
 ### Namespace Access
 
-The ECS Flex Operator can be configured to manage all namespaces within a Kubernetes cluster, or all namespaces. To configure a specific namespace, simply set the `global.watchNamespace` setting:
+The ECS Flex Operator can be configured to manage a single namespace within a Kubernetes cluster, or all namespaces. To configure a specific namespace, simply set the `global.watchNamespace` setting:
 
 ```bash
 $ helm install --name ecs-flex \
