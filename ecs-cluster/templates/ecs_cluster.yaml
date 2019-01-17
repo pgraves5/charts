@@ -66,7 +66,7 @@ spec:
 
     volumes:
 {{- if .Values.storageServer.persistence.protected }}
-      protected: {{ .Values.storageServer.persistence.storageClassName }}
+      protected: {{ .Values.storageServer.persistence.protected }}
 {{- end }}
       volumesCount: {{ .Values.storageServer.persistence.volumesCount }}
 {{- if .Values.storageServer.persistence.storageClassName }}
