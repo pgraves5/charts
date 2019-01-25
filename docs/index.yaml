@@ -3,10 +3,10 @@ entries:
   ecs-cluster:
   - apiVersion: v1
     appVersion: "1.0"
-    created: 2018-12-24T07:56:59.73424563-06:00
+    created: 2019-01-17T16:11:57.121680244-06:00
     description: |
       Elastic Cloud Storage is a highly scalable, S3 compatible object storage service
-    digest: 0645d79f6ee6081123a39bb339d4511f27d792e6339bcc893e6f845d44182ef9
+    digest: 1a43395fb4619f4e8e19c9259cce3aa6cd017a74265d5c0972efdde424ad65fd
     icon: https://avatars0.githubusercontent.com/u/12926680
     maintainers:
     - name: Dell EMC
@@ -18,10 +18,10 @@ entries:
   ecs-flex-operator:
   - apiVersion: v1
     appVersion: "1.0"
-    created: 2018-12-19T17:37:23.851510815-06:00
+    created: 2019-01-17T16:11:57.122363552-06:00
     description: |
       Dell EMC Elastic Cloud Storage is highly scalable, and high performance S3 compatible object storage platform.
-    digest: 09796c14014bf73be204ca96b607ead0908fe434574bb84ff0c6b47d94a618be
+    digest: 1ef7c1005c40c6efe06e4d12bc03cb1a242e6ba36f874b6625a8e06c9f1f6b65
     icon: https://avatars0.githubusercontent.com/u/12926680
     maintainers:
     - name: Dell EMC
@@ -33,10 +33,10 @@ entries:
   mongoose:
   - apiVersion: v1
     appVersion: "1.0"
-    created: 2018-12-19T17:37:23.852032384-06:00
+    created: 2019-01-17T16:11:57.122638499-06:00
     description: |
       Mongoose is a horizontally scalable and configurable S3 performance testing utility
-    digest: ce3c61af57a8edad00c8f3a0535c8cd3a7c5122d22d6f77d10ce577b5f61f5f7
+    digest: 6022707639dcfd942754fba9d8cb7b0a9b7c4bdadd7b26b1f3e0f8d444783a24
     icon: https://avatars0.githubusercontent.com/u/12926680
     maintainers:
     - name: Dell EMC
@@ -47,11 +47,11 @@ entries:
     version: 0.1.0
   zookeeper-operator:
   - appVersion: 2.6.0
-    created: 2018-12-19T17:37:23.853043064-06:00
+    created: 2019-01-17T16:11:57.122968769-06:00
     description: |
       Zookeeper operator deploys a custom resource for a zookeeper cluster, and a
       pod to provision and scale zookeeper clusters.
-    digest: 64a8c34ac2d7dbb5e2c73fa3f60514e70363b1f16cb9d88df63c96036e16bbbd
+    digest: f4f731dbed60ad2b5224f1d85593ddc5ecad6f1bb585833744dfaf0d7a83978d
     engine: gotpl
     home: https://github.com/pravega/charts/blob/master/zookeeper-operator
     icon: https://zookeeper.apache.org/images/zookeeper_small.gif
@@ -66,4 +66,4 @@ entries:
     urls:
     - zookeeper-operator-0.0.1.tgz
     version: 0.0.1
-generated: 2018-12-19T17:37:23.850110259-06:00
+generated: 2019-01-17T16:11:57.120723692-06:00

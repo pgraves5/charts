@@ -32,13 +32,15 @@ spec:
         env:
 {{- if .Values.logReceiver.create }}
         - name: LOG_RECEIVER_TYPE
-          value: "Syslog"
-        - name: LOG_RECEIVER
-          value: tcp://ecs-flex-rsyslog-service.{{ .Release.Namespace }}.svc.cluster.local:514
-        - name: LOG_RECEIVER_TYPE
-          value: {{ .Values.logReceiver.type }}
+          value: Syslog
+        - name: LOG_RECEIVER_HOST
+          value: ecs-flex-rsyslog-service.{{ .Release.Namespace }}.svc.cluster.local
+        - name: LOG_RECEIVER_PROTO
+          value: tcp
+        - name: LOG_RECEIVER_PORT
+          value: "514"
 {{- else }}
-  {{- if .Values.logReceiver.host }}
+  {{- if .Values.logReceiver.type }}
         - name: LOG_RECEIVER_TYPE
           value: {{ .Values.logReceiver.type }}
   {{- end }}
