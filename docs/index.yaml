@@ -3,7 +3,7 @@ entries:
   ecs-cluster:
   - apiVersion: v1
     appVersion: "1.0"
-    created: 2019-01-25T15:57:30.924346417-06:00
+    created: 2019-01-25T16:01:17.925291228-06:00
     description: |
       Elastic Cloud Storage is a highly scalable, S3 compatible object storage service
     digest: 29e1803e8550070aad94223f5419ee775c732882399a701e2c744464be1d187e
@@ -18,7 +18,21 @@ entries:
   ecs-flex-operator:
   - apiVersion: v1
     appVersion: "1.0"
-    created: 2019-01-25T15:57:30.925427154-06:00
+    created: 2019-01-25T16:01:17.927162024-06:00
+    description: |
+      Dell EMC Elastic Cloud Storage is highly scalable, and high performance S3 compatible object storage platform.
+    digest: 4af6cf7aa783464400b20b2ade1233e2edcaedcb7af66ca024c74e98e2d42e4b
+    icon: https://avatars0.githubusercontent.com/u/12926680
+    maintainers:
+    - name: Dell EMC
+      url: http://dellemc.com
+    name: ecs-flex-operator
+    urls:
+    - ecs-flex-operator-0.1.1.tgz
+    version: 0.1.1
+  - apiVersion: v1
+    appVersion: "1.0"
+    created: 2019-01-25T16:01:17.926481348-06:00
     description: |
       Dell EMC Elastic Cloud Storage is highly scalable, and high performance S3 compatible object storage platform.
     digest: a96c02661d8aea437a1dbf101be183f5ef7b4b075e5f87aea9cf5fe5cb69c867
@@ -33,7 +47,7 @@ entries:
   mongoose:
   - apiVersion: v1
     appVersion: "1.0"
-    created: 2019-01-25T15:57:30.92596058-06:00
+    created: 2019-01-25T16:01:17.927647988-06:00
     description: |
       Mongoose is a horizontally scalable and configurable S3 performance testing utility
     digest: 2ab2e3f2543d33726fc99e65b08d37f3cef2a7b95d38861d89d16ec8e8351d4d
@@ -47,7 +61,7 @@ entries:
     version: 0.1.0
   zookeeper-operator:
   - appVersion: 0.2.0
-    created: 2019-01-25T15:57:30.927372756-06:00
+    created: 2019-01-25T16:01:17.929581081-06:00
     description: |
       Zookeeper operator deploys a custom resource for a zookeeper cluster, and a
       pod to provision and scale zookeeper clusters.
@@ -67,7 +81,7 @@ entries:
     - zookeeper-operator-0.0.3.tgz
     version: 0.0.3
   - appVersion: 0.2.0
-    created: 2019-01-25T15:57:30.92702267-06:00
+    created: 2019-01-25T16:01:17.929011375-06:00
     description: |
       Zookeeper operator deploys a custom resource for a zookeeper cluster, and a
       pod to provision and scale zookeeper clusters.
@@ -87,7 +101,7 @@ entries:
     - zookeeper-operator-0.0.2.tgz
     version: 0.0.2
   - appVersion: 2.6.0
-    created: 2019-01-25T15:57:30.926514835-06:00
+    created: 2019-01-25T16:01:17.928386911-06:00
     description: |
       Zookeeper operator deploys a custom resource for a zookeeper cluster, and a
       pod to provision and scale zookeeper clusters.
@@ -106,4 +120,4 @@ entries:
     urls:
     - zookeeper-operator-0.0.1.tgz
     version: 0.0.1
-generated: 2019-01-25T15:57:30.922983223-06:00
+generated: 2019-01-25T16:01:17.923847637-06:00
