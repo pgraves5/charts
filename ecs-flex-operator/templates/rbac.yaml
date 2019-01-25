@@ -62,7 +62,7 @@ rules:
 - apiGroups:
   - zookeeper.pravega.io
   resources:
-  - zookeeper-clusters
+  - "*"
   verbs:
   - "*"
 - apiGroups:
