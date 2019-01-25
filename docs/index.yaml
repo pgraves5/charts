@@ -3,7 +3,7 @@ entries:
   ecs-cluster:
   - apiVersion: v1
     appVersion: "1.0"
-    created: 2019-01-25T12:24:17.187823587-06:00
+    created: 2019-01-25T15:57:30.924346417-06:00
     description: |
       Elastic Cloud Storage is a highly scalable, S3 compatible object storage service
     digest: 29e1803e8550070aad94223f5419ee775c732882399a701e2c744464be1d187e
@@ -18,10 +18,10 @@ entries:
   ecs-flex-operator:
   - apiVersion: v1
     appVersion: "1.0"
-    created: 2019-01-25T12:24:17.188892433-06:00
+    created: 2019-01-25T15:57:30.925427154-06:00
     description: |
       Dell EMC Elastic Cloud Storage is highly scalable, and high performance S3 compatible object storage platform.
-    digest: 6c39b3ba9a649379d7e9fe477d416bb7ecf559c0940a4110190d5ea028c04578
+    digest: a96c02661d8aea437a1dbf101be183f5ef7b4b075e5f87aea9cf5fe5cb69c867
     icon: https://avatars0.githubusercontent.com/u/12926680
     maintainers:
     - name: Dell EMC
@@ -33,7 +33,7 @@ entries:
   mongoose:
   - apiVersion: v1
     appVersion: "1.0"
-    created: 2019-01-25T12:24:17.189352978-06:00
+    created: 2019-01-25T15:57:30.92596058-06:00
     description: |
       Mongoose is a horizontally scalable and configurable S3 performance testing utility
     digest: 2ab2e3f2543d33726fc99e65b08d37f3cef2a7b95d38861d89d16ec8e8351d4d
@@ -46,8 +46,48 @@ entries:
     - mongoose-0.1.0.tgz
     version: 0.1.0
   zookeeper-operator:
+  - appVersion: 0.2.0
+    created: 2019-01-25T15:57:30.927372756-06:00
+    description: |
+      Zookeeper operator deploys a custom resource for a zookeeper cluster, and a
+      pod to provision and scale zookeeper clusters.
+    digest: e17a2e0887058a4cb2017608a777ecd372fefa235a30209a460434af15ac160d
+    engine: gotpl
+    home: https://github.com/pravega/charts/blob/master/zookeeper-operator
+    icon: https://zookeeper.apache.org/images/zookeeper_small.gif
+    keywords:
+    - zookeeper
+    - storage
+    maintainers:
+    - name: Dell EMC
+    name: zookeeper-operator
+    sources:
+    - https://github.com/pravega/charts/blob/master/zookeeper-operator
+    urls:
+    - zookeeper-operator-0.0.3.tgz
+    version: 0.0.3
+  - appVersion: 0.2.0
+    created: 2019-01-25T15:57:30.92702267-06:00
+    description: |
+      Zookeeper operator deploys a custom resource for a zookeeper cluster, and a
+      pod to provision and scale zookeeper clusters.
+    digest: a437da496755cb9a2a7af075a48e8fd9c70e40e4b629748894c432f0d73da1a1
+    engine: gotpl
+    home: https://github.com/pravega/charts/blob/master/zookeeper-operator
+    icon: https://zookeeper.apache.org/images/zookeeper_small.gif
+    keywords:
+    - zookeeper
+    - storage
+    maintainers:
+    - name: spiegela
+    name: zookeeper-operator
+    sources:
+    - https://github.com/pravega/charts/blob/master/zookeeper-operator
+    urls:
+    - zookeeper-operator-0.0.2.tgz
+    version: 0.0.2
   - appVersion: 2.6.0
-    created: 2019-01-25T12:24:17.190716148-06:00
+    created: 2019-01-25T15:57:30.926514835-06:00
     description: |
       Zookeeper operator deploys a custom resource for a zookeeper cluster, and a
       pod to provision and scale zookeeper clusters.
@@ -66,4 +106,4 @@ entries:
     urls:
     - zookeeper-operator-0.0.1.tgz
     version: 0.0.1
-generated: 2019-01-25T12:24:17.186733789-06:00
+generated: 2019-01-25T15:57:30.922983223-06:00
