@@ -42,7 +42,7 @@ zookeeper:
 
   image:
     repository: emccorp/zookeeper
-    tag: operator
+    tag: 0.2.0
     pullPolicy: IfNotPresent
 
   # labels:
