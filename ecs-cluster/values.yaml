@@ -199,6 +199,9 @@ objectHeads:
     tag: stable
     pullPolicy: IfNotPresent
 
+  service:
+    type: ClusterIP
+
 # The ECS space reclaimer configuration specification
 spaceReclaimer:
 
