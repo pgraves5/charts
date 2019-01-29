@@ -1,0 +1,359 @@
+# Default values for ecs-flex.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+global:
+  # Name of a Kubernetes secret with Docker credentials for the private registry
+  #registrySecret: ecs-flex-registry
+
+  # The private docker registry hosting containers for ECS Flex
+  registry: harbor.lss.emc.com
+
+# The default number of replicas for each service
+replicas: 1
+
+# The default memory profile for the ECS cluster. Valid values are "Default" and
+# "Small"
+memoryProfile: Small
+
+# ServiceDiscovery describes the type of service discovery the ECS cluster will
+# use. The discovery method will determine other cluster creation settings and
+# restrictions.
+serviceDiscovery: FabricProxySidecar
+
+#
+# ECS Service Configuration
+#
+
+vnest:
+  # Override the default ECS Cluster replicas to set the number of nodes in the
+  # vNest cluster separately. This value should not be set when using
+  # FabricProxy as the service discovery mechanism
+  replicas: 3
+
+  image:
+    repository: ecs/vnest
+    tag: stable
+    pullPolicy: Always
+
+zookeeper:
+  # Override the number of nodes in the zookeeper cluster
+  # replicas: 3
+
+  image:
+    repository: ecs/zookeeper
+    tag: 0.2.0
+    pullPolicy: Always
+
+  # labels:
+  # ports: []
+  # pod:
+  # persistence:
+
+# The ECS storage server configuration specification
+storageServer:
+
+  # Override the number of storage server replicas to run with the the
+  # stateful-set
+  replicas: 4
+
+  # Docker repository to be used for storage server instances
+  image:
+    repository: ecs/storageserver
+    tag: stable
+    pullPolicy: Always
+
+  # Persistent storage options for storage server volume requests
+  persistence:
+    # Indicates that the storage volumes provisioned are highly available and
+    # not dependent on a single node to function
+    protected: false
+
+    # Number of volumes to be provisioned for each storage server instance
+    # volumesCount: 1
+
+    # Size of each volume to be provisioned
+    size: 32Gi
+
+    # Name of the storage class that storage should be provisioned from
+    # storageClassName: vsphere
+
+# The ECS chunk manager configuration specification
+chunkManager:
+
+  # Override the default ECS Cluster replicas to set the number of nodes in the
+  # chunkManager cluster separately. This value should not be set when using
+  # FabricProxy as the service discovery mechanism
+  # replicas: 1
+
+  # Docker repository to be used for chunk manager instances
+  image:
+    repository: ecs/chunk-manager
+    tag: stable
+    pullPolicy: Always
+
+# The ECS blob service configuration specification
+blob:
+
+  # Override the default ECS Cluster replicas to set the number of nodes in the
+  # blob cluster separately. This value should not be set when using
+  # FabricProxy as the service discovery mechanism
+  # replicas: 1
+
+  # Docker repository to be used for chunk manager instances
+  image:
+    repository: ecs/blob-service
+    tag: stable
+    pullPolicy: Always
+
+# The ECS storage server manager configuration specification
+storageServerManager:
+
+  # Number of storage server manager replicas to run with the the deployment
+  # replicas: 3
+
+  # Docker repository to be used for storage server instances
+  image:
+    repository: ecs/storageserver-manager
+    tag: stable
+    pullPolicy: Always
+
+# The ECS record manager configuration specification
+recordManager:
+  # Override the default ECS Cluster replicas to set the number of nodes in the
+  # Record manager cluster separately. This value should not be set when using
+  # FabricProxy as the service discovery mechanism
+  # replicas: 1
+
+  image:
+    repository: ecs/record-manager
+    tag: stable
+    pullPolicy: Always
+
+# The ECS Metering configuration specification
+metering:
+  # Override the default ECS Cluster replicas to set the number of nodes in the
+  # Metering cluster separately. This value should not be set when using
+  # FabricProxy as the service discovery mechanism
+  # replicas: 1
+
+  image:
+    repository: ecs/metering
+    tag: stable
+    pullPolicy: Always
+
+# The ECS Metering configuration specification
+event:
+  # Override the default ECS Cluster replicas to set the number of nodes in the
+  # Event cluster separately. This value should not be set when using
+  # FabricProxy as the service discovery mechanism
+  # replicas: 1
+
+  image:
+    repository: ecs/event-service
+    tag: stable
+    pullPolicy: Always
+
+# The ECS resource service configuration specification
+resource:
+
+  # Number of resource service replicas to run with the the deployment
+  # replicas: 1
+
+  # Docker repository to be used for resource service instances
+  image:
+    repository: ecs/resource-service
+    tag: stable
+    pullPolicy: Always
+
+# The ECS diagnostic service configuration specification
+diagnostic:
+
+  # Number of resource service replicas to run with the the deployment
+  # replicas: 1
+
+  # Docker repository to be used for diagnostic service instances
+  image:
+    repository: ecs/diagnostic-service
+    tag: stable
+    pullPolicy: Always
+  service:
+    # Specify the service port configuration for the diagnostic service
+    ports:
+    - name: diag
+      port: 9100
+      targetPort: 9100
+    - name: diagweb
+      port: 9101
+      targetPort: 9101
+    type: LoadBalancer
+# The ECS object heads configuration specification
+objectHeads:
+
+  # Number of resource service replicas to run with the the deployment
+  # replicas: 3
+
+  # Docker repository to be used for object heads instances
+  image:
+    repository: ecs/object-heads
+    tag: stable
+    pullPolicy: Always
+  service:
+    type: LoadBalancer
+# The ECS space reclaimer configuration specification
+spaceReclaimer:
+
+  # Number of resource service replicas to run with the the deployment
+  # replicas: 3
+
+  # Docker repository to be used for diagnostic service instances
+  image:
+    repository: ecs/space-reclaimer
+    tag: stable
+    pullPolicy: Always
+
+# The ECS geo receiver configuration specification
+geoReceiver:
+
+  # Number of geo receiver replicas to run with the the deployment
+  # replicas: 3
+
+  # Docker repository to be used for geo receiver instances
+  image:
+    repository: ecs/geo-receiver
+    tag: stable
+    pullPolicy: Always
+  service:
+
+    ports:
+    - name: geo
+      port: 9094
+
+# The ECS API control service configuration specification
+stat:
+  # Override the number of object control replicas to run with the the deployment
+  # replicas: 1
+
+  # Docker repository to be used for portal instances
+  image:
+    repository: ecs/statistics
+    tag: stable
+    pullPolicy: Always
+
+# The ECS API control service configuration specification
+control:
+  # Override the number of object control replicas to run with the the deployment
+  # replicas: 1
+
+  # Docker repository to be used for object control instances
+  image:
+    repository: ecs/object-control
+    tag: stable
+    pullPolicy: Always
+
+# The ECS portal configuration specification
+portal:
+  # Override the number of portal replicas to run with the the deployment
+  # replicas: 1
+
+  # Docker repository to be used for portal instances
+  image:
+    repository: ecs/portal-service
+    tag: stable
+    pullPolicy: Always
+
+# The ECS telegraf configuration specification
+telegraf:
+  # Override the number of portal replicas to run with the the deployment
+  # replicas: 1
+
+  # Docker repository to be used for portal instances
+  image:
+    repository: ecs/telegraf
+    tag: stable
+    pullPolicy: Always
+
+# The NGINX configuration specification
+nginx:
+  # Override the number of nginx replicas to run with the the deployment
+  # replicas: 1
+
+  # Docker repository to be used for NGINX instances
+  image:
+    repository: ecs/nginx
+    tag: FABRIC-7455
+    pullPolicy: Always
+  service:
+
+    # Specify the service port configuration for the NGINX service
+    ports:
+    - name: ui
+      port: 443
+      targetPort: 443
+    - name: api
+      port: 4443
+      targetPort: 4443
+
+    # Specify the service type for the NGINX container. The default is a
+    # "ClusterIP"
+    #
+    type: LoadBalancer
+
+    # Specify a specific load balancer IP address for the NGINX service. By
+    # default, Kubernetes will allocate an address automatically from the
+    # load-balancer pool.
+    #
+    # loadBalancerIP: 10.0.0.1
+
+    # Specify a custom annotation for the NGINX service. This is required for
+    # some public cloud load balancer providers when using a load balancer type
+    # service. The default value is an empty map.
+    #
+    # annotations:
+    #   some-annotation: some-value
+
+# Enable or disable the cluster automatic provisioning. This step will provision
+# the ECS resources into a single storage pool and virtual data center scoped to
+# the Helm release name. If this is disabled, the cluster will need to be
+# be provisioned via API or Portal before it can be used
+provision:
+  enabled: true
+  image:
+    repository: ecs/provision
+    tag: operator
+    pullPolicy: Always
+
+#
+# Sidecar configuration
+#
+
+# The log agent configuration for log collection of ECS services with a Syslog
+# based receiver
+syslogAgent:
+  image:
+    repository: ecs/rsyslog
+    tag: stable
+    pullPolicy: Always
+
+# The log agent configuration for log collection of ECS services with a Syslog
+# based receiver
+fluentbitAgent:
+  image:
+    repository: ecs/fluent-bit
+    tag: stable
+    pullPolicy: Always
+
+# The fabric proxy sidecar configuration for ECS Service Discovery and container
+# preparation
+fabricProxy:
+
+  # The host network interface to use with the fabric proxy. The same interface
+  # name must be available on all Kubernetes nodes within the ECS cluster.
+  interface: eth0
+
+  # Docker repository to be used for fabric proxy instances
+  image:
+    repository: ecs/fabric-proxy
+    tag: latest
+    pullPolicy: Always
+
