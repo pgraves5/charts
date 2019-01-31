@@ -6,7 +6,7 @@
 global:
 
   # The private docker registry hosting containers for Zookeeper Operator
-  registry: index.docker.io
+  registry: emccorp
 
   # Specifies which namespace the Operator should watch for new ClusterResource resources
   # Default: "" == Watch ALL namespaces
@@ -17,7 +17,7 @@ replicaCount: 1
 
 # The image configured for the ECS Flex Operator
 image:
-  repository: emccorp/zookeeper-operator
-  tag: 0.2.0
+  repository: zookeeper-operator
+  tag: stable
   pullPolicy: IfNotPresent
 

@@ -1,5 +1,5 @@
 name: zookeeper-operator
-version: 0.0.3
+version: 0.0.4
 appVersion: 0.2.0
 description: |
   Zookeeper operator deploys a custom resource for a zookeeper cluster, and a
