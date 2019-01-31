@@ -3,7 +3,21 @@ entries:
   ecs-cluster:
   - apiVersion: v1
     appVersion: "1.0"
-    created: 2019-01-31T13:34:46.719187776-06:00
+    created: 2019-01-31T13:41:37.419572456-06:00
+    description: |
+      Dell EMC Elastic Cloud Storage is highly scalable, and high performance S3 compatible object storage platform.
+    digest: f59c01b502ab44f2f8f42fdc31eb2d57160bb797ee7046cd63dd5eaab9ba535b
+    icon: https://avatars0.githubusercontent.com/u/12926680
+    maintainers:
+    - name: Dell EMC
+      url: http://dellemc.com
+    name: ecs-cluster
+    urls:
+    - ecs-cluster-0.1.2.tgz
+    version: 0.1.2
+  - apiVersion: v1
+    appVersion: "1.0"
+    created: 2019-01-31T13:41:37.419063007-06:00
     description: |
       Elastic Cloud Storage is a highly scalable, S3 compatible object storage service
     digest: 29e1803e8550070aad94223f5419ee775c732882399a701e2c744464be1d187e
@@ -18,7 +32,21 @@ entries:
   ecs-flex-operator:
   - apiVersion: v1
     appVersion: "1.0"
-    created: 2019-01-31T13:34:46.72138293-06:00
+    created: 2019-01-31T13:41:37.422604292-06:00
+    description: |
+      Dell EMC Elastic Cloud Storage is highly scalable, and high performance S3 compatible object storage platform.
+    digest: 369a3e9d57ce073266b3d0cbf9e7bb237962630e18cd5ed7d9a9602f37530b8e
+    icon: https://avatars0.githubusercontent.com/u/12926680
+    maintainers:
+    - name: Dell EMC
+      url: http://dellemc.com
+    name: ecs-flex-operator
+    urls:
+    - ecs-flex-operator-0.1.2.tgz
+    version: 0.1.2
+  - apiVersion: v1
+    appVersion: "1.0"
+    created: 2019-01-31T13:41:37.42159867-06:00
     description: |
       Dell EMC Elastic Cloud Storage is highly scalable, and high performance S3 compatible object storage platform.
     digest: 4af6cf7aa783464400b20b2ade1233e2edcaedcb7af66ca024c74e98e2d42e4b
@@ -32,7 +60,7 @@ entries:
     version: 0.1.1
   - apiVersion: v1
     appVersion: "1.0"
-    created: 2019-01-31T13:34:46.720254245-06:00
+    created: 2019-01-31T13:41:37.420744802-06:00
     description: |
       Dell EMC Elastic Cloud Storage is highly scalable, and high performance S3 compatible object storage platform.
     digest: a96c02661d8aea437a1dbf101be183f5ef7b4b075e5f87aea9cf5fe5cb69c867
@@ -47,7 +75,7 @@ entries:
   mongoose:
   - apiVersion: v1
     appVersion: "1.0"
-    created: 2019-01-31T13:34:46.721871128-06:00
+    created: 2019-01-31T13:41:37.423164383-06:00
     description: |
       Mongoose is a horizontally scalable and configurable S3 performance testing utility
     digest: 2ab2e3f2543d33726fc99e65b08d37f3cef2a7b95d38861d89d16ec8e8351d4d
@@ -61,7 +89,7 @@ entries:
     version: 0.1.0
   zookeeper-operator:
   - appVersion: 0.2.0
-    created: 2019-01-31T13:34:46.723914789-06:00
+    created: 2019-01-31T13:41:37.425238754-06:00
     description: |
       Zookeeper operator deploys a custom resource for a zookeeper cluster, and a
       pod to provision and scale zookeeper clusters.
@@ -81,7 +109,7 @@ entries:
     - zookeeper-operator-0.0.4.tgz
     version: 0.0.4
   - appVersion: 0.2.0
-    created: 2019-01-31T13:34:46.723534825-06:00
+    created: 2019-01-31T13:41:37.424660272-06:00
     description: |
       Zookeeper operator deploys a custom resource for a zookeeper cluster, and a
       pod to provision and scale zookeeper clusters.
@@ -101,7 +129,7 @@ entries:
     - zookeeper-operator-0.0.3.tgz
     version: 0.0.3
   - appVersion: 0.2.0
-    created: 2019-01-31T13:34:46.72303431-06:00
+    created: 2019-01-31T13:41:37.424163689-06:00
     description: |
       Zookeeper operator deploys a custom resource for a zookeeper cluster, and a
       pod to provision and scale zookeeper clusters.
@@ -121,7 +149,7 @@ entries:
     - zookeeper-operator-0.0.2.tgz
     version: 0.0.2
   - appVersion: 2.6.0
-    created: 2019-01-31T13:34:46.722467735-06:00
+    created: 2019-01-31T13:41:37.423652517-06:00
     description: |
       Zookeeper operator deploys a custom resource for a zookeeper cluster, and a
       pod to provision and scale zookeeper clusters.
@@ -140,4 +168,4 @@ entries:
     urls:
     - zookeeper-operator-0.0.1.tgz
     version: 0.0.1
-generated: 2019-01-31T13:34:46.717795115-06:00
+generated: 2019-01-31T13:41:37.418256793-06:00

@@ -6,8 +6,8 @@ global:
   # Name of a Kubernetes secret with Docker credentials for the private registry
   registrySecret: ecs-flex-registry
 
-  # The private docker registry hosting containers for ECS Flex
-  registry: index.docker.io
+  # The private docker registry and organization hosting containers for ECS Flex
+  registry: emccorp
 
 # The default number of replicas for each service
 replicas: 1
@@ -32,7 +32,7 @@ vnest:
   replicas: 3
 
   image:
-    repository: emccorp/vnest
+    repository: vnest
     tag: stable
     pullPolicy: Always
 
@@ -41,8 +41,8 @@ zookeeper:
   # replicas: 3
 
   image:
-    repository: emccorp/zookeeper
-    tag: 0.2.0
+    repository: zookeeper
+    tag: stable-operator
     pullPolicy: Always
 
   # labels:
@@ -59,7 +59,7 @@ storageServer:
 
   # Docker repository to be used for storage server instances
   image:
-    repository: emccorp/storageserver
+    repository: storageserver
     tag: stable
     pullPolicy: Always
 
@@ -88,7 +88,7 @@ chunkManager:
 
   # Docker repository to be used for chunk manager instances
   image:
-    repository: emccorp/chunk-manager
+    repository: chunk-manager
     tag: stable
     pullPolicy: Always
 
@@ -102,7 +102,7 @@ blob:
 
   # Docker repository to be used for chunk manager instances
   image:
-    repository: emccorp/blob-service
+    repository: blob-service
     tag: stable
     pullPolicy: Always
 
@@ -114,7 +114,7 @@ storageServerManager:
 
   # Docker repository to be used for storage server instances
   image:
-    repository: emccorp/storageserver-manager
+    repository: storageserver-manager
     tag: stable
     pullPolicy: Always
 
@@ -126,7 +126,7 @@ recordManager:
   # replicas: 1
 
   image:
-    repository: emccorp/record-manager
+    repository: record-manager
     tag: stable
     pullPolicy: Always
 
@@ -138,7 +138,7 @@ metering:
   # replicas: 1
 
   image:
-    repository: emccorp/metering
+    repository: metering
     tag: stable
     pullPolicy: Always
 
@@ -150,7 +150,7 @@ event:
   # replicas: 1
 
   image:
-    repository: emccorp/event-service
+    repository: event-service
     tag: stable
     pullPolicy: Always
 
@@ -162,7 +162,7 @@ resource:
 
   # Docker repository to be used for resource service instances
   image:
-    repository: emccorp/resource-service
+    repository: resource-service
     tag: stable
     pullPolicy: Always
 
@@ -174,7 +174,7 @@ diagnostic:
 
   # Docker repository to be used for diagnostic service instances
   image:
-    repository: emccorp/diagnostic-service
+    repository: diagnostic-service
     tag: stable
     pullPolicy: Always
   service:
@@ -195,7 +195,7 @@ objectHeads:
 
   # Docker repository to be used for object heads instances
   image:
-    repository: emccorp/object-heads
+    repository: object-heads
     tag: stable
     pullPolicy: Always
   service:
@@ -208,7 +208,7 @@ spaceReclaimer:
 
   # Docker repository to be used for diagnostic service instances
   image:
-    repository: emccorp/space-reclaimer
+    repository: space-reclaimer
     tag: stable
     pullPolicy: Always
 
@@ -220,7 +220,7 @@ geoReceiver:
 
   # Docker repository to be used for geo receiver instances
   image:
-    repository: emccorp/geo-receiver
+    repository: geo-receiver
     tag: stable
     pullPolicy: Always
   service:
@@ -236,7 +236,7 @@ stat:
 
   # Docker repository to be used for portal instances
   image:
-    repository: emccorp/statistics
+    repository: statistics
     tag: stable
     pullPolicy: Always
 
@@ -247,7 +247,7 @@ control:
 
   # Docker repository to be used for object control instances
   image:
-    repository: emccorp/object-control
+    repository: object-control
     tag: stable
     pullPolicy: Always
 
@@ -258,7 +258,7 @@ portal:
 
   # Docker repository to be used for portal instances
   image:
-    repository: emccorp/portal-service
+    repository: portal-service
     tag: stable
     pullPolicy: Always
 
@@ -269,7 +269,7 @@ telegraf:
 
   # Docker repository to be used for portal instances
   image:
-    repository: emccorp/telegraf
+    repository: telegraf
     tag: stable
     pullPolicy: Always
 
@@ -280,8 +280,8 @@ nginx:
 
   # Docker repository to be used for NGINX instances
   image:
-    repository: emccorp/nginx
-    tag: FABRIC-7455
+    repository: nginx
+    tag: stable-operator
     pullPolicy: Always
   service:
 
@@ -319,8 +319,8 @@ nginx:
 provision:
   enabled: true
   image:
-    repository: emccorp/provision
-    tag: operator
+    repository: provision
+    tag: stable-operator
     pullPolicy: Always
 
 #
@@ -331,7 +331,7 @@ provision:
 # based receiver
 syslogAgent:
   image:
-    repository: emccorp/rsyslog
+    repository: rsyslog
     tag: stable
     pullPolicy: Always
 
@@ -339,7 +339,7 @@ syslogAgent:
 # based receiver
 fluentbitAgent:
   image:
-    repository: emccorp/fluent-bit
+    repository: fluent-bit
     tag: stable
     pullPolicy: Always
 
@@ -353,7 +353,7 @@ fabricProxy:
 
   # Docker repository to be used for fabric proxy instances
   image:
-    repository: emccorp/fabric-proxy
+    repository: fabric-proxy
     tag: stable
     pullPolicy: Always
 

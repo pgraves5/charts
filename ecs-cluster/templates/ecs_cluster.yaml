@@ -96,6 +96,16 @@ spec:
       tag: {{ .Values.recordManager.image.tag }}
       pullPolicy: {{ .Values.recordManager.image.pullPolicy }}
 
+  storageManagement:
+{{- if .Values.storageManagement.replicas }}
+    replicas: {{ .Values.storageManagement.replicas }}
+{{- end }}
+
+    image:
+      repository: {{ .Values.global.registry }}/{{ .Values.storageManagement.image.repository }}
+      tag: {{ .Values.storageManagement.image.tag }}
+      pullPolicy: {{ .Values.storageManagement.image.pullPolicy }}
+
   metering:
 {{- if .Values.metering.replicas }}
     replicas: {{ .Values.metering.replicas }}
@@ -125,6 +135,17 @@ spec:
       repository: {{ .Values.global.registry }}/{{ .Values.resource.image.repository }}
       tag: {{ .Values.resource.image.tag }}
       pullPolicy: {{ .Values.resource.image.pullPolicy }}
+
+
+  controlPlane:
+{{- if .Values.controlPlane.replicas }}
+    replicas: {{ .Values.controlPlane.replicas }}
+{{- end }}
+
+    image:
+      repository: {{ .Values.global.registry }}/{{ .Values.controlPlane.image.repository }}
+      tag: {{ .Values.controlPlane.image.tag }}
+      pullPolicy: {{ .Values.controlPlane.image.pullPolicy }}
 
   diagnostic:
 {{- if .Values.diagnostic.replicas }}

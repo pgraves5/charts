@@ -3,7 +3,7 @@ appVersion: "1.0"
 description: |
   Dell EMC Elastic Cloud Storage is highly scalable, and high performance S3 compatible object storage platform.
 name: ecs-flex-operator
-version: 0.1.1
+version: 0.1.2
 icon: https://avatars0.githubusercontent.com/u/12926680
 maintainers:
 - name: Dell EMC

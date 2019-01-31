@@ -6,14 +6,14 @@ global:
   # Name of a Kubernetes secret with Docker credentials for the private registry
   # registrySecret: ecs-flex-registry
 
-  # The private docker registry hosting containers for ECS Flex
-  registry: index.docker.io
+  # The private docker registry and organization hosting containers for ECS Flex
+  registry: emccorp
 
 # The default number of replicas for each service
 replicas: 4
 
-# The default memory profile for the ECS cluster. Valid values are "Default" and
-# "Small"
+# The default memory profile for the ECS cluster. Valid values are "Micro",
+# "Default", and  "Small"
 memoryProfile: Small
 
 # ServiceDiscovery describes the type of service discovery the ECS cluster will
@@ -32,7 +32,7 @@ vnest:
   # replicas: 3
 
   image:
-    repository: emccorp/vnest
+    repository: vnest
     tag: stable
     pullPolicy: IfNotPresent
 
@@ -41,8 +41,8 @@ zookeeper:
   # replicas: 3
 
   image:
-    repository: emccorp/zookeeper
-    tag: 0.2.0
+    repository: zookeeper
+    tag: stable-operator
     pullPolicy: IfNotPresent
 
   # labels:
@@ -59,7 +59,7 @@ storageServer:
 
   # Docker repository to be used for storage server instances
   image:
-    repository: emccorp/storageserver
+    repository: storageserver
     tag: stable
     pullPolicy: IfNotPresent
 
@@ -88,7 +88,7 @@ chunkManager:
 
   # Docker repository to be used for chunk manager instances
   image:
-    repository: emccorp/chunk-manager
+    repository: chunk-manager
     tag: stable
     pullPolicy: IfNotPresent
 
@@ -102,7 +102,7 @@ blob:
 
   # Docker repository to be used for chunk manager instances
   image:
-    repository: emccorp/blob-service
+    repository: blob-service
     tag: stable
     pullPolicy: IfNotPresent
 
@@ -114,7 +114,7 @@ storageServerManager:
 
   # Docker repository to be used for storage server instances
   image:
-    repository: emccorp/storageserver-manager
+    repository: storageserver-manager
     tag: stable
     pullPolicy: IfNotPresent
 
@@ -126,7 +126,20 @@ recordManager:
   # replicas: 1
 
   image:
-    repository: emccorp/record-manager
+    repository: record-manager
+    tag: stable
+    pullPolicy: IfNotPresent
+
+# The ECS storage management configuration specification
+# This container image is used in "Micro" memory profile instances
+storageManagement:
+  # Override the default ECS Cluster replicas to set the number of nodes in the
+  # storage management cluster separately. This value should not be set when
+  # using FabricProxy host network as the service discovery mechanism
+  # replicas: 1
+
+  image:
+    repository: storagemanagement-service
     tag: stable
     pullPolicy: IfNotPresent
 
@@ -138,7 +151,7 @@ metering:
   # replicas: 1
 
   image:
-    repository: emccorp/metering
+    repository: metering
     tag: stable
     pullPolicy: IfNotPresent
 
@@ -150,7 +163,7 @@ event:
   # replicas: 1
 
   image:
-    repository: emccorp/event-service
+    repository: event-service
     tag: stable
     pullPolicy: IfNotPresent
 
@@ -162,7 +175,20 @@ resource:
 
   # Docker repository to be used for resource service instances
   image:
-    repository: emccorp/resource-service
+    repository: resource-service
+    tag: stable
+    pullPolicy: IfNotPresent
+
+# The ECS control configuration specification
+# This container image is used in "Micro" memory profile instances
+controlPlane:
+  # Override the default ECS Cluster replicas to set the number of nodes in the
+  # control plane management cluster separately. This value should not be set when
+  # using FabricProxy host network as the service discovery mechanism
+  # replicas: 1
+
+  image:
+    repository: control-service
     tag: stable
     pullPolicy: IfNotPresent
 
@@ -174,7 +200,7 @@ diagnostic:
 
   # Docker repository to be used for diagnostic service instances
   image:
-    repository: emccorp/diagnostic-service
+    repository: diagnostic-service
     tag: stable
     pullPolicy: IfNotPresent
   service:
@@ -195,7 +221,7 @@ objectHeads:
 
   # Docker repository to be used for object heads instances
   image:
-    repository: emccorp/object-heads
+    repository: object-heads
     tag: stable
     pullPolicy: IfNotPresent
 
@@ -210,7 +236,7 @@ spaceReclaimer:
 
   # Docker repository to be used for diagnostic service instances
   image:
-    repository: emccorp/space-reclaimer
+    repository: space-reclaimer
     tag: stable
     pullPolicy: IfNotPresent
 
@@ -222,7 +248,7 @@ geoReceiver:
 
   # Docker repository to be used for geo receiver instances
   image:
-    repository: emccorp/geo-receiver
+    repository: geo-receiver
     tag: stable
     pullPolicy: IfNotPresent
   service:
@@ -238,7 +264,7 @@ stat:
 
   # Docker repository to be used for portal instances
   image:
-    repository: emccorp/statistics
+    repository: statistics
     tag: stable
     pullPolicy: IfNotPresent
 
@@ -249,7 +275,7 @@ control:
 
   # Docker repository to be used for object control instances
   image:
-    repository: emccorp/object-control
+    repository: object-control
     tag: stable
     pullPolicy: IfNotPresent
 
@@ -260,7 +286,7 @@ portal:
 
   # Docker repository to be used for portal instances
   image:
-    repository: emccorp/portal-service
+    repository: portal-service
     tag: stable
     pullPolicy: IfNotPresent
 
@@ -271,7 +297,7 @@ telegraf:
 
   # Docker repository to be used for portal instances
   image:
-    repository: emccorp/telegraf
+    repository: telegraf
     tag: stable
     pullPolicy: IfNotPresent
 
@@ -282,8 +308,8 @@ nginx:
 
   # Docker repository to be used for NGINX instances
   image:
-    repository: emccorp/nginx
-    tag: stable
+    repository: nginx
+    tag: stable-operator
     pullPolicy: IfNotPresent
   service:
 
@@ -321,8 +347,8 @@ nginx:
 provision:
   enabled: true
   image:
-    repository: emccorp/provision
-    tag: operator
+    repository: provision
+    tag: stable-operator
     pullPolicy: IfNotPresent
 
 #
@@ -333,7 +359,7 @@ provision:
 # based receiver
 syslogAgent:
   image:
-    repository: emccorp/rsyslog
+    repository: rsyslog
     tag: stable
     pullPolicy: IfNotPresent
 
@@ -341,7 +367,7 @@ syslogAgent:
 # based receiver
 fluentbitAgent:
   image:
-    repository: emccorp/fluent-bit
+    repository: fluent-bit
     tag: stable
     pullPolicy: IfNotPresent
 
@@ -355,7 +381,7 @@ fabricProxy:
 
   # Docker repository to be used for fabric proxy instances
   image:
-    repository: emccorp/fabric-proxy
+    repository: fabric-proxy
     tag: stable
     pullPolicy: IfNotPresent
 
