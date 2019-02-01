@@ -32,7 +32,7 @@ spec:
         - >
           mkdir -p /conf
           && echo 'var createConfig = {}; var readConfig = {"load" : {"type" : "read"} }; ChainLoad.config(createConfig).config(readConfig).run();' > /conf/mongoose-chain.js
-          && /opt/mongoose/entrypoint.sh 
+          && /usr/bin/mongoose -jar /opt/mongoose/mongoose.jar
           --test-scenario-file=/conf/mongoose-chain.js
           --test-step-limit-fail-count={{ .Values.stepLimitFailCount }}
           --load-limit-concurrency={{ .Values.load.concurrencyLimit }}

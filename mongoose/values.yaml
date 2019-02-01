@@ -22,7 +22,7 @@ replicas: 2
 controller:
   image:
     name: emcmongoose/mongoose
-    tag: latest
+    tag: 3.6.1
     pullPolicy: IfNotPresent
 
 # The mongoose driver is a stateful set of pods that will actually address
@@ -31,5 +31,5 @@ driver:
   # The container image that should be used for the Mongoose driver
   image:
     name: emcmongoose/mongoose-storage-driver-service
-    tag: latest
+    tag: 3.6.1
     pullPolicy: IfNotPresent
