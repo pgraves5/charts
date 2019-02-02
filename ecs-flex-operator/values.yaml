@@ -14,14 +14,20 @@ global:
   # Default: "" == Watch ALL namespaces
   watchNamespace: ""
 
+# The default docker tag and pull policy for the ECS Flex operator and
+# logReceiver
+tag: stable
+pullPolicy: Always
+
 # The number of replicas for the ECS Flex Operator deployment
 replicaCount: 1
 
 # The image configured for the ECS Flex Operator
 image:
   repository: ecs-flex-operator
-  tag: stable
-  pullPolicy: Always
+  # tag: stable
+  # pullPolicy: Always
+
 
 # A customer provided log server can be used for external log aggregation.
 # This receiver will be forwarded all ECS platform logs from any ECS instance
@@ -58,8 +64,9 @@ logReceiver:
   # The Docker image used for the rSyslog receiver
   image:
     repository: rsyslog
-    tag: stable
-    pullPolicy: IfNotPresent
+    # tag: stable
+    # pullPolicy: Always
+
 
   persistence:
     enabled: true

@@ -19,8 +19,16 @@ spec:
 {{- end }}
     image:
       repository: {{ .Values.global.registry }}/{{ .Values.chunkManager.image.repository }}
+{{- if .Values.chunkManager.image.tag }}
       tag: {{ .Values.chunkManager.image.tag }}
+{{- else }}
+      tag: {{ .Values.tag }}
+{{- end }}
+{{- if .Values.chunkManager.image.pullPolicy }}
       pullPolicy: {{ .Values.chunkManager.image.pullPolicy }}
+{{- else }}
+      pullPolicy: {{ .Values.pullPolicy }}
+{{- end }}
 
   blob:
 {{- if .Values.blob.replicas }}
@@ -28,8 +36,16 @@ spec:
 {{- end }}
     image:
       repository: {{ .Values.global.registry }}/{{ .Values.blob.image.repository }}
+{{- if .Values.blob.image.tag }}
       tag: {{ .Values.blob.image.tag }}
+{{- else }}
+      tag: {{ .Values.tag }}
+{{- end }}
+{{- if .Values.blob.image.pullPolicy }}
       pullPolicy: {{ .Values.blob.image.pullPolicy }}
+{{- else }}
+      pullPolicy: {{ .Values.pullPolicy }}
+{{- end }}
 
   vnest:
 {{- if .Values.vnest.replicas }}
@@ -37,11 +53,19 @@ spec:
 {{- end }}
     image:
       repository: {{ .Values.global.registry }}/{{ .Values.vnest.image.repository }}
+{{- if .Values.vnest.image.tag }}
       tag: {{ .Values.vnest.image.tag }}
+{{- else }}
+      tag: {{ .Values.tag }}
+{{- end }}
+{{- if .Values.vnest.image.pullPolicy }}
       pullPolicy: {{ .Values.vnest.image.pullPolicy }}
+{{- else }}
+      pullPolicy: {{ .Values.pullPolicy }}
+{{- end }}
 
   zookeeper:
-{{- if .Values.vnest.replicas }}
+{{- if .Values.zookeeper.replicas }}
     size: {{ .Values.zookeeper.replicas }}
 {{- end }}
     labels:
@@ -51,8 +75,16 @@ spec:
 
     image:
       repository: {{ .Values.global.registry }}/{{ .Values.zookeeper.image.repository }}
+{{- if .Values.zookeeper.image.tag }}
       tag: {{ .Values.zookeeper.image.tag }}
+{{- else }}
+      tag: {{ .Values.tag }}
+{{- end }}
+{{- if .Values.zookeeper.image.pullPolicy }}
       pullPolicy: {{ .Values.zookeeper.image.pullPolicy }}
+{{- else }}
+      pullPolicy: {{ .Values.pullPolicy }}
+{{- end }}
 
   storageServer:
 {{- if .Values.storageServer.replicas }}
@@ -61,8 +93,16 @@ spec:
 
     image:
       repository: {{ .Values.global.registry }}/{{ .Values.storageServer.image.repository }}
+{{- if .Values.storageServer.image.tag }}
       tag: {{ .Values.storageServer.image.tag }}
+{{- else }}
+      tag: {{ .Values.tag }}
+{{- end }}
+{{- if .Values.storageServer.image.pullPolicy }}
       pullPolicy: {{ .Values.storageServer.image.pullPolicy }}
+{{- else }}
+      pullPolicy: {{ .Values.pullPolicy }}
+{{- end }}
 
     volumes:
 {{- if .Values.storageServer.persistence.protected }}
@@ -83,8 +123,16 @@ spec:
 
     image:
       repository: {{ .Values.global.registry }}/{{ .Values.storageServerManager.image.repository }}
+{{- if .Values.storageServerManager.image.tag }}
       tag: {{ .Values.storageServerManager.image.tag }}
+{{- else }}
+      tag: {{ .Values.tag }}
+{{- end }}
+{{- if .Values.storageServerManager.image.pullPolicy }}
       pullPolicy: {{ .Values.storageServerManager.image.pullPolicy }}
+{{- else }}
+      pullPolicy: {{ .Values.pullPolicy }}
+{{- end }}
 
   recordManager:
 {{- if .Values.recordManager.replicas }}
@@ -93,8 +141,16 @@ spec:
 
     image:
       repository: {{ .Values.global.registry }}/{{ .Values.recordManager.image.repository }}
+{{- if .Values.recordManager.image.tag }}
       tag: {{ .Values.recordManager.image.tag }}
+{{- else }}
+      tag: {{ .Values.tag }}
+{{- end }}
+{{- if .Values.recordManager.image.pullPolicy }}
       pullPolicy: {{ .Values.recordManager.image.pullPolicy }}
+{{- else }}
+      pullPolicy: {{ .Values.pullPolicy }}
+{{- end }}
 
   storageManagement:
 {{- if .Values.storageManagement.replicas }}
@@ -103,8 +159,16 @@ spec:
 
     image:
       repository: {{ .Values.global.registry }}/{{ .Values.storageManagement.image.repository }}
+{{- if .Values.storageManagement.image.tag }}
       tag: {{ .Values.storageManagement.image.tag }}
+{{- else }}
+      tag: {{ .Values.tag }}
+{{- end }}
+{{- if .Values.storageManagement.image.pullPolicy }}
       pullPolicy: {{ .Values.storageManagement.image.pullPolicy }}
+{{- else }}
+      pullPolicy: {{ .Values.pullPolicy }}
+{{- end }}
 
   metering:
 {{- if .Values.metering.replicas }}
@@ -113,8 +177,16 @@ spec:
 
     image:
       repository: {{ .Values.global.registry }}/{{ .Values.metering.image.repository }}
+{{- if .Values.metering.image.tag }}
       tag: {{ .Values.metering.image.tag }}
+{{- else }}
+      tag: {{ .Values.tag }}
+{{- end }}
+{{- if .Values.metering.image.pullPolicy }}
       pullPolicy: {{ .Values.metering.image.pullPolicy }}
+{{- else }}
+      pullPolicy: {{ .Values.pullPolicy }}
+{{- end }}
 
   event:
 {{- if .Values.event.replicas }}
@@ -123,8 +195,16 @@ spec:
 
     image:
       repository: {{ .Values.global.registry }}/{{ .Values.event.image.repository }}
+{{- if .Values.event.image.tag }}
       tag: {{ .Values.event.image.tag }}
+{{- else }}
+      tag: {{ .Values.tag }}
+  {{- end }}
+{{- if .Values.event.image.pullPolicy }}
       pullPolicy: {{ .Values.event.image.pullPolicy }}
+{{- else }}
+      pullPolicy: {{ .Values.pullPolicy }}
+  {{- end }}
 
   resource:
 {{- if .Values.resource.replicas }}
@@ -133,8 +213,16 @@ spec:
 
     image:
       repository: {{ .Values.global.registry }}/{{ .Values.resource.image.repository }}
+{{- if .Values.resource.image.tag }}
       tag: {{ .Values.resource.image.tag }}
+{{- else }}
+      tag: {{ .Values.tag }}
+{{- end }}
+{{- if .Values.resource.image.pullPolicy }}
       pullPolicy: {{ .Values.resource.image.pullPolicy }}
+{{- else }}
+      pullPolicy: {{ .Values.pullPolicy }}
+{{- end }}
 
 
   controlPlane:
@@ -144,8 +232,16 @@ spec:
 
     image:
       repository: {{ .Values.global.registry }}/{{ .Values.controlPlane.image.repository }}
+{{- if .Values.controlPlane.image.tag }}
       tag: {{ .Values.controlPlane.image.tag }}
+{{- else }}
+      tag: {{ .Values.tag }}
+{{- end }}
+{{- if .Values.controlPlane.image.pullPolicy }}
       pullPolicy: {{ .Values.controlPlane.image.pullPolicy }}
+{{- else }}
+      pullPolicy: {{ .Values.pullPolicy }}
+{{- end }}
 
   diagnostic:
 {{- if .Values.diagnostic.replicas }}
@@ -154,8 +250,16 @@ spec:
 
     image:
       repository: {{ .Values.global.registry }}/{{ .Values.diagnostic.image.repository }}
+{{- if .Values.diagnostic.image.tag }}
       tag: {{ .Values.diagnostic.image.tag }}
+{{- else }}
+      tag: {{ .Values.tag }}
+{{- end }}
+{{- if .Values.diagnostic.image.pullPolicy }}
       pullPolicy: {{ .Values.diagnostic.image.pullPolicy }}
+{{- else }}
+      pullPolicy: {{ .Values.pullPolicy }}
+{{- end }}
 {{- if .Values.diagnostic.service }}
     service:
       {{ toYaml .Values.diagnostic.service | nindent 6 | trim }}
@@ -168,8 +272,16 @@ spec:
 
     image:
       repository: {{ .Values.global.registry }}/{{ .Values.geoReceiver.image.repository }}
+{{- if .Values.geoReceiver.image.tag }}
       tag: {{ .Values.geoReceiver.image.tag }}
+{{- else }}
+      tag: {{ .Values.tag }}
+{{- end }}
+{{- if .Values.geoReceiver.image.pullPolicy }}
       pullPolicy: {{ .Values.geoReceiver.image.pullPolicy }}
+{{- else }}
+      pullPolicy: {{ .Values.pullPolicy }}
+{{- end }}
 {{- if .Values.geoReceiver.service }}
     service:
       {{ toYaml .Values.geoReceiver.service | nindent 6 | trim }}
@@ -182,8 +294,16 @@ spec:
 
     image:
       repository: {{ .Values.global.registry }}/{{ .Values.spaceReclaimer.image.repository }}
+{{- if .Values.spaceReclaimer.image.tag }}
       tag: {{ .Values.spaceReclaimer.image.tag }}
+{{- else }}
+      tag: {{ .Values.tag }}
+{{- end }}
+{{- if .Values.spaceReclaimer.image.pullPolicy }}
       pullPolicy: {{ .Values.spaceReclaimer.image.pullPolicy }}
+{{- else }}
+      pullPolicy: {{ .Values.pullPolicy }}
+{{- end }}
 
   stat:
 {{- if .Values.stat.replicas }}
@@ -192,8 +312,16 @@ spec:
 
     image:
       repository: {{ .Values.global.registry }}/{{ .Values.stat.image.repository }}
+{{- if .Values.stat.image.tag }}
       tag: {{ .Values.stat.image.tag }}
+{{- else }}
+      tag: {{ .Values.tag }}
+{{- end }}
+{{- if .Values.stat.image.pullPolicy }}
       pullPolicy: {{ .Values.stat.image.pullPolicy }}
+{{- else }}
+      pullPolicy: {{ .Values.pullPolicy }}
+{{- end }}
 
   control:
 {{- if .Values.control.replicas }}
@@ -202,8 +330,16 @@ spec:
 
     image:
       repository: {{ .Values.global.registry }}/{{ .Values.control.image.repository }}
+{{- if .Values.control.image.tag }}
       tag: {{ .Values.control.image.tag }}
+{{- else }}
+      tag: {{ .Values.tag }}
+{{- end }}
+{{- if .Values.control.image.pullPolicy }}
       pullPolicy: {{ .Values.control.image.pullPolicy }}
+{{- else }}
+      pullPolicy: {{ .Values.pullPolicy }}
+{{- end }}
 
   objectHeads:
 {{- if .Values.objectHeads.replicas }}
@@ -212,8 +348,16 @@ spec:
 
     image:
       repository: {{ .Values.global.registry }}/{{ .Values.objectHeads.image.repository }}
+{{- if .Values.objectHeads.image.tag }}
       tag: {{ .Values.objectHeads.image.tag }}
+{{- else }}
+      tag: {{ .Values.tag }}
+{{- end }}
+{{- if .Values.objectHeads.image.pullPolicy }}
       pullPolicy: {{ .Values.objectHeads.image.pullPolicy }}
+{{- else }}
+      pullPolicy: {{ .Values.pullPolicy }}
+{{- end }}
     service:
       {{ toYaml .Values.objectHeads.service | nindent 6 | trim }}
 
@@ -223,17 +367,33 @@ spec:
 {{- end }}
     image:
       repository: {{ .Values.global.registry }}/{{ .Values.portal.image.repository }}
+{{- if .Values.portal.image.tag }}
       tag: {{ .Values.portal.image.tag }}
+{{- else }}
+      tag: {{ .Values.tag }}
+{{- end }}
+{{- if .Values.portal.image.pullPolicy }}
       pullPolicy: {{ .Values.portal.image.pullPolicy }}
+{{- else }}
+      pullPolicy: {{ .Values.pullPolicy }}
+{{- end }}
 
   nginx:
-{{- if .Values.portal.replicas }}
+{{- if .Values.nginx.replicas }}
     replicas: {{ .Values.nginx.replicas }}
 {{- end }}
     image:
       repository: {{ .Values.global.registry }}/{{ .Values.nginx.image.repository }}
+{{- if .Values.nginx.image.tag }}
       tag: {{ .Values.nginx.image.tag }}
+{{- else }}
+      tag: {{ .Values.tag }}
+{{- end }}
+{{- if .Values.nginx.image.pullPolicy }}
       pullPolicy: {{ .Values.nginx.image.pullPolicy }}
+{{- else }}
+      pullPolicy: {{ .Values.pullPolicy }}
+{{- end }}
     service:
       {{ toYaml .Values.nginx.service | nindent 6 | trim }}
 
@@ -241,20 +401,44 @@ spec:
     enabled: {{.Values.provision.enabled }}
     image:
       repository: {{ .Values.global.registry }}/{{ .Values.provision.image.repository }}
+{{- if .Values.provision.image.tag }}
       tag: {{ .Values.provision.image.tag }}
+{{- else }}
+      tag: {{ .Values.tag }}
+{{- end }}
+{{- if .Values.provision.image.pullPolicy }}
       pullPolicy: {{ .Values.provision.image.pullPolicy }}
+{{- else }}
+      pullPolicy: {{ .Values.pullPolicy }}
+{{- end }}
 
   syslogAgent:
     image:
       repository: {{ .Values.global.registry }}/{{ .Values.syslogAgent.image.repository }}
+{{- if .Values.syslogAgent.image.tag }}
       tag: {{ .Values.syslogAgent.image.tag }}
+{{- else }}
+      tag: {{ .Values.tag }}
+{{- end }}
+{{- if .Values.syslogAgent.image.pullPolicy }}
       pullPolicy: {{ .Values.syslogAgent.image.pullPolicy }}
+{{- else }}
+      pullPolicy: {{ .Values.pullPolicy }}
+{{- end }}
 
   fluentbitAgent:
     image:
       repository: {{ .Values.global.registry }}/{{ .Values.fluentbitAgent.image.repository }}
+{{- if .Values.fluentbitAgent.image.tag }}
       tag: {{ .Values.fluentbitAgent.image.tag }}
+{{- else }}
+      tag: {{ .Values.tag }}
+{{- end }}
+{{- if .Values.fluentbitAgent.image.pullPolicy }}
       pullPolicy: {{ .Values.fluentbitAgent.image.pullPolicy }}
+{{- else }}
+      pullPolicy: {{ .Values.pullPolicy }}
+{{- end }}
 
   fabricProxy:
     interface: {{ .Values.fabricProxy.interface }}
@@ -263,6 +447,14 @@ spec:
 {{- end }}
     image:
       repository: {{ .Values.global.registry }}/{{ .Values.fabricProxy.image.repository }}
+{{- if .Values.fabricProxy.image.tag }}
       tag: {{ .Values.fabricProxy.image.tag }}
+{{- else }}
+      tag: {{ .Values.tag }}
+{{- end }}
+{{- if .Values.fabricProxy.image.pullPolicy }}
       pullPolicy: {{ .Values.fabricProxy.image.pullPolicy }}
+{{- else }}
+      pullPolicy: {{ .Values.pullPolicy }}
+{{- end }}
 
