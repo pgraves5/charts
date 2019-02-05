@@ -29,12 +29,23 @@ vnest:
   # Override the default ECS Cluster replicas to set the number of nodes in the
   # vNest cluster separately. This value should not be set when using
   # FabricProxy as the service discovery mechanism
-  # replicas: 3
+  replicas: 1
 
   image:
     repository: vnest
     tag: stable
-    pullPolicy: IfNotPresent
+    pullPolicy: Always
+
+  # Persistent storage options for vnest volume requests
+  persistence:
+    # Number of volumes to be provisioned for each vnest instance
+    # volumesCount: 1
+
+    # Size of each volume to be provisioned
+    size: 32Gi
+
+    # Name of the storage class that storage should be provisioned from
+    #storageClassName:
 
 zookeeper:
   # Override the number of nodes in the zookeeper cluster

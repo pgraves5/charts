@@ -40,6 +40,14 @@ spec:
       tag: {{ .Values.vnest.image.tag }}
       pullPolicy: {{ .Values.vnest.image.pullPolicy }}
 
+    volumes:
+      volumesCount: {{ .Values.vnest.persistence.volumesCount }}
+{{- if .Values.vnest.persistence.storageClassName }}
+      storageClassName: {{ .Values.vnest.persistence.storageClassName }}
+{{- end }}
+      resources:
+        requests:
+          storage: {{ .Values.vnest.persistence.size }}
   zookeeper:
 {{- if .Values.vnest.replicas }}
     size: {{ .Values.zookeeper.replicas }}
