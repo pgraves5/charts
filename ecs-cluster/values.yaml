@@ -29,7 +29,7 @@ vnest:
   # Override the default ECS Cluster replicas to set the number of nodes in the
   # vNest cluster separately. This value should not be set when using
   # FabricProxy as the service discovery mechanism
-  replicas: 1
+  # replicas: 3
 
   image:
     repository: vnest
