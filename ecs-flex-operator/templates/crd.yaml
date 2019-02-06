@@ -13,5 +13,22 @@ spec:
     singular: ecscluster
     shortNames:
     - ecs
+  additionalPrinterColumns:
+  - name: PHASE
+    type: string
+    description: The current phase of cluster operation
+    JSONPath: .status.phase
+  - name: READY COMPONENTS
+    type: string
+    description: A string display of the number of components ready
+    JSONPath: .status.readyComponents
+  - name: S3 ENDPOINT
+    type: string
+    description: The HTTPS endpoint for accessing the cluster via S3
+    JSONPath: .status.endpoints.s3Secure
+  - name: MGMT PORTAL
+    type: string
+    description: The HTTPS location for the management portal web UI
+    JSONPath: .status.endpoints.managementPortal
   scope: Namespaced
   version: v1beta1

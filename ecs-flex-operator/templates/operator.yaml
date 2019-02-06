@@ -30,6 +30,10 @@ spec:
         command:
         - ecs-flex-operator
         env:
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
 {{- if .Values.logReceiver.create }}
         - name: LOG_RECEIVER_TYPE
           value: Syslog
