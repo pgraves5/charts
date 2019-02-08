@@ -9,6 +9,10 @@ global:
   # The private docker registry and organization hosting containers for ECS Flex
   registry: emccorp
 
+# The default docker tag and pull policy for the ECS Cluster
+tag: stable
+pullPolicy: Always
+
 # The default number of replicas for each service
 replicas: 1
 
@@ -33,8 +37,8 @@ vnest:
 
   image:
     repository: vnest
-    tag: stable
-    pullPolicy: Always
+    #tag: stable
+    #pullPolicy: Always
 
 zookeeper:
   # Override the number of nodes in the zookeeper cluster
@@ -43,7 +47,7 @@ zookeeper:
   image:
     repository: zookeeper
     tag: stable-operator
-    pullPolicy: Always
+    #pullPolicy: Always
 
   # labels:
   # ports: []
@@ -60,8 +64,8 @@ storageServer:
   # Docker repository to be used for storage server instances
   image:
     repository: storageserver
-    tag: stable
-    pullPolicy: Always
+    #tag: stable
+    #pullPolicy: Always
 
   # Persistent storage options for storage server volume requests
   persistence:
@@ -89,8 +93,8 @@ chunkManager:
   # Docker repository to be used for chunk manager instances
   image:
     repository: chunk-manager
-    tag: stable
-    pullPolicy: Always
+    #tag: stable
+    #pullPolicy: Always
 
 # The ECS blob service configuration specification
 blob:
@@ -103,8 +107,8 @@ blob:
   # Docker repository to be used for chunk manager instances
   image:
     repository: blob-service
-    tag: stable
-    pullPolicy: Always
+    #tag: stable
+    #pullPolicy: Always
 
 # The ECS storage server manager configuration specification
 storageServerManager:
@@ -115,8 +119,8 @@ storageServerManager:
   # Docker repository to be used for storage server instances
   image:
     repository: storageserver-manager
-    tag: stable
-    pullPolicy: Always
+    #tag: stable
+    #pullPolicy: Always
 
 # The ECS record manager configuration specification
 recordManager:
@@ -127,8 +131,8 @@ recordManager:
 
   image:
     repository: record-manager
-    tag: stable
-    pullPolicy: Always
+    #tag: stable
+    #pullPolicy: Always
 
 # The ECS Metering configuration specification
 metering:
@@ -139,8 +143,8 @@ metering:
 
   image:
     repository: metering
-    tag: stable
-    pullPolicy: Always
+    #tag: stable
+    #pullPolicy: Always
 
 # The ECS Metering configuration specification
 event:
@@ -151,8 +155,8 @@ event:
 
   image:
     repository: event-service
-    tag: stable
-    pullPolicy: Always
+    #tag: stable
+    #pullPolicy: Always
 
 # The ECS resource service configuration specification
 resource:
@@ -163,8 +167,8 @@ resource:
   # Docker repository to be used for resource service instances
   image:
     repository: resource-service
-    tag: stable
-    pullPolicy: Always
+    #tag: stable
+    #pullPolicy: Always
 
 # The ECS diagnostic service configuration specification
 diagnostic:
@@ -175,8 +179,8 @@ diagnostic:
   # Docker repository to be used for diagnostic service instances
   image:
     repository: diagnostic-service
-    tag: stable
-    pullPolicy: Always
+    #tag: stable
+    #pullPolicy: Always
   service:
     # Specify the service port configuration for the diagnostic service
     ports:
@@ -196,8 +200,8 @@ objectHeads:
   # Docker repository to be used for object heads instances
   image:
     repository: object-heads
-    tag: stable
-    pullPolicy: Always
+    #tag: stable
+    #pullPolicy: Always
   service:
     type: LoadBalancer
 # The ECS space reclaimer configuration specification
@@ -209,8 +213,8 @@ spaceReclaimer:
   # Docker repository to be used for diagnostic service instances
   image:
     repository: space-reclaimer
-    tag: stable
-    pullPolicy: Always
+    #tag: stable
+    #pullPolicy: Always
 
 # The ECS geo receiver configuration specification
 geoReceiver:
@@ -221,8 +225,8 @@ geoReceiver:
   # Docker repository to be used for geo receiver instances
   image:
     repository: geo-receiver
-    tag: stable
-    pullPolicy: Always
+    #tag: stable
+    #pullPolicy: Always
   service:
 
     ports:
@@ -237,8 +241,8 @@ stat:
   # Docker repository to be used for portal instances
   image:
     repository: statistics
-    tag: stable
-    pullPolicy: Always
+    #tag: stable
+    #pullPolicy: Always
 
 # The ECS API control service configuration specification
 control:
@@ -248,8 +252,8 @@ control:
   # Docker repository to be used for object control instances
   image:
     repository: object-control
-    tag: stable
-    pullPolicy: Always
+    #tag: stable
+    #pullPolicy: Always
 
 # The ECS portal configuration specification
 portal:
@@ -259,8 +263,8 @@ portal:
   # Docker repository to be used for portal instances
   image:
     repository: portal-service
-    tag: stable
-    pullPolicy: Always
+    #tag: stable
+    #pullPolicy: Always
 
 # The ECS telegraf configuration specification
 telegraf:
@@ -270,8 +274,8 @@ telegraf:
   # Docker repository to be used for portal instances
   image:
     repository: telegraf
-    tag: stable
-    pullPolicy: Always
+    #tag: stable
+    #pullPolicy: Always
 
 # The NGINX configuration specification
 nginx:
@@ -282,7 +286,7 @@ nginx:
   image:
     repository: nginx
     tag: stable-operator
-    pullPolicy: Always
+    #pullPolicy: Always
   service:
 
     # Specify the service port configuration for the NGINX service
@@ -321,7 +325,7 @@ provision:
   image:
     repository: provision
     tag: stable-operator
-    pullPolicy: Always
+    #pullPolicy: Always
 
 #
 # Sidecar configuration
@@ -332,16 +336,16 @@ provision:
 syslogAgent:
   image:
     repository: rsyslog
-    tag: stable
-    pullPolicy: Always
+    #tag: stable
+    #pullPolicy: Always
 
 # The log agent configuration for log collection of ECS services with a Syslog
 # based receiver
 fluentbitAgent:
   image:
     repository: fluent-bit
-    tag: stable
-    pullPolicy: Always
+    #tag: stable
+    #pullPolicy: Always
 
 # The fabric proxy sidecar configuration for ECS Service Discovery and container
 # preparation
@@ -354,6 +358,6 @@ fabricProxy:
   # Docker repository to be used for fabric proxy instances
   image:
     repository: fabric-proxy
-    tag: stable
-    pullPolicy: Always
+    #tag: stable
+    #pullPolicy: Always
 

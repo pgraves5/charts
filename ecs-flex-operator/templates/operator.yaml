@@ -22,8 +22,16 @@ spec:
 {{- end }}
       containers:
       - name: operator
+{{- if .Values.image.tag }}
         image: {{ .Values.global.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}
+{{- else }}
+        image: {{ .Values.global.registry }}/{{ .Values.image.repository }}:{{ .Values.tag }}
+{{- end }}
+{{- if .Values.image.pullPolicy }}
         imagePullPolicy: {{ .Values.image.pullPolicy }}
+{{- else }}
+        imagePullPolicy: {{ .Values.pullPolicy }}
+{{- end }}
         ports:
         - containerPort: 60000
           name: metrics

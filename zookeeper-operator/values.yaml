@@ -12,12 +12,12 @@ global:
   # Default: "" == Watch ALL namespaces
   watchNamespace: ""
 
-# The number of replicas for the ECS Flex Operator deployment
+# The number of replicas for the Zookeeper Operator deployment
 replicaCount: 1
 
-# The image configured for the ECS Flex Operator
+# The image configured for the Zookeeper Operator
 image:
   repository: zookeeper-operator
   tag: stable
-  pullPolicy: IfNotPresent
+  pullPolicy: Always
 
