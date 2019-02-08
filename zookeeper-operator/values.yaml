@@ -1,14 +1,16 @@
+---
 # Default values for Zookeeper operator
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-# These values are overridden when the Zookeeper operator is included within a subchart
+# These values are overridden when the Zookeeper operator is included within a
+# subchart
 global:
-
   # The private docker registry hosting containers for Zookeeper Operator
   registry: emccorp
-
-  # Specifies which namespace the Operator should watch for new ClusterResource resources
+  #
+  # Specifies which namespace the Operator should watch for new ClusterResource
+  # resources
   # Default: "" == Watch ALL namespaces
   watchNamespace: ""
 
@@ -20,4 +22,3 @@ image:
   repository: zookeeper-operator
   tag: stable
   pullPolicy: Always
-
