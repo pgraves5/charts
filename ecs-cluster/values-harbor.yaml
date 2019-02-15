@@ -71,7 +71,7 @@ storageServer:
   persistence:
     # Indicates that the storage volumes provisioned are highly available and
     # not dependent on a single node to function
-    protected: false
+    protected: true
 
     # Number of volumes to be provisioned for each storage server instance
     # volumesCount: 1

@@ -11,7 +11,7 @@ global:
   registry: emccorp
 
 # The default docker tag and pull policy for the ECS Cluster
-tag: stable
+tag: 0.1.4
 pullPolicy: Always
 
 # The default number of replicas for each service
@@ -47,7 +47,7 @@ zookeeper:
 
   image:
     repository: zookeeper
-    tag: stable-operator
+    tag: 0.1.4-operator
     # pullPolicy: IfNotPresent
 
 # The ECS storage server configuration specification
@@ -67,7 +67,7 @@ storageServer:
   persistence:
     # Indicates that the storage volumes provisioned are highly available and
     # not dependent on a single node to function
-    protected: false
+    protected: true
 
     # Number of volumes to be provisioned for each storage server instance
     # volumesCount: 1
@@ -309,7 +309,7 @@ nginx:
   # Docker repository to be used for NGINX instances
   image:
     repository: nginx
-    tag: stable-operator
+    tag: 0.1.4-operator
     # pullPolicy: IfNotPresent
   service:
 
@@ -348,7 +348,7 @@ provision:
   enabled: true
   image:
     repository: provision
-    tag: stable-operator
+    tag: 0.1.4-operator
     # pullPolicy: IfNotPresent
 
 #
