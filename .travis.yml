@@ -1,0 +1,18 @@
+---
+language: python
+sudo: false
+env:
+  global:
+  - HELM_VERSION="v2.12.3"
+install:
+- make dep
+script:
+- make test
+deploy:
+  provider: script
+  script: make build
+  "on":
+    branch: master
+    tags: true
+  after_success:
+  - .travis/push.sh

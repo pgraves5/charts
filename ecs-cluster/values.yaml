@@ -11,7 +11,7 @@ global:
   registry: emccorp
 
 # The default docker tag and pull policy for the ECS Cluster
-tag: stable
+tag: 0.1.4
 pullPolicy: Always
 
 # The default number of replicas for each service
@@ -38,8 +38,8 @@ vnest:
 
   image:
     repository: vnest
-    #tag: stable
-    #pullPolicy: IfNotPresent
+    # tag: stable
+    # pullPolicy: IfNotPresent
 
 zookeeper:
   # Override the number of nodes in the zookeeper cluster
@@ -47,13 +47,8 @@ zookeeper:
 
   image:
     repository: zookeeper
-    tag: stable-operator
-    #pullPolicy: IfNotPresent
-
-  # labels:
-  # ports: []
-  # pod:
-  # persistence:
+    tag: 0.1.4-operator
+    # pullPolicy: IfNotPresent
 
 # The ECS storage server configuration specification
 storageServer:
@@ -65,14 +60,14 @@ storageServer:
   # Docker repository to be used for storage server instances
   image:
     repository: storageserver
-    #tag: stable
-    #pullPolicy: IfNotPresent
+    # tag: stable
+    # pullPolicy: IfNotPresent
 
   # Persistent storage options for storage server volume requests
   persistence:
     # Indicates that the storage volumes provisioned are highly available and
     # not dependent on a single node to function
-    protected: false
+    protected: true
 
     # Number of volumes to be provisioned for each storage server instance
     # volumesCount: 1
@@ -94,8 +89,8 @@ chunkManager:
   # Docker repository to be used for chunk manager instances
   image:
     repository: chunk-manager
-    #tag: stable
-    #pullPolicy: IfNotPresent
+    # tag: stable
+    # pullPolicy: IfNotPresent
 
 # The ECS blob service configuration specification
 blob:
@@ -108,8 +103,8 @@ blob:
   # Docker repository to be used for chunk manager instances
   image:
     repository: blob-service
-    #tag: stable
-    #pullPolicy: IfNotPresent
+    # tag: stable
+    # pullPolicy: IfNotPresent
 
 # The ECS storage server manager configuration specification
 storageServerManager:
@@ -120,8 +115,8 @@ storageServerManager:
   # Docker repository to be used for storage server instances
   image:
     repository: storageserver-manager
-    #tag: stable
-    #pullPolicy: IfNotPresent
+    # tag: stable
+    # pullPolicy: IfNotPresent
 
 # The ECS record manager configuration specification
 recordManager:
@@ -132,8 +127,8 @@ recordManager:
 
   image:
     repository: record-manager
-    #tag: stable
-    #pullPolicy: IfNotPresent
+    # tag: stable
+    # pullPolicy: IfNotPresent
 
 # The ECS storage management configuration specification
 # This container image is used in "Micro" memory profile instances
@@ -145,8 +140,8 @@ storageManagement:
 
   image:
     repository: storagemanagement-service
-    #tag: stable
-    #pullPolicy: IfNotPresent
+    # tag: stable
+    # pullPolicy: IfNotPresent
 
 # The ECS Metering configuration specification
 metering:
@@ -157,8 +152,8 @@ metering:
 
   image:
     repository: metering
-    #tag: stable
-    #pullPolicy: IfNotPresent
+    # tag: stable
+    # pullPolicy: IfNotPresent
 
 # The ECS Metering configuration specification
 event:
@@ -169,8 +164,8 @@ event:
 
   image:
     repository: event-service
-    #tag: stable
-    #pullPolicy: IfNotPresent
+    # tag: stable
+    # pullPolicy: IfNotPresent
 
 # The ECS resource service configuration specification
 resource:
@@ -181,8 +176,8 @@ resource:
   # Docker repository to be used for resource service instances
   image:
     repository: resource-service
-    #tag: stable
-    #pullPolicy: IfNotPresent
+    # tag: stable
+    # pullPolicy: IfNotPresent
 
 # The ECS control configuration specification
 # This container image is used in "Micro" memory profile instances
@@ -194,8 +189,8 @@ controlPlane:
 
   image:
     repository: control-service
-    #tag: stable
-    #pullPolicy: IfNotPresent
+    # tag: stable
+    # pullPolicy: IfNotPresent
 
 # The ECS diagnostic service configuration specification
 diagnostic:
@@ -206,8 +201,8 @@ diagnostic:
   # Docker repository to be used for diagnostic service instances
   image:
     repository: diagnostic-service
-    #tag: stable
-    #pullPolicy: IfNotPresent
+    # tag: stable
+    # pullPolicy: IfNotPresent
   service:
     # Specify the service port configuration for the diagnostic service
     ports:
@@ -227,8 +222,8 @@ objectHeads:
   # Docker repository to be used for object heads instances
   image:
     repository: object-heads
-    #tag: stable
-    #pullPolicy: IfNotPresent
+    # tag: stable
+    # pullPolicy: IfNotPresent
 
   service:
     type: ClusterIP
@@ -242,8 +237,8 @@ spaceReclaimer:
   # Docker repository to be used for diagnostic service instances
   image:
     repository: space-reclaimer
-    #tag: stable
-    #pullPolicy: IfNotPresent
+    # tag: stable
+    # pullPolicy: IfNotPresent
 
 # The ECS geo receiver configuration specification
 geoReceiver:
@@ -254,8 +249,8 @@ geoReceiver:
   # Docker repository to be used for geo receiver instances
   image:
     repository: geo-receiver
-    #tag: stable
-    #pullPolicy: IfNotPresent
+    # tag: stable
+    # pullPolicy: IfNotPresent
   service:
 
     ports:
@@ -270,8 +265,8 @@ stat:
   # Docker repository to be used for portal instances
   image:
     repository: statistics
-    #tag: stable
-    #pullPolicy: IfNotPresent
+    # tag: stable
+    # pullPolicy: IfNotPresent
 
 # The ECS API control service configuration specification
 control:
@@ -281,8 +276,8 @@ control:
   # Docker repository to be used for object control instances
   image:
     repository: object-control
-    #tag: stable
-    #pullPolicy: IfNotPresent
+    # tag: stable
+    # pullPolicy: IfNotPresent
 
 # The ECS portal configuration specification
 portal:
@@ -292,8 +287,8 @@ portal:
   # Docker repository to be used for portal instances
   image:
     repository: portal-service
-    #tag: stable
-    #pullPolicy: IfNotPresent
+    # tag: stable
+    # pullPolicy: IfNotPresent
 
 # The ECS telegraf configuration specification
 telegraf:
@@ -303,8 +298,8 @@ telegraf:
   # Docker repository to be used for portal instances
   image:
     repository: telegraf
-    #tag: stable
-    #pullPolicy: IfNotPresent
+    # tag: stable
+    # pullPolicy: IfNotPresent
 
 # The NGINX configuration specification
 nginx:
@@ -314,8 +309,8 @@ nginx:
   # Docker repository to be used for NGINX instances
   image:
     repository: nginx
-    tag: stable-operator
-    #pullPolicy: IfNotPresent
+    tag: 0.1.4-operator
+    # pullPolicy: IfNotPresent
   service:
 
     # Specify the service port configuration for the NGINX service
@@ -327,23 +322,23 @@ nginx:
       port: 4443
       targetPort: 4443
 
-    # Specify the service type for the NGINX container. The default is a
-    # "ClusterIP"
-    #
-    # type: LoadBalancer
+# Specify the service type for the NGINX container. The default is a
+# "ClusterIP"
+#
+# type: LoadBalancer
 
-    # Specify a specific load balancer IP address for the NGINX service. By
-    # default, Kubernetes will allocate an address automatically from the
-    # load-balancer pool.
-    #
-    # loadBalancerIP: 10.0.0.1
+# Specify a specific load balancer IP address for the NGINX service. By
+# default, Kubernetes will allocate an address automatically from the
+# load-balancer pool.
+#
+# loadBalancerIP: 10.0.0.1
 
-    # Specify a custom annotation for the NGINX service. This is required for
-    # some public cloud load balancer providers when using a load balancer type
-    # service. The default value is an empty map.
-    #
-    # annotations:
-    #   some-annotation: some-value
+# Specify a custom annotation for the NGINX service. This is required for
+# some public cloud load balancer providers when using a load balancer type
+# service. The default value is an empty map.
+#
+# annotations:
+#   some-annotation: some-value
 
 # Enable or disable the cluster automatic provisioning. This step will provision
 # the ECS resources into a single storage pool and virtual data center scoped to
@@ -353,8 +348,8 @@ provision:
   enabled: true
   image:
     repository: provision
-    tag: stable-operator
-    #pullPolicy: IfNotPresent
+    tag: 0.1.4-operator
+    # pullPolicy: IfNotPresent
 
 #
 # Sidecar configuration
@@ -365,16 +360,16 @@ provision:
 syslogAgent:
   image:
     repository: rsyslog
-    #tag: stable
-    #pullPolicy: IfNotPresent
+    # tag: stable
+    # pullPolicy: IfNotPresent
 
 # The log agent configuration for log collection of ECS services with a Syslog
 # based receiver
 fluentbitAgent:
   image:
     repository: fluent-bit
-    #tag: stable
-    #pullPolicy: IfNotPresent
+    # tag: stable
+    # pullPolicy: IfNotPresent
 
 # The fabric proxy sidecar configuration for ECS Service Discovery and container
 # preparation
@@ -387,6 +382,5 @@ fabricProxy:
   # Docker repository to be used for fabric proxy instances
   image:
     repository: fabric-proxy
-    #tag: stable
-    #pullPolicy: IfNotPresent
-
+    # tag: stable
+    # pullPolicy: IfNotPresent
