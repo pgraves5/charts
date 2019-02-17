@@ -73,7 +73,7 @@ storageServer:
     # volumesCount: 1
 
     # Size of each volume to be provisioned
-    size: 32Gi
+    size: 200Gi
 
     # Name of the storage class that storage should be provisioned from
     # storageClassName:
