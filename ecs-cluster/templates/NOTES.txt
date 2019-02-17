@@ -7,7 +7,7 @@ Your release is named {{ .Release.Name }}.
 To get started, simply read your access keys and endpoint(s):
 
   $ read -r ACCESS_KEY SECRET_KEY \
-        <<<$(kubectl get secret {{ .Release.Name }}-initial-user -o jsonpath='{.data.*}' | sed -n 's/ /Cg==/p' | base64 -d)
+        <<<$(kubectl get secret {{ .Release.Name }}-initial-user -o jsonpath='{.data.*}' | sed -n 's/ /Cg==/p' | base64 -d || tr \\n ' ')
 {{- if eq .Values.objectHeads.service.type "LoadBalancer" }}
   $ read -r INTERNAL_ENDPOINT EXTERNAL_ENDPOINT \
         <<<$(kubectl get svc {{ .Release.Name }}-heads \
