@@ -2,8 +2,50 @@ apiVersion: v1
 entries:
   ecs-cluster:
   - apiVersion: v1
+    appVersion: 0.1.5
+    created: 2019-02-17T18:12:26.483090921-06:00
+    description: |
+      Dell EMC Elastic Cloud Storage is highly scalable, and high performance S3 compatible object storage platform.
+    digest: acc8c0ded5d5da4a228c0b553dcd3d1fc21a891ede70a0d37090abfabe50a3ec
+    icon: https://avatars0.githubusercontent.com/u/12926680
+    maintainers:
+    - name: Dell EMC
+      url: http://dellemc.com
+    name: ecs-cluster
+    urls:
+    - ecs-cluster-0.1.5.tgz
+    version: 0.1.5
+  - apiVersion: v1
+    appVersion: 0.1.4
+    created: 2019-02-17T18:12:26.482358294-06:00
+    description: |
+      Dell EMC Elastic Cloud Storage is highly scalable, and high performance S3 compatible object storage platform.
+    digest: 71152825f4cda20c77d26b28fdcb2513196b7ce0b0750bd80f078f3f11341d5d
+    icon: https://avatars0.githubusercontent.com/u/12926680
+    maintainers:
+    - name: Dell EMC
+      url: http://dellemc.com
+    name: ecs-cluster
+    urls:
+    - ecs-cluster-0.1.4.tgz
+    version: 0.1.4
+  - apiVersion: v1
     appVersion: "1.0"
-    created: 2019-01-31T13:41:37.419572456-06:00
+    created: 2019-02-17T18:12:26.481395314-06:00
+    description: |
+      Dell EMC Elastic Cloud Storage is highly scalable, and high performance S3 compatible object storage platform.
+    digest: 41155014150b0dbbb5e39238288c89da80d1d4bf590c484b050de58dfe1d6979
+    icon: https://avatars0.githubusercontent.com/u/12926680
+    maintainers:
+    - name: Dell EMC
+      url: http://dellemc.com
+    name: ecs-cluster
+    urls:
+    - ecs-cluster-0.1.3.tgz
+    version: 0.1.3
+  - apiVersion: v1
+    appVersion: "1.0"
+    created: 2019-02-08T10:58:18.182921246-06:00
     description: |
       Dell EMC Elastic Cloud Storage is highly scalable, and high performance S3 compatible object storage platform.
     digest: f59c01b502ab44f2f8f42fdc31eb2d57160bb797ee7046cd63dd5eaab9ba535b
@@ -31,8 +73,50 @@ entries:
     version: 0.1.0
   ecs-flex-operator:
   - apiVersion: v1
+    appVersion: 0.1.5
+    created: 2019-02-17T18:12:26.491798207-06:00
+    description: |
+      Dell EMC Elastic Cloud Storage is highly scalable, and high performance S3 compatible object storage platform.
+    digest: 0819b5d71f0bb44536c48ec41299ab2ce1e596e3b9660573ca5849ccc543372c
+    icon: https://avatars0.githubusercontent.com/u/12926680
+    maintainers:
+    - name: Dell EMC
+      url: http://dellemc.com
+    name: ecs-flex-operator
+    urls:
+    - ecs-flex-operator-0.1.5.tgz
+    version: 0.1.5
+  - apiVersion: v1
+    appVersion: 0.1.4
+    created: 2019-02-17T18:12:26.489546979-06:00
+    description: |
+      Dell EMC Elastic Cloud Storage is highly scalable, and high performance S3 compatible object storage platform.
+    digest: 90d0fd5ee843275df4105042a24ae0182a85bc8916e1e245f3b6cf36bc7e9d0a
+    icon: https://avatars0.githubusercontent.com/u/12926680
+    maintainers:
+    - name: Dell EMC
+      url: http://dellemc.com
+    name: ecs-flex-operator
+    urls:
+    - ecs-flex-operator-0.1.4.tgz
+    version: 0.1.4
+  - apiVersion: v1
     appVersion: "1.0"
-    created: 2019-01-31T13:41:37.422604292-06:00
+    created: 2019-02-17T18:12:26.488001524-06:00
+    description: |
+      Dell EMC Elastic Cloud Storage is highly scalable, and high performance S3 compatible object storage platform.
+    digest: c1b6d6d9132e5e438ea564345990d8c3db0257c7376fe43540449d48d6503bda
+    icon: https://avatars0.githubusercontent.com/u/12926680
+    maintainers:
+    - name: Dell EMC
+      url: http://dellemc.com
+    name: ecs-flex-operator
+    urls:
+    - ecs-flex-operator-0.1.3.tgz
+    version: 0.1.3
+  - apiVersion: v1
+    appVersion: "1.0"
+    created: 2019-02-08T10:58:18.191979013-06:00
     description: |
       Dell EMC Elastic Cloud Storage is highly scalable, and high performance S3 compatible object storage platform.
     digest: 369a3e9d57ce073266b3d0cbf9e7bb237962630e18cd5ed7d9a9602f37530b8e

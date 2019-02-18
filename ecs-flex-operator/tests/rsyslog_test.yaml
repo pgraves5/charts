@@ -48,26 +48,26 @@ tests:
         documentIndex: 3
   - it: should have a default syslog image
     set:
-      registry: my-registry
+      global.registry: my-registry
       logReceiver.create: true
     asserts:
     - equal:
         path: spec.template.spec.containers[0].image
-        value: my-registry/ecs/rsyslog:latest
+        value: my-registry/rsyslog:0.1.5
     - equal:
         path: spec.template.spec.containers[0].imagePullPolicy
-        value: IfNotPresent
+        value: Always
   - it: should allow configuration of syslog image
     set:
-      registry: my-registry
+      global.registry: my-registry
       logReceiver.create: true
       logReceiver.image.repository: my-syslog
       logReceiver.image.tag: latest
-      logReceiver.image.pullPolicy: ALWAYS
+      logReceiver.image.pullPolicy: IfNotPresent
     asserts:
     - equal:
         path: spec.template.spec.containers[0].image
         value: my-registry/my-syslog:latest
     - equal:
         path: spec.template.spec.containers[0].imagePullPolicy
-        value: ALWAYS
+        value: IfNotPresent

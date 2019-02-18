@@ -1,8 +1,10 @@
+---
 # Default values for mongoose.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-# REQUIRED: The address and access of the S3 endpoint to test against
+target: {}
+# REQUIRED SETTINGS
 # target:
 #   addresses: my-cluster-s3.ecs.cluster.local
 #   port: 80
@@ -22,7 +24,7 @@ replicas: 2
 controller:
   image:
     name: emcmongoose/mongoose
-    tag: latest
+    tag: 3.6.1
     pullPolicy: IfNotPresent
 
 # The mongoose driver is a stateful set of pods that will actually address
@@ -31,5 +33,5 @@ driver:
   # The container image that should be used for the Mongoose driver
   image:
     name: emcmongoose/mongoose-storage-driver-service
-    tag: latest
+    tag: 3.6.1
     pullPolicy: IfNotPresent

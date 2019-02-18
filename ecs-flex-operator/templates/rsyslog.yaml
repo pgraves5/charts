@@ -33,8 +33,16 @@ spec:
 {{- end }}
       containers:
       - name: rsyslog
+{{- if .Values.logReceiver.image.tag }}
         image: {{.Values.global.registry }}/{{ .Values.logReceiver.image.repository }}:{{ .Values.logReceiver.image.tag }}
+{{- else }}
+        image: {{.Values.global.registry }}/{{ .Values.logReceiver.image.repository }}:{{ .Values.tag }}
+{{- end }}
+{{- if .Values.logReceiver.image.pullPolicy }}
         imagePullPolicy: {{ .Values.logReceiver.image.pullPolicy }}
+{{- else }}
+        imagePullPolicy: {{ .Values.pullPolicy }}
+{{- end }}
         livenessProbe:
           tcpSocket:
             port: 514

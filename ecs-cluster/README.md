@@ -70,7 +70,7 @@ kind: StorageClass
 metadata:
   name: vsphere
   annotations:
-    storageclass.kubernetes.io/is-default-class: true
+    storageclass.kubernetes.io/is-default-class: "true"
 provisioner: kubernetes.io/vsphere-volume
 parameters:
   diskformat: zeroedthick
