@@ -21,6 +21,9 @@ replicas: 4
 # "Default", and  "Small"
 memoryProfile: Small
 
+# Name of the storage class that all PVC should be provisioned from
+# storageClassName:
+
 # ServiceDiscovery describes the type of service discovery the ECS cluster will
 # use. The discovery method will determine other cluster creation settings and
 # restrictions.
@@ -40,6 +43,14 @@ vnest:
     repository: vnest
     # tag: stable
     # pullPolicy: IfNotPresent
+    # Persistent storage options for vnest volume requests
+
+  persistence:
+    # Size of each volume to be provisioned
+    size: 32Gi
+
+    # Name of the storage class that storage should be provisioned from
+    # storageClassName:
 
 zookeeper:
   # Override the number of nodes in the zookeeper cluster

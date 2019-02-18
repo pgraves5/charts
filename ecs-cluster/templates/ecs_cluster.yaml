@@ -68,6 +68,8 @@ spec:
       volumesCount: {{ .Values.vnest.persistence.volumesCount }}
 {{- if .Values.vnest.persistence.storageClassName }}
       storageClassName: {{ .Values.vnest.persistence.storageClassName }}
+{{- else if .Values.storageClassName }}
+      storageClassName: {{ .Values.storageClassName }}
 {{- end }}
       resources:
         requests:
@@ -119,6 +121,8 @@ spec:
       volumesCount: {{ .Values.storageServer.persistence.volumesCount }}
 {{- if .Values.storageServer.persistence.storageClassName }}
       storageClassName: {{ .Values.storageServer.persistence.storageClassName }}
+{{- else if .Values.storageClassName }}
+      storageClassName: {{ .Values.storageClassName }}
 {{- end }}
       resources:
         requests:
