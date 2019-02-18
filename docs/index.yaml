@@ -158,6 +158,20 @@ entries:
     version: 0.1.0
   mongoose:
   - apiVersion: v1
+    appVersion: 3.6.1
+    created: 2019-02-17T23:21:47.543372627-06:00
+    description: |
+      Mongoose is a horizontally scalable and configurable S3 performance testing utility
+    digest: 910f819f8e9c074de0570faa2494bb185b8f7214f6cd51cf70b40796d7fa3c34
+    icon: https://avatars0.githubusercontent.com/u/12926680
+    maintainers:
+    - name: Dell EMC
+      url: http://dellemc.com
+    name: mongoose
+    urls:
+    - mongoose-0.1.1.tgz
+    version: 0.1.1
+  - apiVersion: v1
     appVersion: "1.0"
     created: 2019-01-31T13:41:37.423164383-06:00
     description: |
