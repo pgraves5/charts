@@ -367,7 +367,7 @@ provision:
   enabled: true
   image:
     repository: provision
-    tag: fedor-test
+    tag: 0.1.5-operator
     # pullPolicy: IfNotPresent
 
 #
