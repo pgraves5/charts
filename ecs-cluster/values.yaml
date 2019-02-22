@@ -61,6 +61,14 @@ zookeeper:
     tag: 0.1.5-operator
     # pullPolicy: IfNotPresent
 
+   # Persistent storage options for zookeeper volume requests
+  persistence:
+    # Size of each volume to be provisioned
+    size: 20Gi
+
+    # Name of the storage class that storage should be provisioned from
+    # storageClassName:
+
 # The ECS storage server configuration specification
 storageServer:
 
@@ -359,7 +367,7 @@ provision:
   enabled: true
   image:
     repository: provision
-    tag: 0.1.5-operator
+    tag: fedor-test
     # pullPolicy: IfNotPresent
 
 #

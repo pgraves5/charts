@@ -82,7 +82,6 @@ spec:
       app: zookeeper
       component: zk
       release: {{ .Release.Name }}
-
     image:
       repository: {{ .Values.global.registry }}/{{ .Values.zookeeper.image.repository }}
 {{- if .Values.zookeeper.image.tag }}
@@ -95,6 +94,15 @@ spec:
 {{- else }}
       pullPolicy: {{ .Values.pullPolicy }}
 {{- end }}
+    persistence:
+{{- if .Values.zookeeper.persistence.storageClassName }}
+      storageClassName: {{ .Values.zookeeper.persistence.storageClassName }}
+{{- else if .Values.storageClassName }}
+      storageClassName: {{ .Values.storageClassName }}
+{{- end }}
+      resources:
+        requests:
+          storage: {{ .Values.zookeeper.persistence.size }}
 
   storageServer:
 {{- if .Values.storageServer.replicas }}
