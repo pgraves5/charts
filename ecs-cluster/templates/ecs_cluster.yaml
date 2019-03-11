@@ -65,6 +65,16 @@ spec:
       pullPolicy: {{ .Values.pullPolicy }}
 {{- end }}
 
+    volumes:
+      volumesCount: {{ .Values.vnest.persistence.volumesCount }}
+{{- if .Values.vnest.persistence.storageClassName }}
+      storageClassName: {{ .Values.vnest.persistence.storageClassName }}
+{{- else if .Values.storageClassName }}
+      storageClassName: {{ .Values.storageClassName }}
+{{- end }}
+      resources:
+        requests:
+          storage: {{ .Values.vnest.persistence.size }}
   zookeeper:
 {{- if .Values.zookeeper.replicas }}
     size: {{ .Values.zookeeper.replicas }}
@@ -73,7 +83,6 @@ spec:
       app: zookeeper
       component: zk
       release: {{ .Release.Name }}
-
     image:
       repository: {{ .Values.global.registry }}/{{ .Values.zookeeper.image.repository }}
 {{- if .Values.zookeeper.image.tag }}
@@ -86,6 +95,15 @@ spec:
 {{- else }}
       pullPolicy: {{ .Values.pullPolicy }}
 {{- end }}
+    persistence:
+{{- if .Values.zookeeper.persistence.storageClassName }}
+      storageClassName: {{ .Values.zookeeper.persistence.storageClassName }}
+{{- else if .Values.storageClassName }}
+      storageClassName: {{ .Values.storageClassName }}
+{{- end }}
+      resources:
+        requests:
+          storage: {{ .Values.zookeeper.persistence.size }}
 
   storageServer:
 {{- if .Values.storageServer.replicas }}
@@ -112,6 +130,8 @@ spec:
       volumesCount: {{ .Values.storageServer.persistence.volumesCount }}
 {{- if .Values.storageServer.persistence.storageClassName }}
       storageClassName: {{ .Values.storageServer.persistence.storageClassName }}
+{{- else if .Values.storageClassName }}
+      storageClassName: {{ .Values.storageClassName }}
 {{- end }}
       resources:
         requests:

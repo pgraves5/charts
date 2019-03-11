@@ -49,3 +49,83 @@ tests:
     - equal:
         path: spec.storageServer.image.pullPolicy
         value: IfNotPresent
+  # when we have global SC setting
+  - it: should customize SC for all persistance fields
+    set:
+      storageClassName: my-sc
+    asserts:
+    - equal:
+        path: spec.storageServer.volumes.storageClassName
+        value: my-sc
+    - equal:
+        path: spec.vnest.volumes.storageClassName
+        value: my-sc
+    - equal:
+        path: spec.zookeeper.persistence.storageClassName
+        value: my-sc
+  # when we have separate SC for a service
+  - it: should customize SC for SS persistance field
+    set:
+      storageServer.persistence.storageClassName: my-sc
+    asserts:
+    - equal:
+        path: spec.storageServer.volumes.storageClassName
+        value: my-sc
+  - it: should customize SC for VNest persistance field
+    set:
+      vnest.persistence.storageClassName: my-sc
+    asserts:
+    - equal:
+        path: spec.vnest.volumes.storageClassName
+        value: my-sc
+  - it: should customize SC for Zookeeper persistance field
+    set:
+      zookeeper.persistence.storageClassName: my-sc
+    asserts:
+    - equal:
+        path: spec.zookeeper.persistence.storageClassName
+        value: my-sc
+
+  # when we have global SC and separate for a service
+  - it: should customize separate SC for SS with global SC
+    set:
+      storageClassName: my-sc
+      storageServer.persistence.storageClassName: my-ss-sc
+    asserts:
+    - equal:
+        path: spec.storageServer.volumes.storageClassName
+        value: my-ss-sc
+    - equal:
+        path: spec.vnest.volumes.storageClassName
+        value: my-sc
+    - equal:
+        path: spec.zookeeper.persistence.storageClassName
+        value: my-sc
+  - it: should customize separate SC for VNest with global SC
+    set:
+      storageClassName: my-sc
+      vnest.persistence.storageClassName: my-vnest-sc
+    asserts:
+    - equal:
+        path: spec.storageServer.volumes.storageClassName
+        value: my-sc
+    - equal:
+        path: spec.vnest.volumes.storageClassName
+        value: my-vnest-sc
+    - equal:
+        path: spec.zookeeper.persistence.storageClassName
+        value: my-sc
+  - it: should customize separate SC for Zookeeper with global SC
+    set:
+      storageClassName: my-sc
+      zookeeper.persistence.storageClassName: my-zookeeper-sc
+    asserts:
+    - equal:
+        path: spec.storageServer.volumes.storageClassName
+        value: my-sc
+    - equal:
+        path: spec.vnest.volumes.storageClassName
+        value: my-sc
+    - equal:
+        path: spec.zookeeper.persistence.storageClassName
+        value: my-zookeeper-sc
