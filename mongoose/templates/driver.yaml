@@ -47,5 +47,6 @@ spec:
       - name: driver
         image: {{ .Values.driver.image.name }}:{{ .Values.driver.image.tag }}
         imagePullPolicy: {{ .Values.driver.image.pullPolicy }}
+        args: ["--run-node"]
         ports:
         - containerPort: 1099

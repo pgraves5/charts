@@ -20,18 +20,18 @@ load:
 # Number of driver replicas to deploy
 replicas: 2
 
+# Since mongoose version 4 there is one image for controller and for peer (driver) nodes
 # The mongoose controller image configuration
 controller:
   image:
     name: emcmongoose/mongoose
-    tag: 3.6.1
+    tag: 4.1.1
     pullPolicy: IfNotPresent
 
 # The mongoose driver is a stateful set of pods that will actually address
 # the S3 target
 driver:
-  # The container image that should be used for the Mongoose driver
   image:
     name: emcmongoose/mongoose-storage-driver-service
-    tag: 3.6.1
+    tag: 4.1.1
     pullPolicy: IfNotPresent
