@@ -1,6 +1,6 @@
-# Dell EMC Elastic Cloud Storage (ECS) KAHM (Kubernetes Application Health Management) Helm Chart
+# Kubernetes Application Health Management Helm Chart
 
-This Helm chart deploys a [kahm] capable of watching Application Resources and Events and store and send those events to various adaptors (SRS gateway, SNMP, SMTP , SLACK, Email etc.) to report the events so that customer can manage the health of the clusters in a timely manner.
+This Helm chart deploys a [kahm] capable of watching Application Resources and Kubernetes Events.  It stores the events in a persistent data store store and send those events to various adaptors (SRS Gateway, SNMP, SMTP , Slack, Email etc.) to report the events so that customer can manage the health of the clusters in a timely manner.
 
 ## Table of Contents
 
@@ -36,7 +36,7 @@ $ helm repo add ecs https://emcecs.github.io/charts
 $ helm repo update
 ```
 
-3. Install the KAHM. This allows you start watching the Kubernetes application resources as well as Events.
+3. Install the KAHM. This allows you to start watching the Kubernetes Application resources as well as Kubernetes Events.
 
 ```bash
 $ helm install --name kahm ecs/kahm
