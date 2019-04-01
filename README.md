@@ -18,6 +18,7 @@ $ helm repo update
 * [ECS Cluster](ecs-cluster)
 * [Zookeeper Operator](zookeeper-operator)
 * [Mongoose Load Testing Tool](mongoose)
+* [KAHM](kahm)
 
 ## Adding private Helm repository and Docker registries
 
