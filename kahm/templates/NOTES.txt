@@ -1,0 +1,13 @@
+Thank you for installing {{ .Chart.Name }}. This release is capable of
+deploying and upgrading Dell EMC K8s Application Servicibility and Health Managements
+
+Your release is named {{ .Release.Name }}.
+
+To get started, install your first KAHM, you can use the Helm chart:
+
+  $ helm install <repository name>/kahm
+
+For more information on the installation and configuration options, see the
+README at https://github.com/EMCECS/charts/tree/master/kahm and the
+`values.yaml` file at
+https://github.com/EMCECS/charts/blob/master/kahm/values.yaml
