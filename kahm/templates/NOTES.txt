@@ -1,9 +1,10 @@
 Thank you for installing {{ .Chart.Name }}. This release is capable of
-deploying and upgrading Dell EMC K8s Application Servicibility and Health Managements
+deploying and upgrading Kubernetes Application Health Managements.
+
 
 Your release is named {{ .Release.Name }}.
 
-To get started, install your first KAHM, you can use the Helm chart:
+To install KAHM by using Helm chart, use the helm install command below:
 
   $ helm install <repository name>/kahm
 

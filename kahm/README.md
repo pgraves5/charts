@@ -1,6 +1,6 @@
 # Kubernetes Application Health Management Helm Chart
 
-This Helm chart deploys a [kahm] capable of watching Application Resources and Kubernetes Events.  It stores the events in a persistent data store store and send those events to various adaptors (SRS Gateway, SNMP, SMTP , Slack, Email etc.) to report the events so that customer can manage the health of the clusters in a timely manner.
+This Helm chart deploys a controller [kahm] capable of watching Application Resources and Kubernetes Events.  It stores the events in a persistent data store and send those events to various adaptors (SRS Gateway, SNMP, SMTP , Slack etc.) to report the events to customers so that they can manage the health of the clusters in a timely manner.
 
 ## Table of Contents
 
