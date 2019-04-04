@@ -1,0 +1,14 @@
+Thank you for installing {{ .Chart.Name }}. This release is capable of
+deploying and upgrading Kubernetes Application Health Managements.
+
+
+Your release is named {{ .Release.Name }}.
+
+To install KAHM by using Helm chart, use the helm install command below:
+
+  $ helm install <repository name>/kahm
+
+For more information on the installation and configuration options, see the
+README at https://github.com/EMCECS/charts/tree/master/kahm and the
+`values.yaml` file at
+https://github.com/EMCECS/charts/blob/master/kahm/values.yaml
