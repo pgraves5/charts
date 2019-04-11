@@ -10,7 +10,7 @@ global:
   registry: harbor.lss.emc.com/ecs
 
 # The default docker tag and pull policy for the ECS Cluster
-tag: stable
+tag: shippable
 pullPolicy: Always
 
 # The default number of replicas for each service
@@ -57,7 +57,7 @@ zookeeper:
 
   image:
     repository: zookeeper
-    tag: stable-operator
+    tag: shippable
     #pullPolicy: Always
 
   # labels:
@@ -329,7 +329,7 @@ nginx:
   # Docker repository to be used for NGINX instances
   image:
     repository: nginx
-    tag: stable-operator
+    tag: shippable
     #pullPolicy: Always
   service:
 
@@ -368,7 +368,7 @@ provision:
   enabled: true
   image:
     repository: provision
-    tag: stable-operator
+    tag: shippable
     #pullPolicy: Always
 
 #
