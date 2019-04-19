@@ -1,4 +1,4 @@
 dependencies:
 - name: zookeeper-operator
-  version: ~0.0.3
-  repository: https://9c5cdec022ac83978b17410474289895c2ed0369@raw.githubusercontent.com/emcecs/charts/master/docs
+  version: ~0.1.6-rc1
+  repository: file://../zookeeper-operator

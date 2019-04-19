@@ -1,6 +1,6 @@
 dependencies:
 - name: zookeeper-operator
-  repository: https://9c5cdec022ac83978b17410474289895c2ed0369@raw.githubusercontent.com/emcecs/charts/master/docs
-  version: 0.0.4
-digest: sha256:b447d14b936815be10a1b87e191f71547e0e30a152845edf589a38067f44fe7d
-generated: 2019-02-07T23:22:30.00847562-06:00
+  repository: file://../zookeeper-operator
+  version: 0.1.6-rc1
+digest: sha256:078becf4d0d2d17b871d3cf67e6dd435141108acbc999e3331fc26fcdf3a0f77
+generated: 2019-04-19T11:55:24.147957-05:00
