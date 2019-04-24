@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: {{ .Release.Name }}-fio-test
+  labels:
+    release: {{ .Release.Name }}
+  namespace: {{ .Release.Namespace}}
+  annotations:
+    "helm.sh/hook": test-success
+spec:
+    containers:
+      - name: {{ .Release.Name }}-fio-test
+        image: kimixu/fio:v0.1
+        volumeMounts:
+          - name: {{ .Release.Name }}-fio-test
+            mountPath: /data
+        command: ["/bin/sh", "-c"]
+        args: ["/usr/bin/fio /aio-read.fio"]
+    volumes:
+      - name: {{ .Release.Name }}-fio-test
+        hostPath:
+            path: /data/FIO
+    restartPolicy: Never

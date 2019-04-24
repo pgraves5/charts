@@ -40,10 +40,3 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
-
-fioReadTestPara:
-  rw: "read"
-  numjobs: 1
-  iodepth: 1
-  filesize: 10M
-  runtime: 15s
