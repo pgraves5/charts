@@ -25,11 +25,12 @@ dep:
 
 build:
 	REINDEX=0
-	for CHART in ecs-cluster ecs-flex-operator mongoose zookeeper-operator; do \
+	for CHART in zookeeper-operator ecs-cluster ecs-flex-operator mongoose kahm; do \
 		CURRENT_VER=`yq r $$CHART/Chart.yaml version` ; \
-		yq r docs/index.yaml "entries.$${CHART}[*].version" | grep -q "\- $${CURRENT_VER}" ; \
+		yq r docs/index.yaml "entries.$${CHART}[*].version" | grep -q "\- $${CURRENT_VER}$$" ; \
 		if [[ "$${?}" -eq "1" ]] ; then \
 		    echo "Updating package for $${CHART}" ; \
+		    helm dep update; \
 			helm package $${CHART} --destination docs ; \
 			REINDEX=1 ; \
 		else  \
