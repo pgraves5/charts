@@ -72,7 +72,7 @@ data:
       - name: E2E_SKIP
         value: 'Alpha|\[(Disruptive|Feature:[^\]]+|Flaky)\]'
       - name: E2E_PARALLEL
-        value: '100'
+        value: '15'
       command: ["/run_e2e.sh"]
       image: gcr.io/heptio-images/kube-conformance:latest
       imagePullPolicy: Always
@@ -83,34 +83,6 @@ data:
         readOnly: false
       tolerations:
         - operator: "Exists"
-  systemd-logs.yaml: |
-    sonobuoy-config:
-      driver: DaemonSet
-      plugin-name: systemd-logs
-      result-type: systemd_logs
-    spec:
-      command: ["/bin/sh", "-c", "/get_systemd_logs.sh && sleep 3600"]
-      env:
-      - name: NODE_NAME
-        valueFrom:
-          fieldRef:
-            fieldPath: spec.nodeName
-      - name: RESULTS_DIR
-        value: /tmp/results
-      - name: CHROOT_DIR
-        value: /node
-      image: gcr.io/heptio-images/sonobuoy-plugin-systemd-logs:latest
-      imagePullPolicy: Always
-      name: sonobuoy-systemd-logs-config
-      securityContext:
-        privileged: true
-      volumeMounts:
-      - mountPath: /tmp/results
-        name: results
-        readOnly: false
-      - mountPath: /node
-        name: root
-        readOnly: false
 kind: ConfigMap
 metadata:
   labels:
@@ -129,10 +101,8 @@ metadata:
   namespace: heptio-sonobuoy
 spec:
   containers:
-  - command:
-    - /bin/bash
-    - -c
-    - /sonobuoy master --no-exit=true -v 3 --logtostderr
+    command: ["/bin/bash"]
+    args: ["-c", "/sonobuoy master --no-exit=true -v 3 --logtostderr"]
     env:
     - name: SONOBUOY_ADVERTISE_IP
       valueFrom:
@@ -159,6 +129,7 @@ spec:
     name: sonobuoy-plugins-volume
   - emptyDir: {}
     name: output-volume
+
 ---
 apiVersion: v1
 kind: Service
