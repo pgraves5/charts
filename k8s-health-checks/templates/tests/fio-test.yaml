@@ -10,7 +10,7 @@ metadata:
 spec:
     containers:
       - name: {{ .Release.Name }}-fio-test
-        image: kimixu/fio:v0.2
+        image: kimixu/alpine-fio:v0.2
         imagePullPolicy: Always
         volumeMounts:
           - name: {{ .Release.Name }}-fio-test
