@@ -27,6 +27,12 @@ rules:
   verbs:
   - "*"
 - apiGroups:
+  - kahm.emcecs.github.com
+  resources:
+  - '*'
+  verbs:
+  - '*'
+- apiGroups:
   - app.k8s.io 
   resources:
   - "*"
