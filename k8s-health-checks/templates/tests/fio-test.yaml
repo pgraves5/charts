@@ -15,12 +15,17 @@ spec:
         volumeMounts:
           - name: {{ .Release.Name }}-fio-test
             mountPath: /data
+          - name: {{ .Release.Name }}-fio-config-volume
+            mountPath: /etc/config
         command: ["/bin/sh", "-c"]
-        args: ["/usr/local/bin/fio /ecs.fio
+        args: ["/usr/local/bin/fio /etc/config/ecs.fio
               --output-format=json
               --output=/data/fio.out;"]
     volumes:
       - name: {{ .Release.Name }}-fio-test
         hostPath:
             path: /data/FIO
+      - name: {{ .Release.Name }}-fio-config-volume
+        configMap:
+          name: fio-config
     restartPolicy: Never
