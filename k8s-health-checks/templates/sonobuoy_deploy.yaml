@@ -101,8 +101,10 @@ metadata:
   namespace: heptio-sonobuoy
 spec:
   containers:
-    command: ["/bin/bash"]
-    args: ["-c", "/sonobuoy master --no-exit=true -v 3 --logtostderr"]
+  - command:
+    - /bin/bash
+    - -c
+    - /sonobuoy master --no-exit=false -v 3 --logtostderr
     env:
     - name: SONOBUOY_ADVERTISE_IP
       valueFrom:
@@ -129,7 +131,6 @@ spec:
     name: sonobuoy-plugins-volume
   - emptyDir: {}
     name: output-volume
-
 ---
 apiVersion: v1
 kind: Service
