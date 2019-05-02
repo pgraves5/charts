@@ -5,7 +5,7 @@ tests:
   - it: should create a deployment
     asserts:
     - isKind:
-        of: Deployment
+        of: StatefulSet 
   - it: should have a default image
     asserts:
     - equal:
