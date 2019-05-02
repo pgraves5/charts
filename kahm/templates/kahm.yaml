@@ -59,7 +59,7 @@ spec:
         - name: REGISTRY_SECRET
           value: {{ .Values.global.registrySecret }}
 {{- end }}
-        - name: DB_TYPE
+        - name: KAHM_DB_TYPE
           valueFrom:
             configMapKeyRef:
              name: kahm-db-config
