@@ -1,0 +1,41 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-fio-config
+data:
+  default-config.fio: |-
+    [global]
+    ioengine=libaio
+    direct=1
+    size=50m
+    buffered=0
+    verify=md5
+    directory=/data
+    group_reporting
+
+    # 
+    [small write]
+    stonewall
+    numjobs=3
+    rw=write
+    bssplit=1k/30:2k/40:3k/30
+    do_verify=0
+    filename=fragmented_file
+
+    #
+    [big write]
+    stonewall
+    rw=write
+    numjobs=3
+    bs=1m/30:1.5m/40:2m/30
+    do_verify=0
+    filename=fragmented_file
+
+    #
+    [small read]
+    stonewall
+    rw=read
+    numjobs=16
+    bssplit=8k/50:64k/50
+    do_verify=0
+    filename=fragmented_file

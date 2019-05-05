@@ -19,7 +19,7 @@ spec:
           - name: {{ .Release.Name }}-fio-config-volume
             mountPath: /etc/config
         command: ["/bin/sh", "-c"]
-        args: ["/usr/local/bin/fio /etc/config/ecs.fio
+        args: ["/usr/local/bin/fio /etc/config/default-config.fio
               --output-format=json
               --output=/data/fio.out;"]
     volumes:
@@ -28,7 +28,7 @@ spec:
             path: /data/FIO
       - name: {{ .Release.Name }}-fio-config-volume
         configMap:
-          name: fio-config
+          name: {{ .Release.Name }}-fio-config
     restartPolicy: Never
 ---
 
