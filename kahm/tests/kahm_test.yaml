@@ -29,6 +29,16 @@ tests:
     - matchRegex:
         path: spec.template.metadata.labels.name
         pattern: ^kahm$
+  - it: should have volume mount as /data/db
+    asserts:
+    - equal:
+        path: spec.template.spec.containers[0].volumeMounts[0].mountPath
+        value: "/data/db"
+  - it: should have pvc as db
+    asserts:
+    - equal:
+        path: spec.volumeClaimTemplates[0].metadata.name
+        value: "db"
   - it: should configure the image
     set:
       global.registry: REGISTRY

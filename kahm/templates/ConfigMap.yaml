@@ -5,6 +5,5 @@ data:
 kind: ConfigMap
 metadata:
   name: kahm-db-config
-  namespace: default
   labels:
     release: {{ .Release.Name }}
