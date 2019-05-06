@@ -68,7 +68,7 @@ spec:
           valueFrom:
             configMapKeyRef:
              name: kahm-db-config
-             key: eventTtl
+             key: eventTTL
   volumeClaimTemplates:
   - metadata:
       labels:

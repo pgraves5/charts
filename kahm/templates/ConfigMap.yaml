@@ -1,7 +1,7 @@
 apiVersion: v1
 data:
     dbType: {{.Values.db.dbType }}
-    eventTtl: "{{.Values.db.eventTTL }}"
+    eventTTL: "{{.Values.db.eventTTL }}"
 kind: ConfigMap
 metadata:
   name: kahm-db-config
