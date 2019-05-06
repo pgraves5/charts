@@ -9,7 +9,7 @@ spec:
   clusterIP: None
   ports:
   - name: metrics
-    port: 8080 
+    port: 60000 
     targetPort: 0
   selector:
     app: kahm 

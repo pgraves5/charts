@@ -37,11 +37,11 @@ spec:
         command:
         - kahm
         ports:
-        - containerPort: 8080 
+        - containerPort: 60000 
           name: metrics
         volumeMounts:
-        - mountPath: /db
-          name: db 
+        - mountPath: /data/db
+          name: db
         env:
         - name: POD_NAME
           valueFrom:
@@ -64,7 +64,7 @@ spec:
             configMapKeyRef:
              name: kahm-db-config
              key: dbType 
-        - name: DB_EVENT_TTL
+        - name: KAHM_DB_EVENT_TTL
           valueFrom:
             configMapKeyRef:
              name: kahm-db-config
