@@ -45,7 +45,7 @@ NAME:   sonobuoy-test
 
 5. Wait for about 20 min and you can get the test log
 ```bash
-$ kubectl logs sonobuoy -n heptio-sonobuoy
+$ kubectl logs sonobuoy -n heptio-sonobuoy > temp.log
 ...
 ```
 
