@@ -37,7 +37,7 @@ NAME:   sonobuoy-test
 4. Running helm test
 
 ```bash
-$ helm test sonobuoy-test
+$ helm test sonobuoy-test --timeout 1800
 NAME:   sonobuoy-test
 ...
 ```
