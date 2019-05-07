@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: {{ .Release.Name }}-fio-test
+  name: {{ .Release.Name }}
   labels:
     release: {{ .Release.Name }}
   namespace: {{ .Release.Namespace}}
@@ -10,11 +10,11 @@ metadata:
     "helm.sh/hook": test-success
 spec:
     containers:
-      - name: {{ .Release.Name }}-fio-test
+      - name: {{ .Release.Name }}
         image: kimixu/alpine-fio:v0.1
         imagePullPolicy: Always
         volumeMounts:
-          - name: {{ .Release.Name }}-fio-test
+          - name: {{ .Release.Name }}
             mountPath: /data
           - name: {{ .Release.Name }}-fio-config-volume
             mountPath: /etc/config
@@ -23,7 +23,7 @@ spec:
               --output-format=json
               --output=/data/fio.out;"]
     volumes:
-      - name: {{ .Release.Name }}-fio-test
+      - name: {{ .Release.Name }}
         hostPath:
             path: /data/FIO
       - name: {{ .Release.Name }}-fio-config-volume
