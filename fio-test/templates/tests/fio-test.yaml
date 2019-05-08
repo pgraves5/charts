@@ -13,7 +13,7 @@ spec:
         image: kimixu/alpine-fio:v0.1
         imagePullPolicy: Always
         volumeMounts:
-          - name: {{ .Release.Name }}
+          - name: {{ .Release.Name }}-test-volume
             mountPath: /data
           - name: {{ .Release.Name }}-config-volume
             mountPath: /etc/config
@@ -23,9 +23,9 @@ spec:
               --output=/data/fio.out;
               cat /data/fio.out"]
     volumes:
-      - name: {{ .Release.Name }}
+      - name: {{ .Release.Name }}-test-volume
         persistentVolumeClaim:
-          claimName: health-check
+          claimName: {{ .Release.Name }}-test-volume
       - name: {{ .Release.Name }}-config-volume
         configMap:
           name: {{ .Release.Name }}-config
