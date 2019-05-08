@@ -10,8 +10,10 @@ metadata:
 spec:
     containers:
       - name: {{ .Release.Name }}
-        image: kimixu/alpine-fio:v0.1
-        imagePullPolicy: Always
+        image: 
+          repository: {{ .Values.global.registry }}/{{ .Values.image.repository}}
+          tag: {{ .Values.image.tag }}
+          pullPolicy: {{ .Values.image.pullPolicy }}
         volumeMounts:
           - name: {{ .Release.Name }}-test-volume
             mountPath: /data
