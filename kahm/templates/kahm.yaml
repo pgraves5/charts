@@ -1,14 +1,16 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet 
 metadata:
   name: kahm
   labels:
     release: {{ .Release.Name }}
 spec:
+  podManagementPolicy: Parallel
   replicas: 1
   selector:
     matchLabels:
       name: kahm
+  serviceName: kahm-headless
   template:
     metadata:
       labels:
@@ -34,11 +36,17 @@ spec:
 {{- end }}
         command:
         - kahm
+        ports:
+        - containerPort: 60000 
+          name: metrics
+        volumeMounts:
+        - mountPath: /data/db
+          name: db
         env:
         - name: POD_NAME
           valueFrom:
-            fieldRef:
-              fieldPath: metadata.name
+           fieldRef:
+             fieldPath: metadata.name
         - name: WATCH_NAMESPACE
 {{- if eq .Values.global.watchNamespace "" }}
           value: ""
@@ -51,5 +59,26 @@ spec:
         - name: REGISTRY_SECRET
           value: {{ .Values.global.registrySecret }}
 {{- end }}
-        - name: CONTROLLER_NAME
-          value: kahm
+        - name: KAHM_DB_TYPE
+          valueFrom:
+            configMapKeyRef:
+             name: kahm-db-config
+             key: dbType 
+        - name: KAHM_DB_EVENT_TTL
+          valueFrom:
+            configMapKeyRef:
+             name: kahm-db-config
+             key: eventTTL
+  volumeClaimTemplates:
+  - metadata:
+      labels:
+        app: kahm 
+        release: {{ .Release.Name }}
+      name: db
+    spec:
+      accessModes:
+      - ReadWriteOnce
+      dataSource: null
+      resources:
+        requests:
+          storage: 2Gi
