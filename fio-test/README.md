@@ -1,7 +1,6 @@
 # FIO Helm Chart
 
-This Helm chart defines tests to check kubernetes volume status using FIO tools, a tool that would be able to simulate a given I/O workload without resorting to writing a
-tailored test case.
+This Helm chart defines tests to check kubernetes volume status using FIO tools, a tool that would be able to simulate a given I/O workload without resorting to writing a tailored test case.
 
 ## Table of Contents
 * [Description](#description)
@@ -10,7 +9,7 @@ tailored test case.
 
 ## Description
 
-Fio test chart includes a dummy ConfigMap and a Pod for helm test, dummy ConfigMap is to meet the at least one valid resource without hook requirement and deployed during helm installation.Helm test pod is created until helm test command is called.
+Fio test chart includes a persist volume claim, a ConfigMap and a Pod for helm test, persist volume claim is used as the disk target to test. ConfigMap pre-defined default configuration of fio and allows user to customize the parameters to meet test senarios. Helm test pod is created until helm test command is called.
 
 ## Requirements
 
@@ -28,7 +27,7 @@ $ helm repo add ecs https://emcecs.github.io/charts
 $ helm repo update
 ```
 
-3. Install the sonobuoy. This allows you to create and manage ECS clusters.
+3. Install fio test. This allows you to create relavent pvc and configmap of fio test.
 
 ```bash
 $ helm install --name fio-test ecs/fio-test
@@ -52,5 +51,15 @@ $ kubectl logs fio-test
 $ kubectl delete po fio-test
 
 $ helm test fio-test
+
+```
+
+7. Customize and apply execution parameters
+```bash
+# get default configmap yaml file
+$ kubectl get configmap fio-test-config -o yaml
+
+# update customized parameters yaml file, it will take effect within 10s
+$ kubectl apply -f fio-config.yaml
 
 ```
