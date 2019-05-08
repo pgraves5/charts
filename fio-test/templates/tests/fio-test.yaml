@@ -10,10 +10,8 @@ metadata:
 spec:
     containers:
       - name: {{ .Release.Name }}
-        image: 
-          repository: {{ .Values.global.registry }}/{{ .Values.image.repository}}
-          tag: {{ .Values.image.tag }}
-          pullPolicy: {{ .Values.image.pullPolicy }}
+        image: {{ .Values.global.registry }}/{{ .Values.image.repository}}:{{ .Values.image.tag }}
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
         volumeMounts:
           - name: {{ .Release.Name }}-test-volume
             mountPath: /data
