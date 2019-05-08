@@ -18,7 +18,8 @@ spec:
           - name: {{ .Release.Name }}-config-volume
             mountPath: /etc/config
         command: ["/bin/sh", "-c"]
-        args: ["/usr/local/bin/fio /etc/config/default-config.fio
+        args: ["rm -r /data/*;
+              /usr/local/bin/fio /etc/config/default-config.fio
               --output-format=json
               --output=/data/fio.out;
               cat /data/fio.out"]
