@@ -27,7 +27,7 @@ $ helm repo add ecs https://emcecs.github.io/charts
 $ helm repo update
 ```
 
-3. Install the sonobuoy. This allows you to create and manage ECS clusters.
+3. Install vdbench-test chart. This allows you to create and manage ECS clusters.
 
 ```bash
 $ helm install --name vdbench-test ecs/vdbench-test

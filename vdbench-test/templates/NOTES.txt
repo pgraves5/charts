@@ -1,14 +1,14 @@
 Thank you for installing {{ .Chart.Name }}. This release is capable of
-deploying and upgrading Kubernetes Application Health Managements.
+deploying and upgrading vdbench-test chart.
 
 
 Your release is named {{ .Release.Name }}.
 
-To install k8s-health-checks by using Helm chart, use the helm install command below:
+To install k8s-vdbench-test by using Helm chart, use the helm install command below:
 
-  $ helm install <repository name>/k8s-health-checks
+  $ helm install <repository name>/vdbench-test
 
 For more information on the installation and configuration options, see the
-README at https://github.com/EMCECS/charts/tree/master/k8s-health-checks and the
+README at https://github.com/EMCECS/charts/tree/master/vdbench-test and the
 `values.yaml` file at
-https://github.com/EMCECS/charts/blob/master/k8s-health-checks/values.yaml
+https://github.com/EMCECS/charts/blob/master/vdbench-test/values.yaml
