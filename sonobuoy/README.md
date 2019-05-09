@@ -27,7 +27,7 @@ $ helm repo add ecs https://emcecs.github.io/charts
 $ helm repo update
 ```
 
-3. Install the sonobuoy. This allows you to create sonobuoy to run K8S confoemance tests.
+3. Install sonobuoy. This allows you to create related resources of sonobuoy to run K8S confoemance tests.
 
 ```bash
 $ helm install --name sonobuoy-test ecs/sonobuoy
