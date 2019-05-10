@@ -1,5 +1,5 @@
 Thank you for installing {{ .Chart.Name }}. This release is capable of
-deploying and upgrading Kubernetes Application Health Managements.
+deploying and upgrading fio test chart.
 
 
 Your release is named {{ .Release.Name }}.
