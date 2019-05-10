@@ -1,0 +1,37 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: {{ .Release.Name }}-cronjob
+  labels:
+    release: {{ .Release.Name }}
+  namespace: {{ .Release.Namespace}}
+spec: 
+  schedule: "*/5 * * * *"   #job执行的周期，cron格式的字符串
+  successfulJobsHistoryLimit: 5
+  failedJobsHistoryLimit: 0
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: {{ .Release.Name }}
+              image: {{ .Values.global.registry }}/{{ .Values.image.repository}}:{{ .Values.image.tag }}
+              imagePullPolicy: {{ .Values.image.pullPolicy }}
+              volumeMounts:
+                - name: {{ .Release.Name }}-test-volume
+                  mountPath: /data
+                - name: {{ .Release.Name }}-config-volume
+                  mountPath: /etc/config
+              command: ["/bin/sh", "-c"]
+              args: ["/usr/local/bin/fio /etc/config/default-config.fio
+                    --output-format=json
+                    --output=/data/fio.out;
+                    cat /data/fio.out"]
+          volumes:
+            - name: {{ .Release.Name }}-test-volume
+              persistentVolumeClaim:
+                claimName: {{ .Release.Name }}-test-volume
+            - name: {{ .Release.Name }}-config-volume
+              configMap:
+                name: {{ .Release.Name }}-config
+          restartPolicy: Never
