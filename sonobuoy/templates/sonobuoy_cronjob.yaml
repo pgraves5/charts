@@ -1,0 +1,22 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: ap-cronjob
+  namespace: default
+spec:
+  schedule: "*/60 * * * *"
+  successfulJobsHistoryLimit: 5
+  failedJobsHistoryLimit: 0
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - image: byrnedo/alpine-curl:latest
+            command:
+              - /bin/sh
+              - -c
+              - echo -e "{\n\t\"apiVersion\":\"v1\",\n\t\"kind\":\"Pod\",\n\t\"metadata\":{\n\t\t\"labels\":{\n\t\t\t\"component\":\"sonobuoy\",\n\t\t\t\"run\":\"sonobuoy-master\",\n\t\t\t\"tier\":\"analysis\"\n\t\t},\n\t\t\"name\":\"sonobuoy\",\n\t\t\"namespace\":\"heptio-sonobuoy\"\n\t},\n\t\"spec\":{\n\t\t\"containers\":[\n\t\t\t{\n\t\t\t\t\"command\":[\n\t\t\t\t\t\"/bin/bash\",\n\t\t\t\t\t\"-c\",\n\t\t\t\t\t\"/sonobuoy master --no-exit=false -v 3 --logtostderr && mkdir results && tar -xf /tmp/sonobuoy/*.gz -C results && cat results/plugins/e2e/results/e2e.log\"\n\t\t\t\t],\n\t\t\t\t\"env\":[\n\t\t\t\t\t{\n\t\t\t\t\t\t\"name\":\"SONOBUOY_ADVERTISE_IP\",\n\t\t\t\t\t\t\"valueFrom\":{\n\t\t\t\t\t\t\t\"fieldRef\":{\n\t\t\t\t\t\t\t\t\"fieldPath\":\"status.podIP\"\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t],\n\t\t\t\t\"image\":\"gcr.io/heptio-images/sonobuoy:latest\",\n\t\t\t\t\"imagePullPolicy\":\"Always\",\n\t\t\t\t\"name\":\"kube-sonobuoy\",\n\t\t\t\t\"volumeMounts\":[\n\t\t\t\t\t{\n\t\t\t\t\t\t\"mountPath\":\"/etc/sonobuoy\",\n\t\t\t\t\t\t\"name\":\"sonobuoy-config-volume\"\n\t\t\t\t\t},\n\t\t\t\t\t{\n\t\t\t\t\t\t\"mountPath\":\"/plugins.d\",\n\t\t\t\t\t\t\"name\":\"sonobuoy-plugins-volume\"\n\t\t\t\t\t},\n\t\t\t\t\t{\n\t\t\t\t\t\t\"mountPath\":\"/tmp/sonobuoy\",\n\t\t\t\t\t\t\"name\":\"output-volume\"\n\t\t\t\t\t}\n\t\t\t\t]\n\t\t\t}\n\t\t],\n\t\t\"restartPolicy\":\"Never\",\n\t\t\"serviceAccountName\":\"sonobuoy-serviceaccount\",\n\t\t\"volumes\":[\n\t\t\t{\n\t\t\t\t\"configMap\":{\n\t\t\t\t\t\"name\":\"sonobuoy-config-cm\"\n\t\t\t\t},\n\t\t\t\t\"name\":\"sonobuoy-config-volume\"\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"configMap\":{\n\t\t\t\t\t\"name\":\"sonobuoy-plugins-cm\"\n\t\t\t\t},\n\t\t\t\t\"name\":\"sonobuoy-plugins-volume\"\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"emptyDir\":{},\n\t\t\t\t\"name\":\"output-volume\"\n\t\t\t}\n\t\t]\n\t}\n}">a.json && curl -v -k -X POST -H "Authorization:Bearer $(cat /var/run/secrets/kubernetes.io/serviceaccount/token)" -H "Content-Type:application/json" https://$KUBERNETES_SERVICE_HOST:$KUBERNETES_PORT_443_TCP_PORT/api/v1/namespaces/heptio-sonobuoy/pods -d@a.json
+            imagePullPolicy: IfNotPresent
+            name: ap
+          restartPolicy: Never
