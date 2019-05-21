@@ -27,32 +27,16 @@ $ helm repo add ecs https://emcecs.github.io/charts
 $ helm repo update
 ```
 
-3. Install sonobuoy. This allows you to create related resources of sonobuoy to run K8S confoemance tests.
+3. Install sonobuoy. This allows you to create related resources of sonobuoy to run K8S confoemance tests. The tests are run through cronjob. It will generate jobs to run sonobuoy pods to run conformance tests every x hours/days(depend on your need).
 
 ```bash
 $ helm install --name sonobuoy-test ecs/sonobuoy
 NAME:   sonobuoy-test
 ```
 
-4. Running helm test
-
-```bash
-$ helm test sonobuoy-test --timeout 1800
-NAME:   sonobuoy-test
-...
-```
-
-
-5. Wait for about 20 min and you can get the test log
+4. You can check the latest test log here. It is also available to get the history logs(to be done).
 ```bash
 $ kubectl logs sonobuoy -n heptio-sonobuoy > temp.log
-...
-```
-
-6. If you want to rerun this test, manually delete current test pod and rerun the helm test command
-```bash
-$ kubectl delete po sonobuoy -n heptio-sonobuoy
-...
-$ helm test sonobuoy-test
+$ vim temp.log
 ...
 ```
