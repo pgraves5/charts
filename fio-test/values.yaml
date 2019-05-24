@@ -18,7 +18,7 @@ global:
 replicaCount: 1
 
 image:
-  repository: alpine-fio
+  repository: kahm-fio
   tag: v0.1
   pullPolicy: Always
 
