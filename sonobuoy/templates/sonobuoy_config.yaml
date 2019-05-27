@@ -277,7 +277,7 @@ spec:
               - -c
               - curl -v -k -X DELETE -H "Authorization:Bearer $(cat /var/run/secrets/kubernetes.io/serviceaccount/token)" https://$KUBERNETES_SERVICE_HOST:$KUBERNETES_PORT_443_TCP_PORT/api/v1/namespaces/heptio-sonobuoy/pods/sonobuoy && curl -v -k -X POST -H "Authorization:Bearer $(cat /var/run/secrets/kubernetes.io/serviceaccount/token)" -H "Content-Type:application/json" https://$KUBERNETES_SERVICE_HOST:$KUBERNETES_PORT_443_TCP_PORT/api/v1/namespaces/heptio-sonobuoy/pods -d@/etc/sonobuoy/sonobuoy-cronjob.json
             imagePullPolicy: IfNotPresent
-            name: ap
+            name: alpine-curl
             volumeMounts:
             - mountPath: /etc/sonobuoy
               name: sonobuoy-volume-config
