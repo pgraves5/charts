@@ -118,7 +118,7 @@ data:
       ],
       "Namespace": "heptio-sonobuoy",
       "LoadedPlugins": null,
-      "WorkerImage": "gcr.io/heptio-images/sonobuoy:latest",
+      "WorkerImage": "gcr.io/heptio-images/sonobuoy:v0.14",
       "ImagePullPolicy": "IfNotPresent"
     }
 kind: ConfigMap
@@ -145,7 +145,7 @@ data:
       - name: E2E_PARALLEL
         value: '15'
       command: ["/run_e2e.sh"]
-      image: gcr.io/heptio-images/kube-conformance:latest
+      image: gcr.io/heptio-images/kube-conformance:v1.14
       imagePullPolicy: Always
       name: e2e
       volumeMounts:
@@ -194,7 +194,7 @@ data:
                 }
               }
             ],
-            "image": "gcr.io/heptio-images/sonobuoy:latest",
+            "image": "gcr.io/heptio-images/sonobuoy:v0.14",
             "imagePullPolicy": "Always",
             "name": "kube-sonobuoy",
             "volumeMounts": [
@@ -275,7 +275,7 @@ spec:
             command:
               - /bin/sh
               - -c
-              - curl -v -k -X DELETE -H "Authorization:Bearer $(cat /var/run/secrets/kubernetes.io/serviceaccount/token)" https://$KUBERNETES_SERVICE_HOST:$KUBERNETES_PORT_443_TCP_PORT/api/v1/namespaces/heptio-sonobuoy/pods/sonobuoy && curl -v -k -X POST -H "Authorization:Bearer $(cat /var/run/secrets/kubernetes.io/serviceaccount/token)" -H "Content-Type:application/json" https://$KUBERNETES_SERVICE_HOST:$KUBERNETES_PORT_443_TCP_PORT/api/v1/namespaces/heptio-sonobuoy/pods -d@/etc/sonobuoy/sonobuoy-cronjob.json
+              - curl -k -X DELETE -H "Authorization:Bearer $(cat /var/run/secrets/kubernetes.io/serviceaccount/token)" https://$KUBERNETES_SERVICE_HOST:$KUBERNETES_PORT_443_TCP_PORT/api/v1/namespaces/heptio-sonobuoy/pods/sonobuoy && sleep 60 && curl -k -X POST -H "Authorization:Bearer $(cat /var/run/secrets/kubernetes.io/serviceaccount/token)" -H "Content-Type:application/json" https://$KUBERNETES_SERVICE_HOST:$KUBERNETES_PORT_443_TCP_PORT/api/v1/namespaces/heptio-sonobuoy/pods -d@/etc/sonobuoy/sonobuoy-cronjob.json
             imagePullPolicy: IfNotPresent
             name: alpine-curl
             volumeMounts:
