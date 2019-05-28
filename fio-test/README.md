@@ -47,12 +47,20 @@ $ kubectl logs fiotest-fio-cronjob-1558939500-qwk8q
 ```
 
 
-7. Customize and apply execution parameters
+6. Customize and apply execution parameters
+Option 1
 ```bash
 # get default configmap yaml file
-$ kubectl get configmap fio-test-config -o yaml
+$ kubectl get configmap fio-test-config -o yaml > fio-test-config.yaml
 
 # update customized parameters yaml file, it will take effect within 10s
 $ kubectl apply -f fio-config.yaml
 
+```
+
+Option 2
+
+```bash
+# update parameters directly
+EDITOR=vi; kubectl edit configmap fio-test-config
 ```
