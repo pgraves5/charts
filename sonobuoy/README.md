@@ -34,7 +34,7 @@ $ helm install --name sonobuoy-test ecs/sonobuoy
 NAME:   sonobuoy-test
 ```
 
-4. You can check the latest test log here. It is also available to get the history logs(to be done).
+4. You can check the latest test log here. 
 ```bash
 $ kubectl logs sonobuoy -n heptio-sonobuoy > temp.log
 $ vim temp.log
