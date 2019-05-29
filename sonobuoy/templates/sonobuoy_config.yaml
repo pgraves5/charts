@@ -118,7 +118,7 @@ data:
       ],
       "Namespace": "heptio-sonobuoy",
       "LoadedPlugins": null,
-      "WorkerImage": "gcr.io/heptio-images/sonobuoy:v0.14",
+      "WorkerImage": "fyang86/sonobuoy-event:0.1",
       "ImagePullPolicy": "IfNotPresent"
     }
 kind: ConfigMap
@@ -145,7 +145,7 @@ data:
       - name: E2E_PARALLEL
         value: '15'
       command: ["/run_e2e.sh"]
-      image: gcr.io/heptio-images/kube-conformance:v1.14
+      image: gcr.io/heptio-images/kube-conformance:latest
       imagePullPolicy: Always
       name: e2e
       volumeMounts:
@@ -182,7 +182,7 @@ data:
             "command": [
               "/bin/bash",
               "-c",
-              "/sonobuoy master --no-exit=false -v 3 --logtostderr && mkdir results && tar -xf /tmp/sonobuoy/*.gz -C results && tail -n 7 results/plugins/e2e/results/e2e.log | grep -v \"^$\" | head -n 2 > msg.log && cat results/plugins/e2e/results/e2e.log"
+              "/sonobuoy master --no-exit=false -v 3 --logtostderr && mkdir results && tar -xf /tmp/sonobuoy/*.gz -C results && tail -n 10 results/plugins/e2e/results/e2e.log | grep Ran > msg.log && tail -n 10 results/plugins/e2e/results/e2e.log | grep Passed >> msg.log && cat results/plugins/e2e/results/e2e.log && eventcli send -m \"$(tr -d \"[\n]\" < msg.log)\""
             ],
             "env": [
               {
@@ -194,7 +194,7 @@ data:
                 }
               }
             ],
-            "image": "gcr.io/heptio-images/sonobuoy:v0.14",
+            "image": "fyang86/sonobuoy-event:0.1",
             "imagePullPolicy": "Always",
             "name": "kube-sonobuoy",
             "volumeMounts": [
@@ -263,7 +263,7 @@ metadata:
   name: sonobuoy-cronjob
   namespace: default
 spec:
-  schedule: "0 */12 * * *"
+  schedule: "1 */12 * * *"
   successfulJobsHistoryLimit: 1
   failedJobsHistoryLimit: 0
   jobTemplate:

@@ -1,9 +1,9 @@
-# Default values for k8s-health-checks.
+# Default values for sonobuoy.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
 
-# These global settings relate to k8s-health-checks
+# These global settings relate to sonobuoy
 global:
   registry: fyang86
 
