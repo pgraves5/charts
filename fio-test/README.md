@@ -41,13 +41,13 @@ $ kubectl get po | grep fiotest
 fiotest-fio-cronjob-1558939500-qwk8q   0/1     Completed   0          12m
 ```
 
-5. Until helm test compelted, logs can be collected by the command below
+5. Until helm test completed, logs can be collected by the command below
 ```bash
 $ kubectl logs fiotest-fio-cronjob-1558939500-qwk8q
 ```
 
 
-6. Customize and apply execution parameters
+6. Optionally you can change the settings on how fio will run against the test volumes. This is done by editing the fio config file as follows:
 Option 1
 ```bash
 # get default configmap yaml file
