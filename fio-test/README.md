@@ -9,7 +9,7 @@ This Helm chart defines tests to check kubernetes volume status using FIO tools,
 
 ## Description
 
-Fio test chart includes a persist volume claim, a ConfigMap and a Pod for helm test, persist volume claim is used as the disk target to test. ConfigMap pre-defined default configuration of fio and allows user to customize the parameters to meet test senarios. Helm test pod is created until helm test command is called.
+Fio test chart includes a persist volume claim, a ConfigMap and a CronJob for helm test.Persist volume claim is used as the disk target to test. ConfigMap pre-defined default configuration of fio and allows user to customize the parameters to meet test senarios. Test pod is created by CronJob to process pre-defined tests.
 
 ## Requirements
 
@@ -27,39 +27,40 @@ $ helm repo add ecs https://emcecs.github.io/charts
 $ helm repo update
 ```
 
-3. Install fio test. This allows you to create relavent pvc and configmap of fio test.
+3. Install fio-test. This will create the k8s persistent volume claim (pvc) and configmap for the fio test program.
 
 ```bash
 $ helm install --name fio-test ecs/fio-test
 NAME:   fio-test
 ```
 
-4. Running helm test
+4. Tests will be runing periodically in pods created by CronJob. Existing pods can be collected by command below:
 
 ```bash
-$ helm test fio-test
-NAME:   fio-test
+$ kubectl get po | grep fiotest
+fiotest-fio-cronjob-1558939500-qwk8q   0/1     Completed   0          12m
 ```
 
 5. Until helm test compelted, logs can be collected by the command below
 ```bash
-$ kubectl logs fio-test
+$ kubectl logs fiotest-fio-cronjob-1558939500-qwk8q
 ```
 
-6. If you want to rerun this test, manually delete current test pod and rerun the helm test command
-```bash
-$ kubectl delete po fio-test
 
-$ helm test fio-test
-
-```
-
-7. Customize and apply execution parameters
+6. Customize and apply execution parameters
+Option 1
 ```bash
 # get default configmap yaml file
-$ kubectl get configmap fio-test-config -o yaml
+$ kubectl get configmap fio-test-config -o yaml > fio-test-config.yaml
 
 # update customized parameters yaml file, it will take effect within 10s
 $ kubectl apply -f fio-config.yaml
 
+```
+
+Option 2
+
+```bash
+# update parameters directly
+EDITOR=vi; kubectl edit configmap fio-test-config
 ```

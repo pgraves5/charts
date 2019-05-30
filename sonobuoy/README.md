@@ -1,6 +1,6 @@
 # Sonobuoy Helm Chart
 
-This Helm chart deploys [sonobuoy](https://github.com/heptio/sonobuoy), a diagnostic tool that can run kubernetes conformance tests.
+This Helm chart deploys [sonobuoy](https://github.com/heptio/sonobuoy), a diagnostic tool that runs kubernetes conformance tests.
 
 ## Table of Contents
 * [Description](#description)
@@ -14,7 +14,7 @@ Sonobuoy is an open-source diagnostic tool that makes it easier to understand th
 ## Requirements
 
 * A [Helm](https://helm.sh) installation with access to install to one or more namespaces.
-* Access to an up-and-running Kubernetes cluster, which could be your ECS cluster here.
+* Access to an up-and-running Kubernetes cluster.
 
 ## Quick Start
 
@@ -34,7 +34,7 @@ $ helm install --name sonobuoy-test ecs/sonobuoy
 NAME:   sonobuoy-test
 ```
 
-4. You can check the latest test log here. It is also available to get the history logs(to be done).
+4. You can check the latest test log here. 
 ```bash
 $ kubectl logs sonobuoy -n heptio-sonobuoy > temp.log
 $ vim temp.log

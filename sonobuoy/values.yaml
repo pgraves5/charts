@@ -1,15 +1,11 @@
-# Default values for k8s-health-checks.
+# Default values for sonobuoy.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
 
-# These global settings relate to k8s-health-checks
+# These global settings relate to sonobuoy
 global:
-  # Name of a Kubernetes secret with Docker credentials for the private registry
-  # registrySecret: ecs-flex-registry
-
-  # The private docker registry hosting containers for ECS Flex
-  registry: emccorp
+  registry: fyang86
 
   # Default: "" == Watch ALL namespaces
   watchNamespace: ""
@@ -18,9 +14,9 @@ global:
 replicaCount: 1
 
 image:
-  repository: sonobuoy
-  tag: latest
-  pullPolicy: IfNotPresent
+  repository: alpine-curl
+  tag: 0.1
+  pullPolicy: Always
 
 
 resources: {}
