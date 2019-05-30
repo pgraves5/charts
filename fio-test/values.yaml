@@ -9,7 +9,7 @@ global:
   # registrySecret: ecs-flex-registry
 
   # The private docker registry hosting containers for ECS Flex
-  registry: kimixu
+  registry: emccorp
 
   # Default: "" == Watch ALL namespaces
   watchNamespace: ""
