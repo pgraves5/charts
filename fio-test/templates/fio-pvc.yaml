@@ -3,7 +3,7 @@ kind: PersistentVolumeClaim
 metadata:
   name: {{ .Release.Name }}-fio-test-volume
   annotations:
-    volume.beta.kubernetes.io/storage-class: vsphere
+    volume.beta.kubernetes.io/storage-class: {{ .Values.global.storage-class }}
 spec:
   accessModes:
     - ReadWriteOnce
