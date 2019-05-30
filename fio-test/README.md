@@ -41,7 +41,7 @@ $ kubectl get po | grep fiotest
 fiotest-fio-cronjob-1558939500-qwk8q   0/1     Completed   0          12m
 ```
 
-5. Until helm test completed, logs can be collected by the command below
+5. Until fio test completed in pod, logs can be collected by the command below:
 ```bash
 $ kubectl logs fiotest-fio-cronjob-1558939500-qwk8q
 ```
