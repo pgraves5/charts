@@ -182,7 +182,7 @@ data:
             "command": [
               "/bin/bash",
               "-c",
-              "echo sonobuoy starts running && /sonobuoy master --no-exit=false -v 3 --logtostderr && mkdir results && tar -xf /tmp/sonobuoy/*.gz -C results && tail -n 10 results/plugins/e2e/results/e2e.log | grep Ran > msg.log && tail -n 10 results/plugins/e2e/results/e2e.log | grep Passed >> msg.log && cat results/plugins/e2e/results/e2e.log && eventcli send -m \"$(tr -d \"[\n]\" < msg.log)\" && echo sonobuoy stops running"
+              "echo sonobuoy starts running && /sonobuoy master --no-exit=false -v 3 --logtostderr && mkdir results && tar -xf /tmp/sonobuoy/*.gz -C results && echo Sonobuoy conformance tests: > msg.log && tail -n 10 results/plugins/e2e/results/e2e.log | grep Ran >> msg.log && tail -n 10 results/plugins/e2e/results/e2e.log | grep Passed >> msg.log && cat results/plugins/e2e/results/e2e.log && eventcli send -m \"$(tr -d \"[\n]\" < msg.log)\" && echo sonobuoy stops running"
             ],
             "env": [
               {
