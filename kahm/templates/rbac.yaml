@@ -40,6 +40,7 @@ rules:
   - "*"
 - apiGroups:
   - ""
+  - extensions
   resources:
   - pods
   - services
@@ -49,6 +50,7 @@ rules:
   - configmaps
   - secrets
   - applications
+  - deployments
   verbs:
   - "*"
 - apiGroups:

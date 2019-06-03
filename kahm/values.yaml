@@ -6,10 +6,11 @@
 # These global settings relate to KAHM
 global:
   # Name of a Kubernetes secret with Docker credentials for the private registry
-  # registrySecret: ecs-flex-registry
+  registrySecret: harbor-registry-secret
 
   # The private docker registry hosting containers for ECS Flex
-  registry: emccorp
+  # registry: harbor
+  registry: harbor.lss.emc.com/ecs
 
   # Default: "" == Watch ALL namespaces
   watchNamespace: ""
@@ -25,6 +26,12 @@ replicaCount: 1
 # The image configured for the KAHM
 image:
   repository: kahm
+  # tag: stable
+  # pullPolicy: Always
+
+# this image is the test image for KAHM. It will run as "helm test" to verify the KAHM functionality as a black box
+testImage:
+  repository: kahm-testapp
   # tag: stable
   # pullPolicy: Always
 
