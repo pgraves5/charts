@@ -22,7 +22,7 @@ image:
   tag: v0.1
   pullPolicy: Always
 
-storage-class: vsphere
+storageClass: vsphere
 
 
 resources: {}
