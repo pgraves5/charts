@@ -85,3 +85,9 @@ helm install \
     --set global.registrySecret=<SECRET_NAME> \
     ecs/kahm
 ```
+
+4. Verify whether KAHM is installed successfully and working as expected. The "helm test <release-name>" instatiate a test-app which instantaite sample application object, sample event rules, create mock Notifiers and generate sample events to verify KAHM functionality as a black box. "kubectl logs <release-name>-kahm-test should show that the sample Notifiers have received the sample events.
+
+```bash
+helm test <release-name>
+```

@@ -40,8 +40,10 @@ rules:
   - "*"
 - apiGroups:
   - ""
+  - extensions
   resources:
   - pods
+  - pods/log
   - services
   - endpoints
   - persistentvolumeclaims
@@ -49,6 +51,7 @@ rules:
   - configmaps
   - secrets
   - applications
+  - deployments
   verbs:
   - "*"
 - apiGroups:
