@@ -1,0 +1,34 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "{{ .Release.Name }}-decks-test"
+  annotations:
+    "helm.sh/hook": test-success
+spec:
+  serviceAccountName: "decks"
+{{- if .Values.global.registrySecret }}
+  imagePullSecrets:
+  - name: {{ .Values.global.registrySecret }}
+{{- end }}
+  containers:
+  - name: {{ .Release.Name }}-decks-test
+{{- if .Values.testImage.tag }}
+    image: {{ .Values.global.registry }}/{{ .Values.testImage.repository }}:{{ .Values.testImage.tag }}
+{{- else }}
+    image: {{ .Values.global.registry }}/{{ .Values.testImage.repository }}:{{ .Values.tag }}
+{{- end }}
+{{- if .Values.testImage.pullPolicy }}
+    imagePullPolicy: {{ .Values.testImage.pullPolicy }}
+{{- else }}
+    imagePullPolicy: {{ .Values.pullPolicy }}
+{{- end }}
+    command:
+    - decks-testapp
+    env:
+    - name: DECKS_RELEASE_NAME
+      value: "{{ .Release.Name }}" 
+    - name: REGISTRY_SECRET
+      value: {{ .Values.global.registrySecret }}
+    - name: DECKS_NAMESPACE
+      value: "{{ .Release.Namespace}}"
+  restartPolicy: Never

@@ -40,8 +40,10 @@ rules:
   - "*"
 - apiGroups:
   - ""
+  - extensions
   resources:
   - pods
+  - pods/log
   - services
   - endpoints
   - persistentvolumeclaims

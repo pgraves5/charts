@@ -85,3 +85,8 @@ helm install \
     --set global.registrySecret=<SECRET_NAME> \
     ecs/decks
 ```
+4. Verify whether DECKS is installed successfully and working as expected. The "helm test <release-name>" instantiate a test-app which instantiate a sample SRS Gateway object to verify that it registers to the SRS gateway successfully, and do the home test, and  assign extenal IP address for the remote access and it is reachable on port 22. "kubectl logs <release-name>-deck-test should show that the output logs.
+
+```bash
+helm test <release-name>
+
