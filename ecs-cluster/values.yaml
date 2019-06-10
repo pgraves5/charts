@@ -370,6 +370,11 @@ provision:
     # tag: stable
     # pullPolicy: IfNotPresent
 
+# The job will assign new created ss to the sp
+expandsp:
+  image:
+    repository: provision
+
 #
 # Sidecar configuration
 #
