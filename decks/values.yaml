@@ -6,7 +6,7 @@
 # These global settings relate to DECKS
 global:
   # Name of a Kubernetes secret with Docker credentials for the private registry
-  registrySecret: harbor-registry-secret
+  #registrySecret: harbor-registry-secret
 
   # The private docker registry hosting containers for ECS Flex
   # registry: harbor
@@ -15,11 +15,11 @@ global:
   # Default: "" == Watch ALL namespaces
   watchNamespace: ""
 
-# The default docker tag and pull policy for the KAHM
+# The default docker tag and pull policy for the DECKS 
 tag: latest 
 pullPolicy: Always
 
-# The number of replicas for the KAHM deployment
+# The number of replicas for the DECKS deployment
 replicaCount: 1
 
 # The image configured for the DECKS
@@ -28,7 +28,7 @@ image:
   # tag: stable
   # pullPolicy: Always
 
-# this image is the test image for KAHM. It will run as "helm test" to verify the KAHM functionality as a black box
+# this image is the test image for DECKS. It will run as "helm test" to verify the DECKS functionality as a black box
 testImage:
   repository: decks-testapp
   # tag: stable
