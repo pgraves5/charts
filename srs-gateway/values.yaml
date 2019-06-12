@@ -1,0 +1,58 @@
+---
+# Required and default values for the SRS gateway Custom Resource
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+# The name to use for the SRS GW custom resource Kubernetes object. If set,
+# this name will be used as a prefix for all secondary resources generated
+# for the SRS GW custom resource. This allows for multiple SRS GW custom
+# resources to use the same product name (primarily for testing). Otherwise,
+# the lowercase version of the product will be used.
+# customResourceName: "objectscale"
+namespace: "default"
+
+# REQUIRED SETTING: Product must be an "on-boarded" product/model name
+# recognized by SRS
+# product: "OBJECTSCALE"
+ 
+# The default docker registry, tag and pull policy for the SRS gateway CR
+# logReceiver
+registry: "emccorp"
+tag: "stable"
+pullPolicy: "Always"
+
+# Name to use for SRS credentials secret
+# credsSecretName: objectscale-srs-creds-secret
+
+gateway:
+  # REQUIRED SETTING: The gateway hostname could be an FQDN or an IP address
+  # hostname: "10.249.253.17"
+
+  # Port that the SRS Gateway is listening on for RESTful API requests.
+  port: 9443
+
+  # If the credentials secret name is not set explicitly below, it will be
+  # derived from the product (format: <product>-srs-creds-secret>)
+  # credsSecret: "objectscale-srs-creds-secret"
+
+  srsLogin: scott.jones@nordstrom.com:Password1
+
+remoteAccess:
+  # registry: "emccorp"
+  repository: "remote-access"
+  # tag: "stable"
+  # pullPolicy: "Always"
+  servicePort: 22
+  user: "root"
+  group: "adm"
+  password: "ChangeMe"
+
+notifier:
+  # registry: "emccorp"
+  repository: "srs-notifier"
+  # tag: "stable"
+  # pullPolicy: "Always"
+  servicePort: 50051
+  grpcConnTimeout: 5
+  grpcRetries: 3
+

@@ -1,0 +1,187 @@
+suite: test srsgateway
+templates:
+  - srsgateway.yaml
+tests:
+  - it: should create an SRS gateway custom resource with defaults
+    set:
+      product: MOTHERSOFINVENTION
+      gateway.hostname: 192.0.2.7
+    asserts:
+    - isKind:
+        of: SRSGateway
+    - equal:
+        path: metadata.name
+        value: mothersofinvention
+    - equal:
+        path: metadata.namespace
+        value: default
+    - equal:
+        path: spec.connectionInfo.hostname
+        value: 192.0.2.7
+    - equal:
+        path: spec.connectionInfo.port
+        value: 9443
+    - equal:
+        path: spec.connectionInfo.product
+        value: MOTHERSOFINVENTION
+    - equal:
+        path: spec.connectionInfo.credsSecret
+        value: mothersofinvention-srs-creds-secret
+    - equal:
+        path: spec.remoteAccess.registry
+        value: emccorp
+    - equal:
+        path: spec.remoteAccess.repository
+        value: remote-access
+    - equal:
+        path: spec.remoteAccess.tag
+        value: stable
+    - equal:
+        path: spec.remoteAccess.pullPolicy
+        value: Always
+    - equal:
+        path: spec.remoteAccess.servicePort
+        value: 22
+    - equal:
+        path: spec.notifier.registry
+        value: emccorp
+    - equal:
+        path: spec.notifier.repository
+        value: srs-notifier
+    - equal:
+        path: spec.notifier.tag
+        value: stable
+    - equal:
+        path: spec.notifier.pullPolicy
+        value: Always
+    - equal:
+        path: spec.notifier.servicePort
+        value: 50051
+    - equal:
+        path: spec.notifier.grpcConnTimeout
+        value: 5
+    - equal:
+        path: spec.notifier.grpcRetries
+        value: 3
+  - it: should create an SRS GW custom resource with an explicit name
+    set:
+      product: MOTHERSOFINVENTION
+      gateway.hostname: 192.0.2.7
+      customResourceName: nanook
+    asserts:
+    - equal:
+        path: metadata.name
+        value: nanook
+  - it: should create an SRS GW custom resource with a non-default namespace
+    set:
+      product: YELLOWSNOW
+      gateway.hostname: 192.0.2.7
+      namespace: zappa
+    asserts:
+    - equal:
+        path: metadata.name
+        value: yellowsnow
+    - equal:
+        path: metadata.namespace
+        value: zappa
+  - it: should create an SRS GW custom resource with global registry, tab, and pullPolicy
+    set:
+      product: DENTALFLOSSTYCOON
+      gateway.hostname: 192.0.2.7
+      registry: harbor.lss.emc.com/ecs
+      tag: latest
+      pullPolicy: IfNotPresent
+    asserts:
+    - equal:
+        path: spec.remoteAccess.registry
+        value: harbor.lss.emc.com/ecs
+    - equal:
+        path: spec.remoteAccess.tag
+        value: latest
+    - equal:
+        path: spec.remoteAccess.pullPolicy
+        value: IfNotPresent
+    - equal:
+        path: spec.notifier.registry
+        value: harbor.lss.emc.com/ecs
+    - equal:
+        path: spec.notifier.tag
+        value: latest
+    - equal:
+        path: spec.notifier.pullPolicy
+        value: IfNotPresent
+  - it: should create an SRS GW custom resource with an explicit credentials secret name
+    set:
+      product: LEADFILLEDSNOWSHOE
+      gateway.hostname: 192.0.2.7
+      credsSecretName: pygmypony
+    asserts:
+    - equal:
+        path: spec.connectionInfo.credsSecret
+        value: pygmypony
+  - it: should create remote-access deployment with explicit registry, repository, tag, and pullPolicy
+    set:
+      product: NANOOK
+      gateway.hostname: 192.0.2.7
+      remoteAccess.registry: my-registry
+      remoteAccess.repository: my-remote-access
+      remoteAccess.tag: my-tag
+      remoteAccess.pullPolicy: IfNotPresent
+    asserts:
+    - equal:
+        path: spec.remoteAccess.registry
+        value: my-registry
+    - equal:
+        path: spec.remoteAccess.repository
+        value: my-remote-access
+    - equal:
+        path: spec.remoteAccess.tag
+        value: my-tag
+    - equal:
+        path: spec.remoteAccess.pullPolicy
+        value: IfNotPresent
+    - equal:
+        path: spec.notifier.registry
+        value: emccorp
+    - equal:
+        path: spec.notifier.repository
+        value: srs-notifier
+    - equal:
+        path: spec.notifier.tag
+        value: stable
+    - equal:
+        path: spec.notifier.pullPolicy
+        value: Always
+  - it: should create notifier deployment with explicit registry, repository, tag, and pullPolicy
+    set:
+      product: NANOOK
+      gateway.hostname: 192.0.2.7
+      notifier.registry: my-registry
+      notifier.repository: my-notifier
+      notifier.tag: my-tag
+      notifier.pullPolicy: IfNotPresent
+    asserts:
+    - equal:
+        path: spec.remoteAccess.registry
+        value: emccorp
+    - equal:
+        path: spec.remoteAccess.repository
+        value: remote-access
+    - equal:
+        path: spec.remoteAccess.tag
+        value: stable
+    - equal:
+        path: spec.remoteAccess.pullPolicy
+        value: Always
+    - equal:
+        path: spec.notifier.registry
+        value: my-registry
+    - equal:
+        path: spec.notifier.repository
+        value: my-notifier
+    - equal:
+        path: spec.notifier.tag
+        value: my-tag
+    - equal:
+        path: spec.notifier.pullPolicy
+        value: IfNotPresent
