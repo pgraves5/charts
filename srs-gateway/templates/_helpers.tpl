@@ -49,20 +49,13 @@ fields are limited to this length.
 {{- end -}}
 
 {{/*
-Create a namespace for an SRS gateway custom resource.
-The order of precedence for deciding what name to use is as follows:
-    - If "namespace" is set in values.yaml, then use that.
-    - Otherwise, use "product" from values.yaml
-The namespace selected is set to lower case, trailing '-' are trimmed, and
-the result is truncated at 63 characters since some Kubernetes name
-fields are limited to this length.
+Create a namespace for an SRS gateway custom resource. The configured
+"namespace" in values.yaml is set to lower case, trailing '-' characters
+are trimmed, and the result is truncated at 63 characters since some
+Kubernetes name fields are limited to this length.
 */}}
 {{- define "srs-gateway.createNamespace" -}}
-{{- if .Values.namespace -}}
 {{- print .Values.namespace | lower | trimSuffix "-" | trunc 63 -}}
-{{- else -}}
-{{- print .Values.product | lower | trimSuffix "-" | trunc 63 -}}
-{{- end -}}
 {{- end -}}
 
 {{/*

@@ -1,8 +1,29 @@
 # Dell EMC SRS Gateway Custom Resource Support
 
-This Helm chart deploys an SRS gateway custom resource for a given Dell EMC
-product, along with a credentials secret. The SRS gateway custom resource
-allows the Dell EMC Common Kubernetes Support (DECKS) to do the following:
+This Helm chart deploys:
+- An SRS Gateway Custom Resource (CR) for a given Dell EMC product.
+  The SRS Gateway CR:
+  - Allows the Dell EMC Common Kubernetes Support (DECKS) to register a
+    Dell EMC product with a given SRS gateway
+  - Triggers creation of a "remote access" pod/service that allows customers
+    and customer support a mechanism (via SRS) to SSH into the Kubernetes
+    cluster for performing service and maintenance.
+  - Provides notifier resources that allow the Kubernetes Application Health
+    Monitor (KAHM) to send select Kubernetes events as SRS events/alerts to
+    the SRS gateway.
+- A credentials secret that contains:
+  - A login username/password for DECKS to use in registering a product
+    with the SRS gateway.
+  - User/group/password credentials to configure in the remote access pod.
+
+The product name used for this helm chart must be an official, "on-boarded"
+product/model that the SRS gateway recognizes as an official Dell EMC product
+(e.g. OBJECTSCALE).
+
+DECKS implements a Kubernetes controller that watches for creation, update,
+and deletion of SRS gateway CRs. When an SRS gateway custom resource and an
+associated credentials secret are created via this helm chart, DECKS will
+do the following:
 - Set up a remote access pod/service to allow customers/customer support
   to remotely access (via SSH) a Kubernetes cluster for servicing/maintenance.
 - Register with the SRS Gateway, based on an IP or FQDN and port
@@ -12,8 +33,6 @@ allows the Dell EMC Common Kubernetes Support (DECKS) to do the following:
   access credentials for making RESTful API calls to the SRS gateway.
 - Create a KAHM SRS notifier custom resource, deployment, and service.
 
-The product name must be an official, "on-boarded" product/model that the
-SRS gateway recognizes as an official Dell EMC product (e.g. OBJECTSCALE).
 
 ## Table of Contents
 
