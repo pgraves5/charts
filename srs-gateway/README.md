@@ -12,8 +12,6 @@ SRS gateway. See "Description" section for more details.
 * [Requirements](#requirements)
 * [Quick Start](#quick-start)
 * [Configuration](#configuration)
-  * [Namespace Access](#namespace-access)
-  * [Private Docker Registry](#private-docker-registry)
 
 ## Description
 
@@ -67,7 +65,11 @@ $ helm repo update
 
 3. Install the SRS gateway custom resource and credentials secret.
 
-The following options are mandatory
+NOTE: The following options are mandatory:
+* product:
+Must be an official, "on-boarded" EMC product/model that is recognized by the SRS gateway that you're using.
+* gateway.hostname:
+Can be either the IP address or an FQDN for accessing the SRS gateway.
 
 ```bash
 $ helm install --name srs-gateway ecs/srs-gateway --set product=OBJECTSCALE --set gateway.hostname=10.249.253.18
@@ -78,38 +80,155 @@ There are [configuration options](#configuration) you can peruse later at your h
 
 ## Configuration
 
-### Namespace Access
+### product - MANDATORY
+Must be an official, "on-boarded" EMC product/model that is recognized by the SRS gateway that you're using.
 
-The SRS gateway can be configured to be installed in an explicit namespace. To configure a specific namespace, simply set the `global.watchNamespace` setting:
-
-```bash
-$ helm install --name srs-gateway \
-    --set namespace=my-namespace \
-    ecs/decks
+Example helm install command line setting:
+```
+--set product=OBJECTSCALE
 ```
 
-### Private Docker Registry
+### gateway.hostname - MANDATORY
+Can be either the IP address or an FQDN for accessing the SRS gateway.
 
-While the ECS Flex container images are hosted publicly, DECKS also supports configuration of a private Docker registry for offline Kubernetes clusters or those that do not have access to public registries. To configure a private registry:
-
-1. Download the DECKS container image from [support.emc.com] and upload the images to your private registry.
-
-_*TODO: Add download link once available*_
-
-2. Add a Kubernetes secret for the [private Docker registry](https://kubernetes.io/docs/concepts/containers/images/#specifying-imagepullsecrets-on-a-pod)
-
-```bash
-$ kubectl create secret docker-registry decks-registry \
-    --docker-username=<DOCKER_USERNAME> \
-    --docker-password=<DOCKER_PASSWORD> \
-    --docker-email=<DOCKER_EMAIL>
+Example helm install command line setting:
+```
+--set gateway.hostname=10.249.253.18
 ```
 
-3. Set the registry secret and location in the Helm chart installations  via Helm:
+### customResourceName
+The name to use for the SRS GW custom resource Kubernetes object. If set, this name will be used as a prefix for all secondary resources generated for the SRS GW custom resource. This allows for multiple SRS GW custom resources to use the same product name, while providing distinct names for the SRS GW CRs and their corresponding secondary resources.
 
-```bash
-helm install \
-    --set global.registry=<REGISTRY ADDRESS> \
-    --set global.registrySecret=<SECRET_NAME> \
-    ecs/decks
+This explicit setting for resource name is provided primarily for testing. Production setups should leave this unset.
+
+If "customResourceName" is not set, the lowercase version of the "product" setting will be used for the name of the SRS GW CR as well as a name prefix for all secondary resources.
+
+Example helm install command line setting:
+```
+--set customResourceName=objectscale
+```
+
+### namespace
+The SRS gateway custom resource and its secondary resources can be configured to be installed in an explicit namespace using the "namespace" setting.
+
+Default:
+* namespace: default
+
+Example helm install command line setting:
+```
+--set namespace=objectscale
+```
+
+### Global Docker Registry Settings (registry, tag, pullPolicy)
+These global settings can be used to configure the Docker registry, tag, and/or
+pullPolicy to use for both the remote access and the notifier pods.
+
+Defaults:
+* registry: emccorp
+* tag: stable
+* pullPolicy: Always
+
+Example helm install command line setting:
+```
+--set registry=harbor.lss.emc.com/ecs
+--set tag=latest
+--set pullPolicy=IfNotPresent
+```
+
+### credsSecretName
+This setting can be use to explicitly set the name of the credentials secret that gets created during helm install for the SRS GW CR.
+
+NOTE: This name MUST BE UNIQUE within the namespace used for the SRS GW CR and its secondary resources!
+
+If "credsSecretName" is not set, then the name of the credentials secret will be derived from either the "customResourceName" or "product" settings. The precedence for the selection of a name for the credentials secret is as follows:
+* Use the explicit "credsSecretName" if set
+* OR, use the "customResourceName" as a basis, if set, with the format:
+```
+          <customResourceName>-srs-creds-secret
+```
+* OR, use the "product" (required) setting, with the format:
+```
+          <product>-srs-creds-secret
+```
+
+Example helm install command line setting:
+```
+--set credsSecretName=my-creds-secret
+```
+
+### gateway.port, gateway.srsLogin
+The gateway.port setting configures the port on which the SRS Gateway is listening on.
+
+The gateway.srsLogin configures the login username/password for DECKS to use for registering with the SRS gateway.
+
+Defaults:
+* gateway.port: 9443
+* gateway.srsLogin=scott.jones@nordstrom.com:Password1
+
+Example helm install command line setting:
+```
+--set gateway.port=4567
+--set gateway.srsLogin=john.doe@example.com:MyPassword
+```
+
+### remoteAccess Docker Registry Settings
+These settings can be used to customize the Docker registry, repository, tag, and pull policy to use for the remoteAccess pod image.
+
+Defaults:
+* remoteAccess.registry=emccorp
+* remoteAccess.repository=srs-notifier
+* remoteAccess.tag=stable
+* remoteAccess.pullPolicy=Always
+
+Example helm install command line setting:
+```
+--set remoteAccess.registry=harbor.lss.emc.com/ecs
+--set remoteAccess.repository=my-special-remote-access
+--set remoteAccess.tag=latest
+--set remoteAccess.pullPolicy=IfNotPresent
+```
+
+### notifier Docker Registry Settings
+These settings can be used to customize the Docker registry, repository, tag, and pull policy to use for the notifier pod image.
+
+Defaults:
+* notifier.registry=emccorp
+* notifier.repository=srs-notifier
+* notifier.tag=stable
+* notifier.pullPolicy=Always
+
+Example helm install command line setting:
+```
+--set notifier.registry=harbor.lss.emc.com/ecs
+--set notifier.repository=my-special-remote-access
+--set notifier.tag=latest
+--set notifier.pullPolicy=IfNotPresent
+```
+
+### remoteAccess User Login Credentials (user, group, password)
+These settings can be used to customize the login access to the remote access pod, including user, group, and password to configure.
+
+Defaults:
+* remoteAccess.user: root
+* remoteAccess.group: adm
+* remoteAccess.password: ChangeMe
+
+Example helm install command line setting:
+```
+--set remoteAccess.user=admin
+--set remoteAccess.group=adm
+--set remoteAccess.password=P@ssw0rd
+```
+
+### grpcConnTimeout, grpcRetries
+These settings can be used to configure the timeout interval and the number of retries for the SRS notifier pod when it tries to send events to the SRS gateway.
+
+Defaults:
+* notifier.grpcConnTimeout: 5
+* notifier.grpcRetries: 5
+
+Example helm install command line setting:
+```
+--set notifier.grpcConnTimeout=10
+--set notifier.grpcRetries=6
 ```
