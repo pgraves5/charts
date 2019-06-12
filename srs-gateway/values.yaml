@@ -6,17 +6,26 @@
 # The name to use for the SRS GW custom resource Kubernetes object. If set,
 # this name will be used as a prefix for all secondary resources generated
 # for the SRS GW custom resource. This allows for multiple SRS GW custom
-# resources to use the same product name (primarily for testing). Otherwise,
-# the lowercase version of the product will be used.
+# resources to use the same product name, while providing distinct names
+# for the SRS GW CRs and their corresponding secondary resources.
+#
+# This explicit setting for resource name is provided primarily for testing.
+# Production setups should leave this unset.
+#
+# If "customResourceName" is not set, the lowercase version of the "product"
+# setting will be used for the name of the SRS GW CR as well as a name prefix
+# for all secondary resources.
 # customResourceName: "objectscale"
+
 namespace: "default"
 
-# REQUIRED SETTING: Product must be an "on-boarded" product/model name
-# recognized by SRS
+# ==================== MANDATORY SETTING ====================
+# Product must be an "on-boarded" product/model name recognized by SRS
 # product: "OBJECTSCALE"
+# ===========================================================
  
-# The default docker registry, tag and pull policy for the SRS gateway CR
-# logReceiver
+# The default docker registry, tag and pull policy for the remote access and
+# notifier pods that are created as SRS gateway CR secondary resources.
 registry: "emccorp"
 tag: "stable"
 pullPolicy: "Always"
@@ -25,15 +34,24 @@ pullPolicy: "Always"
 # credsSecretName: objectscale-srs-creds-secret
 
 gateway:
-  # REQUIRED SETTING: The gateway hostname could be an FQDN or an IP address
-  # hostname: "10.249.253.17"
+  # ==================== MANDATORY SETTING ====================
+  # The gateway hostname can be an IP address or an FQDN
+  # hostname: "10.249.253.18"
+  # ===========================================================
 
   # Port that the SRS Gateway is listening on for RESTful API requests.
   port: 9443
 
-  # If the credentials secret name is not set explicitly below, it will be
-  # derived from the product (format: <product>-srs-creds-secret>)
-  # credsSecret: "objectscale-srs-creds-secret"
+  # The resource name to use for the credentials secret. If this is not set,
+  # then the name of the credentials secret will be derived from either the
+  # "customResourceName" or "product" settings. The precedence for creds
+  # secret name selection is as follows:
+  # - Use the explicit "credsSecretName" if set,
+  # - OR, use the "customResourceName" as a basis, if set, with the format:
+  #           <customResourceName>-srs-creds-secret
+  # - OR, use the "product" (required) setting, with the format:
+  #           <product>-srs-creds-secret
+  # credsSecretName: "objectscale-srs-creds-secret"
 
   srsLogin: scott.jones@nordstrom.com:Password1
 
@@ -43,6 +61,7 @@ remoteAccess:
   # tag: "stable"
   # pullPolicy: "Always"
   servicePort: 22
+  # The user/group/password to configure on the remote access pod
   user: "root"
   group: "adm"
   password: "ChangeMe"

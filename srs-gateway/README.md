@@ -1,5 +1,22 @@
 # Dell EMC SRS Gateway Custom Resource Support
 
+This Helm chart deploys an SRS Gateway Custom Resource (CR) for a given
+Dell EMC product and an associated credentials secret. These resources will
+be used the the Dell EMC Common Kubernetes Support (DECKS) to create all
+of the necessary resources for registering with and communicating with an
+SRS gateway. See "Description" section for more details.
+
+## Table of Contents
+
+* [Description](#description)
+* [Requirements](#requirements)
+* [Quick Start](#quick-start)
+* [Configuration](#configuration)
+  * [Namespace Access](#namespace-access)
+  * [Private Docker Registry](#private-docker-registry)
+
+## Description
+
 This Helm chart deploys:
 - An SRS Gateway Custom Resource (CR) for a given Dell EMC product.
   The SRS Gateway CR:
@@ -33,18 +50,6 @@ do the following:
   access credentials for making RESTful API calls to the SRS gateway.
 - Create a KAHM SRS notifier custom resource, deployment, and service.
 
-
-## Table of Contents
-
-* [Description](#description)
-* [Requirements](#requirements)
-* [Quick Start](#quick-start)
-* [Configuration](#configuration)
-  * [Namespace Access](#namespace-access)
-  * [Private Docker Registry](#private-docker-registry)
-
-## Description
-
 ## Requirements
 
 * A [Helm](https://helm.sh) installation with access to install to one or more namespaces.
@@ -62,9 +67,10 @@ $ helm repo update
 
 3. Install the SRS gateway custom resource and credentials secret.
 
+The following options are mandatory
+
 ```bash
-$ helm install --name srs-gateway ecs/srs-gateway
-NAME:  decks
+$ helm install --name srs-gateway ecs/srs-gateway --set product=OBJECTSCALE --set gateway.hostname=10.249.253.18
 ...
 ```
 
