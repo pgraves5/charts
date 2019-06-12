@@ -6,7 +6,7 @@
 # These global settings relate to DECKS
 global:
   # Name of a Kubernetes secret with Docker credentials for the private registry
-  #registrySecret: harbor-registry-secret
+  # registrySecret: harbor-registry-secret
 
   # The private docker registry hosting containers for ECS Flex
   # registry: harbor
@@ -15,8 +15,8 @@ global:
   # Default: "" == Watch ALL namespaces
   watchNamespace: ""
 
-# The default docker tag and pull policy for the DECKS 
-tag: latest 
+# The default docker tag and pull policy for the DECKS
+tag: latest
 pullPolicy: Always
 
 # The number of replicas for the DECKS deployment
