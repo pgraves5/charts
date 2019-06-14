@@ -1,0 +1,20 @@
+Thank you for installing {{ .Chart.Name }}. This release is capable of
+deploying an SRS Gateway Custom Resource (CR) and all of its secondary
+resources.
+
+
+Your release is named {{ .Release.Name }}.
+
+To install an SRS Gateway CR by using Helm chart, use the helm install
+command below:
+
+  $ helm install <repository name>/srs-gateway --set gateway.hostname=<fqdn-or-ip> --set product=<product>
+
+The product must be a product/model that has been "on-boarded" into the SRS
+system (e.g. "OBJECTSCALE"), and must be a product/model that is recognized
+by the SRS gateway that you are using.
+
+For more information on the installation and configuration options, see the
+README at https://github.com/EMCECS/charts/tree/master/srs-gateway and the
+`values.yaml` file at
+https://github.com/EMCECS/charts/blob/master/srs-gateway/values.yaml

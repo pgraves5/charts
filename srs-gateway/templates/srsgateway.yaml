@@ -1,0 +1,58 @@
+apiVersion: decks.ecs.dellemc.com/v1beta1
+kind: SRSGateway
+metadata:
+  name: {{ template "srs-gateway.createCustomResourceName" . }}
+  namespace: {{ template "srs-gateway.createNamespace" . }}
+
+spec:
+  connectionInfo:
+    hostname: {{ required "gateway.hostname (can be IP address) is required" .Values.gateway.hostname }}
+    port: {{ .Values.gateway.port }}
+    product: {{ required "product (e.g. OBJECTSCALE) is required" .Values.product }}
+    credsSecret: {{ template "srs-gateway.createCredsSecretName" . }}
+  remoteAccess:
+{{- if .Values.remoteAccess.registry }}
+    registry: {{ .Values.remoteAccess.registry }}
+{{- else }}
+    registry: {{ .Values.registry }}
+{{- end }}
+{{- if .Values.remoteAccess.repository }}
+    repository: {{ .Values.remoteAccess.repository }}
+{{- else }}
+    repository: "remote-access"
+{{- end }}
+{{- if .Values.remoteAccess.tag }}
+    tag: {{ .Values.remoteAccess.tag }}
+{{- else }}
+    tag: {{ .Values.tag }}
+{{- end }}
+{{- if .Values.remoteAccess.pullPolicy }}
+    pullPolicy: {{ .Values.remoteAccess.pullPolicy }}
+{{- else }}
+    pullPolicy: {{ .Values.pullPolicy }}
+{{- end }}
+    servicePort: {{ .Values.remoteAccess.servicePort }}
+  notifier:
+{{- if .Values.notifier.registry }}
+    registry: {{ .Values.notifier.registry }}
+{{- else }}
+    registry: {{ .Values.registry }}
+{{- end }}
+{{- if .Values.notifier.repository }}
+    repository: {{ .Values.notifier.repository }}
+{{- else }}
+    repository: "srs-notifier"
+{{- end }}
+{{- if .Values.notifier.tag }}
+    tag: {{ .Values.notifier.tag }}
+{{- else }}
+    tag: {{ .Values.tag }}
+{{- end }}
+{{- if .Values.notifier.pullPolicy }}
+    pullPolicy: {{ .Values.notifier.pullPolicy }}
+{{- else }}
+    pullPolicy: {{ .Values.pullPolicy }}
+{{- end }}
+    servicePort: {{ .Values.notifier.servicePort }}
+    grpcConnTimeout: {{ .Values.notifier.grpcConnTimeout }}
+    grpcRetries: {{ .Values.notifier.grpcRetries }}
