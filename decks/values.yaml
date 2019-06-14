@@ -16,7 +16,7 @@ global:
   watchNamespace: ""
 
 # The default docker tag and pull policy for the DECKS
-tag: latest
+tag: 0.2.0
 pullPolicy: Always
 
 # The number of replicas for the DECKS deployment
