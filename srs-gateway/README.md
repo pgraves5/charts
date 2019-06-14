@@ -51,7 +51,7 @@ do the following:
 ## Requirements
 
 * A [Helm](https://helm.sh) installation with access to install to one or more namespaces.
-* A [DECKS](https://github.com/EMCECS/charts/decks) installation.
+* A [DECKS](https://github.com/EMCECS/charts/tree/master/decks) installation.
 
 ## Quick Start
 
