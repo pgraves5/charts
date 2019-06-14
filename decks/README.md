@@ -85,3 +85,13 @@ helm install \
     --set global.registrySecret=<SECRET_NAME> \
     ecs/decks
 ```
+4. Verify whether DECKS is installed successfully and working as expected. The "helm test <release-name>" instantiate a test-app which performs the followings:
+  - Instantiates a test-app applicaiton which does the following:
+  - Registers an SRS gateway
+  - Runs a call home test event
+  - Verifies an external IP is generated for the remote access pod
+  - Verifies ssh connectivity to the remote access pod
+  "kubectl logs <release-name>-deck-test should show the testapp output logs.
+
+```bash
+helm test <release-name>
