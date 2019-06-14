@@ -74,8 +74,21 @@ Can be either the IP address or an FQDN for accessing the SRS gateway.
 * gateway.login:
 This should be set to the user:password that was supplied by Dell/EMC for registering a product with an SRS gateway. It is typically of the form `john.doe@example.com:MyPassword`.
 
+If the Docker registry being used for the remote access and notifier images do not require authentication:
 ```bash
 $ helm install --name srs-gateway ecs/srs-gateway --set product=OBJECTSCALE --set gateway.hostname=10.249.253.18 --set gateway.login=john.doe@example.com:MyPassword
+...
+```
+
+Alternatively, if you have an existing Docker registry secret:
+```bash
+$ helm install --name srs-gateway ecs/srs-gateway --set product=OBJECTSCALE --set gateway.hostname=10.249.253.18 --set gateway.login=john.doe@example.com:MyPassword --set dockerSecret=my-existing-registry-secret
+...
+```
+
+Or if you want this helm chart to generate and use a new Docker registry secret:
+```bash
+$ helm install --name srs-gateway ecs/srs-gateway --set product=OBJECTSCALE --set gateway.hostname=10.249.253.18 --set gateway.login=john.doe@example.com:MyPassword --set dockerUsername=janedoe --set dockerPassword=MyPassword
 ...
 ```
 
@@ -153,6 +166,38 @@ Example helm install command line setting:
 --set registry=harbor.lss.emc.com/ecs
 --set tag=latest
 --set pullPolicy=IfNotPresent
+```
+
+### Docker Registry Authentication Credentials
+The dockerSecret, or alternatively, the dockerUsername and
+dockerPassword, can be used to configure the authentication credentials
+for kubelet to use when downloading docker images for the remote access or
+notifier deployments from a public Docker registry.
+
+These settings are only necessary when any of the following settings point
+to a Docker registry that requires authentication:
+    registry
+    remoteAccess.registry
+    notifier.registry
+
+The dockerSecret allows a user to re-use an existing Docker
+registry secret ("bring-your-own" registry secret).
+
+Alternatively, if dockerUsername and dockerPassword are set, then a Docker
+registry secret will be automatically generated using those credentials. In
+this case, the name of the secret that is created will be either:
+    <customResourceName>-docker-secret
+if customResourceName is set; otherwise, it will be:
+    <product>-docker-secret
+
+Example helm install command line setting to re-use a docker registry secret:
+```
+--set dockerSecret=my-existing-registry-secret
+```
+Example helm install command line setting to generate a Docker registry
+secret:
+```
+--set dockerUsername=janedoe --set dockerPassword=MyPassword
 ```
 
 ### gateway.port

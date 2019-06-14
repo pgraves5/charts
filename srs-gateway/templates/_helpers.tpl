@@ -76,3 +76,34 @@ fields are limited to this length.
 {{- printf "%s-srs-creds-secret" .Values.product | lower | trimSuffix "-" | trunc 63 -}}
 {{- end -}}
 {{- end -}}
+
+{{/*
+Create an Docker registry secret resource name.
+The order of precedence for deciding what name to use is as follows:
+    - If "dockerSecret" is set in values.yaml, use that directly.
+    - Else, if "customResourceName" is set in values.yaml, use that with a
+      "-docker-secret" suffix:
+            <customResourceName>-docker-secret
+    - Else, use "product" from values.yaml, with a "-docker-secret"
+      suffix:
+            <product>-docker-secret
+The name selected is set to lower case, trailing '-' are trimmed, and
+the result is truncated at 63 characters since some Kubernetes name
+fields are limited to this length.
+*/}}
+{{- define "srs-gateway.createDockerSecretName" -}}
+{{- if .Values.dockerSecret -}}
+{{- print .Values.dockerSecret | lower | trimSuffix "-" | trunc 63 -}}
+{{- else if .Values.customResourceName -}}
+{{- printf "%s-docker-secret" .Values.customResourceName | lower | trimSuffix "-" | trunc 63 -}}
+{{- else -}}
+{{- printf "%s-docker-secret" .Values.product | lower | trimSuffix "-" | trunc 63 -}}
+{{- end -}}
+{{- end -}}
+
+{{/*
+Create the JSON data for a Kubernetes imagePullSecret.
+*/}}
+{{- define "imagePullSecret" }}
+{{- printf "{\"auths\": {\"https://index.docker.io/v1/\": {\"username\": \"%s\", \"password\": \"%s\", \"auth\": \"%s\"}}}" .Values.dockerUsername .Values.dockerPassword (printf "%s:%s" .Values.dockerUsername .Values.dockerPassword | b64enc) | b64enc }}
+{{- end }}

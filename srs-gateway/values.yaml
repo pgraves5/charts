@@ -45,6 +45,28 @@ gateway:
   # login: scott.jones@nordstrom.com:Password1
   # ===========================================================
 
+# Docker registry secret, or alternatively, username/password credentials
+# for kubelet to use to download docker images from a public Docker registry.
+# These settings are only necessary when any of the following settings:
+#     registry
+#     remoteAccess.registry
+#     notifier.registry
+# point to a public Docker registry that requires authentication.
+#
+# The dockerSecret setting allows a user to re-use an existing Docker
+# registry secret ("bring-your-own" registry secret).
+#
+# Alternatively, if dockerUsername and dockerPassword are set, then
+# a Docker registry secret will be created. In this case, the name of the
+# secret that is created will be either:
+#   <customResourceName>-docker-secret
+# if customResourceName is set; otherwise, it will be:
+#   <product>-docker-secret
+#
+# dockerSecret: "my-existing-registry-secret"
+# dockerUsername: "janedoe"
+# dockerPassword: "PassW0rd"
+
 remoteAccess:
   # registry: "emccorp"
   repository: "remote-access"
