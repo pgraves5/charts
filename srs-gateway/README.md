@@ -176,24 +176,34 @@ notifier deployments from a public Docker registry.
 
 These settings are only necessary when any of the following settings point
 to a Docker registry that requires authentication:
-    registry
-    remoteAccess.registry
-    notifier.registry
+* registry
+* remoteAccess.registry
+* notifier.registry
 
 The dockerSecret allows a user to re-use an existing Docker
-registry secret ("bring-your-own" registry secret).
-
-Alternatively, if dockerUsername and dockerPassword are set, then a Docker
-registry secret will be automatically generated using those credentials. In
-this case, the name of the secret that is created will be either:
-    <customResourceName>-docker-secret
-if customResourceName is set; otherwise, it will be:
-    <product>-docker-secret
+registry secret ("bring-your-own" registry secret). Note that when this
+option is used, the existing Docker registry secret will be left intact
+if/when the SRS gateway custom resource is deleted.
 
 Example helm install command line setting to re-use a docker registry secret:
 ```
 --set dockerSecret=my-existing-registry-secret
 ```
+
+Alternatively, if dockerUsername and dockerPassword are set, then a Docker
+registry secret will be automatically generated using those credentials. In
+this case, the name of the secret that is created will be either:
+```
+    <customResourceName>-docker-secret
+```
+if customResourceName is set; otherwise, it will be:
+```
+    <product>-docker-secret
+```
+Note that when this option is used to have the helm automatically generate
+a docker registry secret, then the generated docker registry secret will
+get deleted when the associated SRS gateway custom resource is deleted.
+
 Example helm install command line setting to generate a Docker registry
 secret:
 ```
