@@ -1,8 +1,6 @@
 apiVersion: decks.ecs.dellemc.com/v1beta1
 kind: SRSGateway
 metadata:
-  labels:
-    controller-tools.k8s.io: "1.0"
   name: {{ template "srs-gateway.createCustomResourceName" . }}
   namespace: {{ template "srs-gateway.createNamespace" . }}
 

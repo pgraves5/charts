@@ -51,6 +51,7 @@ do the following:
 ## Requirements
 
 * A [Helm](https://helm.sh) installation with access to install to one or more namespaces.
+* A [DECKS](https://github.com/EMCECS/charts/decks) installation.
 
 ## Quick Start
 
@@ -70,9 +71,11 @@ NOTE: The following options are mandatory:
 Must be an official, "on-boarded" EMC product/model that is recognized by the SRS gateway that you're using.
 * gateway.hostname:
 Can be either the IP address or an FQDN for accessing the SRS gateway.
+* gateway.login:
+This should be set to the user:password that was supplied by Dell/EMC for registering a product with an SRS gateway. It is typically of the form `john.doe@example.com:MyPassword`.
 
 ```bash
-$ helm install --name srs-gateway ecs/srs-gateway --set product=OBJECTSCALE --set gateway.hostname=10.249.253.18
+$ helm install --name srs-gateway ecs/srs-gateway --set product=OBJECTSCALE --set gateway.hostname=10.249.253.18 --set gateway.login=john.doe@example.com:MyPassword
 ...
 ```
 
@@ -96,12 +99,29 @@ Example helm install command line setting:
 --set gateway.hostname=10.249.253.18
 ```
 
+### gateway.login - MANDATORY
+The gateway.login configures the login username/password for DECKS to use for registering with the SRS gateway.
+
+Example helm install command line setting:
+```
+--set gateway.login=john.doe@example.com:MyPassword
+```
+
 ### customResourceName
 The name to use for the SRS GW custom resource Kubernetes object. If set, this name will be used as a prefix for all secondary resources generated for the SRS GW custom resource. This allows for multiple SRS GW custom resources to use the same product name, while providing distinct names for the SRS GW CRs and their corresponding secondary resources.
 
 This explicit setting for resource name is provided primarily for testing. Production setups should leave this unset.
 
 If "customResourceName" is not set, the lowercase version of the "product" setting will be used for the name of the SRS GW CR as well as a name prefix for all secondary resources.
+
+For example, if customResourceName is set, then the SRS credentials secret will be created with the name:
+```
+    <customResourceName>-srs-creds-secret
+```
+Otherwise, the SRS credential secret will be created with the name:
+```
+    <product>-srs-creds-secret
+```
 
 Example helm install command line setting:
 ```
@@ -135,40 +155,15 @@ Example helm install command line setting:
 --set pullPolicy=IfNotPresent
 ```
 
-### credsSecretName
-This setting can be use to explicitly set the name of the credentials secret that gets created during helm install for the SRS GW CR.
-
-NOTE: This name MUST BE UNIQUE within the namespace used for the SRS GW CR and its secondary resources!
-
-If "credsSecretName" is not set, then the name of the credentials secret will be derived from either the "customResourceName" or "product" settings. The precedence for the selection of a name for the credentials secret is as follows:
-* Use the explicit "credsSecretName" if set
-* OR, use the "customResourceName" as a basis, if set, with the format:
-```
-          <customResourceName>-srs-creds-secret
-```
-* OR, use the "product" (required) setting, with the format:
-```
-          <product>-srs-creds-secret
-```
-
-Example helm install command line setting:
-```
---set credsSecretName=my-creds-secret
-```
-
-### gateway.port, gateway.srsLogin
+### gateway.port
 The gateway.port setting configures the port on which the SRS Gateway is listening on.
-
-The gateway.srsLogin configures the login username/password for DECKS to use for registering with the SRS gateway.
 
 Defaults:
 * gateway.port: 9443
-* gateway.srsLogin=scott.jones@nordstrom.com:Password1
 
 Example helm install command line setting:
 ```
 --set gateway.port=4567
---set gateway.srsLogin=john.doe@example.com:MyPassword
 ```
 
 ### remoteAccess Docker Registry Settings

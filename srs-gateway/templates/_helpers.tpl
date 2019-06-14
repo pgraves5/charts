@@ -61,8 +61,7 @@ Kubernetes name fields are limited to this length.
 {{/*
 Create an SRS gateway credentials secret resource name.
 The order of precedence for deciding what name to use is as follows:
-    - If "credsSecretName" is set in values.yaml, then use that.
-    - Otherwise, if "customResourceName" is set in values.yaml, use that with
+    - If "customResourceName" is set in values.yaml, use that with
       a "-srs-creds-secret" suffix.
     - Otherwise, use "product" from values.yaml, with a "-srs-creds-secret"
       suffix.
@@ -71,9 +70,7 @@ the result is truncated at 63 characters since some Kubernetes name
 fields are limited to this length.
 */}}
 {{- define "srs-gateway.createCredsSecretName" -}}
-{{- if .Values.credsSecretName -}}
-{{- print .Values.credsSecretName | lower | trimSuffix "-" | trunc 63 -}}
-{{- else if .Values.customResourceName -}}
+{{- if .Values.customResourceName -}}
 {{- printf "%s-srs-creds-secret" .Values.customResourceName | lower | trimSuffix "-" | trunc 63 -}}
 {{- else -}}
 {{- printf "%s-srs-creds-secret" .Values.product | lower | trimSuffix "-" | trunc 63 -}}

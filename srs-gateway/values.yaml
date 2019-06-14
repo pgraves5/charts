@@ -30,9 +30,6 @@ registry: "emccorp"
 tag: "stable"
 pullPolicy: "Always"
 
-# Name to use for SRS credentials secret
-# credsSecretName: objectscale-srs-creds-secret
-
 gateway:
   # ==================== MANDATORY SETTING ====================
   # The gateway hostname can be an IP address or an FQDN
@@ -42,18 +39,11 @@ gateway:
   # Port that the SRS Gateway is listening on for RESTful API requests.
   port: 9443
 
-  # The resource name to use for the credentials secret. If this is not set,
-  # then the name of the credentials secret will be derived from either the
-  # "customResourceName" or "product" settings. The precedence for creds
-  # secret name selection is as follows:
-  # - Use the explicit "credsSecretName" if set,
-  # - OR, use the "customResourceName" as a basis, if set, with the format:
-  #           <customResourceName>-srs-creds-secret
-  # - OR, use the "product" (required) setting, with the format:
-  #           <product>-srs-creds-secret
-  # credsSecretName: "objectscale-srs-creds-secret"
-
-  srsLogin: scott.jones@nordstrom.com:Password1
+  # ==================== MANDATORY SETTING ====================
+  # The login setting configures the user/password credentials
+  # for registering a product with the SRS gateway
+  # login: scott.jones@nordstrom.com:Password1
+  # ===========================================================
 
 remoteAccess:
   # registry: "emccorp"

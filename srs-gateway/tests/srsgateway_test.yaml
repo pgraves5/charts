@@ -110,15 +110,6 @@ tests:
     - equal:
         path: spec.notifier.pullPolicy
         value: IfNotPresent
-  - it: should create an SRS GW custom resource with an explicit credentials secret name
-    set:
-      product: LEADFILLEDSNOWSHOE
-      gateway.hostname: 192.0.2.7
-      credsSecretName: pygmypony
-    asserts:
-    - equal:
-        path: spec.connectionInfo.credsSecret
-        value: pygmypony
   - it: should create remote-access deployment with explicit registry, repository, tag, and pullPolicy
     set:
       product: NANOOK
