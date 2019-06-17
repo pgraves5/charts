@@ -30,6 +30,9 @@ This Helm chart deploys:
   - A login username/password for DECKS to use in registering a product
     with the SRS gateway.
   - User/group/password credentials to configure in the remote access pod.
+- Optionally, a Docker registry credentials secret containing a user/password
+  combination that will be used to download SRS gateway CR secondary resource
+  pods, for Docker registries that require authentication.
 
 The product name used for this helm chart must be an official, "on-boarded"
 product/model that the SRS gateway recognizes as an official Dell EMC product
