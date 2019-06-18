@@ -28,11 +28,22 @@ image:
   # tag: stable
   # pullPolicy: Always
 
+# decks helm test configuration
 # this image is the test image for DECKS. It will run as "helm test" to verify the DECKS functionality as a black box
-testImage:
-  repository: decks-testapp
-  # tag: stable
-  # pullPolicy: Always
+helmTestConfig:
+  testImage:
+    repository: decks-testapp
+    # tag: stable
+    # pullPolicy: Always
+  srsGateway:
+    # product to test
+    product: "OBJECTSCALE"
+    # The login setting configures the user/password credentials
+    # for registering a product with the test SRS gateway
+    login: "scott.jones@nordstrom.com:Password1"
+    # The gateway hostname can be an IP address or an FQDN
+    hostname: "10.249.253.18"
+    port: 9443
 
 # We usually recommend not to specify default resources and to leave this as a conscious
 # choice for the user. This also increases chances charts run on environments with little

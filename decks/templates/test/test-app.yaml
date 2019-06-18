@@ -12,13 +12,13 @@ spec:
 {{- end }}
   containers:
   - name: {{ .Release.Name }}-decks-test
-{{- if .Values.testImage.tag }}
-    image: {{ .Values.global.registry }}/{{ .Values.testImage.repository }}:{{ .Values.testImage.tag }}
+{{- if .Values.helmTestConfig.testImage.tag }}
+    image: {{ .Values.global.registry }}/{{ .Values.helmTestConfig.testImage.repository }}:{{ .Values.helmTestConfig.testImage.tag }}
 {{- else }}
-    image: {{ .Values.global.registry }}/{{ .Values.testImage.repository }}:{{ .Values.tag }}
+    image: {{ .Values.global.registry }}/{{ .Values.helmTestConfig.testImage.repository }}:{{ .Values.tag }}
 {{- end }}
-{{- if .Values.testImage.pullPolicy }}
-    imagePullPolicy: {{ .Values.testImage.pullPolicy }}
+{{- if .Values.helmTestConfig.testImage.pullPolicy }}
+    imagePullPolicy: {{ .Values.helmTestConfig.testImage.pullPolicy }}
 {{- else }}
     imagePullPolicy: {{ .Values.pullPolicy }}
 {{- end }}
@@ -31,4 +31,12 @@ spec:
       value: {{ .Values.global.registrySecret }}
     - name: DECKS_NAMESPACE
       value: "{{ .Release.Namespace}}"
+    - name: SRS_TEST_GATEWAY_HOSTNAME
+      value: {{ .Values.helmTestConfig.srsGateway.hostname }}
+    - name: SRS_TEST_GATEWAY_PORT
+      value: "{{ .Values.helmTestConfig.srsGateway.port }}"
+    - name: SRS_TEST_GATEWAY_LOGIN
+      value: {{ .Values.helmTestConfig.srsGateway.login }}
+    - name: SRS_TEST_PRODUCT
+      value: {{ .Values.helmTestConfig.srsGateway.product }}
   restartPolicy: Never
