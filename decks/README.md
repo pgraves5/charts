@@ -87,7 +87,7 @@ helm install \
 ```
 4. Verify whether DECKS is installed successfully and working as expected. The "helm test <release-name>" instantiate a test-app which performs the followings:
   - Instantiates a test-app applicaiton which does the following:
-  - Registers a SRS gateway. The test SRSGateway IP, Port, Login, and Product to be tested are configurable. They all have set to the default values in values.yaml.
+  - Registers an SRS gateway. The test SRSGateway IP, Port, Login, and Product to be tested are configurable. They have default values set in the values.yaml file.
   - Runs a call home test event.
   - Verifies an external IP is generated for the remote access pod
   - Verifies ssh connectivity to the remote access pod

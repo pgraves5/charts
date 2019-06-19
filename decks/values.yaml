@@ -40,7 +40,7 @@ helmTestConfig:
     product: "OBJECTSCALE"
     # The login setting configures the user/password credentials
     # for registering a product with the test SRS gateway
-    login: "scott.jones@nordstrom.com:Password1"
+    login: "isilon.test@emconlinesupport.com:Password1"
     # The gateway hostname can be an IP address or an FQDN
     hostname: "10.249.253.18"
     port: 9443
