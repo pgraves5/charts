@@ -87,11 +87,20 @@ helm install \
 ```
 4. Verify whether DECKS is installed successfully and working as expected. The "helm test <release-name>" instantiate a test-app which performs the followings:
   - Instantiates a test-app applicaiton which does the following:
-  - Registers an SRS gateway
-  - Runs a call home test event
+  - Registers an SRS gateway. The test SRSGateway IP, Port, Login, and Product to be tested are configurable. They have default values set in the values.yaml file.
+  - Runs a call home test event.
   - Verifies an external IP is generated for the remote access pod
   - Verifies ssh connectivity to the remote access pod
   "kubectl logs <release-name>-deck-test should show the testapp output logs.
 
 ```bash
+helm install --name decks ecs/decks --set helmTestConfig.srsGateway.hostname="10.249.253.18" --set helmTestConfig.srsGateway.login=scott.jones@nordstrom.com:Password1 --set helmTestConfig.srsGateway.product=OBJECTSCALE
 helm test <release-name>
+
+```
+5. If the decks release is already installed and the customer wants to change the helm test parameters:
+```bash
+helm upgrade decks ecs/decks --set helmTestConfig.srsGateway.hostname="<IP address>" --set helmTestConfig.srsGateway.login=<login info> --set helmTestConfig.srsGateway.product=<product name>
+helm test <release-name>
+
+```
