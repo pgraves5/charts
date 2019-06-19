@@ -29,6 +29,10 @@ spec:
       value: "{{ .Release.Name }}" 
     - name: REGISTRY_SECRET
       value: {{ .Values.global.registrySecret }}
+    - name: DOCKER_REGISTRY
+      value: {{ .Values.global.registry }}
+    - name: GLOBAL_IMAGE_TAG
+      value: {{ .Values.tag }}
     - name: KAHM_NAMESPACE
       value: "{{ .Release.Namespace}}"
   restartPolicy: Never
