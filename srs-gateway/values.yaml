@@ -23,11 +23,11 @@ namespace: "default"
 # Product must be an "on-boarded" product/model name recognized by SRS
 # product: "OBJECTSCALE"
 # ===========================================================
- 
+
 # The default docker registry, tag and pull policy for the remote access and
 # notifier pods that are created as SRS gateway CR secondary resources.
 registry: "emccorp"
-tag: "stable"
+tag: "0.2.0"
 pullPolicy: "Always"
 
 gateway:
@@ -86,4 +86,3 @@ notifier:
   servicePort: 50051
   grpcConnTimeout: 5
   grpcRetries: 3
-

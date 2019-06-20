@@ -36,7 +36,7 @@ tests:
         value: remote-access
     - equal:
         path: spec.remoteAccess.tag
-        value: stable
+        value: 0.2.0 
     - equal:
         path: spec.remoteAccess.pullPolicy
         value: Always
@@ -51,7 +51,7 @@ tests:
         value: srs-notifier
     - equal:
         path: spec.notifier.tag
-        value: stable
+        value: 0.2.0 
     - equal:
         path: spec.notifier.pullPolicy
         value: Always
@@ -144,7 +144,7 @@ tests:
         value: srs-notifier
     - equal:
         path: spec.notifier.tag
-        value: stable
+        value: 0.2.0 
     - equal:
         path: spec.notifier.pullPolicy
         value: Always
@@ -166,7 +166,7 @@ tests:
         value: remote-access
     - equal:
         path: spec.remoteAccess.tag
-        value: stable
+        value: 0.2.0 
     - equal:
         path: spec.remoteAccess.pullPolicy
         value: Always

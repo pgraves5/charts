@@ -5,7 +5,7 @@ YQ_VERSION   := 2.2.1
 YAMLLINT_VERSION := 1.14.0
 
 test:
-	for CHART in ecs-cluster ecs-flex-operator mongoose zookeeper-operator decks kahm; do \
+	for CHART in ecs-cluster ecs-flex-operator mongoose zookeeper-operator decks kahm srs-gateway; do \
 		helm lint $$CHART ; \
 		helm unittest $$CHART ; \
 		yamllint -c .yamllint.yml -s $$CHART/Chart.yaml $$CHART/values.yaml ; \
@@ -24,19 +24,20 @@ dep:
 	sudo pip install yq=="${YQ_VERSION}"
 
 build:
-	REINDEX=0
-	for CHART in zookeeper-operator ecs-cluster ecs-flex-operator mongoose kahm; do \
+	REINDEX=0; \
+	for CHART in zookeeper-operator ecs-cluster ecs-flex-operator mongoose decks kahm srs-gateway; do \
+		set -x; \
 		CURRENT_VER=`yq r $$CHART/Chart.yaml version` ; \
 		yq r docs/index.yaml "entries.$${CHART}[*].version" | grep -q "\- $${CURRENT_VER}$$" ; \
-		if [[ "$${?}" -eq "1" ]] ; then \
+		if [ "$${?}" -eq "1" ] ; then \
 		    echo "Updating package for $${CHART}" ; \
-		    helm dep update; \
+		    helm dep update $${CHART}; \
 			helm package $${CHART} --destination docs ; \
 			REINDEX=1 ; \
 		else  \
 		    echo "Packages for $${CHART} are up to date" ; \
 		fi ; \
 	done ; \
-	if [[ "$${REINDEX}" == "1" ]]; then \
+	if [ "$${REINDEX}" -eq "1" ]; then \
 		cd docs && helm repo index . ; \
 	fi
