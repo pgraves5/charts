@@ -2,10 +2,11 @@ suite: test srsgateway
 templates:
   - srsgateway.yaml
 tests:
-  - it: should create an SRS gateway custom resource with defaults
+  - it: should create an SRS gateway custom resource with only required fields set
     set:
       product: MOTHERSOFINVENTION
       gateway.hostname: 192.0.2.7
+      gateway.login: frank.zappa:ZirconEncrusted
     asserts:
     - isKind:
         of: SRSGateway
@@ -67,6 +68,7 @@ tests:
     set:
       product: MOTHERSOFINVENTION
       gateway.hostname: 192.0.2.7
+      gateway.login: frank.zappa:ZirconEncrusted
       customResourceName: nanook
     asserts:
     - equal:
@@ -76,6 +78,7 @@ tests:
     set:
       product: YELLOWSNOW
       gateway.hostname: 192.0.2.7
+      gateway.login: frank.zappa:ZirconEncrusted
       namespace: zappa
     asserts:
     - equal:
@@ -88,6 +91,7 @@ tests:
     set:
       product: DENTALFLOSSTYCOON
       gateway.hostname: 192.0.2.7
+      gateway.login: frank.zappa:ZirconEncrusted
       registry: harbor.lss.emc.com/ecs
       tag: latest
       pullPolicy: IfNotPresent
@@ -114,6 +118,7 @@ tests:
     set:
       product: NANOOK
       gateway.hostname: 192.0.2.7
+      gateway.login: frank.zappa:ZirconEncrusted
       remoteAccess.registry: my-registry
       remoteAccess.repository: my-remote-access
       remoteAccess.tag: my-tag
@@ -147,6 +152,7 @@ tests:
     set:
       product: NANOOK
       gateway.hostname: 192.0.2.7
+      gateway.login: frank.zappa:ZirconEncrusted
       notifier.registry: my-registry
       notifier.repository: my-notifier
       notifier.tag: my-tag
@@ -176,3 +182,44 @@ tests:
     - equal:
         path: spec.notifier.pullPolicy
         value: IfNotPresent
+  - it: should NOT include a spec.dockerSecret if dockerSecret, dockerUsername, and dockerPassword not set
+    set:
+      product: NANOOK
+      gateway.hostname: 192.0.2.7
+      gateway.login: frank.zappa:ZirconEncrusted
+    asserts:
+    - isNull:
+        path: spec.dockerSecret
+  - it: should create use explicit dockerSecret if set
+    set:
+      product: NANOOK
+      dockerSecret: my-docker-secret
+      gateway.hostname: 192.0.2.7
+      gateway.login: frank.zappa:ZirconEncrusted
+    asserts:
+    - equal:
+        path: spec.dockerSecret
+        value: my-docker-secret
+  - it: should use a dockerSecret name that has product as a prefix
+    set:
+      product: NANOOK
+      gateway.hostname: 192.0.2.7
+      gateway.login: frank.zappa:ZirconEncrusted
+      dockerUsername: genghis
+      dockerPassword: TemujiN
+    asserts:
+    - equal:
+        path: spec.dockerSecret
+        value: nanook-docker-secret
+  - it: should use a dockerSecret name that has customResourceName as a prefix if that's set
+    set:
+      product: NANOOK
+      customResourceName: foobar
+      gateway.hostname: 192.0.2.7
+      gateway.login: frank.zappa:ZirconEncrusted
+      dockerUsername: genghis
+      dockerPassword: TemujiN
+    asserts:
+    - equal:
+        path: spec.dockerSecret
+        value: foobar-docker-secret

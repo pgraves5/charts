@@ -10,6 +10,9 @@ spec:
     port: {{ .Values.gateway.port }}
     product: {{ required "product (e.g. OBJECTSCALE) is required" .Values.product }}
     credsSecret: {{ template "srs-gateway.createCredsSecretName" . }}
+{{- if or .Values.dockerSecret ( and .Values.dockerUsername .Values.dockerPassword ) }}
+  dockerSecret: {{ template "srs-gateway.createDockerSecretName" . }}
+{{- end }}
   remoteAccess:
 {{- if .Values.remoteAccess.registry }}
     registry: {{ .Values.remoteAccess.registry }}
