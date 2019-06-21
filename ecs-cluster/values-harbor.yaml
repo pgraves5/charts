@@ -371,6 +371,11 @@ provision:
     # tag: stable
     # pullPolicy: Always
 
+# The job will assign new created ss to the sp
+expandsp:
+  image:
+    repository: provision
+
 #
 # Sidecar configuration
 #

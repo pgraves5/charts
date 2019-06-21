@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: kahm
+  name: decks
   namespace: {{ .Release.Namespace }}
 {{- if .Values.global.registrySecret }}
 imagePullSecrets:
@@ -16,7 +16,7 @@ kind: Role
 {{- end }}
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: kahm
+  name: decks
   labels:
     release: {{ .Release.Name }}
 rules:
@@ -27,13 +27,19 @@ rules:
   verbs:
   - "*"
 - apiGroups:
+  - decks.ecs.dellemc.com
+  resources:
+  - "*"
+  verbs:
+  - "*"
+- apiGroups:
   - kahm.emcecs.github.com
   resources:
-  - '*'
+  - notifiers
   verbs:
-  - '*'
+  - "*"
 - apiGroups:
-  - app.k8s.io 
+  - app.k8s.io
   resources:
   - "*"
   verbs:
@@ -51,7 +57,6 @@ rules:
   - configmaps
   - secrets
   - applications
-  - deployments
   verbs:
   - "*"
 - apiGroups:
@@ -97,12 +102,12 @@ kind: RoleBinding
 {{- end }}
 apiVersion: rbac.authorization.k8s.io/v1beta1
 metadata:
-  name: service-account-kahm
+  name: service-account-decks
   labels:
     release: {{ .Release.Name }}
 subjects:
 - kind: ServiceAccount
-  name: kahm
+  name: decks
 {{- if eq .Values.global.watchNamespace "" }}
   namespace: {{ .Release.Namespace }}
 {{- end }}
@@ -112,5 +117,5 @@ roleRef:
 {{- else }}
   kind: Role
 {{- end }}
-  name: kahm
+  name: decks
   apiGroup: rbac.authorization.k8s.io

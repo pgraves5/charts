@@ -5,7 +5,7 @@ YQ_VERSION   := 2.2.1
 YAMLLINT_VERSION := 1.14.0
 
 test:
-	for CHART in ecs-cluster ecs-flex-operator mongoose zookeeper-operator; do \
+	for CHART in ecs-cluster ecs-flex-operator mongoose zookeeper-operator decks kahm; do \
 		helm lint $$CHART ; \
 		helm unittest $$CHART ; \
 		yamllint -c .yamllint.yml -s $$CHART/Chart.yaml $$CHART/values.yaml ; \
@@ -25,11 +25,12 @@ dep:
 
 build:
 	REINDEX=0
-	for CHART in ecs-cluster ecs-flex-operator mongoose zookeeper-operator; do \
+	for CHART in zookeeper-operator ecs-cluster ecs-flex-operator mongoose kahm; do \
 		CURRENT_VER=`yq r $$CHART/Chart.yaml version` ; \
-		yq r docs/index.yaml "entries.$${CHART}[*].version" | grep -q "\- $${CURRENT_VER}" ; \
+		yq r docs/index.yaml "entries.$${CHART}[*].version" | grep -q "\- $${CURRENT_VER}$$" ; \
 		if [[ "$${?}" -eq "1" ]] ; then \
 		    echo "Updating package for $${CHART}" ; \
+		    helm dep update; \
 			helm package $${CHART} --destination docs ; \
 			REINDEX=1 ; \
 		else  \

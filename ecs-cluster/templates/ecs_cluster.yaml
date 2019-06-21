@@ -433,6 +433,20 @@ spec:
       pullPolicy: {{ .Values.pullPolicy }}
 {{- end }}
 
+  expandsp:
+    image:
+      repository: {{ .Values.global.registry }}/{{ .Values.expandsp.image.repository }}
+{{- if .Values.expandsp.image.tag }}
+      tag: {{ .Values.expandsp.image.tag }}
+{{- else }}
+      tag: {{ .Values.tag }}
+{{- end }}
+{{- if .Values.expandsp.image.pullPolicy }}
+      pullPolicy: {{ .Values.expandsp.image.pullPolicy }}
+{{- else }}
+      pullPolicy: {{ .Values.pullPolicy }}
+{{- end }}
+
   syslogAgent:
     image:
       repository: {{ .Values.global.registry }}/{{ .Values.syslogAgent.image.repository }}

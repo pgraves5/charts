@@ -3,10 +3,10 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-# These global settings relate to KAHM
+# These global settings relate to DECKS
 global:
   # Name of a Kubernetes secret with Docker credentials for the private registry
-  registrySecret: harbor-registry-secret
+  # registrySecret: harbor-registry-secret
 
   # The private docker registry hosting containers for ECS Flex
   # registry: harbor
@@ -15,23 +15,22 @@ global:
   # Default: "" == Watch ALL namespaces
   watchNamespace: ""
 
-# The default docker tag and pull policy for the KAHM and
-# logReceiver
+# The default docker tag and pull policy for the DECKS
 tag: latest
 pullPolicy: Always
 
-# The number of replicas for the KAHM deployment
+# The number of replicas for the DECKS deployment
 replicaCount: 1
 
-# The image configured for the KAHM
+# The image configured for the DECKS
 image:
-  repository: kahm
+  repository: decks
   # tag: stable
   # pullPolicy: Always
 
-# this image is the test image for KAHM. It will run as "helm test" to verify the KAHM functionality as a black box
+# this image is the test image for DECKS. It will run as "helm test" to verify the DECKS functionality as a black box
 testImage:
-  repository: kahm-testapp
+  repository: decks-testapp
   # tag: stable
   # pullPolicy: Always
 
@@ -52,8 +51,3 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
-# Currently we have only badgerdb as underlying database
-# Each event should have default lifetime of 30 days (2592000 seconds)
-db:
-  dbType: BadgerDB
-  eventTTL: "2592000"

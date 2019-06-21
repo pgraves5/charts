@@ -1,44 +1,34 @@
-suite: test kahm
+suite: test decks
 templates:
-  - kahm.yaml
+  - decks.yaml
 tests:
   - it: should create a deployment
     asserts:
     - isKind:
-        of: StatefulSet 
+        of: Deployment
   - it: should have a default image
     asserts:
     - equal:
         path: spec.template.spec.containers[0].image
-        value: harbor.lss.emc.com/ecs/kahm:latest
+        value: harbor.lss.emc.com/ecs/decks:latest 
     - equal:
         path: spec.template.spec.containers[0].imagePullPolicy
         value: Always
-  - it: should have name ending with kahm
+  - it: should have name ending with decks
     asserts:
     - matchRegex:
         path: metadata.name
-        pattern: ^kahm$
+        pattern: ^decks$
   - it: should have a selector
     asserts:
     - matchRegex:
         path: spec.selector.matchLabels.name
-        pattern: ^kahm$
+        pattern: ^decks$
   - it: should have a name label
     asserts:
     - matchRegex:
         path: spec.template.metadata.labels.name
-        pattern: ^kahm$
-  - it: should have volume mount as /data/db
-    asserts:
-    - equal:
-        path: spec.template.spec.containers[0].volumeMounts[0].mountPath
-        value: "/data/db"
-  - it: should have pvc as db
-    asserts:
-    - equal:
-        path: spec.volumeClaimTemplates[0].metadata.name
-        value: "db"
+        pattern: ^decks$
   - it: should configure the image
     set:
       global.registry: REGISTRY

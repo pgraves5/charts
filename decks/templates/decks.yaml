@@ -1,30 +1,27 @@
 apiVersion: apps/v1
-kind: StatefulSet 
+kind: Deployment
 metadata:
-  name: kahm
-  namespace: {{ .Release.Namespace}}
+  name: decks
   labels:
     release: {{ .Release.Name }}
 spec:
-  podManagementPolicy: Parallel
   replicas: 1
   selector:
     matchLabels:
-      name: kahm
-  serviceName: kahm-headless
+      name: decks
   template:
     metadata:
       labels:
-        name: kahm
+        name: decks
         release: {{ .Release.Name }}
     spec:
-      serviceAccountName: "kahm"
+      serviceAccountName: "decks"
 {{- if .Values.global.registrySecret }}
       imagePullSecrets:
         - name: {{ .Values.global.registrySecret }}
 {{- end }}
       containers:
-      - name: kahm
+      - name: decks
 {{- if .Values.image.tag }}
         image: {{ .Values.global.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}
 {{- else }}
@@ -36,18 +33,12 @@ spec:
         imagePullPolicy: {{ .Values.pullPolicy }}
 {{- end }}
         command:
-        - kahm
-        ports:
-        - containerPort: 60000 
-          name: metrics
-        volumeMounts:
-        - mountPath: /data/db
-          name: db
+        - decks
         env:
         - name: POD_NAME
           valueFrom:
-           fieldRef:
-             fieldPath: metadata.name
+            fieldRef:
+              fieldPath: metadata.name
         - name: WATCH_NAMESPACE
 {{- if eq .Values.global.watchNamespace "" }}
           value: ""
@@ -60,26 +51,5 @@ spec:
         - name: REGISTRY_SECRET
           value: {{ .Values.global.registrySecret }}
 {{- end }}
-        - name: KAHM_DB_TYPE
-          valueFrom:
-            configMapKeyRef:
-             name: kahm-db-config
-             key: dbType 
-        - name: KAHM_DB_EVENT_TTL
-          valueFrom:
-            configMapKeyRef:
-             name: kahm-db-config
-             key: eventTTL
-  volumeClaimTemplates:
-  - metadata:
-      labels:
-        app: kahm 
-        release: {{ .Release.Name }}
-      name: db
-    spec:
-      accessModes:
-      - ReadWriteOnce
-      dataSource: null
-      resources:
-        requests:
-          storage: 2Gi
+        - name: CONTROLLER_NAME
+          value: decks
