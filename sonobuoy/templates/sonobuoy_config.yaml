@@ -263,7 +263,7 @@ metadata:
   name: sonobuoy-cronjob
   namespace: default
 spec:
-  schedule: "1 */12 * * *"
+  schedule: "53 */12 * * *"
   successfulJobsHistoryLimit: 1
   failedJobsHistoryLimit: 0
   jobTemplate:
@@ -275,7 +275,7 @@ spec:
             command:
               - /bin/sh
               - -c
-              - curl -k -X DELETE -H "Authorization:Bearer $(cat /var/run/secrets/kubernetes.io/serviceaccount/token)" https://$KUBERNETES_SERVICE_HOST:$KUBERNETES_PORT_443_TCP_PORT/api/v1/namespaces/heptio-sonobuoy/pods/sonobuoy;
+              - curl -k -X DELETE -H "Authorization:Bearer $(cat /var/run/secrets/kubernetes.io/serviceaccount/token)" https://$KUBERNETES_SERVICE_HOST:$KUBERNETES_PORT_443_TCP_PORT/api/v1/namespaces/heptio-sonobuoy/pods;
                 sleep 60;
                 echo start creating sonobuoy job;
                 curl -k -X POST -H "Authorization:Bearer $(cat /var/run/secrets/kubernetes.io/serviceaccount/token)" -H "Content-Type:application/json" https://$KUBERNETES_SERVICE_HOST:$KUBERNETES_PORT_443_TCP_PORT/api/v1/namespaces/heptio-sonobuoy/pods -d@/etc/sonobuoy/sonobuoy-cronjob.json;
