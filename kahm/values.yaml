@@ -6,18 +6,16 @@
 # These global settings relate to KAHM
 global:
   # Name of a Kubernetes secret with Docker credentials for the private registry
-  # registrySecret: dockerhub-registry-secret
+  # registrySecret: ecs-flex-secret
 
   # The private docker registry hosting containers for ECS Flex
-  # registry: harbor
   # registry: harbor.lss.emc.com/ecs
   registry: emccorp
 
   # Default: "" == Watch ALL namespaces
   watchNamespace: ""
 
-# The default docker tag and pull policy for the KAHM and
-# logReceiver
+# The default docker tag and pull policy for the KAHM
 tag: 0.2.0
 pullPolicy: Always
 
