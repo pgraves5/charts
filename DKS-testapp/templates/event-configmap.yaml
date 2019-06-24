@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.application.testAppName }} 
+  namespace: default
+data:
+  TEST_EVENT_TYPE: {{ .Values.application.event.type }}
+  TEST_EVENT_LABEL: {{ .Values.application.event.label }}
+  TEST_EVENT_MESSAGE: {{ .Values.application.event.message }}
+  TEST_EVENT_REASON: {{ .Values.application.event.reason }}

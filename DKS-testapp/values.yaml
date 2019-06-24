@@ -1,0 +1,52 @@
+---
+# Default values for ecs-flex.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+# These global settings relate to testapp 
+global:
+  # Name of a Kubernetes secret with Docker credentials for the private registry
+  #registrySecret: ecs-flex-secret
+
+  # The private docker registry hosting containers for ECS Flex
+  registry: harbor.lss.emc.com/ecs
+
+# The default docker tag and pull policy for the KAHM and
+tag: latest 
+pullPolicy: Always
+
+# The image configured for the KAHM
+image:
+  #repository: kahm-decks-testapp
+  repository: DKS-testapp
+  # tag: stable
+  # pullPolicy: Always
+
+# create a mock application with the event routing rules and the custom events it would generate
+application:
+  # test application name
+  testAppName: DKS-testapp
+
+  # The test event format and number of events to be generated.
+  event:
+    totalEvents: 10
+    type: "Critical"
+    label: "srs-events=true"
+    reason: "srs-test"
+    message: "this is an SRS test event"
+
+  # The following event rule will create a configmap for the application event routing rule.
+  # The customer needs to change according to their requirement. The rule is that if an event matches with the defined rule (label + field), it will route the event to SRS notifier.
+  eventRules:
+    label: "srs-event"
+    labelValue: "true"
+    field: "type"
+    fieldValue: "Critical"
+    # notifier
+    # the format of notifier <srsGateway.name>-<srsGateway.namespace>-srs
+    #notifier: "objectscale-default-srs"
+
+# The following specifies the SRSGateway to be tested. The name and namespace must be the name of srsGateway custom resource.
+srsGateway:
+   name: "objectscale"
+   namespace: "default"

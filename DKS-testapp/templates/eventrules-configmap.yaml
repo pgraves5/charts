@@ -1,0 +1,20 @@
+apiVersion: v1
+data:
+    eventRules:  |-
+      rules:
+        - description: "send srs events"
+          matchon:
+            - label: {{ .Values.application.eventRules.label }}
+              value: {{ .Values.application.eventRules.labelValue }}
+            - field: {{ .Values.application.eventRules.field }}
+              value: {{ .Values.application.eventRules.fieldValue }}
+          notifiers:
+            - {{ .Values.srsGateway.name }}-{{ .Values.srsGateway.namespace }}-srs
+kind: ConfigMap
+metadata:
+  creationTimestamp: null
+  labels:
+    app.kubernetes.io/name: {{ .Values.application.testAppName }}
+    app.kubernetes.io/managed-by: {{ .Values.application.testAppName }}
+  name: {{ .Values.application.testAppName }}-event-rules
+  namespace: {{ .Release.Namespace }}
