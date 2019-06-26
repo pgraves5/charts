@@ -5,7 +5,7 @@
 
 # These global settings relate to sonobuoy
 global:
-  registry: fyang86
+  registry: emccorp
 
   # Default: "" == Watch ALL namespaces
   watchNamespace: ""
