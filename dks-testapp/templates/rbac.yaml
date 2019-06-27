@@ -29,6 +29,12 @@ rules:
   verbs:
   - '*'
 - apiGroups:
+  - decks.ecs.dellemc.com
+  resources:
+  - "*"
+  verbs:
+  - "*"
+- apiGroups:
   - app.k8s.io 
   resources:
   - "*"

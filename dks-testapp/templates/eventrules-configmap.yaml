@@ -9,7 +9,7 @@ data:
             - field: {{ .Values.application.eventRules.field }}
               value: {{ .Values.application.eventRules.fieldValue }}
           notifiers:
-            - {{ .Values.srsGateway.name }}-{{ .Values.srsGateway.namespace }}-srs
+            - {{ .Values.srsGateway.name }}-srs-{{ .Values.srsGateway.namespace }}
 kind: ConfigMap
 metadata:
   creationTimestamp: null

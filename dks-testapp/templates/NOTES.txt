@@ -4,11 +4,11 @@ deploying  a test application to verify KAHM, DECKS and SRSGateway.
 
 Your release is named {{ .Release.Name }}.
 
-To install DKS-testapp by using Helm chart, use the helm install command below:
+To install dks-testapp by using Helm chart, use the helm install command below:
 
-  $ helm install <repository name>/DKS-testapp
+  $ helm install <repository name>/dks-testapp
 
 For more information on the installation and configuration options, see the
-README at https://github.com/EMCECS/charts/tree/master/DKS-testapp and the
+README at https://github.com/EMCECS/charts/tree/master/dks-testapp and the
 `values.yaml` file at
-https://github.com/EMCECS/charts/blob/master/DKS-testapp/values.yaml
+https://github.com/EMCECS/charts/blob/master/dks-testapp/values.yaml
