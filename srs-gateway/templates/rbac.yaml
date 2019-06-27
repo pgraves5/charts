@@ -49,11 +49,13 @@ rules:
   - pods/portforward
   - services
   - endpoints
+  - persistentvolumes
   - persistentvolumeclaims
   - events
   - configmaps
   - secrets
   - applications
+  - nodes
   verbs:
   - "*"
 - apiGroups:
