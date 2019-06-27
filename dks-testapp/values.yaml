@@ -1,9 +1,9 @@
 ---
-# Default values for ecs-flex.
+# Default values for DKS test application.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-# These global settings relate to testapp 
+# These global settings relate to DKS testapp 
 global:
   # Name of a Kubernetes secret with Docker credentials for the private registry
   #registrySecret: ecs-flex-secret
@@ -11,8 +11,8 @@ global:
   # The private docker registry hosting containers for ECS Flex
   registry: harbor.lss.emc.com/ecs
 
-# The default docker tag and pull policy for the KAHM and
-tag: testapp-vinod 
+# The default docker tag and pull policy for the DKS test application
+tag: latest 
 pullPolicy: Always
 
 # The image configured for DKS testapp
@@ -23,10 +23,10 @@ image:
 
 # create a mock application with the event routing rules and the custom events it would generate
 application:
-  # test application name
+  # default test application name
   testAppName: dks-testapp
 
-  # The test event format and number of events to be generated.
+  # default test event configuration.
   event:
     totalEvents: 10
     type: "Critical"
@@ -35,8 +35,8 @@ application:
     reason: "srs-test"
     message: "this is an SRS test event"
 
-  # The following event rule will create a configmap for the application event routing rule.
-  # The customer needs to change according to their requirement. The rule is that if an event matches with the defined rule (label + field), it will route the event to SRS notifier.
+  # Default event rules will create a configmap for the application event routing rule.
+  # The user needs to change according to their requirement. The rule is that if an event matches with the defined rule (label + field), it will route the event to SRS notifier.
   eventRules:
     label: "srs-event"
     labelValue: "true"
