@@ -35,7 +35,7 @@ Create chart name and version as used by the chart label.
 Create an SRS gateway custom resource name.
 The order of precedence for deciding what name to use is as follows:
     - If "customResourceName" is set in values.yaml, then use that.
-    - Otherwise, use "product" from values.yaml (this is a require setting).
+    - Otherwise, use "product" from values.yaml (this is a required setting).
 The name selected is set to lower case, trailing '-' are trimmed, and
 the result is truncated at 63 characters since some Kubernetes name
 fields are limited to this length.
@@ -78,7 +78,7 @@ fields are limited to this length.
 {{- end -}}
 
 {{/*
-Create an Docker registry secret resource name.
+Create a Docker registry secret resource name.
 The order of precedence for deciding what name to use is as follows:
     - If "dockerSecret" is set in values.yaml, use that directly.
     - Else, if "customResourceName" is set in values.yaml, use that with a
@@ -98,6 +98,23 @@ fields are limited to this length.
 {{- printf "%s-docker-secret" .Values.customResourceName | lower | trimSuffix "-" | trunc 63 -}}
 {{- else -}}
 {{- printf "%s-docker-secret" .Values.product | lower | trimSuffix "-" | trunc 63 -}}
+{{- end -}}
+{{- end -}}
+
+{{/*
+Create an SRS gateway CR service account name.
+The order of precedence for deciding what prefix to use is as follows:
+    - If "customResourceName" is set in values.yaml, then use that.
+    - Otherwise, use "product" from values.yaml (this is a required setting).
+The selected prefix is concatenated with "-remote-access", and he result
+is set to lower case, trailing '-' are trimmed, and the result is truncated
+at 63 characters since some Kubernetes name fields are limited to this length.
+*/}}
+{{- define "srs-gateway.createServiceAccountName" -}}
+{{- if .Values.customResourceName -}}
+{{- printf "%s-remote-access" .Values.customResourceName | lower | trimSuffix "-" | trunc 63 -}}
+{{- else -}}
+{{- printf "%s-remote-access" .Values.product | lower | trimSuffix "-" | trunc 63 -}}
 {{- end -}}
 {{- end -}}
 
