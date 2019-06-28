@@ -1,0 +1,291 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: heptio-sonobuoy
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  labels:
+    component: sonobuoy
+  name: sonobuoy-serviceaccount
+  namespace: heptio-sonobuoy
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  labels:
+    component: sonobuoy
+  name: sonobuoy-serviceaccount-heptio-sonobuoy
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: sonobuoy-serviceaccount
+subjects:
+- kind: ServiceAccount
+  name: sonobuoy-serviceaccount
+  namespace: heptio-sonobuoy
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  labels:
+    component: sonobuoy
+  name: sonobuoy-serviceaccount
+rules:
+- apiGroups:
+  - '*'
+  resources:
+  - '*'
+  verbs:
+  - '*'
+- nonResourceURLs:
+  - '/metrics'
+  - '/logs'
+  - '/logs/*'
+  verbs:
+  - 'get'
+---
+apiVersion: v1
+data:
+  config.json: |
+    {
+      "Description": "DEFAULT",
+      "UUID": "08284a0c-ac68-4979-b4ee-462d0fa32c48",
+      "Version": "v0.14.1",
+      "ResultsDir": "/tmp/sonobuoy",
+      "Resources": [
+        "CertificateSigningRequests",
+        "ClusterRoleBindings",
+        "ClusterRoles",
+        "ComponentStatuses",
+        "CustomResourceDefinitions",
+        "Nodes",
+        "PersistentVolumes",
+        "PodSecurityPolicies",
+        "ServerGroups",
+        "ServerVersion",
+        "StorageClasses",
+        "ConfigMaps",
+        "ControllerRevisions",
+        "CronJobs",
+        "DaemonSets",
+        "Deployments",
+        "Endpoints",
+        "Ingresses",
+        "Jobs",
+        "LimitRanges",
+        "NetworkPolicies",
+        "PersistentVolumeClaims",
+        "PodDisruptionBudgets",
+        "PodTemplates",
+        "Pods",
+        "ReplicaSets",
+        "ReplicationControllers",
+        "ResourceQuotas",
+        "RoleBindings",
+        "Roles",
+        "ServiceAccounts",
+        "Services",
+        "StatefulSets"
+      ],
+      "Filters": {
+        "Namespaces": ".*",
+        "LabelSelector": ""
+      },
+      "Limits": {
+        "PodLogs": {
+          "LimitSize": "",
+          "LimitTime": ""
+        }
+      },
+      "Server": {
+        "bindaddress": "0.0.0.0",
+        "bindport": 8080,
+        "advertiseaddress": "",
+        "timeoutseconds": 10800
+      },
+      "Plugins": [
+        {
+          "name": "e2e"
+        }
+      ],
+      "PluginSearchPath": [
+        "./plugins.d",
+        "/etc/sonobuoy/plugins.d",
+        "~/sonobuoy/plugins.d"
+      ],
+      "Namespace": "heptio-sonobuoy",
+      "LoadedPlugins": null,
+      "WorkerImage": "fyang86/sonobuoy-event:0.1",
+      "ImagePullPolicy": "IfNotPresent"
+    }
+kind: ConfigMap
+metadata:
+  labels:
+    component: sonobuoy
+  name: sonobuoy-config-cm
+  namespace: heptio-sonobuoy
+---
+apiVersion: v1
+data:
+  e2e.yaml: |
+    sonobuoy-config:
+      driver: Job
+      plugin-name: e2e
+      result-type: e2e
+    spec:
+      env:
+      - name: E2E_FOCUS
+        value: '\[Conformance\]'
+        #value: "Pods should be submitted and removed"
+      - name: E2E_SKIP
+        value: 'Alpha|\[(Disruptive|Feature:[^\]]+|Flaky)\]'
+      - name: E2E_PARALLEL
+        value: '15'
+      command: ["/run_e2e.sh"]
+      image: gcr.io/heptio-images/kube-conformance:latest
+      imagePullPolicy: Always
+      name: e2e
+      volumeMounts:
+      - mountPath: /tmp/results
+        name: results
+        readOnly: false
+      tolerations:
+        - operator: "Exists"
+kind: ConfigMap
+metadata:
+  labels:
+    component: sonobuoy
+  name: sonobuoy-plugins-cm
+  namespace: heptio-sonobuoy
+---
+apiVersion: v1
+data:
+  sonobuoy-cronjob.json: |
+    {
+      "apiVersion": "v1",
+      "kind": "Pod",
+      "metadata": {
+        "labels": {
+          "component": "sonobuoy",
+          "run": "sonobuoy-master",
+          "tier": "analysis"
+        },
+        "name": "sonobuoy",
+        "namespace": "heptio-sonobuoy"
+      },
+      "spec": {
+        "containers": [
+          {
+            "command": [
+              "/bin/bash",
+              "-c",
+              "echo sonobuoy starts running && /sonobuoy master --no-exit=false -v 3 --logtostderr && mkdir results && tar -xf /tmp/sonobuoy/*.gz -C results && echo Sonobuoy conformance tests: > msg.log && tail -n 10 results/plugins/e2e/results/e2e.log | grep Ran >> msg.log && tail -n 10 results/plugins/e2e/results/e2e.log | grep Passed >> msg.log && cat results/plugins/e2e/results/e2e.log && eventcli send -m \"$(tr -d \"[\n]\" < msg.log)\" && echo sonobuoy stops running"
+            ],
+            "env": [
+              {
+                "name": "SONOBUOY_ADVERTISE_IP",
+                "valueFrom": {
+                  "fieldRef": {
+                    "fieldPath": "status.podIP"
+                  }
+                }
+              }
+            ],
+            "image": "fyang86/sonobuoy-event:0.1",
+            "imagePullPolicy": "Always",
+            "name": "kube-sonobuoy",
+            "volumeMounts": [
+              {
+                "mountPath": "/etc/sonobuoy",
+                "name": "sonobuoy-config-volume"
+              },
+              {
+                "mountPath": "/plugins.d",
+                "name": "sonobuoy-plugins-volume"
+              },
+              {
+                "mountPath": "/tmp/sonobuoy",
+                "name": "output-volume"
+              }
+            ]
+          }
+        ],
+        "restartPolicy": "Never",
+        "serviceAccountName": "sonobuoy-serviceaccount",
+        "volumes": [
+          {
+            "configMap": {
+              "name": "sonobuoy-config-cm"
+            },
+            "name": "sonobuoy-config-volume"
+          },
+          {
+            "configMap": {
+              "name": "sonobuoy-plugins-cm"
+            },
+            "name": "sonobuoy-plugins-volume"
+          },
+          {
+            "emptyDir": {},
+            "name": "output-volume"
+          }
+        ]
+      }
+    }
+kind: ConfigMap
+metadata:
+  name: sonobuoy-config-cronjob
+  namespace: default
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    component: sonobuoy
+    run: sonobuoy-master
+  name: sonobuoy-master
+  namespace: heptio-sonobuoy
+spec:
+  ports:
+  - port: 8080
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    run: sonobuoy-master
+  type: ClusterIP
+---
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: sonobuoy-cronjob
+  namespace: default
+spec:
+  schedule: "53 */12 * * *"
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 0
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - image: {{ .Values.global.registry }}/{{ .Values.image.repository}}:{{ .Values.image.tag }}
+            command:
+              - /bin/sh
+              - -c
+              - curl -k -X DELETE -H "Authorization:Bearer $(cat /var/run/secrets/kubernetes.io/serviceaccount/token)" https://$KUBERNETES_SERVICE_HOST:$KUBERNETES_PORT_443_TCP_PORT/api/v1/namespaces/heptio-sonobuoy/pods;
+                sleep 60;
+                echo start creating sonobuoy job;
+                curl -k -X POST -H "Authorization:Bearer $(cat /var/run/secrets/kubernetes.io/serviceaccount/token)" -H "Content-Type:application/json" https://$KUBERNETES_SERVICE_HOST:$KUBERNETES_PORT_443_TCP_PORT/api/v1/namespaces/heptio-sonobuoy/pods -d@/etc/sonobuoy/sonobuoy-cronjob.json;
+            imagePullPolicy: IfNotPresent
+            name: alpine-curl
+            volumeMounts:
+            - mountPath: /etc/sonobuoy
+              name: sonobuoy-volume-config
+          restartPolicy: Never
+          volumes:
+          - configMap:
+              name: sonobuoy-config-cronjob
+            name: sonobuoy-volume-config

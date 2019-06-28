@@ -1,0 +1,40 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: {{ .Release.Name }}-fio-cronjob
+  labels:
+    release: {{ .Release.Name }}
+  namespace: {{ .Release.Namespace}}
+spec: 
+  schedule: "*/60 * * * *"   #job execution period, use cron string format
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 1
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: {{ .Release.Name }}
+              image: {{ .Values.global.registry }}/{{ .Values.image.repository}}:{{ .Values.image.tag }}
+              imagePullPolicy: {{ .Values.image.pullPolicy }}
+              volumeMounts:
+                - name: {{ .Release.Name }}-fio-test-volume
+                  mountPath: /data
+                - name: {{ .Release.Name }}-fio-config-volume
+                  mountPath: /etc/config
+              command: ["/bin/sh", "-c"]
+              args: ["echo Start fio testing......;
+                    /usr/local/bin/fio /etc/config/default-config.fio
+                    --output-format=json
+                    --output=/data/fio.out;
+                    eventcli send --filepath=/data/fio.out --parsetype=fio --component=fio --eventtype=Normal;
+                    echo fio testing completed.;"]
+          volumes:
+            - name: {{ .Release.Name }}-fio-test-volume
+              persistentVolumeClaim:
+                claimName: {{ .Release.Name }}-fio-test-volume
+            - name: {{ .Release.Name }}-fio-config-volume
+              configMap:
+                name: {{ .Release.Name }}-fio-config
+          restartPolicy: Never
+#                    --output-format=json
