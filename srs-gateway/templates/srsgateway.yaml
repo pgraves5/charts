@@ -3,7 +3,8 @@ kind: SRSGateway
 metadata:
   name: {{ template "srs-gateway.createCustomResourceName" . }}
   namespace: {{ template "srs-gateway.createNamespace" . }}
-
+  finalizers:
+  - srs.unregister.dellemc.com
 spec:
   connectionInfo:
     hostname: {{ required "gateway.hostname (can be IP address) is required" .Values.gateway.hostname }}
