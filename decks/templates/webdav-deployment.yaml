@@ -1,0 +1,57 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    io.kompose.service: webdav
+  name: webdav
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: webdav  
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        io.kompose.service: webdav
+    spec:
+      containers:
+      - name: webdav
+        env:
+        - name: AUTH_TYPE
+          value: Digest
+        - name: USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: decks-webdav-secret
+              key: username
+        - name: PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: decks-webdav-secret
+              key: password
+        image: {{ .Values.global.registry }}/{{.Values.webdav.image.repository }}:{{ .Values.webdav.image.tag }}
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        command: ["/bin/sh", "-c"]
+        args: ["chmod + x /usr/local/bin/*.sh;
+                sh /usr/local/bin/run-webdav.sh"]
+        ports:
+        - containerPort: {{ .Values.webdav.containerPort }}
+        resources: {}
+        volumeMounts:
+        - mountPath: /var/lib/dav
+          name: webdav-claim0    
+        - mountPath: /etc/conf
+          name: webdav-config-volume
+      restartPolicy: Always
+      volumes:
+      - name: webdav-claim0
+        persistentVolumeClaim:
+          claimName: webdav-claim0
+      - name: webdav-config-volume
+        configMap:
+          name: webdav-initdir
+          items:
+          - key: wevdav-initdir
+            path: webdav-config
