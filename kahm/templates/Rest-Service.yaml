@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: kahm
+    release: {{ .Release.Name }}
+  name: kahm-restapi
+  namespace: {{ .Release.Namespace }}
+spec:
+  ports:
+  - protocol: TCP
+    name: rest 
+    port: 17999 
+    targetPort: rest 
+  selector:
+    app: kahm
+  type: ClusterIP

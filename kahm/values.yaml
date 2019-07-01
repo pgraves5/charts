@@ -6,7 +6,7 @@
 # These global settings relate to KAHM
 global:
   # Name of a Kubernetes secret with Docker credentials for the private registry
-  # registrySecret: ecs-flex-secret
+  registrySecret: dockerhub-registry-secret 
 
   # The private docker registry hosting containers for ECS Flex
   # registry: harbor.lss.emc.com/ecs
@@ -56,3 +56,8 @@ affinity: {}
 db:
   dbType: BadgerDB
   eventTTL: "2592000"
+
+rest:
+  realm: "kahm-rest"
+  username: kahm
+  password: ChangeMe
