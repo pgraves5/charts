@@ -6,7 +6,7 @@
 # These global settings relate to DKS testapp 
 global:
   # Name of a Kubernetes secret with Docker credentials for the private registry
-  #registrySecret: ecs-flex-secret
+  # registrySecret: ecs-flex-secret
 
   # The private docker registry hosting containers for ECS Flex
   registry: harbor.lss.emc.com/ecs
@@ -27,8 +27,9 @@ application:
   testAppName: dks-testapp
 
   # default test event configuration.
+  # totalEvents must be between 1-10, default:5. If totalEvents is greater than 10, it will be reset to 10.
   event:
-    totalEvents: 10
+    totalEvents: 5
     type: "Critical"
     label: "srs-event"
     labelValue: "true"

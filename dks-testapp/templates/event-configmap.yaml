@@ -4,7 +4,11 @@ metadata:
   name: {{ .Values.application.testAppName }}
   namespace: default
 data:
+{{- if gt .Values.application.event.totalEvents 10.0 }}
+  TEST_EVENTS_COUNT: "10"
+{{- else }}
   TEST_EVENTS_COUNT: "{{ .Values.application.event.totalEvents }}"
+{{- end }}
   TEST_EVENT_TYPE: "{{ .Values.application.event.type }}"
   TEST_EVENT_LABEL: "{{ .Values.application.event.label }}"
   TEST_EVENT_LABEL_VALUE: "{{ .Values.application.event.labelValue }}"

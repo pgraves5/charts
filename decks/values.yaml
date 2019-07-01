@@ -6,12 +6,12 @@
 # These global settings relate to DECKS
 global:
   # Name of a Kubernetes secret with Docker credentials for the private registry
-  #registrySecret: dockerhub-registry-secret
+  # registrySecret: dockerhub-registry-secret
 
   # The private docker registry hosting containers for ECS Flex
   # registry: harbor
-  #registry: harbor.lss.emc.com/ecs
-  registry: emccorp 
+  # registry: harbor.lss.emc.com/ecs
+  registry: emccorp
 
   # Default: "" == Watch ALL namespaces
   watchNamespace: ""
@@ -43,7 +43,7 @@ helmTestConfig:
     # for registering a product with the test SRS gateway
     login: "isilon.test@emconlinesupport.com:Password1"
     # The gateway hostname can be an IP address or an FQDN
-    hostname: "10.249.253.218"
+    hostname: "10.249.238.218"
     port: 9443
 
 # We usually recommend not to specify default resources and to leave this as a conscious
