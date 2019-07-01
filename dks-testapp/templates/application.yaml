@@ -1,0 +1,26 @@
+apiVersion: app.k8s.io/v1beta1
+kind: Application
+metadata:
+  name: {{ .Values.application.testAppName }}
+  namespace: {{ .Release.Namespace}}
+  labels:
+    release: {{ .Release.Name }}
+  labels:
+    app.kubernetes.io/name: {{ .Values.application.testAppName }}
+    app.kubernetes.io/managed-by: {{ .Values.application.testAppName }}
+  annotations:
+    com.dellemc.kahm.subscribed: "true"
+spec:
+  assemblyPhase: "Pending"
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ .Values.application.testAppName }}
+      app.kubernetes.io/instance: {{ .Values.application.testAppName }}
+  descriptor:
+    type: {{ .Values.application.testAppName }}
+    version: "latest"
+    description: >
+      Test application.
+    keywords:
+      - {{ .Values.application.testAppName }}
+    info:

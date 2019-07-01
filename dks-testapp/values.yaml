@@ -1,0 +1,52 @@
+---
+# Default values for DKS test application.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+# These global settings relate to DKS testapp 
+global:
+  # Name of a Kubernetes secret with Docker credentials for the private registry
+  # registrySecret: ecs-flex-secret
+
+  # The private docker registry hosting containers for ECS Flex
+  registry: harbor.lss.emc.com/ecs
+
+# The default docker tag and pull policy for the DKS test application
+tag: latest 
+pullPolicy: Always
+
+# The image configured for DKS testapp
+image:
+  repository: dks-testapp
+  # tag: stable
+  # pullPolicy: Always
+
+# create a mock application with the event routing rules and the custom events it would generate
+application:
+  # default test application name
+  testAppName: dks-testapp
+
+  # default test event configuration.
+  # totalEvents must be between 1-10, default:5. If totalEvents is greater than 10, it will be reset to 10.
+  event:
+    totalEvents: 5
+    type: "Critical"
+    label: "srs-event"
+    labelValue: "true"
+    reason: "srs-test"
+    message: "this is an SRS test event"
+
+  # Default event rules will create a configmap for the application event routing rule.
+  # The user needs to change according to their requirement. The rule is that if an event matches with the defined rule (label + field), it will route the event to SRS notifier.
+  eventRules:
+    label: "srs-event"
+    labelValue: "true"
+    field: "type"
+    fieldValue: "Critical"
+    # notifier will be derived from srsGateway
+    # the format of notifier <srsGateway.name>-<srsGateway.namespace>-srs
+
+# The following specifies the SRSGateway to be tested. The name and namespace must be the name of srsGateway custom resource.
+srsGateway:
+   name: "objectscale"
+   namespace: "default"

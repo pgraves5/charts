@@ -39,4 +39,7 @@ spec:
       value: {{ .Values.helmTestConfig.srsGateway.login }}
     - name: SRS_TEST_PRODUCT
       value: {{ .Values.helmTestConfig.srsGateway.product }}
+    - name: GLOBAL_IMAGE_TAG
+      value: {{ .Values.tag }}
+
   restartPolicy: Never
