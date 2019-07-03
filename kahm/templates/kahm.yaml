@@ -17,6 +17,7 @@ spec:
       labels:
         name: kahm
         release: {{ .Release.Name }}
+        app: kahm
     spec:
       serviceAccountName: "kahm"
 {{- if .Values.global.registrySecret }}
@@ -40,6 +41,8 @@ spec:
         ports:
         - containerPort: 60000 
           name: metrics
+        - containerPort: 17999
+          name: rest
         volumeMounts:
         - mountPath: /data/db
           name: db
