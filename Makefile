@@ -3,9 +3,10 @@ HELM_URL     := https://storage.googleapis.com/kubernetes-helm
 HELM_TGZ      = helm-${HELM_VERSION}-linux-amd64.tar.gz
 YQ_VERSION   := 2.2.1
 YAMLLINT_VERSION := 1.14.0
+CHARTS := ecs-cluster ecs-flex-operator mongoose zookeeper-operator decks kahm srs-gateway dks-testapp fio-test sonobuoy
 
 test:
-	for CHART in ecs-cluster ecs-flex-operator mongoose zookeeper-operator decks kahm srs-gateway; do \
+	for CHART in ${CHARTS}; do \
 		helm lint $$CHART ; \
 		helm unittest $$CHART ; \
 		yamllint -c .yamllint.yml -s $$CHART/Chart.yaml $$CHART/values.yaml ; \
@@ -25,7 +26,7 @@ dep:
 
 build:
 	REINDEX=0; \
-	for CHART in zookeeper-operator ecs-cluster ecs-flex-operator mongoose decks kahm srs-gateway; do \
+	for CHART in ${CHARTS}; do \
 		set -x; \
 		CURRENT_VER=`yq r $$CHART/Chart.yaml version` ; \
 		yq r docs/index.yaml "entries.$${CHART}[*].version" | grep -q "\- $${CURRENT_VER}$$" ; \

@@ -18,8 +18,8 @@ global:
 replicaCount: 1
 
 image:
-  repository: kahm-fio
-  tag: v0.1
+  repository: fio-test
+  tag: 0.3.0
   pullPolicy: Always
 
 storageClass: vsphere
