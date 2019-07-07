@@ -60,3 +60,4 @@ spec:
     servicePort: {{ .Values.notifier.servicePort }}
     grpcConnTimeout: {{ .Values.notifier.grpcConnTimeout }}
     grpcRetries: {{ .Values.notifier.grpcRetries }}
+
