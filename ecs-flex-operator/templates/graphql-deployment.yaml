@@ -19,6 +19,9 @@ spec:
       containers:
         - name: ecs-flex-graphql
           image: {{ .Values.global.registry }}/{{ .Values.graphql.image.repository }}:{{ .Values.graphql.image.tag }}
+          env:
+            - name: OPERATOR_NAME
+              value: ecs-flex-operator
           args:
 {{- if .Values.graphql.withPlayground }}
             - "-P"
@@ -28,15 +31,3 @@ spec:
 {{- else }}
           imagePullPolicy: {{ .Values.pullPolicy }}
 {{- end }}
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: ecs-flex-graphql
-spec:
-    type: {{ .Values.graphql.service.type }}
-    selector:
-      release: {{ .Release.Name }}
-      name: ecs-flex-graphql
-    ports:
-      - port: {{ .Values.graphql.port }}

@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: ecs-flex-graphql
+spec:
+  type: {{ .Values.graphql.service.type }}
+  selector:
+    release: {{ .Release.Name }}
+    name: ecs-flex-graphql
+  ports:
+    - port: {{ .Values.graphql.port }}
+      name: http
