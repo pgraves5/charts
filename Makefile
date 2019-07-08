@@ -3,12 +3,22 @@ HELM_URL     := https://storage.googleapis.com/kubernetes-helm
 HELM_TGZ      = helm-${HELM_VERSION}-linux-amd64.tar.gz
 YQ_VERSION   := 2.2.1
 YAMLLINT_VERSION := 1.14.0
+CHARTS := ecs-cluster ecs-flex-operator mongoose zookeeper-operator decks kahm srs-gateway dks-testapp fio-test sonobuoy
+DECKSCHARTS := decks kahm srs-gateway dks-testapp fio-test sonobuoy
+
 
 test:
-	for CHART in ecs-cluster ecs-flex-operator mongoose zookeeper-operator decks kahm srs-gateway; do \
+	for CHART in ${CHARTS}; do \
+		set -x ; \
 		helm lint $$CHART ; \
 		helm unittest $$CHART ; \
+		if [ "$${?}" -eq "1" ] ; then \
+			exit 1 ; \
+		fi ; \
 		yamllint -c .yamllint.yml -s $$CHART/Chart.yaml $$CHART/values.yaml ; \
+		if [ "$${?}" -eq "1" ] ; then \
+			exit 1 ; \
+		fi ; \
 	done
 	yamllint -c .yamllint.yml -s .yamllint.yml .travis.yml
 
@@ -18,14 +28,30 @@ dep:
 	PATH=`pwd`/linux-amd64/:$PATH
 	chmod +x /tmp/helm
 	helm init --client-only
-	helm plugin install https://github.com/lrills/helm-unittest
+	helm plugin list | grep -q "unittest" ; \
+	if [ "$${?}" -eq "1" ] ; then \
+		helm plugin install https://github.com/lrills/helm-unittest ; \
+ 	fi
 	export PATH=$PATH:/tmp
 	sudo pip install yamllint=="${YAMLLINT_VERSION}"
 	sudo pip install yq=="${YQ_VERSION}"
 
+decksver:
+	if [ -z $${DECKSVER} ] ; then \
+		echo "Missing DECKSVER= param" ; \
+		exit 1 ; \
+	fi
+	for CHART in ${DECKSCHARTS}; do \
+		set -x; \
+		yq w -i $$CHART/Chart.yaml appVersion $${DECKSVER} ; \
+		yq w -i $$CHART/Chart.yaml version $${DECKSVER} ; \
+		echo "---\n`cat $$CHART/Chart.yaml`" > $$CHART/Chart.yaml ; \
+		sed -i -e "s/^\([ ]*\)tag:.*/\1tag: $${DECKSVER}/" $$CHART/values.yaml; \
+	done ;
+
 build:
 	REINDEX=0; \
-	for CHART in zookeeper-operator ecs-cluster ecs-flex-operator mongoose decks kahm srs-gateway; do \
+	for CHART in ${CHARTS}; do \
 		set -x; \
 		CURRENT_VER=`yq r $$CHART/Chart.yaml version` ; \
 		yq r docs/index.yaml "entries.$${CHART}[*].version" | grep -q "\- $${CURRENT_VER}$$" ; \

@@ -1,6 +1,6 @@
-# Dell EMC Elastic Cloud Storage Helm Charts
+# Dell EMC ObjectScale Helm Charts
 
-This repository provides all Dell EMC Elastic Cloud Storage related packages for [Kubernetes](http://kubernetes.io), formatted as [Helm](https://helm.sh) packages.
+This repository provides all Dell EMC ObjectScale related packages for [Kubernetes](http://kubernetes.io), formatted as [Helm](https://helm.sh) packages.
 
 To add this repository to your local Helm installation:
 
@@ -18,7 +18,9 @@ $ helm repo update
 * [ECS Cluster](ecs-cluster)
 * [Zookeeper Operator](zookeeper-operator)
 * [Mongoose Load Testing Tool](mongoose)
+* [DECKS](decks)
 * [KAHM](kahm)
+* [SRS Gateway](srs-gateway)
 
 ## Adding private Helm repository and Docker registries
 
@@ -46,11 +48,14 @@ $ helm repo update
 
 ```bash
 $ helm search ecs
-NAME                            	CHART VERSION	APP VERSION	DESCRIPTION
-ecs/ecs-cluster                 	0.1.0        	1.0        	Elastic Cloud Storage is a highly scalable, S3 compatible...
-ecs/ecs-flex-operator           	0.1.0        	1.0        	Dell EMC Elastic Cloud Storage is highly scalable, and hi...
-ecs/mongoose                    	0.1.0        	1.0        	Mongoose is a horizontally scalable and configurable S3 p...
-ecs/zookeeper-operator          	0.0.1        	2.6.0      	Zookeeper operator deploys a custom resource for a zookee...
+NAME                  	CHART VERSION	APP VERSION	DESCRIPTION                                                 
+ecs/ecs-cluster       	0.1.6        	0.1.6      	Dell EMC Elastic Cloud Storage is highly scalable, and hi...
+ecs/ecs-flex-operator 	0.1.6        	0.1.6      	Dell EMC Elastic Cloud Storage is highly scalable, and hi...
+ecs/decks             	0.2.0        	0.2.0      	A Helm chart for Dell EMC Common Kubernetes Services        
+ecs/kahm              	0.2.0        	0.2.0      	A Helm chart for Kubernetes Applications Health Management  
+ecs/mongoose          	0.1.3        	4.1.1      	Mongoose is a horizontally scalable and configurable S3 p...
+ecs/srs-gateway       	0.2.0        	0.2.0      	A Helm chart for Dell EMC SRS Gateway Custom Resource Sup...
+ecs/zookeeper-operator	0.1.6        	0.2.0      	Zookeeper operator deploys a custom resource for a zookee...
 ```
 
 ### Add Private Docker Registry for your Kubernetes Cluster
@@ -69,3 +74,5 @@ $ kubectl create secret docker-registry ecs-flex-registry \
 ```
 
 You can then set it in the Helm chart installations (`ecs-flex-operator` and `ecs-cluster`) with a Helm setting: `--set global.registrySecret=<SECRET_NAME>`.  If you set the `registrySecret` setting in the ecs-flex-operator, it will be assumed in any operator created ECS clusters; however, the parameter can still be set in an `ecs-cluster` release.
+
+
