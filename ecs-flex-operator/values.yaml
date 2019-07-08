@@ -90,3 +90,12 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+graphql:
+  image:
+    repository: ecs-flex-graphql
+    tag: latest
+    pullPolicy: Always
+  service:
+    type: ClusterIP
+  withPlayground: false

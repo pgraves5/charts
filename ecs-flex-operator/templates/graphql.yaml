@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ecs-flex-graphql
+  labels:
+    release: {{ .Release.Name }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: ecs-flex-graphql
+  template:
+    metadata:
+      labels:
+        name: ecs-flex-graphql
+        release: {{ .Release.Name }}
+    spec:
+      serviceAccountName: "ecs-flex-operator"
+      containers:
+        - name: ecs-flex-graphql
+          image: {{ .Values.global.registry }}/{{ .Values.graphql.image.repository }}:{{ .Values.graphql.image.tag }}
+          args:
+{{- if .Values.graphql.withPlayground }}
+            - "-P"
+{{- end }}
+{{- if .Values.graphql.image.pullPolicy }}
+          imagePullPolicy: {{ .Values.graphql.image.pullPolicy }}
+{{- else }}
+          imagePullPolicy: {{ .Values.pullPolicy }}
+{{- end }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ecs-flex-graphql
+spec:
+    type: {{ .Values.graphql.service.type }}
+    selector:
+      release: {{ .Release.Name }}
+      name: ecs-flex-graphql
+    ports:
+      - port: 8080
