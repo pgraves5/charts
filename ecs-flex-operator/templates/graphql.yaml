@@ -39,4 +39,4 @@ spec:
       release: {{ .Release.Name }}
       name: ecs-flex-graphql
     ports:
-      - port: 8080
+      - port: {{ .Values.graphql.port }}

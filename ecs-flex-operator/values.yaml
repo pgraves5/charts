@@ -99,3 +99,4 @@ graphql:
   service:
     type: ClusterIP
   withPlayground: false
+  port: 8080
