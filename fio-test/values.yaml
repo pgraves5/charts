@@ -20,7 +20,7 @@ replicaCount: 1
 
 image:
   repository: fio-test
-  tag: 0.3.0-2
+  tag: 0.3.0-3
   pullPolicy: Always
 
 storageClass: vsphere
