@@ -14,19 +14,6 @@ entries:
     urls:
     - decks-0.3.0-3.tgz
     version: 0.3.0-3
-  - apiVersion: v1
-    appVersion: 0.2.0
-    created: 2019-07-08T23:50:56.126669017-04:00
-    description: A Helm chart for Dell EMC Common Kubernetes Services
-    digest: 29c1d77687e6db00f6466c1e8b290d4df772de2de033b96b953f1e6eb6935609
-    icon: https://avatars0.githubusercontent.com/u/12926680
-    maintainers:
-    - name: Dell EMC
-      url: http://dellemc.com
-    name: decks
-    urls:
-    - decks-0.2.0.tgz
-    version: 0.2.0
   dks-testapp:
   - apiVersion: v1
     appVersion: 0.3.0-3
@@ -279,19 +266,6 @@ entries:
     - kahm-0.3.0-3.tgz
     version: 0.3.0-3
   - apiVersion: v1
-    appVersion: 0.2.0
-    created: 2019-07-08T23:50:56.1488094-04:00
-    description: A Helm chart for Kubernetes Applications Health Management
-    digest: a8156f8d9060ace80482125a10d32c94265f28a3873d53757730cdccd85975b4
-    icon: https://avatars0.githubusercontent.com/u/12926680
-    maintainers:
-    - name: Dell EMC
-      url: http://dellemc.com
-    name: kahm
-    urls:
-    - kahm-0.2.0.tgz
-    version: 0.2.0
-  - apiVersion: v1
     appVersion: "1.0"
     created: 2019-07-08T23:50:56.14783664-04:00
     description: A Helm chart for Kubernetes Applications serviceability and health
@@ -390,19 +364,6 @@ entries:
     urls:
     - srs-gateway-0.3.0-3.tgz
     version: 0.3.0-3
-  - apiVersion: v1
-    appVersion: 0.2.0
-    created: 2019-07-08T23:50:56.154458862-04:00
-    description: A Helm chart for Dell EMC SRS Gateway Custom Resource Support
-    digest: 42a692f63e3329c2c9f9a949b77aceb651d65148b9f329500819fdc0a4b7fc1b
-    icon: https://avatars0.githubusercontent.com/u/12926680
-    maintainers:
-    - name: Dell EMC
-      url: http://dellemc.com
-    name: srs-gateway
-    urls:
-    - srs-gateway-0.2.0.tgz
-    version: 0.2.0
   zookeeper-operator:
   - appVersion: 0.2.0
     created: 2019-07-08T23:50:56.160650502-04:00
