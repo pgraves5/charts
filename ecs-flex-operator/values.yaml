@@ -97,6 +97,6 @@ graphql:
     tag: latest
     pullPolicy: Always
   service:
-    type: ClusterIP
+    type: LoadBalancer
   withPlayground: false
   port: 8080
