@@ -90,3 +90,13 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+graphql:
+  image:
+    repository: ecs-flex-graphql
+    tag: latest
+    pullPolicy: Always
+  service:
+    type: LoadBalancer
+  withPlayground: false
+  port: 8080
