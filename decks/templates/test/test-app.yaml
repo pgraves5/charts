@@ -27,6 +27,8 @@ spec:
     env:
     - name: DECKS_RELEASE_NAME
       value: "{{ .Release.Name }}" 
+    - name: REGISTRY_NAME
+      value: {{ .Values.global.registry }}
     - name: REGISTRY_SECRET
       value: {{ .Values.global.registrySecret }}
     - name: DECKS_NAMESPACE
