@@ -14,7 +14,7 @@ subjects:
 apiVersion: v1
 kind: Pod
 metadata:
-  name: testpod
+  name: hc-status
   namespace: default
 spec:
   containers:
