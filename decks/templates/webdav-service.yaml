@@ -2,12 +2,12 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    io.kompose.service: webdav
-  name: webdav
+    io.kompose.service: decks-webdav
+  name: decks-webdav
 spec:
   ports:
   - name: webdav-service-ports
     port: {{ .Values.webdav.service.port }}
     targetPort: {{ .Values.webdav.service.targetPort }}
   selector:
-    io.kompose.service: webdav
+    io.kompose.service: decks-webdav

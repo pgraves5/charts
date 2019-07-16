@@ -32,7 +32,7 @@ image:
 webdav:
   image:
     repository: decks-webdav
-    tag: 2.4
+    version: 2.4
     pullPolicy: Always
   containerPort: 80
   persistentVolume:
