@@ -1,0 +1,24 @@
+apiVersion: app.k8s.io/v1beta1
+kind: Application
+metadata:
+  namespace:  {{ .Release.Namespace }}
+  name: "decks"
+  labels:
+    app.kubernetes.io/name: "decks"
+    release: {{ .Release.Name }}
+  annotations:
+    com.dellemc.kahm.subscribed: "true"
+spec:
+  assemblyPhase: "Pending"
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: "decks"
+  descriptor:
+    type: "decks"
+    version: "latest"
+    description: >
+      Dell EMC Common Kubernetes Services
+    info: "decks"
+    keywords:
+      - "decks"
+    info:
