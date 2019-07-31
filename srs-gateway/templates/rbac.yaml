@@ -45,6 +45,7 @@ rules:
   - extensions
   resources:
   - pods
+  - pods/exec
   - pods/log
   - pods/portforward
   - services
