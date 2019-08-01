@@ -58,7 +58,7 @@ db:
   dbType: BadgerDB
   eventTTL: "2592000"
 
-rest:
-  realm: "kahm-rest"
+restapi:
+  realm: "kahm-restapi"
   username: kahm
   password: ChangeMe
