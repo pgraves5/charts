@@ -29,6 +29,8 @@ image:
   # tag: stable
   # pullPolicy: Always
 
+## Allow callers to bypass creating app resource
+createdecksappResource: true
 webdav:
   image:
     repository: decks-webdav

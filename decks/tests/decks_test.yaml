@@ -42,3 +42,17 @@ tests:
       - equal:
           path: spec.template.spec.containers[0].imagePullPolicy
           value: IfNotPresent
+  - it: should have the following env variables
+    asserts:
+    - contains:
+        path: spec.template.spec.containers[0].env
+        content:
+          name: POD_NAME
+          value: "decks"
+          name: POD_NAMESPACE
+          value: ""
+          name: WATCH_NAMESPACE
+          value: ""
+          name: CONTROLLER_NAME
+          value: "decks"
+
