@@ -5,6 +5,8 @@ metadata:
   namespace: {{ template "srs-gateway.createNamespace" . }}
   finalizers:
   - srs.unregister.dellemc.com
+  labels:
+    product: {{ required "product (e.g. OBJECTSCALE) is required" .Values.product | lower }}
 spec:
   connectionInfo:
     hostname: {{ required "gateway.hostname (can be IP address) is required" .Values.gateway.hostname }}
