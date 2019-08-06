@@ -53,8 +53,7 @@ helmTestConfig:
     # tag: stable
     # pullPolicy: Always
   srsGateway:
-    # product to test
-    product: "OBJECTSCALE"
+    # product to test "UNISPHERE" - fixed
     # The login setting configures the user/password credentials
     # for registering a product with the test SRS gateway
     login: "isilon.test@emconlinesupport.com:Password1"
