@@ -10,11 +10,20 @@ data:
               value: {{ .Values.application.eventRules.fieldValue }}
           notifiers:
             - {{ .Values.srsGateway.name }}-srs-{{ .Values.srsGateway.namespace }}
+    healthCheck:  |-
+    eventRemedies:  |-
+      symptoms:
+        - symptomid: helmtest-restapi
+          description: helm test restapi testing for remedies
+          remedies:
+            - 1. helmtest-restapi-remedy 1
+            - 2. helmmtest-restapi-remedy 2
+
 kind: ConfigMap
 metadata:
   creationTimestamp: null
   labels:
     app.kubernetes.io/name: {{ .Values.application.testAppName }}
     app.kubernetes.io/managed-by: {{ .Values.application.testAppName }}
-  name: {{ .Values.application.testAppName }}-event-rules
+  name: {{ .Values.application.testAppName }}-app-config
   namespace: {{ .Release.Namespace }}
