@@ -10,7 +10,7 @@ data:
               value: {{ .Values.application.eventRules.fieldValue }}
           notifiers:
             - {{ .Values.srsGateway.name }}-srs-{{ .Values.srsGateway.namespace }}
-    healthCheck:  |-
+    healthChecks:  |-
     eventRemedies:  |-
       symptoms:
         - symptomid: helmtest-restapi
