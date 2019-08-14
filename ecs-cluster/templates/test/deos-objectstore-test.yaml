@@ -1,0 +1,31 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: {{ .Release.Name }}-deos-hc
+  namespace: {{ .Release.Namespace }}
+spec:
+  containers:
+  - image: {{ .Values.global.registry }}/{{ .Values.deos-hc.image.repository }}:{{ .Values.deos-hc.image.tag }}
+    command:
+    - /bin/sh
+    - -c
+    - /deos-hc all
+    imagePullPolicy: {{ .Values.deos-hc.image.pullPolicy}}
+    name: hc-container
+    env:
+    - name: SECRET_USERNAME
+      valueFrom:
+        secretKeyRef:
+          name: login-info-secret
+          key: username
+    - name: SECRET_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: login-info-secret
+          key: password
+    - name: POD_NAMESPACE
+      value: {{ .Release.Namespace }}
+    - name: RELEASE_NAME
+      value: {{ .Release.Name }}
+  restartPolicy: Never

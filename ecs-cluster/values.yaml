@@ -408,3 +408,12 @@ fabricProxy:
     repository: fabric-proxy
     # tag: stable
     # pullPolicy: IfNotPresent
+
+# deos health check configuration
+deos-hc:
+  image:
+    repository: deos-hc
+    tag: 0.1.6
+    pullPolicy: Always
+  username: "emcmonitor"
+  password: "ChangeMe"
