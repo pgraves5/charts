@@ -8,8 +8,6 @@ spec:
   containers:
   - image: {{ .Values.global.registry }}/{{ .Values.deos-hc.image.repository }}:{{ .Values.deos-hc.image.tag }}
     command:
-    - /bin/sh
-    - -c
     - /deos-hc all
     imagePullPolicy: {{ .Values.deos-hc.image.pullPolicy}}
     name: hc-container
@@ -17,12 +15,12 @@ spec:
     - name: SECRET_USERNAME
       valueFrom:
         secretKeyRef:
-          name: login-info-secret
+          name: mgmtapi_login-info-secret
           key: username
     - name: SECRET_PASSWORD
       valueFrom:
         secretKeyRef:
-          name: login-info-secret
+          name: mgmtapi_login-info-secret
           key: password
     - name: POD_NAMESPACE
       value: {{ .Release.Namespace }}
