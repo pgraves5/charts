@@ -64,6 +64,36 @@ tests:
     - equal:
         path: spec.notifier.grpcRetries
         value: 3
+  - it: should create an SRS GW custom resource with disable flag true
+    set:
+      product: MOTHERSOFINVENTION
+      gateway.hostname: 192.0.2.7
+      gateway.login: frank.zappa:ZirconEncrusted
+      gateway.disable: true
+    asserts:
+    - equal:
+        path: spec.disable
+        value: true
+  - it: should create an SRS GW custom resource without disable flag
+    set:
+      product: MOTHERSOFINVENTION
+      gateway.hostname: 192.0.2.7
+      gateway.login: frank.zappa:ZirconEncrusted
+      gateway.disable: false
+    asserts:
+    - equal:
+        path: spec.disable
+        value: null
+  - it: should create an SRS GW custom resource without disable flag
+    set:
+      product: MOTHERSOFINVENTION
+      gateway.hostname: 192.0.2.7
+      gateway.login: frank.zappa:ZirconEncrusted
+      gateway.disable: null
+    asserts:
+    - equal:
+        path: spec.disable
+        value: null
   - it: should create an SRS GW custom resource with an explicit name
     set:
       product: MOTHERSOFINVENTION

@@ -31,6 +31,9 @@ tag: 0.5.0
 pullPolicy: "Always"
 
 gateway:
+  # To disable the REST API communication with SRSGateway. 
+  # disable: true will disable the communication with SRSGateway
+
   # ==================== MANDATORY SETTING ====================
   # The gateway hostname can be an IP address or an FQDN
   # hostname: "10.249.253.18"

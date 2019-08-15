@@ -402,6 +402,18 @@ secret:
 --set dockerUsername=janedoe --set dockerPassword=MyPassword
 ```
 
+### gateway.disable
+The gateway.disable setting allows a user to temporary disable the communication with SRSGateway. When the SRSGateway is in disabled mode, 
+the SRS client will not allow any REST API calls to SRS Gateway except for DELETE (so that the product can be unregistered even in the disabled state).
+
+Defaults:
+* gateway.disable: false 
+
+Example helm install command line setting:
+```
+--set gateway.disable=true
+```
+
 ### gateway.port
 The gateway.port setting configures the port on which the SRS Gateway is listening on.
 
