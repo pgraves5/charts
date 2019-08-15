@@ -16,6 +16,9 @@ spec:
 {{- if or .Values.dockerSecret ( and .Values.dockerUsername .Values.dockerPassword ) }}
   dockerSecret: {{ template "srs-gateway.createDockerSecretName" . }}
 {{- end }}
+{{- if .Values.gateway.disable }}
+  disable: {{ .Values.gateway.disable }}
+{{- end }}
   remoteAccess:
 {{- if .Values.remoteAccess.registry }}
     registry: {{ .Values.remoteAccess.registry }}
