@@ -24,16 +24,6 @@ spec:
     - /deos-hc all
     name: hc-container
     env:
-    - name: SECRET_USERNAME
-      valueFrom:
-        secretKeyRef:
-          name: mgmtapi-login-info-secret
-          key: username
-    - name: SECRET_PASSWORD
-      valueFrom:
-        secretKeyRef:
-          name: mgmtapi-login-info-secret
-          key: password
     - name: POD_NAMESPACE
       value: {{ .Release.Namespace }}
     - name: RELEASE_NAME

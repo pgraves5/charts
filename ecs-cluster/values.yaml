@@ -414,5 +414,3 @@ deos-hc:
   # Docker repository to be used for running deos health check
   image:
     repository: deos-hc
-  username: "emcmonitor"
-  password: "ChangeMe"
