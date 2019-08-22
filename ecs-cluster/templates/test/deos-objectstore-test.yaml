@@ -8,21 +8,31 @@ metadata:
   namespace: {{ .Release.Namespace }}
 spec:
   containers:
-  - image: {{ .Values.global.registry }}/{{ .Values.deos-hc.image.repository }}:{{ .Values.deos-hc.image.tag }}
+  - image: 
+      repository: {{ .Values.global.registry }}/{{ .Values.deos-hc.image.repository }}
+{{- if .Values.deos-hc.image.tag }}
+      tag: {{ .Values.deos-hc.image.tag }}
+{{- else }}
+      tag: {{ .Values.tag }}
+{{- end }}
+{{- if .Values.deos-hc.image.pullPolicy }}
+      pullPolicy: {{ .Values.deos-hc.image.pullPolicy }}
+{{- else }}
+      pullPolicy: {{ .Values.pullPolicy }}
+{{- end }}
     command:
     - /deos-hc all
-    imagePullPolicy: {{ .Values.deos-hc.image.pullPolicy}}
     name: hc-container
     env:
     - name: SECRET_USERNAME
       valueFrom:
         secretKeyRef:
-          name: mgmtapi_login-info-secret
+          name: mgmtapi-login-info-secret
           key: username
     - name: SECRET_PASSWORD
       valueFrom:
         secretKeyRef:
-          name: mgmtapi_login-info-secret
+          name: mgmtapi-login-info-secret
           key: password
     - name: POD_NAMESPACE
       value: {{ .Release.Namespace }}

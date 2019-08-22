@@ -411,9 +411,8 @@ fabricProxy:
 
 # deos health check configuration
 deos-hc:
+  # Docker repository to be used for running deos health check
   image:
     repository: deos-hc
-    tag: 0.1.6
-    pullPolicy: Always
   username: "emcmonitor"
   password: "ChangeMe"
