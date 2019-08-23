@@ -4,6 +4,7 @@ _List the changes for this PR_
 
 ## PR checklist
 - [ ] make test passed
+- [ ] make build passed
 - [ ] helm install <chart> passed
 - [ ] helm test <release_name> passed
 
