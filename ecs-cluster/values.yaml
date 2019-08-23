@@ -408,3 +408,9 @@ fabricProxy:
     repository: fabric-proxy
     # tag: stable
     # pullPolicy: IfNotPresent
+
+# deos health check configuration
+deos-hc:
+  # Docker repository to be used for running deos health check
+  image:
+    repository: deos-hc
