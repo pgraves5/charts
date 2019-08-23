@@ -58,12 +58,19 @@ rules:
   - configmaps
   - secrets
   - applications
+  - nodes
+  - namespaces
+  - replicationcontrollers
+  - daemonsets
+  - deployments
+  - replicasets
   verbs:
   - "*"
 - apiGroups:
   - batch
   resources:
   - jobs
+  - cronjobs
   verbs:
   - "*"
 - apiGroups:

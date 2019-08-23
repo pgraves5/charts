@@ -52,6 +52,9 @@ do the following:
 - *Create an SRS GW config secret* that an KAHM SRS notifier will use to
   access credentials for making RESTful API calls to the SRS gateway.
 - Create a *KAHM SRS notifier custom resource, deployment, and service*.
+- Create a *SRS Configuration Upload CronJob for periodically scraping
+  Helm and Kubernetes config, compiling into a tar/gzip archive file, and
+  uploading to the SRS GW*
 
 Here is a summary list of the SRS gateway custom resource secondary resources
 that are created by the DECKS SRS gateway CR controller:
@@ -61,6 +64,7 @@ that are created by the DECKS SRS gateway CR controller:
 - SRS Notifier deployment
 - SRS Notifier service
 - SRS Notifier custom resource
+- SRS Configuration Upload CronJob
 
 ### Name/Prefix Used for SRS GW CR and Its Secondary Resources
 This helm chart uses the following order of precedence in selecting a name for
@@ -133,6 +137,13 @@ metadata:
   selfLink: /apis/decks.ecs.dellemc.com/v1beta1/namespaces/default/srsgateways/objectscale
   uid: 98397a70-90a4-11e9-865a-005056bbe139
 spec:
+  configUpload:
+    pullPolicy: Always
+    registry: diverdane
+    repository: config-upload
+    restartPolicy: Never
+    tag: latest
+    uploadPeriodHours: 1
   connectionInfo:
     credsSecret: objectscale-srs-creds-secret
     hostname: 10.249.253.18
@@ -146,15 +157,17 @@ spec:
     registry: diverdane
     repository: srs-notifier
     servicePort: 50051
-    tag: dane
+    tag: latest
   remoteAccess:
     pullPolicy: Always
     registry: diverdane
     repository: remote-access
     servicePort: 22
-    tag: dane
+    tag: latest
   testDialHome: false
 status:
+  configUpload:
+    cronJob: streamingdata-config-upload
   connectionState:
     connected: true
     credsSecretChecksum: e5dbe064083f2880d31fd4776661318af64d507e9d4b78692e6127991d8bba4c
@@ -215,6 +228,12 @@ The sections that follow describe the status fields in the SRS gateway CR.
   to the SRS gateway.
 - service: Name of the SRS notifier service that has been created for this
   product.
+
+### configUpload Status Fields
+- cronJob: Name of the Kubernetes CronJob that is deployed for this product
+  for periodically collecting Helm release and Kubernetes resource
+  configuration for the Kubernetes cluster, and uploading this configuration
+  to the SRS Gateway in the form of a compressed tar (.tar.gz) file.
 
 ## Rerunning the SRS Dial Home Test
 To rerun the SRS Dial Home test, which confirms that DECKS can successfully
