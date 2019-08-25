@@ -72,8 +72,14 @@ fields are limited to this length.
 {{- define "srs-gateway.createCredsSecretName" -}}
 {{- if .Values.customResourceName -}}
 {{- printf "%s-srs-creds-secret" .Values.customResourceName | lower | trimSuffix "-" | trunc 63 -}}
-{{- else -}}
+{{- else if .Values.product -}}
 {{- printf "%s-srs-creds-secret" .Values.product | lower | trimSuffix "-" | trunc 63 -}}
+{{- else -}}
+{{/*
+This case should never occur, since .Values.product is a required setting.
+This is added solely to satisfy `helm lint`.
+*/}}
+{{- printf "srs-creds-secret" -}}
 {{- end -}}
 {{- end -}}
 
@@ -96,8 +102,14 @@ fields are limited to this length.
 {{- print .Values.dockerSecret | lower | trimSuffix "-" | trunc 63 -}}
 {{- else if .Values.customResourceName -}}
 {{- printf "%s-docker-secret" .Values.customResourceName | lower | trimSuffix "-" | trunc 63 -}}
-{{- else -}}
+{{- else if .Values.product -}}
 {{- printf "%s-docker-secret" .Values.product | lower | trimSuffix "-" | trunc 63 -}}
+{{- else -}}
+{{/*
+This case should never occur, since .Values.product is a required setting.
+This is added solely to satisfy `helm lint`.
+*/}}
+{{- printf "srs-docker-secret" -}}
 {{- end -}}
 {{- end -}}
 
@@ -113,8 +125,14 @@ at 63 characters since some Kubernetes name fields are limited to this length.
 {{- define "srs-gateway.createServiceAccountName" -}}
 {{- if .Values.customResourceName -}}
 {{- printf "%s-remote-access" .Values.customResourceName | lower | trimSuffix "-" | trunc 63 -}}
-{{- else -}}
+{{- else if .Values.product -}}
 {{- printf "%s-remote-access" .Values.product | lower | trimSuffix "-" | trunc 63 -}}
+{{- else -}}
+{{/*
+This case should never occur, since .Values.product is a required setting.
+This is added solely to satisfy `helm lint`.
+*/}}
+{{- printf "srs-remote-access" -}}
 {{- end -}}
 {{- end -}}
 
