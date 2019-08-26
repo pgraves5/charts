@@ -11,6 +11,10 @@ test:
 	for CHART in ${CHARTS}; do \
 		set -x ; \
 		helm lint $$CHART ; \
+		## TODO: bypass srs-gateway failure FLEX-1012; \
+		if [ "$${?}" -eq "1" ] && [ $$CHART != "srs-gateway" ] ; then \
+			exit 1 ; \
+		fi ; \
 		helm unittest $$CHART ; \
 		if [ "$${?}" -eq "1" ] ; then \
 			exit 1 ; \
