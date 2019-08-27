@@ -10,14 +10,19 @@ global:
   # Default: "" == Watch ALL namespaces
   watchNamespace: ""
 
-
 replicaCount: 1
 
-image:
-  repository: alpine-curl
-  tag: 0.5.5
-  pullPolicy: Always
+alpine_curl:
+  image:
+    repository: alpine-curl
+    tag: 0.5.5
+    pullPolicy: IfNotPresent
 
+sonobuoy_eventcli:
+  image:
+    repository: sonobuoy
+    tag: v0.14
+    pullPolicy: IfNotPresent
 
 resources: {}
 # We usually recommend not to specify default resources and to leave this
