@@ -1,31 +1,30 @@
----
 apiVersion: v1
 kind: Pod
 metadata:
-  name: {{ .Release.Name }}-deos-hc
+  name: "{{ .Release.Name }}-deos-hc"
+  annotations:
+    "helm.sh/hook": test-success
   labels:
-    release: {{ .Release.Name }}
-  namespace: {{ .Release.Namespace }}
+    release: "{{ .Release.Name }}"
+  namespace: "{{ .Release.Namespace }}"
 spec:
   containers:
-  - image: 
-      repository: {{ .Values.global.registry }}/{{ .Values.deos_hc.image.repository }}
-{{- if .Values.deos_hc.image.tag }}
-      tag: {{ .Values.deos_hc.image.tag }}
-{{- else }}
-      tag: {{ .Values.tag }}
-{{- end }}
-{{- if .Values.deos_hc.image.pullPolicy }}
-      pullPolicy: {{ .Values.deos_hc.image.pullPolicy }}
-{{- else }}
-      pullPolicy: {{ .Values.pullPolicy }}
-{{- end }}
-    command:
-    - /deos-hc all
-    name: hc-container
+  - command: ["/bin/sh", "-c"]
+    args: ["deos-hc all"]
     env:
     - name: POD_NAMESPACE
-      value: {{ .Release.Namespace }}
+      value: "{{ .Release.Namespace }}"
     - name: RELEASE_NAME
-      value: {{ .Release.Name }}
+      value: "{{ .Release.Name }}"
+    image: {{ .Values.global.registry }}/{{ .Values.deos_hc.image.repository }}:{{ .Values.deos_hc.image.tag }}
+{{- if .Values.deos_hc.image.pullPolicy }}
+    imagePullPolicy: {{ .Values.deos_hc.image.pullPolicy }}
+{{- else }}
+    imagePullPolicy: {{ .Values.pullPolicy }}
+{{- end }}
+    name: hc-container
+{{- if .Values.global.registrySecret }}
+  imagePullSecrets:
+  - name: {{ .Values.global.registrySecret }}
+{{- end }}
   restartPolicy: Never

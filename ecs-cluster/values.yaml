@@ -414,3 +414,4 @@ deos_hc:
   # Docker repository to be used for running deos health check
   image:
     repository: deos-hc
+    tag: v0.5.5-18-dirty
