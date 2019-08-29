@@ -139,11 +139,11 @@ metadata:
 spec:
   configUpload:
     pullPolicy: Always
-    registry: diverdane
+    registry: emccorp
     repository: config-upload
     restartPolicy: Never
     tag: latest
-    uploadPeriodHours: 1
+    uploadPeriodHours: 12
   connectionInfo:
     credsSecret: objectscale-srs-creds-secret
     hostname: 10.249.253.18
@@ -154,13 +154,13 @@ spec:
     grpcConnTimeout: 5
     grpcRetries: 3
     pullPolicy: Always
-    registry: diverdane
+    registry: emccorp
     repository: srs-notifier
     servicePort: 50051
     tag: latest
   remoteAccess:
     pullPolicy: Always
-    registry: diverdane
+    registry: emccorp
     repository: remote-access
     servicePort: 22
     tag: latest
