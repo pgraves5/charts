@@ -65,4 +65,27 @@ spec:
     servicePort: {{ .Values.notifier.servicePort }}
     grpcConnTimeout: {{ .Values.notifier.grpcConnTimeout }}
     grpcRetries: {{ .Values.notifier.grpcRetries }}
+  configUpload:
+{{- if .Values.configUpload.registry }}
+    registry: {{ .Values.configUpload.registry }}
+{{- else }}
+    registry: {{ .Values.registry }}
+{{- end }}
+{{- if .Values.configUpload.repository }}
+    repository: {{ .Values.configUpload.repository }}
+{{- else }}
+    repository: "srs-notifier"
+{{- end }}
+{{- if .Values.configUpload.tag }}
+    tag: {{ .Values.configUpload.tag }}
+{{- else }}
+    tag: {{ .Values.tag }}
+{{- end }}
+{{- if .Values.configUpload.pullPolicy }}
+    pullPolicy: {{ .Values.configUpload.pullPolicy }}
+{{- else }}
+    pullPolicy: {{ .Values.pullPolicy }}
+{{- end }}
+    uploadPeriodHours: {{ .Values.configUpload.uploadPeriodHours }}
+    restartPolicy: {{ .Values.configUpload.restartPolicy }}
 
