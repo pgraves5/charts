@@ -25,5 +25,7 @@ metadata:
   labels:
     app.kubernetes.io/name: {{ .Values.application.testAppName }}
     app.kubernetes.io/managed-by: {{ .Values.application.testAppName }}
+  annotations:
+    com.dellemc.kahm.subscribed: "true"
   name: {{ .Values.application.testAppName }}-app-config
   namespace: {{ .Release.Namespace }}
