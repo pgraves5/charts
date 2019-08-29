@@ -1,0 +1,117 @@
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: {{ template "srs-gateway.configUploadServiceAccountName" . }}
+  namespace: {{ .Release.Namespace }}
+{{- if .Values.DockerSecret }}
+imagePullSecrets:
+  - name: {{ .Values.DockerSecret }}
+{{- end }}
+---
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: {{ template "srs-gateway.configUploadServiceAccountName" . }}
+  labels:
+    release: {{ .Release.Name }}
+rules:
+- apiGroups:
+  - ecs.dellemc.com
+  resources:
+  - "*"
+  verbs:
+  - "*"
+- apiGroups:
+  - decks.ecs.dellemc.com
+  resources:
+  - "*"
+  verbs:
+  - "*"
+- apiGroups:
+  - kahm.emcecs.github.com
+  resources:
+  - notifiers
+  verbs:
+  - "*"
+- apiGroups:
+  - app.k8s.io
+  resources:
+  - "*"
+  verbs:
+  - "*"
+- apiGroups:
+  - ""
+  - extensions
+  resources:
+  - pods
+  - pods/exec
+  - pods/log
+  - pods/portforward
+  - services
+  - endpoints
+  - persistentvolumes
+  - persistentvolumeclaims
+  - events
+  - configmaps
+  - secrets
+  - applications
+  - nodes
+  - namespaces
+  - replicationcontrollers
+  - daemonsets
+  - deployments
+  - replicasets
+  verbs:
+  - "*"
+- apiGroups:
+  - batch
+  resources:
+  - jobs
+  - cronjobs
+  verbs:
+  - "*"
+- apiGroups:
+  - policy
+  resources:
+  - poddisruptionbudgets
+  verbs:
+  - "*"
+- apiGroups:
+  - apps
+  resources:
+  - deployments
+  - daemonsets
+  - replicasets
+  - statefulsets
+  verbs:
+  - "*"
+- apiGroups:
+  - zookeeper.pravega.io
+  resources:
+  - "*"
+  verbs:
+  - "*"
+- apiGroups:
+  - storage.k8s.io
+  resources:
+  - storageclasses
+  - storageclasslists
+  verbs:
+  - get
+  - list
+---
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1beta1
+metadata:
+  name: {{ template "srs-gateway.configUploadServiceAccountName" . }}
+  labels:
+    release: {{ .Release.Name }}
+subjects:
+- kind: ServiceAccount
+  name: {{ template "srs-gateway.configUploadServiceAccountName" . }}
+  namespace: {{ .Release.Namespace }}
+roleRef:
+  kind: ClusterRole
+  name: {{ template "srs-gateway.configUploadServiceAccountName" . }}
+  apiGroup: rbac.authorization.k8s.io

@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: {{ template "srs-gateway.createServiceAccountName" . }}
+  name: {{ template "srs-gateway.remoteAccessServiceAccountName" . }}
   namespace: {{ .Release.Namespace }}
 {{- if .Values.DockerSecret }}
 imagePullSecrets:
@@ -12,7 +12,7 @@ imagePullSecrets:
 kind: ClusterRole
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: {{ template "srs-gateway.createServiceAccountName" . }}
+  name: {{ template "srs-gateway.remoteAccessServiceAccountName" . }}
   labels:
     release: {{ .Release.Name }}
 rules:
@@ -57,12 +57,18 @@ rules:
   - secrets
   - applications
   - nodes
+  - namespaces
+  - replicationcontrollers
+  - daemonsets
+  - deployments
+  - replicasets
   verbs:
   - "*"
 - apiGroups:
   - batch
   resources:
   - jobs
+  - cronjobs
   verbs:
   - "*"
 - apiGroups:
@@ -98,14 +104,14 @@ rules:
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1beta1
 metadata:
-  name: {{ template "srs-gateway.createServiceAccountName" . }}
+  name: {{ template "srs-gateway.remoteAccessServiceAccountName" . }}
   labels:
     release: {{ .Release.Name }}
 subjects:
 - kind: ServiceAccount
-  name: {{ template "srs-gateway.createServiceAccountName" . }}
+  name: {{ template "srs-gateway.remoteAccessServiceAccountName" . }}
   namespace: {{ .Release.Namespace }}
 roleRef:
   kind: ClusterRole
-  name: {{ template "srs-gateway.createServiceAccountName" . }}
+  name: {{ template "srs-gateway.remoteAccessServiceAccountName" . }}
   apiGroup: rbac.authorization.k8s.io
