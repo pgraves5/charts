@@ -1,0 +1,14 @@
+Thank you for installing {{ .Chart.Name }}. This release is capable of
+deploying a Dell EMC license secret to create Dell EMC k8s license resource.
+
+
+Your release is named {{ .Release.Name }}.
+
+To install dellemc-license by using Helm chart, use the helm install command below:
+
+  $ helm install <repository name>/dellemc-license --set-file licensefile=<location of license xml file> --set product=<product name>
+
+For more information on the installation and configuration options, see the
+README at https://github.com/EMCECS/charts/tree/master/dellemc-license and the
+`values.yaml` file at
+https://github.com/EMCECS/charts/blob/master/dellemc-license/values.yaml
