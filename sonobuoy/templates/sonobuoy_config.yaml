@@ -195,6 +195,24 @@ data:
                   }
                 }
               }
+              {
+                "name": "WEBDAV_SECRET_USERNAME",
+                "valueFrom": {
+                  "secretKeyRef": {
+                    "name": "decks-webdav-secret",
+                    "key": "username"
+                  }
+                }
+              },
+              {
+                "name": "WEBDAV_SECRET_PASSWORD",
+                "valueFrom": {
+                  "secretKeyRef": {
+                    "name": "decks-webdav-secret",
+                    "key": "password"
+                  }
+                }
+              }
             ],
             "image": "{{ .Values.global.registry }}/{{ .Values.sonobuoy.image.repository }}:{{ .Values.sonobuoy.image.tag }}",
             "imagePullPolicy": "{{ .Values.sonobuoy.image.pullPolicy }}",
