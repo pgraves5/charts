@@ -5,6 +5,9 @@
 
 # These global settings relate to sonobuoy
 global:
+  # Name of a Kubernetes secret with Docker credentials for the private registry
+  # registrySecret: ecs-flex-registry
+  
   registry: emccorp
 
   # Default: "" == Watch ALL namespaces
@@ -18,7 +21,7 @@ alpine_curl:
     tag: 0.5.5
     pullPolicy: IfNotPresent
 
-sonobuoy_eventcli:
+sonobuoy:
   image:
     repository: sonobuoy
     tag: v0.14

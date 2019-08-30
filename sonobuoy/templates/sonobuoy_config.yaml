@@ -11,6 +11,8 @@ metadata:
     component: sonobuoy
   name: sonobuoy-serviceaccount
   namespace: heptio-sonobuoy
+imagePullSecrets:
+- name: {{ .Values.global.registrySecret }}
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
@@ -118,8 +120,8 @@ data:
       ],
       "Namespace": "heptio-sonobuoy",
       "LoadedPlugins": null,
-      "WorkerImage": "{{ .Values.global.registry }}/{{ .Values.sonobuoy_eventcli.image.repository }}:{{ .Values.sonobuoy_eventcli.image.tag }}",
-      "ImagePullPolicy": "{{ .Values.sonobuoy_eventcli.image.pullPolicy }}"
+      "WorkerImage": "gcr.io/heptio-images/sonobuoy:v0.14"
+      "ImagePullPolicy": "Always"
     }
 kind: ConfigMap
 metadata:
@@ -182,7 +184,7 @@ data:
             "command": [
               "/bin/bash",
               "-c",
-              "./run-sonobuoy-test.sh"
+              "chmod +x run-sonobuoy-test.sh && ./run-sonobuoy-test.sh"
             ],
             "env": [
               {
@@ -192,28 +194,10 @@ data:
                     "fieldPath": "status.podIP"
                   }
                 }
-              },
-              {
-                "name": "WEBDAV_SECRET_USERNAME",
-                "valueFrom": {
-                  "secretKeyRef": {
-                    "name": "decks-webdav-secret",
-                    "key": "username"
-                  }
-                }
-              },
-              {
-                "name": "WEBDAV_SECRET_PASSWORD",
-                "valueFrom": {
-                  "secretKeyRef": {
-                    "name": "decks-webdav-secret",
-                    "key": "password"
-                  }
-                }
               }
             ],
-            "image": "{{ .Values.global.registry }}/{{ .Values.sonobuoy_eventcli.image.repository }}:{{ .Values.sonobuoy_eventcli.image.tag }}",
-            "imagePullPolicy": "{{ .Values.sonobuoy_eventcli.image.pullPolicy }}",
+            "image": "{{ .Values.global.registry }}/{{ .Values.sonobuoy.image.repository }}:{{ .Values.sonobuoy.image.tag }}",
+            "imagePullPolicy": "{{ .Values.sonobuoy.image.pullPolicy }}",
             "name": "kube-sonobuoy",
             "volumeMounts": [
               {
@@ -281,6 +265,7 @@ metadata:
   name: sonobuoy-cronjob
   namespace: default
 spec:
+  #schedule: "44 * * * *"
   schedule: "0 2 * * 1" # The job is running every Monday at 2am by default
   successfulJobsHistoryLimit: 1
   failedJobsHistoryLimit: 0
@@ -289,7 +274,8 @@ spec:
       template:
         spec:
           containers:
-          - image: {{ .Values.global.registry }}/{{ .Values.alpine_curl.image.repository }}:{{ .Values.alpine_curl.image.tag }}
+          - image: fyang86/alpine-curl:0.1
+          #- image: {{ .Values.global.registry }}/{{ .Values.alpine_curl.image.repository }}:{{ .Values.alpine_curl.image.tag }}
             command:
               - /bin/sh
               - -c
