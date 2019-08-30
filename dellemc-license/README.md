@@ -41,7 +41,7 @@ $ helm install --name <custom-release-name> ecs/dellemc-license --set-file licen
 $ helm install --name streamingdata-license ecs/dellemc-license --set-file licensefile=/home/john/streamingdata-license.xml --set product=streamingdata
 ```
 ```bash
-$ helm upgrade objectscale-license  dellemc-license --set-file licensefile=/home/john/streaming-license.xml --set product=streamingdata
+$ helm upgrade streamingdata-license  dellemc-license --set-file licensefile=/home/john/streaming-license.xml --set product=streamingdata
 ```
 
 4. After installing the license secrets, and DECKS is running, it should generate a license resource:
