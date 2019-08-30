@@ -21,6 +21,7 @@ $ helm repo update
 * [DECKS](decks)
 * [KAHM](kahm)
 * [SRS Gateway](srs-gateway)
+* [DellEMC license](dellemc-license)
 
 ## Adding private Helm repository and Docker registries
 
@@ -56,6 +57,7 @@ ecs/kahm              	0.2.0        	0.2.0      	A Helm chart for Kubernetes App
 ecs/mongoose          	0.1.3        	4.1.1      	Mongoose is a horizontally scalable and configurable S3 p...
 ecs/srs-gateway       	0.2.0        	0.2.0      	A Helm chart for Dell EMC SRS Gateway Custom Resource Sup...
 ecs/zookeeper-operator	0.1.6        	0.2.0      	Zookeeper operator deploys a custom resource for a zookee...
+ecs/dellemc-license     0.6.0   	0.6.0           A Helm chart to install Dell EMC License for a product	
 ```
 
 ### Add Private Docker Registry for your Kubernetes Cluster
