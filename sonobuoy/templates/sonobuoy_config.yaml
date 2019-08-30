@@ -273,8 +273,7 @@ spec:
       template:
         spec:
           containers:
-          - image: fyang86/alpine-curl:0.1
-          #- image: {{ .Values.global.registry }}/{{ .Values.alpine_curl.image.repository }}:{{ .Values.alpine_curl.image.tag }}
+          - image: {{ .Values.global.registry }}/{{ .Values.alpine_curl.image.repository }}:{{ .Values.alpine_curl.image.tag }}
             env:
             - name: curSecret
               value: {{ .Values.global.registrySecret }}
