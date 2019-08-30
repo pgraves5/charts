@@ -414,4 +414,5 @@ deos_hc:
   # Docker repository to be used for running deos health check
   image:
     repository: deos-hc
-    tag: 0.5.6
+    # tag: stable
+    # pullPolicy: IfNotPresent

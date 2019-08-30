@@ -16,7 +16,7 @@ spec:
       value: "{{ .Release.Namespace }}"
     - name: RELEASE_NAME
       value: "{{ .Release.Name }}"
-    image: {{ .Values.global.registry }}/{{ .Values.deos_hc.image.repository }}:{{ .Values.deos_hc.image.tag }}
+    image: {{ .Values.global.registry }}/{{ .Values.deos_hc.image.repository }}:{{ .Values.tag }}
 {{- if .Values.deos_hc.image.pullPolicy }}
     imagePullPolicy: {{ .Values.deos_hc.image.pullPolicy }}
 {{- else }}
