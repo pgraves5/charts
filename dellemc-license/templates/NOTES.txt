@@ -1,5 +1,5 @@
 Thank you for installing {{ .Chart.Name }}. This release is capable of
-deploying a Dell EMC license secret to create license resource.
+deploying a Dell EMC license secret to create Dell EMC k8s license resource.
 
 
 Your release is named {{ .Release.Name }}.

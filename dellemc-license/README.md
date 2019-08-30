@@ -1,7 +1,7 @@
 # Helm Chart for Installing Dell EMC License
-The chart will allow a user to install a DELL EMC License in the Kubernetes cluster for a product.
+The chart will allow a user to install a Dell EMC License in the Kubernetes cluster for a product.
 
-A user has to provide a license xml file for a product from the command line to generate the license secret object for the product. The secret object will be labeled with "com.dellemc.decklicense.subscribed=true" so that DECKS (Dell EMC Common Kubernetes Services) can create a license resource from the secret.
+A user has to provide a license xml file for a product from the command line to generate the license secret object for the product. The secret object will be labeled with `com.dellemc.decklicense.subscribed=true` so that DECKS (Dell EMC Common Kubernetes Services) can create a Dell EMC k8s license resource from the secret.
 
  
 ## Table of Contents
@@ -35,7 +35,7 @@ $ helm repo add ecs https://emcecs.github.io/charts
 $ helm repo update
 ```
 
-3. Install the License by using the followings. 
+3. Install the Dell EMC License by using the followings. 
 ```bash
 $ helm install --name <custom-release-name> ecs/dellemc-license --set-file licensefile=<location of the license xml file> --set product=<product name>
 $ helm install --name streamingdata-license ecs/dellemc-license --set-file licensefile=/home/john/streamingdata-license.xml --set product=streamingdata
@@ -44,7 +44,7 @@ $ helm install --name streamingdata-license ecs/dellemc-license --set-file licen
 $ helm upgrade streamingdata-license  dellemc-license --set-file licensefile=/home/john/streaming-license.xml --set product=streamingdata
 ```
 
-4. After installing the license secret, and if DECKS is running, it should generate a license resource:
+4. After installing the license secret, and if DECKS is running, it should generate a Dell EMC k8s license resource:
 ```bash
 $ kubectl get licenses
 ```
