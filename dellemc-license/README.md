@@ -1,5 +1,5 @@
 # Helm Chart for Installing Dell EMC License
-The chart will allow a user to install DELL EMC License in Kubernetes cluster for a product.
+The chart will allow a user to install a DELL EMC License in the Kubernetes cluster for a product.
 
 A user has to provide a license xml file for a product from the command line to generate the license secret object for the product. The secret object will be labeled with "com.dellemc.decklicense.subscribed=true" so that DECKS (Dell EMC Common Kubernetes Services) can create a license resource from the secret.
 
@@ -44,14 +44,14 @@ $ helm install --name streamingdata-license ecs/dellemc-license --set-file licen
 $ helm upgrade streamingdata-license  dellemc-license --set-file licensefile=/home/john/streaming-license.xml --set product=streamingdata
 ```
 
-4. After installing the license secrets, and DECKS is running, it should generate a license resource:
+4. After installing the license secret, and if DECKS is running, it should generate a license resource:
 ```bash
 $ kubectl get licenses
 ```
 ## Configuration
 
 ###  licensefile
-it is a location of the license xml file. If the file is in your current directory, you can simply provide the name of the xml file. If the file is in some other location, you need to provide the relative or absolute path of the file.
+it is a location of the license xml file. If the file is in your current directory, you can simply provide the name of the xml file. If the file is in another location, you need to provide the pathanme of the file.
 Example helm install command line setting:
 ```
 --set-file licensefile=objectscale-license.xml
@@ -60,7 +60,7 @@ Example helm install command line setting:
 ```
 
 ### product 
-it is used to create a unique license secret name for each product so that you can install multiple licenses with the different product names.
+it is used to create a unique license secret name for each product.
 Example helm install command line setting:
 ```
 --set product="objectscale"
