@@ -1,7 +1,7 @@
-# Dell EMC DKS (KAHM DECKS SRSGateway) Test Application Support
-The chart will allow to install DELL EMC License in Kubernetes cluster for a product.
+# Helm Chart for Installing Dell EMC License
+The chart will allow a user to install DELL EMC License in Kubernetes cluster for a product.
 
-This Helm chart will read the license xml file from the command line option and will generate the license secret for the product. The secret object will be labeled with "com.dellemc.decklicense.subscribed=true" so that DECKS (Dell EMC Common Kubernetes Services) can create a license resource from the secret.
+The Helm chart will allow a user to provide a license xml file for a product from the command line to generate the license secret object for the product. The secret object will be labeled with "com.dellemc.decklicense.subscribed=true" so that DECKS (Dell EMC Common Kubernetes Services) can create a license resource from the secret.
 
  
 ## Table of Contents
@@ -15,16 +15,14 @@ This Helm chart will read the license xml file from the command line option and 
 
 This Helm chart deploys:
 - A Secret object.
-  - will have base64 encoded license secret base64
+  - will have base64 encoded license secret
   - will be labeled with "com.dellemc.decklicense.subscribed=true"
   - If the secret is created successfully and DECKS is running, a license resource will get created for the product.
 
 ## Requirements
 
 * A [Helm](https://helm.sh) installation with access to install to one or more namespaces.
-* A [KAHM](https://github.com/EMCECS/charts/tree/master/kahm) installation.
 * A [DECKS](https://github.com/EMCECS/charts/tree/master/decks) installation.
-* A [SRS Gateway](https://github.com/EMCECS/charts/tree/master/srs-gateway) installation.
 
 ## Quick Start
 
@@ -52,15 +50,16 @@ $ kubectl get licenses
 ## Configuration
 
 ###  licensefile
-Can be set to the path of license xml file. If the file is in your current directory, you can simply provide the name of the xml file. If file is in some other location, you need to provide absolute path of the file.
+it is a location of the license xml file. If the file is in your current directory, you can simply provide the name of the xml file. If the file is in some other location, you need to provide the relative or absolute path of the file.
 Example helm install command line setting:
 ```
 --set-file licensefile=objectscale-license.xml
 --set-file licensefile=/home/xxx/objectscale-license.xml
+--set-file licensefile=../../../xxx/objectscale-license.xml
 ```
 
 ### product 
-it is used to create unique license secret name for each product so that you can install multiple licenses with different product names.
+it is used to create a unique license secret name for each product so that you can install multiple licenses with the different product names.
 Example helm install command line setting:
 ```
 --set product="objectscale"
