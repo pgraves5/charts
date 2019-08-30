@@ -38,7 +38,7 @@ $ helm repo update
 3. Install the License by using the followings. 
 ```bash
 $ helm install --name <custom-release-name> ecs/dellemc-license --set-file licensefile=<location of the license xml file> --set product=<product name>
-$ helm install --name objectscale-license ecs/dellemc-license --set-file licensefile=/home/john/streamingdata-license.xml --set product=streamingdata
+$ helm install --name streamingdata-license ecs/dellemc-license --set-file licensefile=/home/john/streamingdata-license.xml --set product=streamingdata
 ```
 ```bash
 $ helm upgrade objectscale-license  dellemc-license --set-file licensefile=/home/john/streaming-license.xml --set product=streamingdata
