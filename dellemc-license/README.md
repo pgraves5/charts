@@ -1,7 +1,6 @@
 # Helm Chart for Installing Dell EMC License
 The chart will allow a user to install DELL EMC License in Kubernetes cluster for a product.
-
-The Helm chart will allow a user to provide a license xml file for a product from the command line to generate the license secret object for the product. The secret object will be labeled with "com.dellemc.decklicense.subscribed=true" so that DECKS (Dell EMC Common Kubernetes Services) can create a license resource from the secret.
+User has to provide a license xml file for a product from the command line to generate the license secret object for the product. The secret object will be labeled with "com.dellemc.decklicense.subscribed=true" so that DECKS (Dell EMC Common Kubernetes Services) can create a license resource from the secret.
 
  
 ## Table of Contents
