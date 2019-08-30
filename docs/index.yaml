@@ -3,7 +3,7 @@ entries:
   decks:
   - apiVersion: v1
     appVersion: 0.6.0
-    created: 2019-08-30T13:19:30.443318031-04:00
+    created: 2019-08-30T15:53:18.936169024-04:00
     description: A Helm chart for Dell EMC Common Kubernetes Services
     digest: c9ee36acd18eb355ab1bc0636f8e241299c1d280dc06911c43dc222a83329f8d
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -16,7 +16,7 @@ entries:
     version: 0.6.0
   - apiVersion: v1
     appVersion: 0.5.5
-    created: 2019-08-30T13:19:30.442416401-04:00
+    created: 2019-08-30T15:53:18.935711964-04:00
     description: A Helm chart for Dell EMC Common Kubernetes Services
     digest: 6b70c93e8527ce4a49f8beb9f156321502c5b0ca38724c4b3417cd52bed9565e
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -29,7 +29,7 @@ entries:
     version: 0.5.5
   - apiVersion: v1
     appVersion: 0.5.0
-    created: 2019-08-30T13:19:30.441466746-04:00
+    created: 2019-08-30T15:53:18.934939023-04:00
     description: A Helm chart for Dell EMC Common Kubernetes Services
     digest: fdd342033870d30fbdf85fb7de07351a46f489f5555ce3de948f0b8d676db4d6
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -42,7 +42,7 @@ entries:
     version: 0.5.0
   - apiVersion: v1
     appVersion: 0.4.0
-    created: 2019-08-30T13:19:30.440582546-04:00
+    created: 2019-08-30T15:53:18.934149553-04:00
     description: A Helm chart for Dell EMC Common Kubernetes Services
     digest: 5ff2e7998d1e1d973d8a289f86d9e6ecbaf67d74d8b83bcaa81c4a248a500e05
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -55,7 +55,7 @@ entries:
     version: 0.4.0
   - apiVersion: v1
     appVersion: 0.3.5
-    created: 2019-08-30T13:19:30.439491802-04:00
+    created: 2019-08-30T15:53:18.933030506-04:00
     description: A Helm chart for Dell EMC Common Kubernetes Services
     digest: 2557d112fc2b0646d9f741db8860f4e850b14074cdf1538d14064b6ce2c2a897
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -68,7 +68,7 @@ entries:
     version: 0.3.5
   - apiVersion: v1
     appVersion: 0.2.0
-    created: 2019-08-30T13:19:30.438579969-04:00
+    created: 2019-08-30T15:53:18.9321345-04:00
     description: A Helm chart for Dell EMC Common Kubernetes Services
     digest: 29c1d77687e6db00f6466c1e8b290d4df772de2de033b96b953f1e6eb6935609
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -79,10 +79,21 @@ entries:
     urls:
     - decks-0.2.0.tgz
     version: 0.2.0
+  dellemc-license:
+  - apiVersion: v1
+    appVersion: 0.6.0
+    created: 2019-08-30T15:53:18.93637746-04:00
+    description: A Helm chart for installing a Dell EMC License for a product in the
+      Kubernetes cluster
+    digest: 86a328995c2954c9afe18393b16f5064bcca4da14bda4f2ab52067e502ec939a
+    name: dellemc-license
+    urls:
+    - dellemc-license-0.6.0.tgz
+    version: 0.6.0
   dks-testapp:
   - apiVersion: v1
     appVersion: 0.6.0
-    created: 2019-08-30T13:19:30.448239567-04:00
+    created: 2019-08-30T15:53:18.939619631-04:00
     description: A Helm chart for DKS (DECKS, KAHM, and SRSGateway) test application
     digest: ed1f71cdbab211385a02aec7addfc611fcd193e7948a2bead524b7f2929ab600
     name: dks-testapp
@@ -91,7 +102,7 @@ entries:
     version: 0.6.0
   - apiVersion: v1
     appVersion: 0.5.5
-    created: 2019-08-30T13:19:30.447908694-04:00
+    created: 2019-08-30T15:53:18.939248073-04:00
     description: A Helm chart for DKS (DECKS, KAHM, and SRSGateway) test application
     digest: b8b0a17ec5cf7336fd38f5d7d48c722871d7a826ae566c63f947dea69db10a07
     name: dks-testapp
@@ -100,7 +111,7 @@ entries:
     version: 0.5.5
   - apiVersion: v1
     appVersion: 0.5.0
-    created: 2019-08-30T13:19:30.447188731-04:00
+    created: 2019-08-30T15:53:18.938592227-04:00
     description: A Helm chart for DKS (DECKS, KAHM, and SRSGateway) test application
     digest: 9a721b7723c6abf88888df73f474816755f67034e04be795c10606abed3e4be5
     name: dks-testapp
@@ -109,7 +120,7 @@ entries:
     version: 0.5.0
   - apiVersion: v1
     appVersion: 0.4.0
-    created: 2019-08-30T13:19:30.445740888-04:00
+    created: 2019-08-30T15:53:18.937922971-04:00
     description: A Helm chart for DKS (DECKS, KAHM, and SRSGateway) test application
     digest: 7d1534a119ebb682e130db98b7af4ba6b3dd1026ea49cf67632c224c310229aa
     name: dks-testapp
@@ -118,7 +129,7 @@ entries:
     version: 0.4.0
   - apiVersion: v1
     appVersion: 0.3.5
-    created: 2019-08-30T13:19:30.444748502-04:00
+    created: 2019-08-30T15:53:18.937087955-04:00
     description: A Helm chart for DKS (DECKS, KAHM, and SRSGateway) test application
     digest: b83548c0bc7dc6dc2c0b036ca52b908d4440f5997adbb0828957e918aa8b0975
     name: dks-testapp
@@ -128,7 +139,7 @@ entries:
   ecs-cluster:
   - apiVersion: v1
     appVersion: 0.1.6
-    created: 2019-08-30T13:19:30.455037674-04:00
+    created: 2019-08-30T15:53:18.945870706-04:00
     description: |
       Dell EMC Elastic Cloud Storage is highly scalable, and high performance S3 compatible object storage platform.
     digest: b0e4990dd7c7f4ce1171a2da5bfad56e1843a2431b88bf97820db10add673fe2
@@ -142,7 +153,7 @@ entries:
     version: 0.1.6
   - apiVersion: v1
     appVersion: 0.1.6-rc1
-    created: 2019-08-30T13:19:30.453789889-04:00
+    created: 2019-08-30T15:53:18.944844875-04:00
     description: |
       Dell EMC Elastic Cloud Storage is highly scalable, and high performance S3 compatible object storage platform.
     digest: 9c0e62123abd950e7f75d75c327d901316b4d04d3bf0a5cb82227b07f5859b88
@@ -156,7 +167,7 @@ entries:
     version: 0.1.6-rc1
   - apiVersion: v1
     appVersion: 0.1.5
-    created: 2019-08-30T13:19:30.452824286-04:00
+    created: 2019-08-30T15:53:18.943984129-04:00
     description: |
       Dell EMC Elastic Cloud Storage is highly scalable, and high performance S3 compatible object storage platform.
     digest: acc8c0ded5d5da4a228c0b553dcd3d1fc21a891ede70a0d37090abfabe50a3ec
@@ -170,7 +181,7 @@ entries:
     version: 0.1.5
   - apiVersion: v1
     appVersion: 0.1.4
-    created: 2019-08-30T13:19:30.451495942-04:00
+    created: 2019-08-30T15:53:18.942986314-04:00
     description: |
       Dell EMC Elastic Cloud Storage is highly scalable, and high performance S3 compatible object storage platform.
     digest: 71152825f4cda20c77d26b28fdcb2513196b7ce0b0750bd80f078f3f11341d5d
@@ -184,7 +195,7 @@ entries:
     version: 0.1.4
   - apiVersion: v1
     appVersion: "1.0"
-    created: 2019-08-30T13:19:30.450632548-04:00
+    created: 2019-08-30T15:53:18.942088749-04:00
     description: |
       Dell EMC Elastic Cloud Storage is highly scalable, and high performance S3 compatible object storage platform.
     digest: 41155014150b0dbbb5e39238288c89da80d1d4bf590c484b050de58dfe1d6979
@@ -198,7 +209,7 @@ entries:
     version: 0.1.3
   - apiVersion: v1
     appVersion: "1.0"
-    created: 2019-08-30T13:19:30.449830177-04:00
+    created: 2019-08-30T15:53:18.941196615-04:00
     description: |
       Dell EMC Elastic Cloud Storage is highly scalable, and high performance S3 compatible object storage platform.
     digest: f59c01b502ab44f2f8f42fdc31eb2d57160bb797ee7046cd63dd5eaab9ba535b
@@ -212,7 +223,7 @@ entries:
     version: 0.1.2
   - apiVersion: v1
     appVersion: "1.0"
-    created: 2019-08-30T13:19:30.449053254-04:00
+    created: 2019-08-30T15:53:18.940370081-04:00
     description: |
       Elastic Cloud Storage is a highly scalable, S3 compatible object storage service
     digest: 29e1803e8550070aad94223f5419ee775c732882399a701e2c744464be1d187e
@@ -227,7 +238,7 @@ entries:
   ecs-flex-operator:
   - apiVersion: v1
     appVersion: 0.1.6
-    created: 2019-08-30T13:19:30.464076619-04:00
+    created: 2019-08-30T15:53:18.955422139-04:00
     description: |
       Dell EMC Elastic Cloud Storage is highly scalable, and high performance S3 compatible object storage platform.
     digest: 41227e528d5b57425f8906acd61e7de5ffee83beab064f4967ec483f63414559
@@ -241,7 +252,7 @@ entries:
     version: 0.1.6
   - apiVersion: v1
     appVersion: 0.1.6-rc1
-    created: 2019-08-30T13:19:30.462955706-04:00
+    created: 2019-08-30T15:53:18.954551774-04:00
     description: |
       Dell EMC Elastic Cloud Storage is highly scalable, and high performance S3 compatible object storage platform.
     digest: dc829da982617dfab2d4cafd1e1b64d62d3e8774cff9cb240a51a5f9ea69d937
@@ -255,7 +266,7 @@ entries:
     version: 0.1.6-rc1
   - apiVersion: v1
     appVersion: 0.1.5
-    created: 2019-08-30T13:19:30.46159224-04:00
+    created: 2019-08-30T15:53:18.953685747-04:00
     description: |
       Dell EMC Elastic Cloud Storage is highly scalable, and high performance S3 compatible object storage platform.
     digest: 0819b5d71f0bb44536c48ec41299ab2ce1e596e3b9660573ca5849ccc543372c
@@ -269,7 +280,7 @@ entries:
     version: 0.1.5
   - apiVersion: v1
     appVersion: 0.1.4
-    created: 2019-08-30T13:19:30.460181758-04:00
+    created: 2019-08-30T15:53:18.952712603-04:00
     description: |
       Dell EMC Elastic Cloud Storage is highly scalable, and high performance S3 compatible object storage platform.
     digest: 90d0fd5ee843275df4105042a24ae0182a85bc8916e1e245f3b6cf36bc7e9d0a
@@ -283,7 +294,7 @@ entries:
     version: 0.1.4
   - apiVersion: v1
     appVersion: "1.0"
-    created: 2019-08-30T13:19:30.459087391-04:00
+    created: 2019-08-30T15:53:18.95173889-04:00
     description: |
       Dell EMC Elastic Cloud Storage is highly scalable, and high performance S3 compatible object storage platform.
     digest: c1b6d6d9132e5e438ea564345990d8c3db0257c7376fe43540449d48d6503bda
@@ -297,7 +308,7 @@ entries:
     version: 0.1.3
   - apiVersion: v1
     appVersion: "1.0"
-    created: 2019-08-30T13:19:30.458142378-04:00
+    created: 2019-08-30T15:53:18.950862275-04:00
     description: |
       Dell EMC Elastic Cloud Storage is highly scalable, and high performance S3 compatible object storage platform.
     digest: 369a3e9d57ce073266b3d0cbf9e7bb237962630e18cd5ed7d9a9602f37530b8e
@@ -311,7 +322,7 @@ entries:
     version: 0.1.2
   - apiVersion: v1
     appVersion: "1.0"
-    created: 2019-08-30T13:19:30.457139548-04:00
+    created: 2019-08-30T15:53:18.949124074-04:00
     description: |
       Dell EMC Elastic Cloud Storage is highly scalable, and high performance S3 compatible object storage platform.
     digest: 4af6cf7aa783464400b20b2ade1233e2edcaedcb7af66ca024c74e98e2d42e4b
@@ -325,7 +336,7 @@ entries:
     version: 0.1.1
   - apiVersion: v1
     appVersion: "1.0"
-    created: 2019-08-30T13:19:30.456127911-04:00
+    created: 2019-08-30T15:53:18.947249343-04:00
     description: |
       Dell EMC Elastic Cloud Storage is highly scalable, and high performance S3 compatible object storage platform.
     digest: a96c02661d8aea437a1dbf101be183f5ef7b4b075e5f87aea9cf5fe5cb69c867
@@ -340,7 +351,7 @@ entries:
   fio-test:
   - apiVersion: v1
     appVersion: 0.6.0
-    created: 2019-08-30T13:19:30.469561351-04:00
+    created: 2019-08-30T15:53:18.957833408-04:00
     description: A Helm chart for Kubernetes Applications Health Check Tools using
       FIO to complete volume tests
     digest: a6dc8c6eccfc776a662fd0b36cbb4f5c60513a632c6fc32b1cfaae37f1c3075a
@@ -354,7 +365,7 @@ entries:
     version: 0.6.0
   - apiVersion: v1
     appVersion: 0.5.5
-    created: 2019-08-30T13:19:30.468627006-04:00
+    created: 2019-08-30T15:53:18.957506729-04:00
     description: A Helm chart for Kubernetes Applications Health Check Tools using
       FIO to complete volume tests
     digest: b677838c37f1ff89bb4304aa451466addf7320580bb0905f3de7c097ed41f035
@@ -368,7 +379,7 @@ entries:
     version: 0.5.5
   - apiVersion: v1
     appVersion: 0.5.0
-    created: 2019-08-30T13:19:30.467831288-04:00
+    created: 2019-08-30T15:53:18.956931645-04:00
     description: A Helm chart for Kubernetes Applications Health Check Tools using
       FIO to complete volume tests
     digest: 4932e45f544a0f14fd23c97275f4a00885469c408033ef661e8f41552b3434b2
@@ -382,7 +393,7 @@ entries:
     version: 0.5.0
   - apiVersion: v1
     appVersion: 0.4.0
-    created: 2019-08-30T13:19:30.467055245-04:00
+    created: 2019-08-30T15:53:18.95657807-04:00
     description: A Helm chart for Kubernetes Applications Health Check Tools using
       FIO to complete volume tests
     digest: 55cc606ff9ef7758e464dbcb4da2026c2db2e355da28e36018bdd4b52162e48c
@@ -396,7 +407,7 @@ entries:
     version: 0.4.0
   - apiVersion: v1
     appVersion: 0.3.5
-    created: 2019-08-30T13:19:30.466236309-04:00
+    created: 2019-08-30T15:53:18.955972982-04:00
     description: A Helm chart for Kubernetes Applications Health Check Tools using
       FIO to complete volume tests
     digest: 1b0de34d8c92bb1c6c850b998ffc31b6dfed50796b852c82cc9326437362a639
@@ -411,7 +422,7 @@ entries:
   kahm:
   - apiVersion: v1
     appVersion: 0.6.0
-    created: 2019-08-30T13:19:30.477321352-04:00
+    created: 2019-08-30T15:53:18.962153574-04:00
     description: A Helm chart for Kubernetes Applications Health Management
     digest: 499c252786c4fa38c121719bff5a69a3104ecfcc32f1e3af47c81324579afac4
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -424,7 +435,7 @@ entries:
     version: 0.6.0
   - apiVersion: v1
     appVersion: 0.5.5
-    created: 2019-08-30T13:19:30.47608475-04:00
+    created: 2019-08-30T15:53:18.96175891-04:00
     description: A Helm chart for Kubernetes Applications Health Management
     digest: 7c76f4be862dfa7a4133ae34daa150bed1e9f69a551628774793618531ed22c7
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -437,7 +448,7 @@ entries:
     version: 0.5.5
   - apiVersion: v1
     appVersion: 0.5.0
-    created: 2019-08-30T13:19:30.474274543-04:00
+    created: 2019-08-30T15:53:18.961194694-04:00
     description: A Helm chart for Kubernetes Applications Health Management
     digest: 25c788bfa27e87cd1d5e3aad8d2d6645dd40c3436a4e1223207392e5831eac2c
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -450,7 +461,7 @@ entries:
     version: 0.5.0
   - apiVersion: v1
     appVersion: 0.4.0
-    created: 2019-08-30T13:19:30.472902036-04:00
+    created: 2019-08-30T15:53:18.960418286-04:00
     description: A Helm chart for Kubernetes Applications Health Management
     digest: 4372b4f0675d3cc6f66dc1a06986422c712c96ab22cd74e15997580cdfea779d
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -463,7 +474,7 @@ entries:
     version: 0.4.0
   - apiVersion: v1
     appVersion: 0.3.5
-    created: 2019-08-30T13:19:30.471899972-04:00
+    created: 2019-08-30T15:53:18.959635045-04:00
     description: A Helm chart for Kubernetes Applications Health Management
     digest: 251e01b6078c1c290411624d6a65fb63792e1397eb3521a5d69da6fed7582c24
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -476,7 +487,7 @@ entries:
     version: 0.3.5
   - apiVersion: v1
     appVersion: 0.2.0
-    created: 2019-08-30T13:19:30.471030125-04:00
+    created: 2019-08-30T15:53:18.95889761-04:00
     description: A Helm chart for Kubernetes Applications Health Management
     digest: a8156f8d9060ace80482125a10d32c94265f28a3873d53757730cdccd85975b4
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -489,7 +500,7 @@ entries:
     version: 0.2.0
   - apiVersion: v1
     appVersion: "1.0"
-    created: 2019-08-30T13:19:30.470245139-04:00
+    created: 2019-08-30T15:53:18.958340906-04:00
     description: A Helm chart for Kubernetes Applications serviceability and health
       management
     digest: 01569354614ffbf6b93bd6de6abb2d651216071113d7872712ae4cd908d4f761
@@ -504,7 +515,7 @@ entries:
   mongoose:
   - apiVersion: v1
     appVersion: 4.1.1
-    created: 2019-08-30T13:19:30.482430203-04:00
+    created: 2019-08-30T15:53:18.964220574-04:00
     description: |
       Mongoose is a horizontally scalable and configurable S3 performance testing utility
     digest: 409ea2c7784b867e33d1914c293a5654a966bbcd8720b85b9a5548e64d327beb
@@ -518,7 +529,7 @@ entries:
     version: 0.1.3
   - apiVersion: v1
     appVersion: 4.1.1
-    created: 2019-08-30T13:19:30.481509538-04:00
+    created: 2019-08-30T15:53:18.963695913-04:00
     description: |
       Mongoose is a horizontally scalable and configurable S3 performance testing utility
     digest: f9d0e10a371570f1dc7cf672fb4f78fdddee2e3b79458cc7af2c8011ed7596f6
@@ -532,7 +543,7 @@ entries:
     version: 0.1.2
   - apiVersion: v1
     appVersion: 3.6.1
-    created: 2019-08-30T13:19:30.480441797-04:00
+    created: 2019-08-30T15:53:18.96327583-04:00
     description: |
       Mongoose is a horizontally scalable and configurable S3 performance testing utility
     digest: 910f819f8e9c074de0570faa2494bb185b8f7214f6cd51cf70b40796d7fa3c34
@@ -546,7 +557,7 @@ entries:
     version: 0.1.1
   - apiVersion: v1
     appVersion: "1.0"
-    created: 2019-08-30T13:19:30.478805061-04:00
+    created: 2019-08-30T15:53:18.962744398-04:00
     description: |
       Mongoose is a horizontally scalable and configurable S3 performance testing utility
     digest: 2ab2e3f2543d33726fc99e65b08d37f3cef2a7b95d38861d89d16ec8e8351d4d
@@ -561,7 +572,7 @@ entries:
   sonobuoy:
   - apiVersion: v1
     appVersion: 0.6.0
-    created: 2019-08-30T13:19:30.486002922-04:00
+    created: 2019-08-30T15:53:18.966765516-04:00
     description: A Helm chart for sonobuoy
     digest: 169db5cffb6c8b155000ddf8dce7e0f6b768ea70763ab5a9fad773317a251468
     icon: https://avatars2.githubusercontent.com/u/22035492
@@ -574,7 +585,7 @@ entries:
     version: 0.6.0
   - apiVersion: v1
     appVersion: 0.5.5
-    created: 2019-08-30T13:19:30.485682863-04:00
+    created: 2019-08-30T15:53:18.966464506-04:00
     description: A Helm chart for sonobuoy
     digest: 4ca111254f98a42eb0164f44507142b8482d93bd410ead137ce6ad156200b34e
     icon: https://avatars2.githubusercontent.com/u/22035492
@@ -587,7 +598,7 @@ entries:
     version: 0.5.5
   - apiVersion: v1
     appVersion: 0.5.0
-    created: 2019-08-30T13:19:30.484792431-04:00
+    created: 2019-08-30T15:53:18.965808243-04:00
     description: A Helm chart for sonobuoy
     digest: 79dbc52eef04d3e55b8bd3f5f7cf143de2bfa154ec3e686363154c7c2f7465c4
     icon: https://avatars2.githubusercontent.com/u/22035492
@@ -600,7 +611,7 @@ entries:
     version: 0.5.0
   - apiVersion: v1
     appVersion: 0.4.0
-    created: 2019-08-30T13:19:30.483988476-04:00
+    created: 2019-08-30T15:53:18.965361077-04:00
     description: A Helm chart for sonobuoy
     digest: ef847a03f039513ba2e020742c0ab7dd54e89e8288e38826f5f78f8b0fdc5451
     icon: https://avatars2.githubusercontent.com/u/22035492
@@ -613,7 +624,7 @@ entries:
     version: 0.4.0
   - apiVersion: v1
     appVersion: 0.3.5
-    created: 2019-08-30T13:19:30.483202795-04:00
+    created: 2019-08-30T15:53:18.964649889-04:00
     description: A Helm chart for sonobuoy
     digest: 8c07e153c3a6d504e0fa48cb85b0026928477337e1f9d34232009569d05fbbb1
     icon: https://avatars2.githubusercontent.com/u/22035492
@@ -627,7 +638,7 @@ entries:
   srs-gateway:
   - apiVersion: v1
     appVersion: 0.6.0
-    created: 2019-08-30T13:19:30.492582101-04:00
+    created: 2019-08-30T15:53:18.973151437-04:00
     description: A Helm chart for Dell EMC SRS Gateway Custom Resource Support
     digest: a6866fbce87aec348bd9aeaa4375a0d1e600cdb0495dbb1e36225c5dafcd1367
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -640,7 +651,7 @@ entries:
     version: 0.6.0
   - apiVersion: v1
     appVersion: 0.5.5
-    created: 2019-08-30T13:19:30.491957063-04:00
+    created: 2019-08-30T15:53:18.972591732-04:00
     description: A Helm chart for Dell EMC SRS Gateway Custom Resource Support
     digest: a9b8016e89d510d4c6f8874763a93bfd6d0f08809be69f5cce8c7d3bd6ebfefa
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -653,7 +664,7 @@ entries:
     version: 0.5.5
   - apiVersion: v1
     appVersion: 0.5.0
-    created: 2019-08-30T13:19:30.490619075-04:00
+    created: 2019-08-30T15:53:18.971642667-04:00
     description: A Helm chart for Dell EMC SRS Gateway Custom Resource Support
     digest: 5b7be3404029beab2b56bd79ef8f161a584428a83f8aaadcee0b12c0bf438af3
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -666,7 +677,7 @@ entries:
     version: 0.5.0
   - apiVersion: v1
     appVersion: 0.4.0
-    created: 2019-08-30T13:19:30.489359756-04:00
+    created: 2019-08-30T15:53:18.970579927-04:00
     description: A Helm chart for Dell EMC SRS Gateway Custom Resource Support
     digest: ae793a33d7c513e72aa7094101ed7888439818186a4af8f4a6fdb5f016517f70
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -679,7 +690,7 @@ entries:
     version: 0.4.0
   - apiVersion: v1
     appVersion: 0.3.5
-    created: 2019-08-30T13:19:30.488149263-04:00
+    created: 2019-08-30T15:53:18.969036632-04:00
     description: A Helm chart for Dell EMC SRS Gateway Custom Resource Support
     digest: cf99c2c91e5ff160a866f0d11c9a5cb9495d5d6104984c3ea10a07c7dfcd6c50
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -692,7 +703,7 @@ entries:
     version: 0.3.5
   - apiVersion: v1
     appVersion: 0.2.0
-    created: 2019-08-30T13:19:30.486979995-04:00
+    created: 2019-08-30T15:53:18.967795363-04:00
     description: A Helm chart for Dell EMC SRS Gateway Custom Resource Support
     digest: 42a692f63e3329c2c9f9a949b77aceb651d65148b9f329500819fdc0a4b7fc1b
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -705,7 +716,7 @@ entries:
     version: 0.2.0
   zookeeper-operator:
   - appVersion: 0.2.0
-    created: 2019-08-30T13:19:30.49943291-04:00
+    created: 2019-08-30T15:53:18.976973812-04:00
     description: |
       Zookeeper operator deploys a custom resource for a zookeeper cluster, and a
       pod to provision and scale zookeeper clusters.
@@ -725,7 +736,7 @@ entries:
     - zookeeper-operator-0.1.6.tgz
     version: 0.1.6
   - appVersion: 0.2.0
-    created: 2019-08-30T13:19:30.498759344-04:00
+    created: 2019-08-30T15:53:18.97631489-04:00
     description: |
       Zookeeper operator deploys a custom resource for a zookeeper cluster, and a
       pod to provision and scale zookeeper clusters.
@@ -745,7 +756,7 @@ entries:
     - zookeeper-operator-0.1.6-rc1.tgz
     version: 0.1.6-rc1
   - appVersion: 0.2.0
-    created: 2019-08-30T13:19:30.498083803-04:00
+    created: 2019-08-30T15:53:18.975703294-04:00
     description: |
       Zookeeper operator deploys a custom resource for a zookeeper cluster, and a
       pod to provision and scale zookeeper clusters.
@@ -765,7 +776,7 @@ entries:
     - zookeeper-operator-0.0.4.tgz
     version: 0.0.4
   - appVersion: 0.2.0
-    created: 2019-08-30T13:19:30.496110157-04:00
+    created: 2019-08-30T15:53:18.975057242-04:00
     description: |
       Zookeeper operator deploys a custom resource for a zookeeper cluster, and a
       pod to provision and scale zookeeper clusters.
@@ -785,7 +796,7 @@ entries:
     - zookeeper-operator-0.0.3.tgz
     version: 0.0.3
   - appVersion: 0.2.0
-    created: 2019-08-30T13:19:30.494838139-04:00
+    created: 2019-08-30T15:53:18.974460167-04:00
     description: |
       Zookeeper operator deploys a custom resource for a zookeeper cluster, and a
       pod to provision and scale zookeeper clusters.
@@ -805,7 +816,7 @@ entries:
     - zookeeper-operator-0.0.2.tgz
     version: 0.0.2
   - appVersion: 2.6.0
-    created: 2019-08-30T13:19:30.493548806-04:00
+    created: 2019-08-30T15:53:18.973848856-04:00
     description: |
       Zookeeper operator deploys a custom resource for a zookeeper cluster, and a
       pod to provision and scale zookeeper clusters.
@@ -824,4 +835,4 @@ entries:
     urls:
     - zookeeper-operator-0.0.1.tgz
     version: 0.0.1
-generated: 2019-08-30T13:19:30.437238207-04:00
+generated: 2019-08-30T15:53:18.930039562-04:00
