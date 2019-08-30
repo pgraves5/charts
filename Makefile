@@ -6,7 +6,6 @@ YAMLLINT_VERSION := 1.14.0
 CHARTS := ecs-cluster ecs-flex-operator mongoose zookeeper-operator decks kahm srs-gateway dks-testapp fio-test sonobuoy dellemc-license
 DECKSCHARTS := decks kahm srs-gateway dks-testapp fio-test sonobuoy dellemc-license
 
-
 test:
 	for CHART in ${CHARTS}; do \
 		set -x ; \
@@ -41,8 +40,11 @@ decksver:
 		echo "Missing DECKSVER= param" ; \
 		exit 1 ; \
 	fi
-	for CHART in ${DECKSCHARTS}; do \
-		set -x; \
+	echo "looking for yq command"
+	which yq
+	echo "Found it"
+	for CHART in ${DECKSCHARTS}; do  \
+		echo "Setting version $$DECKSVER in $$CHART" ;\
 		yq w -i $$CHART/Chart.yaml appVersion $${DECKSVER} ; \
 		yq w -i $$CHART/Chart.yaml version $${DECKSVER} ; \
 		echo "---\n`cat $$CHART/Chart.yaml`" > $$CHART/Chart.yaml ; \
@@ -50,12 +52,15 @@ decksver:
 	done ;
 
 build:
+	echo "looking for yq command"
+	which yq
+	echo "Found it"
 	REINDEX=0; \
 	for CHART in ${CHARTS}; do \
 		set -x; \
 		CURRENT_VER=`yq r $$CHART/Chart.yaml version` ; \
 		yq r docs/index.yaml "entries.$${CHART}[*].version" | grep -q "\- $${CURRENT_VER}$$" ; \
-		if [ "$${?}" -eq "1" ] ; then \
+		if [ "$${?}" -eq "1" ] || [ "$${REBUILDHELMPKG}" ] ; then \
 		    echo "Updating package for $${CHART}" ; \
 		    helm dep update $${CHART}; \
 			helm package $${CHART} --destination docs ; \
