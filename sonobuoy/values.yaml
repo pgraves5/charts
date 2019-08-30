@@ -7,7 +7,7 @@
 global:
   # Name of a Kubernetes secret with Docker credentials for the private registry
   # registrySecret: ecs-flex-registry
-  
+
   registry: emccorp
 
   # Default: "" == Watch ALL namespaces
