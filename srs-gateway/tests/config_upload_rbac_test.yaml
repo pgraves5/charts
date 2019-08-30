@@ -1,0 +1,172 @@
+suite: test config-upload-rbac
+templates:
+  - config_upload_rbac.yaml
+tests:
+  - it: should create a ServiceAccount, ClusterRole, and ClusterRoleBinding using product name if customResourceName not set
+    set:
+      product: COSMIKDEBRIS
+
+    asserts:
+    # Should have 3 documents
+    - hasDocuments:
+        count: 3
+
+    # First document should be a ServiceAccount
+    - isKind:
+        of: ServiceAccount
+      documentIndex: 0
+    - equal:
+        path: metadata.name
+        value: cosmikdebris-config-upload
+      documentIndex: 0
+    - equal:
+        path: metadata.namespace
+        value: NAMESPACE
+      documentIndex: 0
+
+    # Second document should be a ClusterRole
+    - isKind:
+        of: ClusterRole
+      documentIndex: 1
+    - equal:
+        path: metadata.name
+        value: cosmikdebris-config-upload
+      documentIndex: 1
+    - equal:
+        path: metadata.namespace
+        value: NAMESPACE
+      documentIndex: 1
+    - equal:
+        path: metadata.labels.release
+        value: RELEASE-NAME
+      documentIndex: 1
+
+    # Third document should be a ClusterRoleBinding
+    - isKind:
+        of: ClusterRoleBinding
+      documentIndex: 2
+    - equal:
+        path: metadata.name
+        value: cosmikdebris-config-upload
+      documentIndex: 2
+    - equal:
+        path: metadata.namespace
+        value: NAMESPACE
+        documentIndex: 2
+    - equal:
+        path: metadata.labels.release
+        value: RELEASE-NAME
+      documentIndex: 2
+    - equal:
+        path: subjects[0].kind
+        value: ServiceAccount
+      documentIndex: 2
+    - equal:
+        path: subjects[0].name
+        value: cosmikdebris-config-upload
+      documentIndex: 2
+    - equal:
+        path: subjects[0].namespace
+        value: NAMESPACE
+      documentIndex: 2
+    - equal:
+        path: roleRef.kind
+        value: ClusterRole
+      documentIndex: 2
+    - equal:
+        path: roleRef.name
+        value: cosmikdebris-config-upload
+      documentIndex: 2
+    - equal:
+        path: roleRef.namespace
+        value: NAMESPACE
+      documentIndex: 2
+    - equal:
+        path: roleRef.apiGroup
+        value: rbac.authorization.k8s.io
+      documentIndex: 2
+
+  - it: should create a ServiceAccount, ClusterRole, and ClusterRoleBinding using if customResourceName not set
+    set:
+      product: COSMIKDEBRIS
+      customResourceName: WICKEDCOOLNAME
+
+    asserts:
+    # Should have 3 documents
+    - hasDocuments:
+        count: 3
+
+    # First document should be a ServiceAccount
+    - isKind:
+        of: ServiceAccount
+      documentIndex: 0
+    - equal:
+        path: metadata.name
+        value: wickedcoolname-config-upload
+      documentIndex: 0
+    - equal:
+        path: metadata.namespace
+        value: NAMESPACE
+      documentIndex: 0
+
+    # Second document should be a ClusterRole
+    - isKind:
+        of: ClusterRole
+      documentIndex: 1
+    - equal:
+        path: metadata.name
+        value: wickedcoolname-config-upload
+      documentIndex: 1
+    - equal:
+        path: metadata.namespace
+        value: NAMESPACE
+      documentIndex: 1
+    - equal:
+        path: metadata.labels.release
+        value: RELEASE-NAME
+      documentIndex: 1
+
+    # Third document should be a ClusterRoleBinding
+    - isKind:
+        of: ClusterRoleBinding
+      documentIndex: 2
+    - equal:
+        path: metadata.name
+        value: wickedcoolname-config-upload
+      documentIndex: 2
+    - equal:
+        path: metadata.namespace
+        value: NAMESPACE
+        documentIndex: 2
+    - equal:
+        path: metadata.labels.release
+        value: RELEASE-NAME
+      documentIndex: 2
+    - equal:
+        path: subjects[0].kind
+        value: ServiceAccount
+      documentIndex: 2
+    - equal:
+        path: subjects[0].name
+        value: wickedcoolname-config-upload
+      documentIndex: 2
+    - equal:
+        path: subjects[0].namespace
+        value: NAMESPACE
+      documentIndex: 2
+    - equal:
+        path: roleRef.kind
+        value: ClusterRole
+      documentIndex: 2
+    - equal:
+        path: roleRef.name
+        value: wickedcoolname-config-upload
+      documentIndex: 2
+    - equal:
+        path: roleRef.namespace
+        value: NAMESPACE
+      documentIndex: 2
+    - equal:
+        path: roleRef.apiGroup
+        value: rbac.authorization.k8s.io
+      documentIndex: 2

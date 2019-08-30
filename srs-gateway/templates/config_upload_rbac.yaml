@@ -13,6 +13,7 @@ kind: ClusterRole
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: {{ template "srs-gateway.configUploadServiceAccountName" . }}
+  namespace: {{ .Release.Namespace }}
   labels:
     release: {{ .Release.Name }}
 rules:
@@ -105,6 +106,7 @@ kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1beta1
 metadata:
   name: {{ template "srs-gateway.configUploadServiceAccountName" . }}
+  namespace: {{ .Release.Namespace }}
   labels:
     release: {{ .Release.Name }}
 subjects:
@@ -114,4 +116,5 @@ subjects:
 roleRef:
   kind: ClusterRole
   name: {{ template "srs-gateway.configUploadServiceAccountName" . }}
+  namespace: {{ .Release.Namespace }}
   apiGroup: rbac.authorization.k8s.io
