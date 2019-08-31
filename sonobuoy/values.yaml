@@ -15,7 +15,7 @@ replicaCount: 1
 
 image:
   repository: alpine-curl
-  tag: 0.5.5
+  tag: 0.6.0
   pullPolicy: Always
 
 
