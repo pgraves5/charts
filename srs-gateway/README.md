@@ -352,17 +352,6 @@ Example helm install command line setting:
 --set customResourceName=objectscale
 ```
 
-### namespace
-The SRS gateway custom resource and its secondary resources can be configured to be installed in an explicit namespace using the "namespace" setting.
-
-Default:
-* namespace: default
-
-Example helm install command line setting:
-```
---set namespace=objectscale
-```
-
 ### Global Docker Registry Settings (registry, tag, pullPolicy)
 These global settings can be used to configure the Docker registry, tag, and/or
 pullPolicy to use for both the remote access and the notifier pods.

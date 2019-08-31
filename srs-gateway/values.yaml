@@ -17,8 +17,6 @@
 # for all secondary resources.
 # customResourceName: "objectscale"
 
-namespace: "default"
-
 # ==================== MANDATORY SETTING ====================
 # Product must be an "on-boarded" product/model name recognized by SRS
 # product: "OBJECTSCALE"

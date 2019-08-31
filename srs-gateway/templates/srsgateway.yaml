@@ -2,7 +2,7 @@ apiVersion: decks.ecs.dellemc.com/v1beta1
 kind: SRSGateway
 metadata:
   name: {{ template "srs-gateway.createCustomResourceName" . }}
-  namespace: {{ template "srs-gateway.createNamespace" . }}
+  namespace: {{ .Release.Namespace }}
   finalizers:
   - srs.unregister.dellemc.com
   labels:
