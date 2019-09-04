@@ -86,7 +86,7 @@ resources: {}
 #  memory: 128Mi
 
 # Will install crd for ecs cluster
-installECSCRD: true
+installObjectStoreCRD: true
 
 nodeSelector: {}
 
