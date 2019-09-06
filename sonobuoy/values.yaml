@@ -13,19 +13,18 @@ global:
   # Default: "" == Watch ALL namespaces
   watchNamespace: ""
 
+# The default docker tag and pull policy for sonobuoy
+tag: 0.5.5
+pullPolicy: Always
+
 replicaCount: 1
 
-alpine_curl:
-  image:
-    repository: alpine-curl
-    tag: 0.5.5
-    pullPolicy: IfNotPresent
+alpine_curl_image:
+  repository: alpine-curl
 
-sonobuoy:
-  image:
-    repository: sonobuoy
-    tag: v0.14
-    pullPolicy: IfNotPresent
+sonobuoy_image:
+  repository: sonobuoy
+  tag: v0.14
 
 resources: {}
 # We usually recommend not to specify default resources and to leave this

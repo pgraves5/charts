@@ -214,8 +214,8 @@ data:
                 }
               }
             ],
-            "image": "{{ .Values.global.registry }}/{{ .Values.sonobuoy.image.repository }}:{{ .Values.sonobuoy.image.tag }}",
-            "imagePullPolicy": "{{ .Values.sonobuoy.image.pullPolicy }}",
+            "image": "{{ .Values.global.registry }}/{{ .Values.sonobuoy_image.repository }}:{{ .Values.sonobuoy_image.tag }}",
+            "imagePullPolicy": "{{ .Values.pullPolicy }}",
             "name": "kube-sonobuoy",
             "volumeMounts": [
               {
@@ -291,7 +291,7 @@ spec:
       template:
         spec:
           containers:
-          - image: {{ .Values.global.registry }}/{{ .Values.alpine_curl.image.repository }}:{{ .Values.alpine_curl.image.tag }}
+          - image: {{ .Values.global.registry }}/{{ .Values.alpine_curl_image.repository }}:{{ .Values.tag }}
             env:
             - name: curSecret
               value: {{ .Values.global.registrySecret }}
@@ -306,7 +306,7 @@ spec:
                 curl -k -X POST -H "Authorization:Bearer $(cat /var/run/secrets/kubernetes.io/serviceaccount/token)" -H "Content-Type:application/json" https://$KUBERNETES_SERVICE_HOST:$KUBERNETES_PORT_443_TCP_PORT/api/v1/namespaces/heptio-sonobuoy/secrets -d@imagePullSecret.json;
                 echo start creating sonobuoy job;
                 curl -k -X POST -H "Authorization:Bearer $(cat /var/run/secrets/kubernetes.io/serviceaccount/token)" -H "Content-Type:application/json" https://$KUBERNETES_SERVICE_HOST:$KUBERNETES_PORT_443_TCP_PORT/api/v1/namespaces/heptio-sonobuoy/pods -d@/etc/sonobuoy/sonobuoy-cronjob.json;
-            imagePullPolicy: {{ .Values.alpine_curl.image.pullPolicy }}
+            imagePullPolicy: {{ .Values.pullPolicy }}
             name: alpine-curl
             volumeMounts:
             - mountPath: /etc/sonobuoy
