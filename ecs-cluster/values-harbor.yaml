@@ -312,13 +312,28 @@ portal:
 
 # The ECS telegraf configuration specification
 telegraf:
-  # Override the number of portal replicas to run with the the deployment
+  # Override the number of telegraf replicas to run with the the deployment
   # replicas: 1
 
   # Docker repository to be used for portal instances
   image:
     repository: telegraf
-    # tag: stable
+     tag: latest
+    # pullPolicy: Always
+
+# The ECS influxdb configuration specification
+influxdb:
+  # Override the number of influxdb replicas to run with the the deployment
+  replicas: 1
+
+  persistance:
+    volumesCount: 1
+    size: 32GB
+
+  # Docker repository to be used for portal instances
+  image:
+    repository: influxdb
+     tag: latest
     # pullPolicy: Always
 
 # The NGINX configuration specification
