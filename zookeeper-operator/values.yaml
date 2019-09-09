@@ -14,6 +14,11 @@ global:
   # Default: "" == Watch ALL namespaces
   watchNamespace: ""
 
+  # Install the CRD during the chart installation.  This should be peformed by
+  # default, but if there are multiple instances of zookeeper-operator on the same
+  # cluster, then it should be disabled.
+  installCRD: true
+
 # The number of replicas for the Zookeeper Operator deployment
 replicaCount: 1
 
