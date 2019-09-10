@@ -14,7 +14,7 @@ global:
   watchNamespace: ""
 
 # The default docker tag and pull policy for sonobuoy
-tag: 0.5.5
+tag: 0.6.0
 pullPolicy: Always
 
 replicaCount: 1

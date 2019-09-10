@@ -49,16 +49,6 @@ fields are limited to this length.
 {{- end -}}
 
 {{/*
-Create a namespace for an SRS gateway custom resource. The configured
-"namespace" in values.yaml is set to lower case, trailing '-' characters
-are trimmed, and the result is truncated at 63 characters since some
-Kubernetes name fields are limited to this length.
-*/}}
-{{- define "srs-gateway.createNamespace" -}}
-{{- print .Values.namespace | lower | trimSuffix "-" | trunc 63 -}}
-{{- end -}}
-
-{{/*
 Create an SRS gateway credentials secret resource name.
 The order of precedence for deciding what name to use is as follows:
     - If "customResourceName" is set in values.yaml, use that with
@@ -72,8 +62,14 @@ fields are limited to this length.
 {{- define "srs-gateway.createCredsSecretName" -}}
 {{- if .Values.customResourceName -}}
 {{- printf "%s-srs-creds-secret" .Values.customResourceName | lower | trimSuffix "-" | trunc 63 -}}
-{{- else -}}
+{{- else if .Values.product -}}
 {{- printf "%s-srs-creds-secret" .Values.product | lower | trimSuffix "-" | trunc 63 -}}
+{{- else -}}
+{{/*
+This case should never occur, since .Values.product is a required setting.
+This is added solely to satisfy `helm lint`.
+*/}}
+{{- printf "srs-creds-secret" -}}
 {{- end -}}
 {{- end -}}
 
@@ -96,13 +92,19 @@ fields are limited to this length.
 {{- print .Values.dockerSecret | lower | trimSuffix "-" | trunc 63 -}}
 {{- else if .Values.customResourceName -}}
 {{- printf "%s-docker-secret" .Values.customResourceName | lower | trimSuffix "-" | trunc 63 -}}
-{{- else -}}
+{{- else if .Values.product -}}
 {{- printf "%s-docker-secret" .Values.product | lower | trimSuffix "-" | trunc 63 -}}
+{{- else -}}
+{{/*
+This case should never occur, since .Values.product is a required setting.
+This is added solely to satisfy `helm lint`.
+*/}}
+{{- printf "srs-docker-secret" -}}
 {{- end -}}
 {{- end -}}
 
 {{/*
-Create an SRS gateway CR service account name.
+Create a name for the Remote Access serviceaccount.
 The order of precedence for deciding what prefix to use is as follows:
     - If "customResourceName" is set in values.yaml, then use that.
     - Otherwise, use "product" from values.yaml (this is a required setting).
@@ -110,11 +112,63 @@ The selected prefix is concatenated with "-remote-access", and he result
 is set to lower case, trailing '-' are trimmed, and the result is truncated
 at 63 characters since some Kubernetes name fields are limited to this length.
 */}}
-{{- define "srs-gateway.createServiceAccountName" -}}
+{{- define "srs-gateway.remoteAccessServiceAccountName" -}}
 {{- if .Values.customResourceName -}}
 {{- printf "%s-remote-access" .Values.customResourceName | lower | trimSuffix "-" | trunc 63 -}}
-{{- else -}}
+{{- else if .Values.product -}}
 {{- printf "%s-remote-access" .Values.product | lower | trimSuffix "-" | trunc 63 -}}
+{{- else -}}
+{{/*
+This case should never occur, since .Values.product is a required setting.
+This is added solely to satisfy `helm lint`.
+*/}}
+{{- printf "srs-remote-access" -}}
+{{- end -}}
+{{- end -}}
+
+{{/*
+Create a name for the Notifier deployment serviceaccount.
+The order of precedence for deciding what prefix to use is as follows:
+    - If "customResourceName" is set in values.yaml, then use that.
+    - Otherwise, use "product" from values.yaml (this is a required setting).
+The selected prefix is concatenated with "-srs-notifier", and he result
+is set to lower case, trailing '-' are trimmed, and the result is truncated
+at 63 characters since some Kubernetes name fields are limited to this length.
+*/}}
+{{- define "srs-gateway.notifierServiceAccountName" -}}
+{{- if .Values.customResourceName -}}
+{{- printf "%s-srs-notifier" .Values.customResourceName | lower | trimSuffix "-" | trunc 63 -}}
+{{- else if .Values.product -}}
+{{- printf "%s-srs-notifier" .Values.product | lower | trimSuffix "-" | trunc 63 -}}
+{{- else -}}
+{{/*
+This case should never occur, since .Values.product is a required setting.
+This is added solely to satisfy `helm lint`.
+*/}}
+{{- printf "srs-notifier" -}}
+{{- end -}}
+{{- end -}}
+
+{{/*
+Create a name for the config-upload deployment serviceaccount.
+The order of precedence for deciding what prefix to use is as follows:
+    - If "customResourceName" is set in values.yaml, then use that.
+    - Otherwise, use "product" from values.yaml (this is a required setting).
+The selected prefix is concatenated with "-config-upload", and he result
+is set to lower case, trailing '-' are trimmed, and the result is truncated
+at 63 characters since some Kubernetes name fields are limited to this length.
+*/}}
+{{- define "srs-gateway.configUploadServiceAccountName" -}}
+{{- if .Values.customResourceName -}}
+{{- printf "%s-config-upload" .Values.customResourceName | lower | trimSuffix "-" | trunc 63 -}}
+{{- else if .Values.product -}}
+{{- printf "%s-config-upload" .Values.product | lower | trimSuffix "-" | trunc 63 -}}
+{{- else -}}
+{{/*
+This case should never occur, since .Values.product is a required setting.
+This is added solely to satisfy `helm lint`.
+*/}}
+{{- printf "srs-config-upload" -}}
 {{- end -}}
 {{- end -}}
 

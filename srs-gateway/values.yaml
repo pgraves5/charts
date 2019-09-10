@@ -17,8 +17,6 @@
 # for all secondary resources.
 # customResourceName: "objectscale"
 
-namespace: "default"
-
 # ==================== MANDATORY SETTING ====================
 # Product must be an "on-boarded" product/model name recognized by SRS
 # product: "OBJECTSCALE"
@@ -27,7 +25,7 @@ namespace: "default"
 # The default docker registry, tag and pull policy for the remote access and
 # notifier pods that are created as SRS gateway CR secondary resources.
 registry: "emccorp"
-tag: 0.5.5
+tag: 0.6.0
 pullPolicy: "Always"
 
 gateway:
@@ -89,3 +87,11 @@ notifier:
   servicePort: 50051
   grpcConnTimeout: 5
   grpcRetries: 3
+
+configUpload:
+  # registry: "emccorp"
+  repository: "config-upload"
+  # tag: "stable"
+  # pullPolicy: "Always"
+  uploadPeriodHours: 12
+  restartPolicy: "Never"

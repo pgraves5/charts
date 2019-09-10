@@ -15,7 +15,7 @@ tests:
         value: mothersofinvention
     - equal:
         path: metadata.namespace
-        value: default
+        value: NAMESPACE
     - equal:
         path: spec.connectionInfo.hostname
         value: 192.0.2.7
@@ -36,7 +36,7 @@ tests:
         value: remote-access
     - equal:
         path: spec.remoteAccess.tag
-        value: 0.5.5
+        value: 0.6.0
     - equal:
         path: spec.remoteAccess.pullPolicy
         value: Always
@@ -51,7 +51,7 @@ tests:
         value: srs-notifier
     - equal:
         path: spec.notifier.tag
-        value: 0.5.5
+        value: 0.6.0
     - equal:
         path: spec.notifier.pullPolicy
         value: Always
@@ -104,19 +104,6 @@ tests:
     - equal:
         path: metadata.name
         value: nanook
-  - it: should create an SRS GW custom resource with a non-default namespace
-    set:
-      product: YELLOWSNOW
-      gateway.hostname: 192.0.2.7
-      gateway.login: frank.zappa:ZirconEncrusted
-      namespace: zappa
-    asserts:
-    - equal:
-        path: metadata.name
-        value: yellowsnow
-    - equal:
-        path: metadata.namespace
-        value: zappa
   - it: should create an SRS GW custom resource with global registry, tab, and pullPolicy
     set:
       product: DENTALFLOSSTYCOON
@@ -174,7 +161,7 @@ tests:
         value: srs-notifier
     - equal:
         path: spec.notifier.tag
-        value: 0.5.5
+        value: 0.6.0
     - equal:
         path: spec.notifier.pullPolicy
         value: Always
@@ -196,7 +183,7 @@ tests:
         value: remote-access
     - equal:
         path: spec.remoteAccess.tag
-        value: 0.5.5
+        value: 0.6.0
     - equal:
         path: spec.remoteAccess.pullPolicy
         value: Always

@@ -51,6 +51,10 @@ spec:
           valueFrom:
            fieldRef:
              fieldPath: metadata.name
+        - name: MY_POD_IP
+          valueFrom:
+           fieldRef:
+             fieldPath: status.podIP
         - name: WATCH_NAMESPACE
 {{- if eq .Values.global.watchNamespace "" }}
           value: ""

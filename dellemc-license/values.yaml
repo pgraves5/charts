@@ -1,0 +1,11 @@
+---
+# Default values for Dell EMC License.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+# DO NOT UNCOMMENT IT. the location of the license file must be supplied as a command line.
+# licensefile: "/home/john/objectscale-license.xml"
+
+# the product name is needed just to  create a unique secret resource name.
+# It does not need to match the official product name defined in the xml file
+# product: "objectscale"
