@@ -32,8 +32,8 @@ spec:
     type: string
     description: The HTTPS endpoint for accessing the cluster via S3
     JSONPath: .status.endpoints.s3Secure
-  - name: MGMT PORTAL
+  - name: MGMT API
     type: string
-    description: The HTTPS location for the management portal web UI
-    JSONPath: .status.endpoints.managementPortal
+    description: The HTTPS location for the management management API
+    JSONPath: .status.endpoints.managementAPI
 {{- end }}
