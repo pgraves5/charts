@@ -34,6 +34,6 @@ spec:
     JSONPath: .status.endpoints.s3Secure
   - name: MGMT API
     type: string
-    description: The HTTPS location for the management management API
+    description: The HTTPS location for the management API
     JSONPath: .status.endpoints.managementAPI
 {{- end }}
