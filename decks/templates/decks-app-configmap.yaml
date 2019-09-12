@@ -1,5 +1,15 @@
 ---
 apiVersion: v1
+kind: ConfigMap
+metadata:
+    creationTimestamp: null
+    name: decks-app-config
+    namespace: {{.Release.namespace}}
+    labels:
+        app.kubernetes.io/name: "decks"
+        release: {{ .Release.Name }}
+    annotations:
+        com.dellemc.kahm.subscribed: "true"
 data:
     eventRules: |-
     healthChecks: |-
@@ -8,44 +18,37 @@ data:
         - symptomid: DECKS-1005
           description: Dell EMC subscription license expired
           remedies:
-            - 1. Check the end date of the license
-            - 2. Visit the Dell EMC Software Licensing Center (SLC) to
-                 renew/extend the license.
-            - 3. Contact your Dell EMC sales representative to
-                 renew/extend the license
+            - Check the end date of the license
+            - Visit the Dell EMC Software Licensing Center (SLC) to
+              renew/extend the license.
+            - Contact your Dell EMC sales representative to
+              renew/extend the license
         - symptomid: DECKS-1006
           description: Dell EMC subscription license is about to expire
           remedies:
-            - 1. Check the end date of the license
-            - 2. Visit the Dell EMC Software Licensing Center (SLC) to
-                 renew/extend the license.
-            - 3. Contact your Dell EMC sales representative to
-                 renew/extend the license
+            - Check the end date of the license
+            - Visit the Dell EMC Software Licensing Center (SLC) to
+              renew/extend the license.
+            - Contact your Dell EMC sales representative to
+              renew/extend the license
         - symptomid: DECKS-1007
           description: Unable to register with Dell EMC Secure Remote Services
           remedies:
-            - 1. Make sure the correct hostname or IP addr/port was used for
-                 the SRS gateway
-            - 2. Make sure the correct Dell EMC customer support account name
-                 and password were specified
-            - 3. Is the SRS gateway system running?
-            - 4. Check the network connection to the SRS gateway
-            - 5. Check if the SRS gateway has connectivity through the firewall
-                 to Dell EMC
-            - 6. Check the health of the SRS gateway by connecting to the Web
-                 Interface
+            - Make sure the correct hostname or IP addr/port was used for
+              the SRS gateway
+            - Make sure the correct Dell EMC customer support account name
+              and password were specified
+            - Is the SRS gateway system running?
+            - Check the network connection to the SRS gateway
+            - Check if the SRS gateway has connectivity through the firewall
+              to Dell EMC
+            - Check the health of the SRS gateway by connecting to the Web
+              Interface
         - symptomid: DECKS-1008
           description: Invalid Dell EMC license
           remedies:
-            - 1. Make sure the license was obtained from the
-                 Dell EMC Software Licensing Center
-            - 2. Make sure the license was not modified prior to applying it to
-                 the cluster
-            - 3. Make sure the PRODUCTSHORTNAME is defined in the license
-kind: ConfigMap
-metadata:
-    creationTimestamp: null
-    name: decks-app-config
-    namespace: {{.Release.namespace}}
-    annotations:
-        com.dellemc.kahm.subscribed: "true"
+            - Make sure the license was obtained from the
+              Dell EMC Software Licensing Center
+            - Make sure the license was not modified prior to applying it to
+              the cluster
+            - Make sure the PRODUCTSHORTNAME is defined in the license

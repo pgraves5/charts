@@ -2,25 +2,33 @@
 apiVersion: app.k8s.io/v1beta1
 kind: Application
 metadata:
-  namespace:  {{ .Release.Namespace }}
   name: "decks"
+  namespace:  {{ .Release.Namespace }}
   labels:
     app.kubernetes.io/name: "decks"
+    app.kubernetes.io/version: {{ .Values.tag }}
     release: {{ .Release.Name }}
   annotations:
     com.dellemc.kahm.subscribed: "true"
 spec:
-  assemblyPhase: "Pending"
   selector:
     matchLabels:
       app.kubernetes.io/name: "decks"
+  componentKinds:
+    - group: apps
+      kind:  Deployment
+    - group: core
+      kind: ConfigMaps
+  assemblyPhase: "Pending"
   descriptor:
     type: "decks"
     version: {{ .Values.tag }}
     description: >
       Dell EMC Common Kubernetes Services
-    info: "decks"
     keywords:
       - "decks"
+      - "srs"
+      - "licensing"
     info:
-{{- end }}
+      - "Copyright © 2019 Dell Inc. or its subsidiaries. All Rights Reserved."
+ {{- end }}
