@@ -7,7 +7,7 @@ metadata:
     namespace: {{.Release.namespace}}
     labels:
         app.kubernetes.io/name: "decks"
-        release: {{ .Release.Name }}
+        release: {{.Release.Name}}
     annotations:
         com.dellemc.kahm.subscribed: "true"
 data:
