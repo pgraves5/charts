@@ -1,9 +1,10 @@
+---
 {{- if .Values.createdecksappResource }}
 apiVersion: app.k8s.io/v1beta1
 kind: Application
 metadata:
   name: "decks"
-  namespace:  {{ .Release.Namespace }}
+  namespace: {{ .Release.Namespace }}
   labels:
     app.kubernetes.io/name: "decks"
     app.kubernetes.io/version: {{ .Values.tag }}
@@ -16,7 +17,7 @@ spec:
       app.kubernetes.io/name: "decks"
   componentKinds:
     - group: apps
-      kind:  Deployment
+      kind: Deployment
     - group: core
       kind: ConfigMaps
   assemblyPhase: "Pending"
