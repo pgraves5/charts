@@ -34,16 +34,16 @@ data:
         - symptomid: DECKS-1007
           description: Unable to register with Dell EMC Secure Remote Services
           remedies:
-            - Make sure the correct hostname or IP addr/port was used for
+            - Verify the correct hostname or IP addr/port was used for
               the SRS gateway
-            - Make sure the correct Dell EMC customer support account name
+            - Verify the correct Dell EMC customer support account name
               and password were specified
-            - Check that the SRS Gateway system is running
-            - Check the network connection to the SRS gateway
+            - Verify the SRS Gateway system is running
+            - Verify the network connection to the SRS gateway
             - Check if the SRS gateway has connectivity through the firewall
               to Dell EMC
-            - Check the health of the SRS gateway by connecting to the Web
-              Interface
+            - Check the health of the SRS gateway by connecting to the user
+              interface
         - symptomid: DECKS-1008
           description: Invalid Dell EMC license
           remedies:
