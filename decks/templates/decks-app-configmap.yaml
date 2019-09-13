@@ -38,7 +38,7 @@ data:
               the SRS gateway
             - Make sure the correct Dell EMC customer support account name
               and password were specified
-            - Is the SRS gateway system running?
+            - Check that the SRS Gateway system is running
             - Check the network connection to the SRS gateway
             - Check if the SRS gateway has connectivity through the firewall
               to Dell EMC
