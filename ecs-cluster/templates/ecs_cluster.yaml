@@ -382,23 +382,6 @@ spec:
     service:
       {{ toYaml .Values.objectHeads.service | nindent 6 | trim }}
 
-  portal:
-{{- if .Values.portal.replicas }}
-    replicas: {{ .Values.portal.replicas }}
-{{- end }}
-    image:
-      repository: {{ .Values.global.registry }}/{{ .Values.portal.image.repository }}
-{{- if .Values.portal.image.tag }}
-      tag: {{ .Values.portal.image.tag }}
-{{- else }}
-      tag: {{ .Values.tag }}
-{{- end }}
-{{- if .Values.portal.image.pullPolicy }}
-      pullPolicy: {{ .Values.portal.image.pullPolicy }}
-{{- else }}
-      pullPolicy: {{ .Values.pullPolicy }}
-{{- end }}
-
   nginx:
 {{- if .Values.nginx.replicas }}
     replicas: {{ .Values.nginx.replicas }}

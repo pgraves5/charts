@@ -281,7 +281,7 @@ stat:
   # Override the number of object control replicas to run with the the deployment
   # replicas: 1
 
-  # Docker repository to be used for portal instances
+  # Docker repository to be used for stat instances
   image:
     repository: statistics
     # tag: stable
@@ -298,23 +298,12 @@ control:
     # tag: stable
     # pullPolicy: IfNotPresent
 
-# The ECS portal configuration specification
-portal:
-  # Override the number of portal replicas to run with the the deployment
-  # replicas: 1
-
-  # Docker repository to be used for portal instances
-  image:
-    repository: portal-service
-    # tag: stable
-    # pullPolicy: IfNotPresent
-
 # The ECS telegraf configuration specification
 telegraf:
-  # Override the number of portal replicas to run with the the deployment
+  # Override the number of telegraf replicas to run with the the deployment
   # replicas: 1
 
-  # Docker repository to be used for portal instances
+  # Docker repository to be used for telegraf instances
   image:
     repository: telegraf
     # tag: stable
@@ -362,7 +351,7 @@ nginx:
 # Enable or disable the cluster automatic provisioning. This step will provision
 # the ECS resources into a single storage pool and virtual data center scoped to
 # the Helm release name. If this is disabled, the cluster will need to be
-# be provisioned via API or Portal before it can be used
+# be provisioned via API before it can be used
 provision:
   enabled: true
   image:
