@@ -225,12 +225,12 @@ diagnostic:
   service:
     # Specify the service port configuration for the diagnostic service
     ports:
-    - name: diag
-      port: 9100
-      targetPort: 9100
-    - name: diagweb
-      port: 9101
-      targetPort: 9101
+      - name: diag
+        port: 9100
+        targetPort: 9100
+      - name: diagweb
+        port: 9101
+        targetPort: 9101
 
 # The ECS object heads configuration specification
 objectHeads:
@@ -273,8 +273,8 @@ geoReceiver:
   service:
 
     ports:
-    - name: geo
-      port: 9094
+      - name: geo
+        port: 9094
 
 # The ECS API control service configuration specification
 stat:
@@ -306,8 +306,64 @@ telegraf:
   # Docker repository to be used for telegraf instances
   image:
     repository: telegraf
-    # tag: stable
+    registry: harbor.lss.emc.com/polyav
+    tag: 3.5.0.0-623.d87d3c2a
     # pullPolicy: IfNotPresent
+
+# The ECS telegraf configuration specification
+grafana:
+  # Override the number of portal replicas to run with the the deployment
+  # replicas: 1
+
+  # Docker repository to be used for portal instances
+  image:
+    repository: grafana
+    registry: harbor.lss.emc.com/polyav
+    tag: 3.5.0.0-623.d87d3c2a
+    # pullPolicy: IfNotPresent
+  service:
+    type: LoadBalancer
+    ports:
+      - port: 3000
+        name: grafana-port
+
+# The ECS fluxd configuration specification
+fluxd:
+  # Override the number of portal replicas to run with the the deployment
+  # replicas: 1
+
+  # Docker repository to be used for portal instances
+  image:
+    repository: fluxd
+    registry: harbor.lss.emc.com/polyav
+    tag: 3.5.0.0-623.d87d3c2a
+    # pullPolicy: IfNotPresent
+
+# The ECS fluxd configuration specification
+throttler:
+  # Override the number of portal replicas to run with the the deployment
+  # replicas: 1
+
+  # Docker repository to be used for portal instances
+  image:
+    repository: throttler
+    registry: harbor.lss.emc.com/polyav
+    tag: 3.5.0.0-623.d87d3c2a
+    # pullPolicy: IfNotPresent
+
+influxdb:
+  # Override the number of influxdb replicas to run with the the deployment
+  replicas: 1
+
+  persistence:
+    volumesCount: 1
+    size: 32Gi
+
+  # Docker repository to be used for portal instances
+  image:
+    repository: influxdb
+    registry: harbor.lss.emc.com/polyav
+    tag: 3.5.0.0-623.d87d3c2a
 
 # The NGINX configuration specification
 nginx:
@@ -323,12 +379,12 @@ nginx:
 
     # Specify the service port configuration for the NGINX service
     ports:
-    - name: ui
-      port: 443
-      targetPort: 443
-    - name: api
-      port: 4443
-      targetPort: 4443
+      - name: ui
+        port: 443
+        targetPort: 443
+      - name: api
+        port: 4443
+        targetPort: 4443
 
 # Specify the service type for the NGINX container. The default is a
 # "ClusterIP"
