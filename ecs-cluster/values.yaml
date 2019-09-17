@@ -375,9 +375,6 @@ nginx:
 
     # Specify the service port configuration for the NGINX service
     ports:
-      - name: ui
-        port: 443
-        targetPort: 443
       - name: api
         port: 4443
         targetPort: 4443
