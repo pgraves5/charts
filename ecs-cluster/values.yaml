@@ -306,8 +306,7 @@ telegraf:
   # Docker repository to be used for telegraf instances
   image:
     repository: telegraf
-    registry: harbor.lss.emc.com/polyav
-    tag: 3.5.0.0-623.d87d3c2a
+    # tag: latest
     # pullPolicy: IfNotPresent
 
 # The ECS telegraf configuration specification
@@ -318,8 +317,7 @@ grafana:
   # Docker repository to be used for portal instances
   image:
     repository: grafana
-    registry: harbor.lss.emc.com/polyav
-    tag: 3.5.0.0-623.d87d3c2a
+    # tag: latest
     # pullPolicy: IfNotPresent
   service:
     type: LoadBalancer
@@ -335,8 +333,7 @@ fluxd:
   # Docker repository to be used for portal instances
   image:
     repository: fluxd
-    registry: harbor.lss.emc.com/polyav
-    tag: 3.5.0.0-623.d87d3c2a
+    # tag: latest
     # pullPolicy: IfNotPresent
 
 # The ECS fluxd configuration specification
@@ -347,8 +344,7 @@ throttler:
   # Docker repository to be used for portal instances
   image:
     repository: throttler
-    registry: harbor.lss.emc.com/polyav
-    tag: 3.5.0.0-623.d87d3c2a
+    # tag: latest
     # pullPolicy: IfNotPresent
 
 influxdb:
@@ -362,8 +358,8 @@ influxdb:
   # Docker repository to be used for portal instances
   image:
     repository: influxdb
-    registry: harbor.lss.emc.com/polyav
-    tag: 3.5.0.0-623.d87d3c2a
+    # tag: latest
+    # pullPolicy: IfNotPresent
 
 # The NGINX configuration specification
 nginx:
