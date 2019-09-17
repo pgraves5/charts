@@ -1,3 +1,4 @@
+---
 apiVersion: influxdata.com/v1alpha1
 kind: Influxdb
 metadata:
@@ -9,7 +10,7 @@ metadata:
 spec:
   # Add fields here
   size: 1
-  baseImage: {{ default .Values.global.registry .Values.influxdb.image.registry }}/{{ .Values.influxdb.image.repository }}:{{ default .Values.tag .Values.influxdb.image.tag }}
+  baseImage: {{ .Values.global.registry }}/{{ .Values.influxdb.image.repository }}:{{ default .Values.tag .Values.influxdb.image.tag }}
   imagePullPolicy: {{ default .Values.pullPolicy .Values.influxdb.image.pullPolicy }}
   pod:
     resources:
