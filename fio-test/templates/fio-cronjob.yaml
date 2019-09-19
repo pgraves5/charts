@@ -37,7 +37,11 @@ spec:
                 valueFrom:
                   secretKeyRef:
                     name: decks-webdav-secret
-                    key: password  
+                    key: password
+              - name: POD_NAMESPACE
+                valueFrom:
+                  fieldRef:
+                    fieldPath: metadata.namespace
           volumes:
             - name: {{ .Release.Name }}-fio-test-volume
               persistentVolumeClaim:
