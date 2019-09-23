@@ -55,4 +55,4 @@ data:
             - Make sure the license was not modified prior to applying it to
               the cluster
             - Make sure the PRODUCTSHORTNAME is defined in the license
-            - Make sure the END_DATE and GRACE_PERIOD are not expired
+            - Make sure subscription dates for licensed features are still valid (not expired)
