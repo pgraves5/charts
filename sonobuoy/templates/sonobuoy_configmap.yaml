@@ -170,6 +170,10 @@ data:
                     "fieldPath": "metadata.namespace"
                   }
                 }
+              },
+              {
+                "name": "APP_NAME",
+                "value": "deos-{{ .Release.Name }}"
               }
             ],
             "image": "{{ .Values.global.registry }}/{{ .Values.sonobuoy_image.repository }}:{{ .Values.sonobuoy_image.tag }}",
