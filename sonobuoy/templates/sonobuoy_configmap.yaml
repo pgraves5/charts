@@ -173,7 +173,7 @@ data:
               },
               {
                 "name": "APP_NAME",
-                "value": "deos-{{ .Release.Name }}"
+                "value": "deos-mgr"
               }
             ],
             "image": "{{ .Values.global.registry }}/{{ .Values.sonobuoy_image.repository }}:{{ .Values.sonobuoy_image.tag }}",
