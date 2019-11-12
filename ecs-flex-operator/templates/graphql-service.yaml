@@ -9,13 +9,13 @@ metadata:
     app.kubernetes.io/managed-by: {{ .Release.Service }}
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/version: {{ .Chart.AppVersion }}
-    app.kubernetes.io/component: ecs-flex-api
+    app.kubernetes.io/component: ecs-flex-graphql
     app.kubernetes.io/part-of: ecs-flex-manager
 spec:
   type: {{ .Values.graphql.service.type }}
   selector:
     app.kubernetes.io/name: {{ template "name" . }}
-    app.kubernetes.io/component: ecs-flex-api
+    app.kubernetes.io/component: ecs-flex-graphql
   ports:
     - port: {{ .Values.graphql.port }}
       name: http
