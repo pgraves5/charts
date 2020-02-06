@@ -40,7 +40,6 @@ image:
 # options will be ignored.
 # If log receiver configuration is not provided then ECS logs will be redirected to stdout
 logReceiver:
-
   # The type of log receiver that ECS Flex will use to consolidate logs. Valid
   # are: "Syslog" and "Elasticsearch".  When using a "Syslog" receiver, you can
   # optionally instruct ECS Flex to create a syslog receiver.  In the case of
@@ -115,6 +114,16 @@ influx:
     # pullPolicy: Always
   replicas: 1
 
+vSpherePlugin:
+  enabled: true
+  image:
+    repository: ecs-flex-vsphere-plugin
+    # tag: stable
+    # pullPolicy: Always
+  port: 4443
+  service:
+    type: LoadBalancer
+
 graphql:
   image:
     repository: ecs-flex-graphql
@@ -122,8 +131,9 @@ graphql:
     # pullPolicy: Always
   withPlayground: false
   port: 8080
+  serviceName: objectscale-graphql
   service:
-    type: LoadBalancer
+    type: ClusterIP
 
 telemetry:
   image:
@@ -132,6 +142,13 @@ telemetry:
     # pullPolicy: Always
   # this is as per cronjob schedule - every 12 hours, please follow the cronjob format to edit it
   schedule: "0 */12 * * *"
+
+# The service name and port that decks-support-store is listening on for download requests
+decks:
+  supportStore:
+    service:
+      name: decks-support-store
+      port: 7443
 
 installcontroller:
   image:
