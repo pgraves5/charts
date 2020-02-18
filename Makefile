@@ -1,8 +1,8 @@
-HELM_VERSION := v2.12.3
-HELM_URL     := https://storage.googleapis.com/kubernetes-helm
+HELM_VERSION := v3.0.3
+HELM_URL     := https://get.helm.sh
 HELM_TGZ      = helm-${HELM_VERSION}-linux-amd64.tar.gz
-YQ_VERSION   := 2.2.1
-YAMLLINT_VERSION := 1.14.0
+YQ_VERSION   := 2.4.1
+YAMLLINT_VERSION := 1.20.0
 CHARTS := ecs-cluster objectscale-manager mongoose zookeeper-operator atlas-operator decks kahm srs-gateway dks-testapp fio-test sonobuoy dellemc-license service-pod
 DECKSCHARTS := decks kahm srs-gateway dks-testapp dellemc-license service-pod
 FLEXCHARTS := ecs-cluster objectscale-manager zookeeper-operator
@@ -27,7 +27,6 @@ dep:
 	tar xzf ${HELM_TGZ} -C /tmp --strip-components=1
 	PATH=`pwd`/linux-amd64/:$PATH
 	chmod +x /tmp/helm
-	helm init --client-only
 	helm plugin list | grep -q "unittest" ; \
 	if [ "$${?}" -eq "1" ] ; then \
 		helm plugin install https://github.com/lrills/helm-unittest ; \
@@ -41,12 +40,12 @@ decksver:
 		echo "Missing DECKSVER= param" ; \
 		exit 1 ; \
 	fi
-	
+
 	if [ -z $${DCHARTVER} ] ; then \
 		echo "Missing DCHARTVER= param" ; \
 		exit 1 ; \
 	fi
-	
+
 	echo "looking for yq command"
 	which yq
 	echo "Found it"
