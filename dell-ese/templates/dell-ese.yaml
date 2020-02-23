@@ -1,0 +1,147 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: dell-ese-{{required "product must be specified" .Values.product}}-default-properties
+  labels:
+    release: dell-ese-{{.Values.product}}
+data:
+  DefaultProperties.json: |
+    # ESE Static configuration. It is simple JSON, but
+    # may contain comments prefixed by '#'
+    # For property information, visit: https://confluence.gtie.dell.com/display/LCOM/ESE+Configuration
+    {
+        "ipAddress": "0.0.0.0",
+        "port": "8080",
+        "sslPort": "9443",
+        "useSSL": false,
+        "defaultBackendType": "srs",
+        "remoteAccessEnabled": false,
+        "srsPrefix": "/esrs/{version}/devices",
+        "proxyUri": "",
+        "proxyUser": "",
+        "proxyPassword": "",
+        "useProxy": false,
+        "connectionState": "enabled",
+        "useGateways": true,
+        "productIdBlock": {},
+        "enableDataItemApi": true,
+        "usingBuiltinConfig": false,
+        "remoteConfig": {},
+        "gatewayEndpoints": [],
+        "productFrontendUri": "http://localhost:8087",
+        # Could also be HTTPS: "productFrontendUri": "https://localhost:8447",
+        "productFrontendPrefix": "{{.Values.product}}",
+        "productFrontendType": "webrest",
+        "contractVersion": "1.0",
+        "eventMuted": false,
+        "systemMode": "Debug",
+        "srsTransferType": "{{.Values.product | upper}}"
+    }
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: dell-ese-{{.Values.product}}
+    release: dell-ese-{{.Values.product}}
+  name: dell-ese-{{.Values.product}}
+  namespace: {{.Release.namespace}}
+spec:
+  type: LoadBalancer
+  ports:
+    - name: secure
+      port: 9447
+      targetPort: secure
+      protocol: TCP
+    - name: insecure
+      port: 8080
+      targetPort: insecure
+      protocol: TCP
+  selector:
+    name: dell-ese-{{.Values.product}}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: dell-ese-{{.Values.product}}-headless
+    release: dell-ese-{{.Values.product}}
+  name: dell-ese-{{.Values.product}}-headless
+spec:
+  clusterIP: None
+  ports:
+    - name: secure
+      port: 9447
+      targetPort: secure
+      protocol: TCP
+    - name: insecure
+      port: 8080
+      targetPort: insecure
+      protocol: TCP
+  selector:
+    name: dell-ese-{{.Values.product}}
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: dell-ese-{{.Values.product}}
+  namespace: default
+  labels:
+    release: dell-ese-{{.Values.product}}
+spec:
+  podManagementPolicy: Parallel
+  replicas: 1
+  selector:
+    matchLabels:
+      name: dell-ese-{{.Values.product}}
+  serviceName: dell-ese-{{.Values.product}}headless
+  template:
+    metadata:
+      labels:
+        name: dell-ese-{{.Values.product}}
+        release: dell-ese-{{.Values.product}}
+        app: dell-ese-{{.Values.product}}
+    spec:
+      containers:
+        - name: dell-ese-{{.Values.product}}
+          # image: harbor.lss.emc.com/ecs/dell-ese:1.1.1.9
+          image: {{.Values.global.registry}}/{{.Values.image.repository}}:{{default .Values.image.tag .Values.tag}}
+          imagePullPolicy: {{default .Values.image.pullPolicy .Values.pullPolicy}}
+          command: ["/opt/ese/bin/ese_launcher"]
+          args: ["--debug"]
+          # command: ["/bin/sh"]
+          # args: ["-c", "while true; do date; echo hello; sleep 10;done"]
+          ports:
+            - containerPort: 9447
+              name: secure
+              protocol: TCP
+            - containerPort: 8080
+              name: insecure
+              protocol: TCP
+          volumeMounts:
+            - mountPath: /data/ese
+              name: persistentdata
+            - name: dell-ese-default-properties
+              mountPath: /opt/ese/etc/DefaultProperties.json
+              subPath: DefaultProperties.json
+          env:
+            - name: REGISTRY_SECRET
+              value: dockerhub-registry-secret
+      volumes:
+        - name: dell-ese-default-properties
+          configMap:
+            name: dell-ese-{{.Values.product}}-default-properties
+  volumeClaimTemplates:
+    - metadata:
+        labels:
+          release: dell-ese-{{.Values.product}}
+          app: dell-ese-{{.Values.product}}
+        name: persistentdata
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        dataSource: null
+        resources:
+          requests:
+            storage: 2Gi
