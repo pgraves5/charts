@@ -1,10 +1,12 @@
+---
 apiVersion: batch/v1beta1
 kind: CronJob
 metadata:
-  name: {{ .Release.Name }}-fio-cronjob
+  name: |-
+    {{.Release.Name}}-fio-cronjob
   labels:
-    release: {{ .Release.Name }}
-  namespace: {{ .Release.Namespace}}
+    release: {{.Release.Name}}
+  namespace: {{.Release.Namespace}}
 spec:
   schedule: "0 */6 * * *"   # job execution period, use cron string format, the job is running every 6 hours by default
   successfulJobsHistoryLimit: 1
@@ -14,36 +16,41 @@ spec:
       template:
         spec:
           containers:
-            - name: {{ .Release.Name }}
-              image: {{ .Values.global.registry }}/{{ .Values.image.repository}}:{{ .Values.image.tag }}
-              imagePullPolicy: {{ .Values.image.pullPolicy }}
+            - name: {{.Release.Name}}
+              image: |-
+                {{.Values.global.registry}}/{{.Values.image.repository}}:{{.Values.image.tag}}
+              imagePullPolicy: {{.Values.image.pullPolicy}}
               volumeMounts:
-                - name: {{ .Release.Name }}-fio-test-volume
+                - name: |-
+                    {{.Release.Name}}-fio-test-volume
                   mountPath: /data
-                - name: {{ .Release.Name }}-fio-config-volume
+                - name: |-
+                     {{.Release.Name}}-fio-config-volume
                   mountPath: /etc/config
-              command: ["/bin/sh", "-c"]
-              args: [ "chmod +x /usr/local/bin/*.sh;
-                      sh /usr/local/bin/run-fio-test.sh;"]
+              command: ["/usr/local/bin/run-fio-test.sh"]
               env:
-              - name: FIO_TEST_CONFIG_FILE
-                value: default-config.fio
-              - name: POD_NAMESPACE
-                valueFrom:
-                  fieldRef:
-                    fieldPath: metadata.namespace
-              - name: APP_NAME
-                value: deos-mgr
+                - name: FIO_TEST_CONFIG_FILE
+                  value: default-config.fio
+                - name: POD_NAMESPACE
+                  valueFrom:
+                    fieldRef:
+                      fieldPath: metadata.namespace
+                - name: APP_NAME
+                  value: objectscale-manager
           volumes:
-            - name: {{ .Release.Name }}-fio-test-volume
+            - name: |-
+                {{.Release.Name}}-fio-test-volume
               persistentVolumeClaim:
-                claimName: {{ .Release.Name }}-fio-test-volume
-            - name: {{ .Release.Name }}-fio-config-volume
+                claimName: |-
+                  {{.Release.Name}}-fio-test-volume
+            - name: |-
+                {{.Release.Name}}-fio-config-volume
               configMap:
-                name: {{ .Release.Name }}-fio-config
+                name: |-
+                  {{.Release.Name}}-fio-config
           restartPolicy: Never
-{{- if .Values.global.registrySecret }}
+{{- if .Values.global.registrySecret}}
           imagePullSecrets:
-          - name: {{ .Values.global.registrySecret }}
-{{- end }}
-#                    --output-format=json
+            - name: |-
+                {{.Values.global.registrySecret}}
+{{- end}}

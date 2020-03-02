@@ -23,8 +23,6 @@ image:
   tag: 3.14
   pullPolicy: Always
 
-storageClass: vsphere
-
 
 resources: {}
 # We usually recommend not to specify default resources and to leave this as

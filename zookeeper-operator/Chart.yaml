@@ -1,6 +1,7 @@
 ---
 name: zookeeper-operator
-version: 0.22.0
+apiVersion: v1
+version: 0.22.1
 appVersion: 0.22.0
 description: |
   Zookeeper operator deploys a custom resource for a zookeeper cluster, and a
