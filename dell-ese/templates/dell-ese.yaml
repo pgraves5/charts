@@ -103,6 +103,19 @@ spec:
         release: dell-ese-{{.Values.product}}
         app: dell-ese-{{.Values.product}}
     spec:
+      #option 1: change permission so that ese process can access the persistent volume
+      # securityContext:
+      #   runAsUser: 1000
+      #   runAsGroup: 3000
+      #   fsGroup: 2000
+      #option 2
+      initContainers:
+      - name: ese-data-permission-fix
+        image: busybox
+        command: ["/bin/chmod","-R","777", "/opt/ese/var"]
+        volumeMounts:
+        - name: persistentdata
+          mountPath: /opt/ese/var
       containers:
         - name: dell-ese-{{.Values.product}}
           # image: harbor.lss.emc.com/ecs/dell-ese:1.1.1.9
@@ -120,7 +133,7 @@ spec:
               name: insecure
               protocol: TCP
           volumeMounts:
-            - mountPath: /data/ese
+            - mountPath: /opt/ese/var
               name: persistentdata
             - name: dell-ese-default-properties
               mountPath: /opt/ese/etc/DefaultProperties.json
