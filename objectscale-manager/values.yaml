@@ -15,6 +15,10 @@ global:
   # Default: "" == Watch ALL namespaces
   watchNamespace: ""
 
+# By setting this flag to "true", all necessary resources for ecs-flex to run in
+# VMWare Persistent Services Platform will be created and configured accordingly.
+VMwarePersistentService: false
+
 # Create an application resource for management using Dell EMC common installer or other application-resource
 # controllers
 createApplicationResource: true
