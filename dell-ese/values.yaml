@@ -38,6 +38,19 @@ resources: {}
 #  cpu: 100m
 #  memory: 128Mi
 
+eseStore:
+  image:
+    repository: decks-support-store
+    version: 1.0.0
+    pullPolicy: Always
+  persistentVolume:
+    size: 50Gi
+  containerPort: 7443
+  service:
+    port: 7443
+    targetPort: 7443
+    type: LoadBalancer
+
 nodeSelector: {}
 
 tolerations: []

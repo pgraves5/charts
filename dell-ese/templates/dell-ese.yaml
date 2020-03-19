@@ -95,6 +95,7 @@ spec:
   selector:
     matchLabels:
       name: dell-ese-{{.Values.product}}
+      io.kompose.service: ese-store
   serviceName: dell-ese-{{.Values.product}}headless
   template:
     metadata:
@@ -102,6 +103,7 @@ spec:
         name: dell-ese-{{.Values.product}}
         release: dell-ese-{{.Values.product}}
         app: dell-ese-{{.Values.product}}
+        io.kompose.service: ese-store
     spec:
       #option 1: change permission so that ese process can access the persistent volume
       # securityContext:
@@ -138,13 +140,55 @@ spec:
             - name: dell-ese-default-properties
               mountPath: /opt/ese/etc/DefaultProperties.json
               subPath: DefaultProperties.json
+            - name: ese-store-claim0
+              mountPath: /opt/ese/data
           env:
             - name: REGISTRY_SECRET
               value: dockerhub-registry-secret
+        - name: ese-store
+          image: {{ .Values.global.registry }}/{{.Values.eseStore.image.repository }}:{{ .Values.eseStore.image.version }}
+          imagePullPolicy: {{ default .Values.pullPolicy .Values.eseStore.image.pullPolicy }}
+          command: ["/bin/sh", "-c"]
+          args: ["chmod +x /usr/local/bin/*.sh;
+                  sh /usr/local/bin/run-nginx.sh;
+                  nginx -g 'daemon off;'"]
+          ports:
+          - containerPort: {{ .Values.eseStore.containerPort }}
+          resources: {}
+          volumeMounts:
+          - mountPath: /opt/secure/data
+            name: ese-store-claim0
+          env:
+{{- if .Values.global.registrySecret }}
+          - name: REGISTRY_SECRET
+            value: {{ .Values.global.registrySecret }}
+{{- end }}
+          - name: USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: ese-store-secret
+                key: username
+          - name: PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: ese-store-secret
+                key: password
+          - name: SALT
+            valueFrom:
+              secretKeyRef:
+                name: ese-store-secret
+                key: salt
       volumes:
         - name: dell-ese-default-properties
           configMap:
             name: dell-ese-{{.Values.product}}-default-properties
+        - name: ese-store-claim0
+          persistentVolumeClaim:
+            claimName: ese-store-claim0
+{{- if .Values.global.registrySecret }}
+      imagePullSecrets:
+      - name: {{ .Values.global.registrySecret }}
+{{- end }}
   volumeClaimTemplates:
     - metadata:
         labels:
