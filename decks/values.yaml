@@ -31,18 +31,7 @@ image:
 
 ## Allow callers to bypass creating app resource
 createdecksappResource: true
-supportStore:
-  image:
-    repository: decks-support-store
-    version: 1.0.0
-    pullPolicy: Always
-  persistentVolume:
-    size: 200Gi
-  containerPort: 7443
-  service:
-    port: 7443
-    targetPort: 7443
-    type: ClusterIP
+
 #  username: admin
 #  password: ChangeMe
 
@@ -78,3 +67,17 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+### new for decks 1.1 - replace webdav with nginx based supportStore
+supportStore:
+  image:
+    repository: decks-support-store
+    version: 1.0.0
+    pullPolicy: Always
+  persistentVolume:
+    size: 200Gi
+  containerPort: 7443
+  service:
+    type: ClusterIP
+    port: 7443
+    targetPort: 7443

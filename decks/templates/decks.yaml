@@ -1,3 +1,4 @@
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -5,6 +6,7 @@ metadata:
   labels:
     app.kubernetes.io/name: "decks"
     release: {{ .Release.Name }}
+    name: decks
 spec:
   replicas: 1
   selector:
