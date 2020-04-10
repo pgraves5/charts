@@ -1,12 +1,11 @@
 ---
-{{- if ne .Values.global.watchNamespace "" }}
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
   name: dellemc-license
   namespace: {{.Release.Namespace}}
   labels:
-    release: {{.Release.Name }}
+    release: {{.Release.Name}}
 rules:
 - apiGroups:
   - decks.ecs.dellemc.com
@@ -20,7 +19,7 @@ metadata:
   name: dellemc-license
   namespace: {{.Release.Namespace}}
   labels:
-    release: {{ .Release.Name }}
+    release: {{.Release.Name}}
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
@@ -29,4 +28,3 @@ subjects:
 - apiGroup: rbac.authorization.k8s.io
   kind: Group
   name: system:authenticated
-{{- end }}
