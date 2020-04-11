@@ -23,7 +23,7 @@ metadata:
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
-  name: dellemc-license
+  name: dellemc-{{.Values.product}}-license
 subjects:
 - apiGroup: rbac.authorization.k8s.io
   kind: Group
