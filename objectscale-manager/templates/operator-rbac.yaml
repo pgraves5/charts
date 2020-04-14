@@ -121,6 +121,12 @@ rules:
   - influxdbs
   verbs:
   - "*"
+- apiGroups:
+  - certificates.k8s.io 
+  resources:
+  - certificatesigningrequests 
+  verbs:
+  - "*"
 ---
 {{- if eq .Values.global.watchAllNamespaces true }}
 kind: ClusterRoleBinding

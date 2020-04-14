@@ -495,8 +495,15 @@ spec:
       tag: {{ default .Values.tag .Values.s3.image.tag }}
       pullPolicy: {{ default .Values.s3.image.pullPolicy .Values.pullPolicy }}
 
+{{- if .Values.s3.service }}
     service:
       {{ toYaml .Values.s3.service | nindent 6 | trim }}
+{{- end }}
+{{- if .Values.s3.tls }}
+    tls:
+      {{ toYaml .Values.s3.tls | nindent 6 | trim }}
+{{- end }}
+
 
   managementGateway:
 {{- if .Values.managementGateway.replicas }}
@@ -514,8 +521,14 @@ spec:
 {{- else }}
       pullPolicy: {{ .Values.pullPolicy }}
 {{- end }}
+{{- if .Values.managementGateway.service }}
     service:
       {{ toYaml .Values.managementGateway.service | nindent 6 | trim }}
+{{- end }}
+{{- if .Values.managementGateway.tls }}
+    tls:
+      {{ toYaml .Values.managementGateway.tls | nindent 6 | trim }}
+{{- end }}
 
   provision:
     enabled: {{.Values.provision.enabled }}

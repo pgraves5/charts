@@ -139,7 +139,6 @@ vSpherePlugin:
     repository: ecs-flex-vsphere-plugin
     # tag: stable
     # pullPolicy: Always
-
   service:
     # Type of Kubernetes service to create: ClusterIP, NodePort, or LoadBalancer
     type: LoadBalancer
@@ -149,9 +148,9 @@ vSpherePlugin:
       - name: http
         port: 4443
         targetPort: 4443
+        # nodePort:           # select specific node port for the connection
 
     # loadBalancerIP:     # select specific load balancer IP of the connection
-    # nodePort:           # select specific node port for the connection
     # externalHostnames:
     #   - objectscale-vsp.example.com
     # externalIPAddresses:
@@ -182,8 +181,8 @@ vSpherePlugin:
         locality: Hopkinton
         organization: Dell EMC
         organizationalUnit: ObjectScale
-      keyAlgorithm: RSA # algorithm use to generate the key (ex. RSA, ECDSA)
-      keySize: 2048 # size of the key in bits (ex. 2048, 4096, 8192)
+      keyAlgorithm: RSA       # algorithm use to generate the key (ex. RSA, ECDSA)
+      keySize: 2048           # size of the key in bits (ex. 2048, 4096, 8192)
 
 graphql:
   image:
