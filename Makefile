@@ -89,7 +89,6 @@ build:
 	which yq
 	@echo "Ensure no helm repo accessible" 
 	helm repo list | grep .; \
-        if [ $${?} -eq 0 ]; then exit 1; fi
 	REINDEX=0; \
 	for CHART in ${CHARTS}; do \
 		CURRENT_VER=`yq r $$CHART/Chart.yaml version` ; \

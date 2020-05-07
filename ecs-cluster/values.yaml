@@ -298,108 +298,13 @@ s3:
   tls:
     # Type of certificate signing: SelfSigned, KubernetesSigned, or ExternallySigned
     certificateType: SelfSigned
-
     certificate:
-      publicKey: "-----BEGIN CERTIFICATE-----
-MIIDvTCCAqWgAwIBAgIJANLW37lvRQoyMA0GCSqGSIb3DQEBCwUAMIGNMQswCQYD
-VQQGEwJVUzEWMBQGA1UECAwNTWFzc2FjaHVzZXR0czETMBEGA1UEBwwKSG9wa2lu
-Z3RvbjEjMCEGA1UECwwaQWR2YW5jZWQgU29mdHdhcmUgRGl2aXNpb24xGDAWBgNV
-BAoMD0VNQyBDb3Jwb3JhdGlvbjESMBAGA1UEAwwJbG9jYWxob3N0MB4XDTE4MTEw
-NjIyMDMyM1oXDTE5MTEwNjIyMDMyM1owgY0xCzAJBgNVBAYTAlVTMRYwFAYDVQQI
-DA1NYXNzYWNodXNldHRzMRMwEQYDVQQHDApIb3BraW5ndG9uMSMwIQYDVQQLDBpB
-ZHZhbmNlZCBTb2Z0d2FyZSBEaXZpc2lvbjEYMBYGA1UECgwPRU1DIENvcnBvcmF0
-aW9uMRIwEAYDVQQDDAlsb2NhbGhvc3QwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAw
-ggEKAoIBAQDUPursakI9soScypsxMz9OhF/0LsuRp1l4csE6yz/ch8nw4F7Uzkj6
-bZzAHIXSMUVDM0JniTgakqUOcJLjoSgyzONcFmnlqC47LTGSnGP5ahrY1IkePewq
-z3FjX/MqzHiBcB/4fBv3PFC11TglCR1NlpyrGpsHBqisVE+TxbfxT6I0UAiI3MT+
-hLY0YpXqlVH8f1+s68qVvnTAeYg1w463y9lTTUvC0SWKw0PBkFSZ16akVv1elpAP
-nF3VoJ+Z0sRXeN913FXPekB1tW5SMgyM9vgx/C8yTdZeoC62oZHWg7WtAX22hI1M
-bVhXSPlMnMCH6fUb4Dwhy249DVydcebXAgMBAAGjHjAcMBoGA1UdEQQTMBGCCWxv
-Y2FsaG9zdIcEfwAAATANBgkqhkiG9w0BAQsFAAOCAQEAgFayCFoRIHhFX5Fzn5cf
-LDI/jSWbzmNA1YgzcdU9kuN39tiraLFwRa+M4n0DM7NtxCvFYRRR2lI6AHM+qIk+
-zETSPwuboET/I1todBC7k/8HjGH7OZ+/JO1axfYvhVciEjI2HdS/m6dtu+5L8c6c
-wwmCNUHjY3g4UqHTzVxftqVLzV7xn1An5cFSWLJFyKcZJMi2ePRuhpWGPHQHcwDP
-cKCgJF2QLkh7EjNATMm+OnOP7ou7ipRy6jOl3hlZ5iYYV/pr0AYrU/HVklFCmFJv
-pF91F063fJ07+VdcjuyqQU8thIhRhMFE1kX5bSRX4n4K2p5XxQfWORXXkXA2tTP7
-nA==
------END CERTIFICATE-----" 
-      privateKey: "-----BEGIN PRIVATE KEY-----
-MIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQDUPursakI9soSc
-ypsxMz9OhF/0LsuRp1l4csE6yz/ch8nw4F7Uzkj6bZzAHIXSMUVDM0JniTgakqUO
-cJLjoSgyzONcFmnlqC47LTGSnGP5ahrY1IkePewqz3FjX/MqzHiBcB/4fBv3PFC1
-1TglCR1NlpyrGpsHBqisVE+TxbfxT6I0UAiI3MT+hLY0YpXqlVH8f1+s68qVvnTA
-eYg1w463y9lTTUvC0SWKw0PBkFSZ16akVv1elpAPnF3VoJ+Z0sRXeN913FXPekB1
-tW5SMgyM9vgx/C8yTdZeoC62oZHWg7WtAX22hI1MbVhXSPlMnMCH6fUb4Dwhy249
-DVydcebXAgMBAAECggEADIEMbBMyhdn/kBErpXFkeGa6FHOxUIpwbfUsxx70SzTA
-w+0kCRuCFybgBj1n8OMwNm5NqjXeVUpwaPJe5QQ4jw2dE27KnFoVJy1Zb07BYQ9M
-N5wF2/8/66G/B2C+vbXAH7gQWh5Ns3odMyk1npDz5f9KiZYOrhJJW6W37nfGh3PT
-HXE9wF1eWtpQFSyC1vM6hMuilJuKYAj7PN8jmtz88QlKiQtCLQijk2Hbo2C3ZqeI
-dSyFmeOFKKlLmb/diWppXqzsD1CuHHE4n40rMZ3n6EdSQ3dbah/6H9f2Qu60Fd4S
-lePvQmbF67Dk6unzFzUQaKV+Z52zaQoMxMQ5uQsLgQKBgQDs3szNq1a7XN0iz3TP
-UjGbEUIFaBb/r9JVQPzDUE24tYgHR0a4ps2L+PUjs4TWuKnHZs0YsjYdTkdzeqnl
-y7VVSYR+b4eNYKbNd/R8nfOs77SdnYJ8tB9To2xeKW2bhTkxGwuPXs8YLY6I2uTv
-UDblXzpt/zJcv3nbXuWYS9+0QQKBgQDlYwPY0+bLOYNPzFLjeSfgjmddTYJPu7q1
-WtzP5xQd4X7LEBV6fcIvBHuCTUaEWlIzAHlVCBE2NSKBynTRMRxBKpQfgCYklmMx
-KpbKqkqa4L3XpL66SOnekwQzjPCpkN2/yDqtrIJyxOhzVgJwalHbk3EQ4nUMWv6j
-2pNHlTd1FwKBgDtmqC+Pn0F/SUl4gw+Wyi/cBRV8BAB85B9TG9ATLFp8068Xlcmq
-svM+LKOWWmLKjnEd+6MM1ftFbS+tfDvPeRr5Q8u9Rl4S9eGjCmHR7pDY0A+St210
-ckK0QfHfK8iLgUsqQBzlJsQmcI8rbawCDrI4zltVWxjdP77erm8h3+jBAoGAcdyz
-ZSbSEiCLSMoAfv99xt6I+mxl+dQSusDOiLiIaMis2nkyYCoagKI1+JkJHtuCn+Rl
-Vcr6WDEJ3ukzET/SaZqMChLfXBv2QsqELTdYbwaN1YPmVKuqwxuw4zHbqB/Los3u
-KpVN71BEnjOcZFayKU9HuXzfYvGsIoN1xfuQmqMCgYAlbIcDLNkYEbyUjvLpM2PN
-AdpgnUIpLICRAJrlOYDnNtCDBfcvwHY8APYFew7/BZftreUStG+nbEA8uCjgOIZw
-LsTTr2b7AH0oy9voq/tt6sP7dMFLLHEeBvztuMQJiN01n+CUA6iKyyWhbFotIAoM
-ZIh0/NgJ9uz3S3LChkBc9g==
------END PRIVATE KEY-----" 
+      publicKey: ""  # server side of the certificate
+      privateKey: "" # server side of the private key
       # password: # cert password (optional)
       authority:
-         rootCA: "-----BEGIN CERTIFICATE-----
-MIIDvTCCAqWgAwIBAgIJANLW37lvRQoyMA0GCSqGSIb3DQEBCwUAMIGNMQswCQYD
-VQQGEwJVUzEWMBQGA1UECAwNTWFzc2FjaHVzZXR0czETMBEGA1UEBwwKSG9wa2lu
-Z3RvbjEjMCEGA1UECwwaQWR2YW5jZWQgU29mdHdhcmUgRGl2aXNpb24xGDAWBgNV
-BAoMD0VNQyBDb3Jwb3JhdGlvbjESMBAGA1UEAwwJbG9jYWxob3N0MB4XDTE4MTEw
-NjIyMDMyM1oXDTE5MTEwNjIyMDMyM1owgY0xCzAJBgNVBAYTAlVTMRYwFAYDVQQI
-DA1NYXNzYWNodXNldHRzMRMwEQYDVQQHDApIb3BraW5ndG9uMSMwIQYDVQQLDBpB
-ZHZhbmNlZCBTb2Z0d2FyZSBEaXZpc2lvbjEYMBYGA1UECgwPRU1DIENvcnBvcmF0
-aW9uMRIwEAYDVQQDDAlsb2NhbGhvc3QwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAw
-ggEKAoIBAQDUPursakI9soScypsxMz9OhF/0LsuRp1l4csE6yz/ch8nw4F7Uzkj6
-bZzAHIXSMUVDM0JniTgakqUOcJLjoSgyzONcFmnlqC47LTGSnGP5ahrY1IkePewq
-z3FjX/MqzHiBcB/4fBv3PFC11TglCR1NlpyrGpsHBqisVE+TxbfxT6I0UAiI3MT+
-hLY0YpXqlVH8f1+s68qVvnTAeYg1w463y9lTTUvC0SWKw0PBkFSZ16akVv1elpAP
-nF3VoJ+Z0sRXeN913FXPekB1tW5SMgyM9vgx/C8yTdZeoC62oZHWg7WtAX22hI1M
-bVhXSPlMnMCH6fUb4Dwhy249DVydcebXAgMBAAGjHjAcMBoGA1UdEQQTMBGCCWxv
-Y2FsaG9zdIcEfwAAATANBgkqhkiG9w0BAQsFAAOCAQEAgFayCFoRIHhFX5Fzn5cf
-LDI/jSWbzmNA1YgzcdU9kuN39tiraLFwRa+M4n0DM7NtxCvFYRRR2lI6AHM+qIk+
-zETSPwuboET/I1todBC7k/8HjGH7OZ+/JO1axfYvhVciEjI2HdS/m6dtu+5L8c6c
-wwmCNUHjY3g4UqHTzVxftqVLzV7xn1An5cFSWLJFyKcZJMi2ePRuhpWGPHQHcwDP
-cKCgJF2QLkh7EjNATMm+OnOP7ou7ipRy6jOl3hlZ5iYYV/pr0AYrU/HVklFCmFJv
-pF91F063fJ07+VdcjuyqQU8thIhRhMFE1kX5bSRX4n4K2p5XxQfWORXXkXA2tTP7
-nA==
------END CERTIFICATE-----"
-         intermediateCA: "-----BEGIN CERTIFICATE-----
-MIIDvTCCAqWgAwIBAgIJANLW37lvRQoyMA0GCSqGSIb3DQEBCwUAMIGNMQswCQYD
-VQQGEwJVUzEWMBQGA1UECAwNTWFzc2FjaHVzZXR0czETMBEGA1UEBwwKSG9wa2lu
-Z3RvbjEjMCEGA1UECwwaQWR2YW5jZWQgU29mdHdhcmUgRGl2aXNpb24xGDAWBgNV
-BAoMD0VNQyBDb3Jwb3JhdGlvbjESMBAGA1UEAwwJbG9jYWxob3N0MB4XDTE4MTEw
-NjIyMDMyM1oXDTE5MTEwNjIyMDMyM1owgY0xCzAJBgNVBAYTAlVTMRYwFAYDVQQI
-DA1NYXNzYWNodXNldHRzMRMwEQYDVQQHDApIb3BraW5ndG9uMSMwIQYDVQQLDBpB
-ZHZhbmNlZCBTb2Z0d2FyZSBEaXZpc2lvbjEYMBYGA1UECgwPRU1DIENvcnBvcmF0
-aW9uMRIwEAYDVQQDDAlsb2NhbGhvc3QwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAw
-ggEKAoIBAQDUPursakI9soScypsxMz9OhF/0LsuRp1l4csE6yz/ch8nw4F7Uzkj6
-bZzAHIXSMUVDM0JniTgakqUOcJLjoSgyzONcFmnlqC47LTGSnGP5ahrY1IkePewq
-z3FjX/MqzHiBcB/4fBv3PFC11TglCR1NlpyrGpsHBqisVE+TxbfxT6I0UAiI3MT+
-hLY0YpXqlVH8f1+s68qVvnTAeYg1w463y9lTTUvC0SWKw0PBkFSZ16akVv1elpAP
-nF3VoJ+Z0sRXeN913FXPekB1tW5SMgyM9vgx/C8yTdZeoC62oZHWg7WtAX22hI1M
-bVhXSPlMnMCH6fUb4Dwhy249DVydcebXAgMBAAGjHjAcMBoGA1UdEQQTMBGCCWxv
-Y2FsaG9zdIcEfwAAATANBgkqhkiG9w0BAQsFAAOCAQEAgFayCFoRIHhFX5Fzn5cf
-LDI/jSWbzmNA1YgzcdU9kuN39tiraLFwRa+M4n0DM7NtxCvFYRRR2lI6AHM+qIk+
-zETSPwuboET/I1todBC7k/8HjGH7OZ+/JO1axfYvhVciEjI2HdS/m6dtu+5L8c6c
-wwmCNUHjY3g4UqHTzVxftqVLzV7xn1An5cFSWLJFyKcZJMi2ePRuhpWGPHQHcwDP
-cKCgJF2QLkh7EjNATMm+OnOP7ou7ipRy6jOl3hlZ5iYYV/pr0AYrU/HVklFCmFJv
-pF91F063fJ07+VdcjuyqQU8thIhRhMFE1kX5bSRX4n4K2p5XxQfWORXXkXA2tTP7
-nA==
------END CERTIFICATE-----"
-
+         rootCA: "" #root certificate for the certificate chain
+         intermediateCA: "" # intermeidate certificate for the certificate chain
     signingRequest:
       # commonName:        # override common Name for this CSR.  Defaults to cluster.local FQDN.
       # email: insertyouremail@example.com.local
@@ -560,15 +465,13 @@ managementGateway:
 
     # Type of certificate signing: SelfSigned, KubernetesSigned, or ExternallySigned
     certificateType: SelfSigned
-
-    certificate: {}
-      # publicKey: < server side customer certificate>
-      # privateKey: <private key for server side cert>
+    certificate:
+      publicKey: ""  # server side of the certificate
+      privateKey: "" # server side of the private key
       # password: # cert password (optional)
-      # authority: |-  # (optional)
-      #   rootCA: xxxx
-      #   intermediateCA:      # provide the intermediate CA here (optional)
-
+      authority:
+         rootCA: "" #root certificate for the certificate chain
+         intermediateCA: "" # intermeidate certificate for the certificate chain
     signingRequest:
       # commonName:        # override common Name for this CSR.  Defaults to cluster.local FQDN.
       # email: insertyouremail@example.com.local
