@@ -10,12 +10,11 @@ metadata:
     release: {{.Release.Name}}
     name: decks
 spec:
+  serviceName: decks-support-store
   replicas: 1
   selector:
     matchLabels:
       io.kompose.service: decks-support-store
-  strategy:
-    type: Recreate
   template:
     metadata:
       labels:
@@ -77,7 +76,9 @@ spec:
       spec:
         accessModes:
         - ReadWriteOnce
-        storageClassName: dellemc-objectscale-highly-available
+        {{- if .Values.storageClassName}}
+        storageClassName: {{.Values.storageClassName}}
+        {{- end}}
         dataSource: null
         resources:
           requests:
