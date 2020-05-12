@@ -104,16 +104,21 @@ build:
 		cd docs && helm repo index . ; \
 	fi
 
-package: create-temp-package copy-crds create-manifests archive-package
+package: create-temp-package create-manifests combine-crds create-vmware-package archive-package
 create-temp-package:
 	mkdir -p ${TEMP_PACKAGE}
 
-copy-crds:
+combine-crds:
 	cp -R objectscale-manager/crds ${TEMP_PACKAGE}
 	cp -R atlas-operator/crds ${TEMP_PACKAGE}
 	cp -R zookeeper-operator/crds ${TEMP_PACKAGE}
 	cp -R kahm/crds ${TEMP_PACKAGE}
 	cp -R decks/crds ${TEMP_PACKAGE}
+	cat ${TEMP_PACKAGE}/crds/*.yaml > ${TEMP_PACKAGE}/objectscale-crd.yaml
+	rm -rf ${TEMP_PACKAGE}/crds
+
+create-vmware-package:
+	./vmware_pack.sh
 
 create-manifests: create-manager-manifest create-kahm-manifest create-decks-manifest
 
