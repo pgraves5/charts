@@ -12,4 +12,4 @@ dependencies:
   repository: file://../sonobuoy
   version: 0.16.6
 digest: sha256:bd336dfb13df542ebf5143f36c8c6ae63b326c6690a73cbcbf5815b6623d979e
-generated: "2020-05-12T12:15:14.349973804-04:00"
+generated: "2020-05-12T18:33:00.596156414-04:00"
