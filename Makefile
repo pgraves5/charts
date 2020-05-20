@@ -13,8 +13,8 @@ MANAGER_MANIFEST := objectscale-manager.yaml
 KAHM_MANIFEST    := kahm.yaml
 DECKS_MANIFEST   := decks.yaml
 PACKAGE_NAME     := objectscale-charts-package.tgz
-NAMESPACE         = dellemc-objectscale-system
-REGISTRY          = objectscale
+NAMESPACE         = shanghai-flex
+REGISTRY          = harbor.lss.emc.com/ecs
 STORAGECLASSNAME  = dellemc-objectscale-highly-available
 
 clean: clean-package
@@ -125,6 +125,8 @@ create-manifests: create-manager-manifest create-kahm-manifest create-decks-mani
 create-manager-manifest:
 	helm template objectscale-manager ./objectscale-manager -n ${NAMESPACE} \
 	--set global.platform=VMware --set global.watchAllNamespaces=false \
+	--set graphql.image.tag=0.27.0 --set graphql.withPlayground=true \
+	--set image.tag=0.27.0.0-203.896835f6 --set influx.image.tag=0.27.0 \
 	--set sonobuoy.enabled=false --set global.registry=${REGISTRY} \
 	-f objectscale-manager/values.yaml >> ${TEMP_PACKAGE}/${MANAGER_MANIFEST}
 
