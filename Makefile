@@ -14,7 +14,7 @@ KAHM_MANIFEST    := kahm.yaml
 DECKS_MANIFEST   := decks.yaml
 PACKAGE_NAME     := objectscale-charts-package.tgz
 NAMESPACE         = shanghai-flex
-REGISTRY          = harbor.lss.emc.com/ecs
+REGISTRY          = objectscale
 STORAGECLASSNAME  = dellemc-objectscale-highly-available
 
 clean: clean-package
