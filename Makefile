@@ -15,7 +15,7 @@ DECKS_MANIFEST   := decks.yaml
 PACKAGE_NAME     := objectscale-charts-package.tgz
 NAMESPACE         = shanghai-flex
 REGISTRY          = objectscale
-STORAGECLASSNAME  = dellemc-objectscale-highly-available
+STORAGECLASSNAME  = dellemc-objectscale-local
 
 clean: clean-package
 
