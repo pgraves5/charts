@@ -39,7 +39,7 @@ objectStoreAvailableVersions:
 createApplicationResource: true
 
 # The default docker tag and pull policy for objectscale-manager services
-tag: 0.27.0
+tag: 0.28.0
 pullPolicy: Always
 
 # The default number of replicas for the objectscale-manager deployment
@@ -229,5 +229,5 @@ affinity: {}
 fluentbitAgent:
   image:
     repository: fluent-bit
-    tag: 0.27.0
+    tag: 0.28.0
     # pullPolicy: IfNotPresent
