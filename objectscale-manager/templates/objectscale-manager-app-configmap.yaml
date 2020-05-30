@@ -38,6 +38,22 @@ data:
                   type: date
                 - name: message
                   type: string
+            - name: sonobuoy
+              fields:
+                - name: name
+                  type: string
+                - name: description
+                  type: string
+                - name: enabled
+                  type: boolean
+                - name: schedule
+                  type: string
+                - name: latestSuccess
+                  type: date
+                - name: latestFailure
+                  type: date
+                - name: message
+                  type: string
           name: objectscale-manager-healthchecks
         healthcheckstatus:
     eventRemedies: |-
