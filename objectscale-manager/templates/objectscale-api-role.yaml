@@ -22,5 +22,17 @@ rules:
   resources:
   - secrets
   verbs:
-    - "*"
+  - "*"
+- apiGroups:
+  - app.k8s.io
+  resources:
+  - applications
+  verbs:
+  - '*'
+- apiGroups:
+  - ecs.dellemc.com
+  resources:
+  - ecsclusters
+  verbs:
+  - '*'
 {{- end }}
