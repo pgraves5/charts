@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 
+
+## extract the version from objectscale-manager 
+objs_ver=$(grep appVersion: objectscale-manager/Chart.yaml | sed -e "s/.*: //g")
+
+
 cat <<EOT >> temp_package/vmware-config-map.yaml
 ---
 apiVersion: v1
@@ -25,12 +30,13 @@ $(awk '{printf "%4s%s\n", "", $0}' temp_package/decks.yaml)
       name: objectscale
       namespace: "kube-system"
     spec:
-      serviceId: dellemc-objecstcale
-      eula: "By accepting this EULA, you are agreeing to ..."
+      serviceId: dellemc-objectscale
       label: "Dell EMC ObjectScale"
       description: "Dell EMC ObjectScale is a highly available and scalable object storage platform"
-      versions: ["0.28.3"]
+      versions: ["${objs_ver}"]
       enabled: false
+      eula: |+
+        $(cat dellemc_eula.txt)
 EOT
 
 # Remove trailing whitespaace
