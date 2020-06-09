@@ -53,3 +53,11 @@ data:
         healthcheckstatus:
           deos-hc:
             overview: none
+            rows:
+            - name:
+              description:
+              enabled: true
+              schedule: Every 6 hours
+              latestSuccess:
+              latestFailure:
+              message:
