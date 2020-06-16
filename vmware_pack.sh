@@ -40,4 +40,4 @@ $(awk '{printf "%4s%s\n", "", $0}' temp_package/decks.yaml)
 EOT
 
 # Remove trailing whitespaace
-sed -i 's/[[:space:]]*$//' temp_package/vmware-config-map.yaml
+sed -i 's/[[:space:]]*$//' temp_package/objectscale-${objs_ver}-vmware-config-map.yaml

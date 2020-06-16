@@ -18,7 +18,7 @@ global:
   enableHealthcheck: true
 
 # The default docker tag and pull policy for the ECS Cluster
-tag: 0.28.3
+tag: 0.29.0
 pullPolicy: Always
 
 # Override the default number of replicas which taken according to performance profile for each service
@@ -248,6 +248,9 @@ diagnostic:
     # tag: stable
     # pullPolicy: IfNotPresent
   service:
+    # Type of Kubernetes service to create: ClusterIP, NodePort, or LoadBalancer
+    type: ClusterIP
+
     # Specify the service port configuration for the diagnostic service
     ports:
       - name: dthealth
