@@ -123,6 +123,15 @@ create-manager-manifest: create-temp-package
 	--set sonobuoy.enabled=false --set global.registry=${REGISTRY} \
 	--set global.storageClassName=${STORAGECLASSNAME} \
 	-f objectscale-manager/values.yaml >> ${TEMP_PACKAGE}/${MANAGER_MANIFEST}
+	##
+	## extract out persistent services entries to put at beginning of file 
+	##
+	sed -n "/persistent-services-platform-sp/,/^---/p" temp_package/objectscale-manager.yaml  > /tmp/psp.yaml
+	## inline edit psp changes
+	sed -i -e '/Source:.*fio-config.yaml/r /tmp/psp.yaml' ${TEMP_PACKAGE}/${MANAGER_MANIFEST}
+	sed -n "/fio-pvc/,/^---/p" temp_package/objectscale-manager.yaml > ${TEMP_PACKAGE}/fio-pvc.yaml
+	echo "---" >> ${TEMP_PACKAGE}/${MANAGER_MANIFEST}
+	cat ${TEMP_PACKAGE}/fio-pvc.yaml >> ${TEMP_PACKAGE}/${MANAGER_MANIFEST}
 
 create-kahm-manifest: create-temp-package
 	helm template kahm ./kahm -n ${NAMESPACE} --set global.platform=VMware \
@@ -136,9 +145,9 @@ create-decks-manifest: create-temp-package
 
 create-deploy-script: create-temp-package
 	echo "kubectl apply -f ./objectscale-manager.yaml -f ./decks.yaml -f ./kahm.yaml" > ${TEMP_PACKAGE}/deploy-${NAMESPACE}.sh
-	sed -n "/fio-pvc/,/^---/p" temp_package/objectscale-manager.yaml > ${TEMP_PACKAGE}/fio-pvc.yaml
-	echo "sleep 1" >> ${TEMP_PACKAGE}/deploy-${NAMESPACE}.sh
-	echo "kubectl apply -f ./fio-pvc.yaml" >> ${TEMP_PACKAGE}/deploy-${NAMESPACE}.sh
+	#@echo sed -n "/fio-pvc/,/^---/p" temp_package/objectscale-manager.yaml > ${TEMP_PACKAGE}/fio-pvc.yaml
+	#@echo "sleep 1" >> ${TEMP_PACKAGE}/deploy-${NAMESPACE}.sh
+	#@echo "kubectl apply -f ./fio-pvc.yaml" >> ${TEMP_PACKAGE}/deploy-${NAMESPACE}.sh
 	chmod 700 ${TEMP_PACKAGE}/deploy-${NAMESPACE}.sh
 
 archive-package:

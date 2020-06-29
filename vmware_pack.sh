@@ -22,6 +22,7 @@ $(awk '{printf "%4s%s\n", "", $0}' temp_package/objectscale-crd.yaml)
 $(awk '{printf "%4s%s\n", "", $0}' temp_package/objectscale-manager.yaml)
 $(awk '{printf "%4s%s\n", "", $0}' temp_package/kahm.yaml)
 $(awk '{printf "%4s%s\n", "", $0}' temp_package/decks.yaml)
+$(awk '{printf "%4s%s\n", "", $0}' temp_package/fio-pvc.yaml)
   objectscale.yaml: |-
     apiVersion: appplatform.wcp.vmware.com/v1alpha1
     kind: SupervisorService
