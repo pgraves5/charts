@@ -8,12 +8,12 @@ DECKSCHARTS := decks kahm srs-gateway dks-testapp dellemc-license service-pod
 FLEXCHARTS := ecs-cluster objectscale-manager
 
 # packaging
-TEMP_PACKAGE     := temp_package
 MANAGER_MANIFEST := objectscale-manager.yaml
 KAHM_MANIFEST    := kahm.yaml
 DECKS_MANIFEST   := decks.yaml
 PACKAGE_NAME     := objectscale-charts-package.tgz
 NAMESPACE         = dellemc-objectscale-system
+TEMP_PACKAGE     := temp_package/${NAMESPACE}
 REGISTRY          = objectscale
 STORAGECLASSNAME  = dellemc-objectscale-highly-available
 
@@ -99,9 +99,11 @@ build:
 		cd docs && helm repo index . ; \
 	fi
 
-package: create-temp-package create-manifests combine-crds create-vmware-package archive-package
+package: clean-package create-temp-package create-manifests combine-crds create-vmware-package archive-package
 create-temp-package:
-	mkdir -p ${TEMP_PACKAGE}
+	mkdir -p ${TEMP_PACKAGE}/yaml 
+	mkdir -p ${TEMP_PACKAGE}/scripts
+
 
 combine-crds:
 	cp -R objectscale-manager/crds ${TEMP_PACKAGE}
@@ -109,11 +111,11 @@ combine-crds:
 	cp -R zookeeper-operator/crds ${TEMP_PACKAGE}
 	cp -R kahm/crds ${TEMP_PACKAGE}
 	cp -R decks/crds ${TEMP_PACKAGE}
-	cat ${TEMP_PACKAGE}/crds/*.yaml > ${TEMP_PACKAGE}/objectscale-crd.yaml
+	cat ${TEMP_PACKAGE}/crds/*.yaml > ${TEMP_PACKAGE}/yaml/objectscale-crd.yaml
 	rm -rf ${TEMP_PACKAGE}/crds
 
 create-vmware-package:
-	./vmware_pack.sh
+	./vmware/vmware_pack.sh ${NAMESPACE}
 
 create-manifests: create-manager-manifest create-kahm-manifest create-decks-manifest create-deploy-script
 
@@ -122,27 +124,28 @@ create-manager-manifest: create-temp-package
 	--set global.platform=VMware --set global.watchAllNamespaces=false \
 	--set sonobuoy.enabled=false --set global.registry=${REGISTRY} \
 	--set global.storageClassName=${STORAGECLASSNAME} \
-	-f objectscale-manager/values.yaml >> ${TEMP_PACKAGE}/${MANAGER_MANIFEST}
+	-f objectscale-manager/values.yaml >> ${TEMP_PACKAGE}/yaml/${MANAGER_MANIFEST}
 
 create-kahm-manifest: create-temp-package
 	helm template kahm ./kahm -n ${NAMESPACE} --set global.platform=VMware \
 	--set global.watchAllNamespaces=false --set global.registry=${REGISTRY} \
-	--set storageClassName=${STORAGECLASSNAME} -f kahm/values.yaml >> ${TEMP_PACKAGE}/${KAHM_MANIFEST}
+	--set storageClassName=${STORAGECLASSNAME} -f kahm/values.yaml >> ${TEMP_PACKAGE}/yaml/${KAHM_MANIFEST}
 
 create-decks-manifest: create-temp-package
 	helm template decks ./decks -n ${NAMESPACE} --set global.platform=VMware \
 	--set global.watchAllNamespaces=false --set global.registry=${REGISTRY} \
-	--set storageClassName=${STORAGECLASSNAME} -f decks/values.yaml >> ${TEMP_PACKAGE}/${DECKS_MANIFEST}
+	--set storageClassName=${STORAGECLASSNAME} -f decks/values.yaml >> ${TEMP_PACKAGE}/yaml/${DECKS_MANIFEST}
 
 create-deploy-script: create-temp-package
-	echo "kubectl apply -f ./objectscale-manager.yaml -f ./decks.yaml -f ./kahm.yaml" > ${TEMP_PACKAGE}/deploy-${NAMESPACE}.sh
-	sed -n "/fio-pvc/,/^---/p" temp_package/objectscale-manager.yaml > ${TEMP_PACKAGE}/fio-pvc.yaml
-	echo "sleep 1" >> ${TEMP_PACKAGE}/deploy-${NAMESPACE}.sh
-	echo "kubectl apply -f ./fio-pvc.yaml" >> ${TEMP_PACKAGE}/deploy-${NAMESPACE}.sh
-	chmod 700 ${TEMP_PACKAGE}/deploy-${NAMESPACE}.sh
+	echo "kubectl apply -f ../yaml/objectscale-manager.yaml -f ../yaml/decks.yaml -f ../yaml/kahm.yaml" > ${TEMP_PACKAGE}/scripts/deploy-${NAMESPACE}.sh
+	sed -n "/fio-pvc/,/^---/p" ${TEMP_PACKAGE}/yaml/objectscale-manager.yaml > ${TEMP_PACKAGE}/yaml/fio-pvc.yaml
+	echo "sleep 1" >> ${TEMP_PACKAGE}/scripts/deploy-${NAMESPACE}.sh
+	echo "kubectl apply -f ../yaml/fio-pvc.yaml" >> ${TEMP_PACKAGE}/scripts/deploy-${NAMESPACE}.sh
+	chmod 700 ${TEMP_PACKAGE}/scripts/deploy-${NAMESPACE}.sh
+	
 
 archive-package:
 	tar -zcvf ${PACKAGE_NAME} ${TEMP_PACKAGE}/*
 
 clean-package:
-	rm -rf ${TEMP_PACKAGE} ${PACKAGE_NAME}
+	rm -rf temp_package ${PACKAGE_NAME}
