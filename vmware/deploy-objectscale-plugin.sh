@@ -13,7 +13,7 @@ echomsg () {
 
     if [ ! -d ./log ]
     then 
-	      mkdir ./log
+	    mkdir ./log
     fi 
 
     curdate=$(date +"%y.%m.%d %H:%M:%S")
@@ -21,7 +21,7 @@ echomsg () {
     case $1 in
 	    log)
 	        msg=$2
-          echo "$curdate : $msg"  >> $logfile
+            echo "$curdate : $msg"  >> $logfile
 	        return
 	        ;;
 	    stl|starline)
@@ -30,10 +30,10 @@ echomsg () {
 	    dl|doubleline)
 	        msg="=============================================="
 	        ;;
-      sl|singleline)
+        sl|singleline)
 	        msg="----------------------------------------------"
 	        ;;
-      nl|newline)
+        nl|newline)
 	        msg=" "
 	        ;;
 	    *)
@@ -54,7 +54,7 @@ add_vsphere7_clusterrole_rules () {
 
   if [ ${numRoles} -le 1 ] 
   then
-      echomsg log "Adding roles to app platform"
+      echomsg "Adding roles to app platform"
       cat <<'EOT' > /tmp/newroles.yaml
 - apiGroups:
   - batch
@@ -78,7 +78,7 @@ EOT
       kubectl apply -f <(cat <(cat /tmp/currroles.yaml) /tmp/newrules.yaml)
       if [ $? -ne 0 ] 
       then
-          echomsg log "Error: unable to apply the clusterrole rules for clusterrole vmware-system-appplatform-operator-manager-role"
+          echomsg "Error: unable to apply the clusterrole rules for clusterrole vmware-system-appplatform-operator-manager-role"
           exit 1
       fi
   fi 
@@ -87,23 +87,32 @@ EOT
 curdate=`date +"%y%m%d"`
 logfile="./log/deploy-objectscale-$curdate.log"
 
-echomsg log "Starting deployment of ObjectScale"
+echomsg "Starting deployment of ObjectScale"
 echomsg dl
 
-echomsg log "Locating kubectl..."
+echomsg "Locating kubectl..."
 kubectl version --short=true > /tmp/kubectl_version.txt
 if [ $? -ne 0 ]
 then
-    echomsg log "error unable to located kubectl in the PATH"
+    echomsg "error unable to located kubectl in the PATH"
     exit 1
 fi 
+kctlVers=$(cat /tmp/kubectl_version.txt)
+echomsg "$kctlVers"
 
-echomsg log "$(cat /tmp/kubectl_version.txt)"
+kubectl -n kube-system get cm objectscale 2>/dev/null
+if [ $? -eq 0 ]
+then
+    echomsg "ObjectScale Plugin has already been deployed"
+    echomsg "It must be disabled and removed before a new one can be applied"
+    exit 1
+fi
 
 ## Now check if the api groups have been added for VMware vSphere7 app platform:
 add_vsphere7_clusterrole_rules
 
 echomsg dl 
-echomsg log "Adding the ObjectScale plugin for vSphere7"
+echomsg "Adding the ObjectScale plugin for vSphere7"
 
+## rest of the code below is built with vmware/vmware_pack.sh
 cat <<'EOF' | kubectl apply -f - 2>/dev/null

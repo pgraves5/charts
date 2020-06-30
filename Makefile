@@ -112,6 +112,8 @@ combine-crds:
 	cp -R kahm/crds ${TEMP_PACKAGE}
 	cp -R decks/crds ${TEMP_PACKAGE}
 	cat ${TEMP_PACKAGE}/crds/*.yaml > ${TEMP_PACKAGE}/yaml/objectscale-crd.yaml
+	## Remove # from crd to prevent app-platform from crashing in 7.0P1
+	sed -i -e "/^#.*/d" ${TEMP_PACKAGE}/yaml/objectscale-crd.yaml
 	rm -rf ${TEMP_PACKAGE}/crds
 
 create-vmware-package:
@@ -137,11 +139,11 @@ create-decks-manifest: create-temp-package
 	--set storageClassName=${STORAGECLASSNAME} -f decks/values.yaml >> ${TEMP_PACKAGE}/yaml/${DECKS_MANIFEST}
 
 create-deploy-script: create-temp-package
-	echo "kubectl apply -f ../yaml/objectscale-manager.yaml -f ../yaml/decks.yaml -f ../yaml/kahm.yaml" > ${TEMP_PACKAGE}/scripts/deploy-${NAMESPACE}.sh
+	echo "kubectl apply -f ../yaml/objectscale-manager.yaml -f ../yaml/decks.yaml -f ../yaml/kahm.yaml" > ${TEMP_PACKAGE}/scripts/deploy-ns-${NAMESPACE}.sh
 	sed -n "/fio-pvc/,/^---/p" ${TEMP_PACKAGE}/yaml/objectscale-manager.yaml > ${TEMP_PACKAGE}/yaml/fio-pvc.yaml
-	echo "sleep 1" >> ${TEMP_PACKAGE}/scripts/deploy-${NAMESPACE}.sh
-	echo "kubectl apply -f ../yaml/fio-pvc.yaml" >> ${TEMP_PACKAGE}/scripts/deploy-${NAMESPACE}.sh
-	chmod 700 ${TEMP_PACKAGE}/scripts/deploy-${NAMESPACE}.sh
+	echo "sleep 1" >> ${TEMP_PACKAGE}/scripts/deploy-ns-${NAMESPACE}.sh
+	echo "kubectl apply -f ../yaml/fio-pvc.yaml" >> ${TEMP_PACKAGE}/scripts/deploy-ns-${NAMESPACE}.sh
+	chmod 700 ${TEMP_PACKAGE}/scripts/deploy-ns-${NAMESPACE}.sh
 	
 
 archive-package:

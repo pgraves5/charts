@@ -53,7 +53,8 @@ cp -p ./vmware/deploy-objectscale-plugin.sh temp_package/$1/scripts
 cat temp_package/$1/yaml/${vsphere7_plugin_file} >> temp_package/$1/scripts/deploy-objectscale-plugin.sh 
 echo "EOF" >> temp_package/$1/scripts/deploy-objectscale-plugin.sh
 
-echo 'echomsg log "In vSphere7 UI Navigate to Workload-Cluster > Supervisor Services > Services"' >> temp_package/$1/scripts/deploy-objectscale-plugin.sh
-echo 'echomsg log "Select Dell EMC ObjectScale then Enable"'  >> temp_package/$1/scripts/deploy-objectscale-plugin.sh
+echo 'echo' >> temp_package/$1/scripts/deploy-objectscale-plugin.sh
+echo 'echomsg "In vSphere7 UI Navigate to Workload-Cluster > Supervisor Services > Services"' >> temp_package/$1/scripts/deploy-objectscale-plugin.sh
+echo 'echomsg "Select Dell EMC ObjectScale then Enable"'  >> temp_package/$1/scripts/deploy-objectscale-plugin.sh
 
 chmod 700 temp_package/$1/scripts/deploy-objectscale-plugin.sh
