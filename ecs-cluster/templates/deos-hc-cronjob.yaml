@@ -28,7 +28,7 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.name
-            image: {{ .Values.global.registry }}/{{ .Values.deos_hc.image.repository }}:{{ .Values.tag }}
+            image: {{ .Values.global.registry }}/{{ .Values.deos_hc.image.repository }}:{{ default .Values.tag .Values.deos_hc.image.tag }}
             imagePullPolicy: {{ default .Values.deos_hc.image.pullPolicy .Values.pullPolicy }}
             name: hc-container
 {{- if .Values.global.registrySecret }}
