@@ -99,7 +99,7 @@ build:
 		cd docs && helm repo index . ; \
 	fi
 
-package: create-temp-package create-manifests combine-crds create-vmware-package archive-package
+package: clean-package create-temp-package create-manifests combine-crds create-vmware-package archive-package
 create-temp-package:
 	mkdir -p ${TEMP_PACKAGE}
 
@@ -110,6 +110,8 @@ combine-crds:
 	cp -R kahm/crds ${TEMP_PACKAGE}
 	cp -R decks/crds ${TEMP_PACKAGE}
 	cat ${TEMP_PACKAGE}/crds/*.yaml > ${TEMP_PACKAGE}/objectscale-crd.yaml
+	## Remove # from crd to prevent app-platform from crashing in 7.0P1
+	sed -i -e "/^#.*/d" ${TEMP_PACKAGE}/objectscale-crd.yaml
 	rm -rf ${TEMP_PACKAGE}/crds
 
 create-vmware-package:
@@ -122,6 +124,8 @@ create-manager-manifest: create-temp-package
 	--set global.platform=VMware --set global.watchAllNamespaces=false \
 	--set sonobuoy.enabled=false --set global.registry=${REGISTRY} \
 	--set global.storageClassName=${STORAGECLASSNAME} \
+	--set logReceiver.create=true --set logReceiver.type=Syslog \
+	--set logReceiver.persistence.storageClassName=${STORAGECLASSNAME} \
 	-f objectscale-manager/values.yaml >> ${TEMP_PACKAGE}/${MANAGER_MANIFEST}
 
 create-kahm-manifest: create-temp-package
