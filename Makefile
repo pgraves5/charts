@@ -126,6 +126,8 @@ create-manager-manifest: create-temp-package
 	--set global.platform=VMware --set global.watchAllNamespaces=false \
 	--set sonobuoy.enabled=false --set global.registry=${REGISTRY} \
 	--set global.storageClassName=${STORAGECLASSNAME} \
+	--set logReceiver.create=true --set logReceiver.type=Syslog \
+	--set logReceiver.persistence.storageClassName=${STORAGECLASSNAME} \
 	-f objectscale-manager/values.yaml >> ${TEMP_PACKAGE}/yaml/${MANAGER_MANIFEST}
 
 create-kahm-manifest: create-temp-package
