@@ -128,11 +128,6 @@ data:
                 "configure": {
                     "views": [
                         {
-                            "navigationId": "deos.configure.dashboard",
-                            "labelKey": "cluster.configure.list.dashboard",
-                            "uri": "index.html?view=dashboard"
-                        },
-                        {
                             "navigationId": "deos.configure.objectstores",
                             "labelKey": "cluster.configure.list.objectstores",
                             "uri": "index.html?view=objectstores"
@@ -194,17 +189,6 @@ data:
                         "en-US": "Health",
                         "de-DE": "Gesundheit",
                         "fr-FR": "santé"
-                    {{- end}}
-                    },
-                    "cluster.configure.list.dashboard": {
-                    {{- if and (eq $useUniqueNames true) (eq .Values.global.platform "VMware") }}
-                        "en-US": "Dashboard-{{ .Release.Namespace }}",
-                        "de-DE": "Dashboard-{{ .Release.Namespace }}",
-                        "fr-FR": "Dashboard-{{ .Release.Namespace }}"
-                    {{- else }}
-                        "en-US": "Dashboard",
-                        "de-DE": "Dashboard",
-                        "fr-FR": "Dashboard"
                     {{- end}}
                     },
                     "cluster.configure.list.objectstores": {
