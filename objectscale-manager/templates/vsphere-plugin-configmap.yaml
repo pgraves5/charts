@@ -33,7 +33,7 @@ data:
         include /etc/nginx/mime.types;
         include /conf/upstream.conf;
         server {
-            resolver kube-dns.kube-system.svc.cluster.local;
+            resolver kube-dns.kube-system.svc.cluster.local valid=30s;
             listen       4443;
             server_name  localhost;
             access_log /dev/stdout;
@@ -48,19 +48,23 @@ data:
             location /wcp/login {
                 proxy_pass_request_headers on;
                 proxy_pass_request_body on;
-                proxy_pass https://kube-apiserver-authproxy-svc.kube-system.svc.cluster.local:443/wcp/login;
+                set $upstream_wcp kube-apiserver-authproxy-svc.kube-system.svc.cluster.local;
+                proxy_pass https://$upstream_wcp:443/wcp/login;
             }
             location /rest/saml-hook {
                 proxy_pass_request_headers on;
                 proxy_pass_request_body on;
-                proxy_pass https://kube-apiserver-authproxy-svc.kube-system.svc.cluster.local:443/wcp/vsphere-ui-saml-hook;
+                set $upstream_saml kube-apiserver-authproxy-svc.kube-system.svc.cluster.local;
+                proxy_pass https://$upstream_saml:443/wcp/vsphere-ui-saml-hook;
             }
             {{- end }}
             location /graphql {
-                proxy_pass http://graphql;
+                set $upstream_graphql graphql;
+                proxy_pass http://$upstream_graphql;
             }
             location /data {
-                proxy_pass https://decks;
+                set $upstream_decks decks;
+                proxy_pass https://$upstream_decks;
             }
             location ~* ^/grafana/[a-z0-9]([-a-z0-9]*[a-z0-9])?/[a-z0-9]([-a-z0-9]*[a-z0-9])? {
                 rewrite ^/grafana/([a-z0-9-]+)/([a-z0-9-]+)/(.*) /$3 break;
