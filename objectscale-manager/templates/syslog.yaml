@@ -61,6 +61,9 @@ spec:
         livenessProbe:
           tcpSocket:
             port: 514
+        env:
+        - name: MODE
+          value: SERVER
         ports:
         - name: incoming-logs
           containerPort: 514
