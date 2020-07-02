@@ -1,0 +1,17 @@
+- apiGroups:
+  - batch
+  resources:
+  - cronjobs
+  verbs:
+  - get
+  - list
+  - create
+  - update
+  - patch
+  - delete
+- apiGroups:
+  - app.k8s.io
+  resources:
+  - applications
+  verbs:
+  - '*'

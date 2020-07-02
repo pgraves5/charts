@@ -4,10 +4,10 @@ templates:
 tests:
   - it: should render nothing if not enabled
     set:
-      sylogReceiver.create: true
+      sylogReceiver.create: false
     asserts:
       - hasDocuments:
-          count: 3
+          count: 0
   - it: should create a deployment
     set:
       logReceiver.create: true
