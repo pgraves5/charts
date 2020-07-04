@@ -55,7 +55,7 @@ add_vsphere7_clusterrole_rules () {
   if [ ${numRoles} -le 1 ] 
   then
       echomsg "Adding roles to app platform"
-      cat <<'EOT' > /tmp/newroles.yaml
+      cat <<'EOT' > /tmp/newrules.yaml
 - apiGroups:
   - batch
   resources:
@@ -75,7 +75,7 @@ add_vsphere7_clusterrole_rules () {
   - '*'
 EOT
       eval ${vsphere7AppRoles} > /tmp/currrules.yaml
-      kubectl apply -f <(cat <(cat /tmp/currroles.yaml) /tmp/newrules.yaml)
+      kubectl apply -f <(cat <(cat /tmp/currrules.yaml) /tmp/newrules.yaml)
       if [ $? -ne 0 ] 
       then
           echomsg "Error: unable to apply the clusterrole rules for clusterrole vmware-system-appplatform-operator-manager-role"
