@@ -128,7 +128,10 @@ create-manager-manifest: create-temp-package
 	--set global.platform=VMware --set global.watchAllNamespaces=false \
 	--set sonobuoy.enabled=false --set global.registry=${REGISTRY} \
 	--set global.storageClassName=${STORAGECLASSNAME} \
-	--set logReceiver.create=true --set logReceiver.type=Syslog \
+	--set logReceiver.type=Elasticsearch \
+	--set logReceiver.host=10.118.246.246 --set logReceiver.port=9200 \
+	--set logReceiver.user=elasticsearch --set logReceiver.password="hOXh6sC1Tn-le1BnaHVAEw" \
+	--set logReceiver.protocol=http \
 	--set logReceiver.persistence.storageClassName=${STORAGECLASSNAME} \
 	-f objectscale-manager/values.yaml >> ${TEMP_PACKAGE}/yaml/${MANAGER_MANIFEST}
 
