@@ -18,6 +18,7 @@ REGISTRY          = objectscale
 DECKS_REGISTRY    = objectscale
 KAHM_REGISTRY     = objectscale
 STORAGECLASSNAME  = dellemc-objectscale-highly-available
+LOGOPTIONS        = --set logReceiver.create=true --set logReceiver.type=Syslog 
 
 clean: clean-package
 
@@ -61,6 +62,7 @@ decksver:
 		echo "---\n`cat $$CHART/Chart.yaml`" > $$CHART/Chart.yaml ; \
 		sed -i -e "0,/^tag.*/s//tag: $${DECKSVER}/"  $$CHART/values.yaml; \
 	done ;
+
 
 flexver:
 	if [ -z $${FLEXVER} ] ; then \
@@ -128,10 +130,7 @@ create-manager-manifest: create-temp-package
 	--set global.platform=VMware --set global.watchAllNamespaces=false \
 	--set sonobuoy.enabled=false --set global.registry=${REGISTRY} \
 	--set global.storageClassName=${STORAGECLASSNAME} \
-	--set logReceiver.type=Elasticsearch \
-	--set logReceiver.host=10.118.246.246 --set logReceiver.port=9200 \
-	--set logReceiver.user=elasticsearch --set logReceiver.password="hOXh6sC1Tn-le1BnaHVAEw" \
-	--set logReceiver.protocol=http \
+	${LOGOPTIONS} \
 	--set logReceiver.persistence.storageClassName=${STORAGECLASSNAME} \
 	-f objectscale-manager/values.yaml >> ${TEMP_PACKAGE}/yaml/${MANAGER_MANIFEST}
 
