@@ -152,3 +152,18 @@ archive-package:
 
 clean-package:
 	rm -rf temp_package ${PACKAGE_NAME}
+
+combine-crd-manager-ci: create-temp-package
+	cp -R objectscale-manager/crds ${TEMP_PACKAGE}
+	cp -R atlas-operator/crds ${TEMP_PACKAGE}
+	cp -R zookeeper-operator/crds ${TEMP_PACKAGE}
+	cat ${TEMP_PACKAGE}/crds/*.yaml > ${TEMP_PACKAGE}/yaml/manager-crd.yaml
+	rm -rf ${TEMP_PACKAGE}/crds
+
+create-manager-manifest-ci: create-temp-package
+	helm template objectscale-manager ./objectscale-manager -n ${NAMESPACE} \
+	--set global.platform=Default --set global.watchAllNamespaces=false \
+	--set sonobuoy.enabled=false --set global.registry=${REGISTRY} \
+	--set global.storageClassName=${STORAGECLASSNAME} \
+	--set logReceiver.create=false \
+	-f objectscale-manager/values.yaml >> ${TEMP_PACKAGE}/yaml/${MANAGER_MANIFEST}
