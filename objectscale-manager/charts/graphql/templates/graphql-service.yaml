@@ -16,10 +16,10 @@ metadata:
     operator: objectscale-operator
     product: objectscale
 spec:
-  type: {{ .Values.graphql.service.type }}
+  type: {{ .Values.service.type }}
   selector:
     app.kubernetes.io/name: objectscale-manager
     app.kubernetes.io/component: objectscale-graphql
   ports:
-    - port: {{ .Values.graphql.port }}
+    - port: {{ .Values.port }}
       name: http
