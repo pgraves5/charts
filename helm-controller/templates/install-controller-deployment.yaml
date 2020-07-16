@@ -50,5 +50,4 @@ spec:
               fieldRef:
                 fieldPath: metadata.namespace
             {{- end }}
-
           imagePullPolicy: {{ default .Values.pullPolicy .Values.installcontroller.image.pullPolicy }}
