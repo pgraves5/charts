@@ -193,12 +193,26 @@ graphql:
     type: ClusterIP
 
 telemetry:
+  enable: true
   image:
     repository: telemetry-upload
     # tag: stable
     # pullPolicy: IfNotPresent
   # this is as per cronjob schedule - every 12 hours, please follow the cronjob format to edit it
   schedule: "0 */12 * * *"
+  reports:
+    health:
+      folder: /telemetry/objectscale/health-report
+      freq: 5
+    capacity:
+      folder: /telemetry/objectscale/capacity-report
+      freq: 60
+    performance:
+      folder: /telemetry/objectscale/performance-report
+      freq: 5
+    inventory:
+      folder: /telemetry/objectscale/inventory-report
+      freq: 60
 
 # The service name and port that decks-support-store is listening on for download requests
 decks:
@@ -206,6 +220,7 @@ decks:
     service:
       name: decks-support-store
       port: 7443
+      namespace: mango-33 
   ## used by graphql to set chart versions during creation of licenses and srs gateways
   licenseChartVersion: "1.2.0"
   srsGatewayChartVersion: "1.2.0"
@@ -215,7 +230,7 @@ installcontroller:
     repository: install-controller
 
 sonobuoy:
-  enabled: true
+  enabled: false 
 
 nodeSelector: {}
 

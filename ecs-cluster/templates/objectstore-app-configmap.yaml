@@ -23,12 +23,29 @@ data:
               value: DEOS-1006
           notifiers:
             - objectscale-srs
+            - objectscale-cloudiq
     eventRemedies: |-
       symptoms:
         - symptomid: DEOS-1006
           description: Hard quota exceeded for this bucket
           remedies:
             - Free up space in the bucket
+    activeHealthIssues:
+      symptoms : 
+        DEOS-1006 :
+            issue :
+                reason: "Create"
+                message: "Error license expired:" 
+                type: "Critical"
+                observedTime: "RFC3339 timestamp"
+                count: 1
+        DEOS-1007 :
+            issue :
+                reason: "CapacityAboveThreshold"
+                message: "Capacity reached above threshold:" 
+                type: "Critical"
+                observedTime: "RFC3339 timestamp"
+                count: 1
     health: |-
       spec:
         healthchecks:

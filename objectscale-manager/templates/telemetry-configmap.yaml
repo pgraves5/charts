@@ -1,0 +1,30 @@
+{{- if .Values.telemetry.enable }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: telemetry-config
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app.kubernetes.io/name: objectscale-manager
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion }}
+    app.kubernetes.io/component: objectscale-telemetry
+    app.kubernetes.io/part-of: {{ .Release.Name }}
+    helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    release: {{ .Release.Name}}
+    operator: objectscale-operator
+    product: objectscale
+data:
+    storeNamespace: {{ .Values.decks.supportStore.service.namespace }}
+    endpointURL: {{ .Values.decks.supportStore.service.name }}.{{ .Values.decks.supportStore.service.namespace }}.svc.cluster.local:{{ .Values.decks.supportStore.service.port }}/upload
+    healthReportFolder: {{ .Values.telemetry.reports.health.folder }}
+    healthReportUploadFreq: "{{ .Values.telemetry.reports.health.freq }}"
+    capacityReportFolder: {{ .Values.telemetry.reports.capacity.folder }}
+    capacityReportUploadFreq: "{{ .Values.telemetry.reports.capacity.freq }}"
+    performanceReportFolder: {{ .Values.telemetry.reports.performance.folder }}
+    performanceReportUploadFreq: "{{ .Values.telemetry.reports.performance.freq }}"
+    inventoryReportFolder: "{{ .Values.telemetry.reports.inventory.folder }}"
+    inventoryReportUploadFreq: "{{ .Values.telemetry.reports.inventory.freq }}"
+{{- end }}
