@@ -74,6 +74,23 @@ spec:
       pullPolicy: {{ .Values.pullPolicy }}
 {{- end }}
 
+  objectsvc:
+{{- if .Values.objectsvc.replicas }}
+    replicas: {{ .Values.objectsvc.replicas }}
+{{- end }}
+    image:
+      repository: {{ .Values.global.registry }}/{{ .Values.objectsvc.image.repository }}
+{{- if .Values.objectsvc.image.tag }}
+      tag: {{ .Values.objectsvc.image.tag }}
+{{- else }}
+      tag: {{ .Values.tag }}
+{{- end }}
+{{- if .Values.objectsvc.image.pullPolicy }}
+      pullPolicy: {{ .Values.objectsvc.image.pullPolicy }}
+{{- else }}
+      pullPolicy: {{ .Values.pullPolicy }}
+{{- end }}
+
   zookeeper:
 {{- if .Values.zookeeper.replicas }}
     replicas: {{ .Values.zookeeper.replicas }}
@@ -375,7 +392,6 @@ spec:
         emptyDir: {}
       - name: logs
         emptyDir: {}
-    shouldBeDeployed: {{ .Values.enableAdvancedStatistics }}
     image:
       repository: {{ .Values.global.registry }}/{{ .Values.telegraf.image.repository }}
       tag: {{ default .Values.tag .Values.telegraf.image.tag }}
@@ -396,7 +412,6 @@ spec:
         emptyDir: {}
       - name: logs
         emptyDir: {}
-    shouldBeDeployed: {{ .Values.enableAdvancedStatistics }}
     image:
       repository: {{ .Values.global.registry }}/{{ .Values.fluxd.image.repository }}
       tag: {{ default .Values.tag .Values.fluxd.image.tag }}
@@ -416,7 +431,6 @@ spec:
         emptyDir: {}
       - name: logs
         emptyDir: {}
-    shouldBeDeployed: {{ .Values.enableAdvancedStatistics }}
     image:
       repository: {{ .Values.global.registry }}/{{ .Values.throttler.image.repository }}
       tag: {{ default .Values.tag .Values.throttler.image.tag }}
@@ -436,7 +450,6 @@ spec:
         emptyDir: {}
       - name: logs
         emptyDir: {}
-    shouldBeDeployed: {{ .Values.enableAdvancedStatistics }}
     image:
       repository: {{ .Values.global.registry }}/{{ .Values.grafana.image.repository }}
       tag: {{ default .Values.tag .Values.grafana.image.tag }}
@@ -628,3 +641,7 @@ spec:
       pullPolicy: {{ .Values.pullPolicy }}
 {{- end }}
 {{- end }}
+
+  enableCRR: {{ .Values.features.enableCRR }}
+
+  enableAdvancedStatistics: {{ .Values.features.enableAdvancedStatistics }}
