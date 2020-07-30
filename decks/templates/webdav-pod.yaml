@@ -1,0 +1,84 @@
+---
+apiVersion: policy/v1beta1
+kind: PodSecurityPolicy
+metadata:
+  name: webdav
+spec:
+  privileged: true
+  seLinux:
+    rule: RunAsAny
+  supplementalGroups:
+    rule: RunAsAny
+  runAsUser:
+    rule: RunAsAny
+  fsGroup:
+    rule: RunAsAny
+  volumes:
+  - '*'
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: webdav 
+  namespace: default 
+
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "webdav-privilege"
+  namespace: default
+  annotations:
+    container.apparmor.security.beta.kubernetes.io/webdav: unconfined
+spec:
+  serviceAccountName: "webdav"
+  containers:
+  - name: webdav
+    securityContext:
+      privileged: true
+      capabilities:
+        add: ["SYS_ADMIN"]
+    image: efrecon/webdav-client
+    imagePullPolicy: IfNotPresent
+    env:
+    - name: WEBDRIVE_USERNAME
+      value: eV3C6
+    - name: WEBDRIVE_PASSWORD
+      value: 8VCULfkLco
+    - name: WEBDRIVE_URL
+      value: http://10.240.117.52:7443/upload/
+    - name: DAVFS2_ASK_AUTH
+      value: "0"
+    - name: WEBDRIVE_MOUNT 
+      value: /mnt/telemetry
+    - name: OWNER
+      value: "1000"
+  restartPolicy: Never
+
+---
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1beta1
+metadata:
+  name: webdav 
+subjects:
+- kind: ServiceAccount
+  name: webdav 
+  namespace: default 
+roleRef:
+  kind: ClusterRole
+  name: webdav 
+  apiGroup: rbac.authorization.k8s.io
+
+---
+# Source: kahm/templates/rbac.yaml
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: webdav 
+rules:
+- apiGroups: ['policy']
+  resources: ['podsecuritypolicies']
+  verbs:     ['use']
+  resourceNames:
+  - webdav
+

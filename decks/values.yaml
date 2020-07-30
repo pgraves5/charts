@@ -45,6 +45,9 @@ supportStore:
     type: ClusterIP
 #  username: admin
 #  password: ChangeMe
+  garbageCollection:
+    # in days range=> 1-30 default 15 days
+    age: 15
 
 # decks helm test configuration
 # this image is the test image for DECKS. It will run as "helm test" to verify the DECKS functionality as a black box

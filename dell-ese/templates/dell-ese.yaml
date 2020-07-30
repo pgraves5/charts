@@ -1,4 +1,58 @@
 ---
+apiVersion: policy/v1beta1
+kind: PodSecurityPolicy
+metadata:
+  name: dell-ese-{{.Values.product}}
+spec:
+  allowPrivilegeEscalation: true
+  allowedCapabilities:
+  - '*'
+  privileged: true
+  seLinux:
+    rule: RunAsAny
+  supplementalGroups:
+    rule: RunAsAny
+  runAsUser:
+    rule: RunAsAny
+  fsGroup:
+    rule: RunAsAny
+  volumes:
+  - '*'
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: dell-ese-{{.Values.product}} 
+  namespace: {{ .Release.Namespace }} 
+
+---
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1beta1
+metadata:
+  name: dell-ese-{{.Values.product}}
+subjects:
+- kind: ServiceAccount
+  name: dell-ese-{{.Values.product}}
+  namespace: {{.Release.Namespace}}
+roleRef:
+  kind: ClusterRole
+  name: dell-ese-{{.Values.product}}
+  apiGroup: rbac.authorization.k8s.io
+
+---
+# Source: kahm/templates/rbac.yaml
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: dell-ese-{{.Values.product}} 
+rules:
+- apiGroups: ['policy']
+  resources: ['podsecuritypolicies']
+  verbs:     ['use']
+  resourceNames:
+  - dell-ese-{{.Values.product}} 
+
+---
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -46,7 +100,7 @@ metadata:
     app: dell-ese-{{.Values.product}}
     release: dell-ese-{{.Values.product}}
   name: dell-ese-{{.Values.product}}
-  namespace: {{.Release.namespace}}
+  namespace: {{.Release.Namespace}}
 spec:
   type: LoadBalancer
   ports:
@@ -86,9 +140,11 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: dell-ese-{{.Values.product}}
-  namespace: default
+  namespace: {{ .Release.Namespace }} 
   labels:
     release: dell-ese-{{.Values.product}}
+  annotations:
+    container.apparmor.security.beta.kubernetes.io/webdav: unconfined
 spec:
   podManagementPolicy: Parallel
   replicas: 1
@@ -119,10 +175,37 @@ spec:
         - name: persistentdata
           mountPath: /opt/ese/var
       containers:
+        - name: dell-ese-{{.Values.product}}-fuse
+          securityContext:
+            privileged: true
+            capabilities:
+              add: ["SYS_ADMIN"]
+          image: efrecon/webdav-client
+          imagePullPolicy: IfNotPresent
+          env:
+          - name: WEBDRIVE_USERNAME
+            value: eV3C6
+          - name: WEBDRIVE_PASSWORD
+            value: 8VCULfkLco
+          - name: WEBDRIVE_URL
+            value: http://10.240.117.52:7443/upload/
+          - name: DAVFS2_ASK_AUTH
+            value: "0"
+          - name: WEBDRIVE_MOUNT
+            value: /mnt/telemetry
+          - name: OWNER
+            value: "1000"
+          volumeMounts:
+            - mountPath: /mnt/telemetry
+              name: telemetry
         - name: dell-ese-{{.Values.product}}
           # image: harbor.lss.emc.com/ecs/dell-ese:1.1.1.9
           image: {{.Values.global.registry}}/{{.Values.image.repository}}:{{default .Values.image.tag .Values.tag}}
           imagePullPolicy: {{default .Values.image.pullPolicy .Values.pullPolicy}}
+          securityContext:
+            privileged: true
+            capabilities:
+              add: ["SYS_ADMIN"]
           command: ["/opt/ese/bin/ese_launcher"]
           args: ["--debug"]
           # command: ["/bin/sh"]
@@ -140,8 +223,8 @@ spec:
             - name: dell-ese-default-properties
               mountPath: /opt/ese/etc/DefaultProperties.json
               subPath: DefaultProperties.json
-            - name: ese-store-claim0
-              mountPath: /opt/ese/data
+            - name: telemetry 
+              mountPath: /telemetry
           env:
             - name: REGISTRY_SECRET
               value: dockerhub-registry-secret
@@ -195,6 +278,18 @@ spec:
           release: dell-ese-{{.Values.product}}
           app: dell-ese-{{.Values.product}}
         name: persistentdata
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        dataSource: null
+        resources:
+          requests:
+            storage: 2Gi
+    - metadata:
+        labels:
+          release: dell-ese-{{.Values.product}}
+          app: dell-ese-{{.Values.product}}
+        name: telemetry
       spec:
         accessModes:
           - ReadWriteOnce
