@@ -164,7 +164,7 @@ objectsvc:
   # FabricProxy as the service discovery mechanism
   # replicas: 1
 
-  # Docker repository to be used for chunk manager instances
+  # Docker repository to be used for objectsvc instances
   image:
     repository: object-service
     tag: 3.6.0.0-177.664c010
@@ -178,7 +178,7 @@ ons:
   # FabricProxy as the service discovery mechanism
   # replicas: 1
 
-  # Docker repository to be used for chunk manager instances
+  # Docker repository to be used for ons instances
   image:
     repository: ons
     # tag: latest
