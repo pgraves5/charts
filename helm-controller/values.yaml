@@ -1,68 +1,93 @@
-# Default values for helm-controller.
+---
+# Default values for ecs-flex.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-replicaCount: 1
+# These global settings relate to both the ECS Flex operator as well as the
+# Zookeeper Operator subchart
+global:
+  # Name of the target platform
+  # By setting this value all necessary resources for ecs-flex will be created and configured accordingly.
+  # Valid values are
+  # "VMware" - VMWare Persistent Services Platform
+  # "Vmware-PKS" - PKS platform with vSphere UI integration
+  # "Atlantic" - Project Atlantic Bare-Metal Kubernetes platform
+  # "Default" - All others
+  platform: Default
+
+  # Name of a Kubernetes secret with Docker credentials for the private registry
+  # registrySecret: ecs-flex-registry
+
+  # The private docker registry hosting containers for ECS Flex
+  registry: objectscale
+
+  # Default: true == Watch ALL namespaces
+  watchAllNamespaces: true
+
+tag: 0.33.0
 
 image:
-  repository: nginx
+  repository: install-controller
   pullPolicy: IfNotPresent
 
-imagePullSecrets: []
-nameOverride: ""
-fullnameOverride: ""
-
-serviceAccount:
-  # Specifies whether a service account should be created
-  create: true
-  # Annotations to add to the service account
-  annotations: {}
-  # The name of the service account to use.
-  # If not set and create is true, a name is generated using the fullname template
-  name:
-
-podSecurityContext: {}
-  # fsGroup: 2000
-
-securityContext: {}
-  # capabilities:
-  #   drop:
-  #   - ALL
-  # readOnlyRootFilesystem: true
-  # runAsNonRoot: true
-  # runAsUser: 1000
-
-service:
-  type: ClusterIP
-  port: 80
-
-ingress:
+vSpherePlugin:
   enabled: false
-  annotations: {}
-    # kubernetes.io/ingress.class: nginx
-    # kubernetes.io/tls-acme: "true"
-  hosts:
-    - host: chart-example.local
-      paths: []
-  tls: []
-  #  - secretName: chart-example-tls
-  #    hosts:
-  #      - chart-example.local
+  image:
+    repository: ecs-flex-vsphere-plugin
+    # tag: stable
+    # pullPolicy: IfNotPresent
+  service:
+    # Type of Kubernetes service to create: ClusterIP, NodePort, or LoadBalancer
+    type: LoadBalancer
 
-resources: {}
-  # We usually recommend not to specify default resources and to leave this as a conscious
-  # choice for the user. This also increases chances charts run on environments with little
-  # resources, such as Minikube. If you do want to specify resources, uncomment the following
-  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-  # limits:
-  #   cpu: 100m
-  #   memory: 128Mi
-  # requests:
-  #   cpu: 100m
-  #   memory: 128Mi
+    # Specify the service port configuration for the vSpherePlugin service
+    ports:
+      - name: http
+        port: 4443
+        targetPort: 4443
+        # nodePort:           # select specific node port for the connection
 
-nodeSelector: {}
+    # loadBalancerIP:     # select specific load balancer IP of the connection
+    # externalHostnames:
+    #   - objectscale-vsp.example.com
+    # externalIPAddresses:
+    #   - 203.0.113.10
+    #   - 203.0.113.30
+    # externalIPv6Addresses:
+    #   - 2001:0db8:0000:0000:0000:0000:0000:0001
 
-tolerations: []
+  tls:
+    # Type of certificate signing: SelfSigned, KubernetesSigned, or ExternallySigned
+    certificateType: SelfSigned
 
-affinity: {}
+    certificate:
+      {}
+      # publicKey: < server side customer certificate>
+      # privateKey: <private key for server side cert>
+      # password: # cert password (optional)
+      # authority: |-  # (optional)
+    #   rootCA: xxxx
+    #   intermediateCA:      # provide the intermediate CA here (optional)
+
+    signingRequest:
+      # commonName:        # override common Name for this CSR.  Defaults to cluster.local FQDN.
+      # email: insertyouremail@example.com.local
+      names: # names used to sign this cert
+        country: USA
+        state: MA
+        locality: Hopkinton
+        organization: Dell EMC
+        organizationalUnit: ObjectScale
+      keyAlgorithm: RSA       # algorithm use to generate the key (ex. RSA, ECDSA)
+      keySize: 2048           # size of the key in bits (ex. 2048, 4096, 8192)
+
+graphql:
+  image:
+    repository: ecs-flex-graphql
+    # tag: stable
+    # pullPolicy: IfNotPresent
+  withPlayground: false
+  port: 8080
+  serviceName: objectscale-graphql
+  service:
+    type: ClusterIP
