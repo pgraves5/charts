@@ -17,14 +17,10 @@ metadata:
     operator: objectscale-operator
     product: objectscale
 data:
-    storeNamespace: {{ .Values.decks.supportStore.service.namespace }}
-    endpointURL: {{ .Values.decks.supportStore.service.name }}.{{ .Values.decks.supportStore.service.namespace }}.svc.cluster.local:{{ .Values.decks.supportStore.service.port }}/upload
-    healthReportFolder: {{ .Values.telemetry.reports.health.folder }}
-    healthReportUploadFreq: "{{ .Values.telemetry.reports.health.freq }}"
-    capacityReportFolder: {{ .Values.telemetry.reports.capacity.folder }}
-    capacityReportUploadFreq: "{{ .Values.telemetry.reports.capacity.freq }}"
-    performanceReportFolder: {{ .Values.telemetry.reports.performance.folder }}
-    performanceReportUploadFreq: "{{ .Values.telemetry.reports.performance.freq }}"
-    inventoryReportFolder: "{{ .Values.telemetry.reports.inventory.folder }}"
-    inventoryReportUploadFreq: "{{ .Values.telemetry.reports.inventory.freq }}"
+    DECKS_SUPPORT_STORE_NS: {{ .Values.decks.supportStore.service.namespace }}
+    HEALTH_UPLOAD_FREQ: "{{ .Values.telemetry.reports.health.freq }}"
+    CAPACITY_UPLOAD_FREQ: "{{ .Values.telemetry.reports.capacity.freq }}"
+    PERFORMANCE_UPLOAD_FREQ: "{{ .Values.telemetry.reports.performance.freq }}"
+    INVENTORY_UPLOAD_FREQ: "{{ .Values.telemetry.reports.inventory.freq }}"
+    USAGEINTEL_UPLOAD_FREQ: "{{ .Values.telemetry.reports.usageIntelligence.freq }}"
 {{- end }}

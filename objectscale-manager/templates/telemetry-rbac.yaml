@@ -20,7 +20,31 @@ imagePullSecrets:
   - name: {{ .Values.global.registrySecret }}
 {{- end }}
 ---
-{{- if eq .Values.global.watchAllNamespaces true }}
+---
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: {{.Release.Name}}-{{ .Release.Namespace }}-telemetry-cluster-resources
+  labels:
+    app.kubernetes.io/name: objectscale-manager
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion }}
+    app.kubernetes.io/component: objectscale-telemetry
+    app.kubernetes.io/part-of: {{ .Release.Name }}
+    helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    release: {{ .Release.Name}}
+    operator: objectscale-operator
+    product: objectscale
+rules:
+  - apiGroups:
+      - ""
+    resources:
+      - nodes
+    verbs:
+      - "*"
+---
+{{- if .Values.global.watchAllNamespaces }}
 kind: ClusterRole
 {{- else }}
 kind: Role
@@ -28,7 +52,7 @@ kind: Role
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: objectscale-telemetry
-{{- if ne .Values.global.watchAllNamespaces true }}
+{{- if ne .Values.global.watchAllNamespaces false }}
   namespace: {{ .Release.Namespace }}
 {{- end }}
   labels:
@@ -44,12 +68,6 @@ metadata:
     product: objectscale
 rules:
 - apiGroups:
-  - decks.ecs.dellemc.com
-  resources:
-  - "*"
-  verbs:
-  - "*"
-- apiGroups:
   - ""
   - extensions
   resources:
@@ -60,7 +78,7 @@ rules:
   verbs:
   - "*"
 ---
-{{- if eq .Values.global.watchAllNamespaces true }}
+{{- if .Values.global.watchAllNamespaces }}
 kind: ClusterRoleBinding
 {{- else }}
 kind: RoleBinding
@@ -93,4 +111,29 @@ roleRef:
   kind: Role
 {{- end }}
   name: objectscale-telemetry
+  apiGroup: rbac.authorization.k8s.io
+---
+
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1beta1
+metadata:
+  name: {{.Release.Name}}-{{ .Release.Namespace }}-telemetry-cluster-resources
+  labels:
+    app.kubernetes.io/name: objectscale-manager
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion }}
+    app.kubernetes.io/component: objectscale-telemetry
+    app.kubernetes.io/part-of: {{ .Release.Name }}
+    helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    release: {{ .Release.Name}}
+    operator: objectscale-operator
+    product: objectscale
+subjects:
+  - kind: ServiceAccount
+    name: objectscale-telemetry
+    namespace: {{ .Release.Namespace }}
+roleRef:
+  kind: ClusterRole
+  name: {{.Release.Name}}-{{ .Release.Namespace }}-telemetry-cluster-resources
   apiGroup: rbac.authorization.k8s.io
