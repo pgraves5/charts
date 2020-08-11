@@ -385,10 +385,14 @@ geoReceiver:
     # tag: stable
     # pullPolicy: IfNotPresent
   service:
+    # Type of Kubernetes service to create: ClusterIP, NodePort, or LoadBalancer
+    type: LoadBalancer 
 
     ports:
       - name: geo
         port: 9094
+      - name: geo-com-manager
+        port: 9098
 
 # The ECS API control service configuration specification
 control:
