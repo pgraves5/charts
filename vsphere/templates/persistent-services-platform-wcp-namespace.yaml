@@ -1,4 +1,3 @@
-{{- if (eq .Values.global.platform "VMware") }}
 ---
 apiVersion: appplatform.wcp.vmware.com/v1alpha1
 kind: WCPNamespace
@@ -11,4 +10,3 @@ spec:
   spbmPolicies:
   - dellemc-objectscale-local
   - dellemc-objectscale-highly-available
-{{- end }}

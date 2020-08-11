@@ -1,3 +1,4 @@
+{{- if (ne .Values.global.platform "VMware") }}
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -62,3 +63,4 @@ data:
           description: Provisioing of the new objectstore failed
           remedies:
             - Check the results of the provisioning job
+{{- end }}

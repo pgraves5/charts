@@ -83,7 +83,7 @@ flexver:
 build: monitoring-dep
 	@echo "looking for yq command"
 	which yq
-	@echo "Ensure no helm repo accessible" 
+	@echo "Ensure no helm repo accessible"
 	helm repo list | grep .; \
         if [ $${?} -eq 0 ]; then exit 1; fi
 	REINDEX=0; \
@@ -127,6 +127,7 @@ create-manifests: create-manager-manifest create-kahm-manifest create-decks-mani
 
 create-manager-manifest: create-temp-package
 	helm template objectscale-manager ./objectscale-manager -n ${NAMESPACE} \
+	--set zookeeper.enabled=false --set atlas.enabled=false \
 	--set global.platform=VMware --set global.watchAllNamespaces=false \
 	--set sonobuoy.enabled=false --set global.registry=${REGISTRY} \
 	--set global.storageClassName=${STORAGECLASSNAME} \

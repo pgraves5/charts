@@ -1,3 +1,4 @@
+{{- if (ne .Values.global.platform "VMware") }}
 ---
 {{- if eq .Values.global.watchAllNamespaces true }}
 kind: ClusterRole
@@ -107,3 +108,4 @@ rules:
     - get
     - watch
     - list
+{{- end }}

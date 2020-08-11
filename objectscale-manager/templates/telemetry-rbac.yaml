@@ -1,3 +1,4 @@
+{{- if (ne .Values.global.platform "VMware") }}
 ---
 apiVersion: v1
 kind: ServiceAccount
@@ -84,7 +85,7 @@ metadata:
     product: objectscale
 subjects:
 - kind: ServiceAccount
-  name: objectscale-telemetry 
+  name: objectscale-telemetry
   namespace: {{ .Release.Namespace }}
 roleRef:
 {{- if eq .Values.global.watchAllNamespaces true }}
@@ -94,3 +95,4 @@ roleRef:
 {{- end }}
   name: objectscale-telemetry
   apiGroup: rbac.authorization.k8s.io
+{{- end }}

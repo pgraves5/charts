@@ -1,3 +1,4 @@
+{{- if (ne .Values.global.platform "VMware") }}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -56,3 +57,4 @@ spec:
                   fieldPath: metadata.namespace
             - name: OPERATOR_NAME
               value: objectscale-influxdb-operator
+{{- end  }}

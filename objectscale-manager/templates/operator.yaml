@@ -1,3 +1,4 @@
+{{- if (ne .Values.global.platform "VMware") }}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -159,4 +160,5 @@ spec:
           configMap:
             name: {{ .Release.Name }}-manager-logs-config
       {{- end }}
+{{- end }}
 {{- end }}
