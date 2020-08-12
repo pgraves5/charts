@@ -181,7 +181,7 @@ ons:
   # Docker repository to be used for ons instances
   image:
     repository: ons
-    # tag: latest
+    tag: latest
     # pullPolicy: IfNotPresent
 
 # The ECS REP Service configuration specification
