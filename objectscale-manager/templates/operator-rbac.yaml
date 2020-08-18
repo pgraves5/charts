@@ -20,6 +20,7 @@ imagePullSecrets:
   - name: {{ .Values.global.registrySecret }}
 {{- end }}
 ---
+{{- if ne .Values.global.platform "VMware" }}
 {{- if eq .Values.global.watchAllNamespaces true }}
 kind: ClusterRole
 {{- else }}
@@ -157,3 +158,4 @@ roleRef:
 {{- end }}
   name: objectscale-operator
   apiGroup: rbac.authorization.k8s.io
+{{- end }}
