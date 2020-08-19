@@ -26,8 +26,6 @@ prometheus:
   resources:
     requests:
       memory: 100Mi
-    limits:
-      memory: 100Mi
   readinessProbeInitialDelay: 30
   readinessProbeTimeout: 30
   readinessProbeFailureThreshold: 3
@@ -43,8 +41,6 @@ alertmanager:
     pullPolicy: IfNotPresent
   resources:
     requests:
-      memory: 32Mi
-    limits:
       memory: 32Mi
   readinessProbeInitialDelay: 30
   readinessProbeTimeout: 30
