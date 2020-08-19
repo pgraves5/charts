@@ -31,7 +31,6 @@ image:
 ## ref: http://kubernetes.io/docs/user-guide/compute-resources/
 resources:
   requests: {}
-  limits: {}
 
 ## Tolerations for pod assignment
 ## ref: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/

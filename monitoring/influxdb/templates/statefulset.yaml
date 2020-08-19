@@ -141,6 +141,10 @@ spec:
           value: {{ .value | quote }}
         {{- end }}
         {{- end }}
+        - name: HOSTNAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
         volumeMounts:
         - name: {{ template "influxdb.fullname" . }}-data
           mountPath: {{ .Values.config.storage_directory }}
@@ -225,8 +229,6 @@ spec:
           subPath: rsyslog.conf
         - name: varlog
           mountPath: /var/log
-        - name: rsyslog-socket
-          mountPath: {{ .Values.global.rsyslog_uds_dir }}
       {{ if not .Values.disable_recovery }}
       - name: cron
         image: "{{ .Values.global.monitoring_registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag | default .Values.global.monitoring_tag }}"
@@ -305,9 +307,6 @@ spec:
       - name: rsyslog-config
         configMap:
           name: {{ .Release.Name }}-rsyslog-client-config
-      - name: rsyslog-socket
-        hostPath:
-          path: {{ .Values.global.rsyslog_uds_dir }}
       - name: varlog
         emptyDir: {}
       - name: restore-ranges-cron-config
