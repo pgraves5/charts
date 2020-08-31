@@ -28,7 +28,7 @@ prometheus:
     requests:
       memory: 182Mi
     limits:
-      memory: 132Mi
+      memory: 182Mi
   readinessProbeInitialDelay: 30
   readinessProbeTimeout: 30
   readinessProbeFailureThreshold: 3
