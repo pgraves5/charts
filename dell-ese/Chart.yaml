@@ -1,0 +1,9 @@
+---
+appVersion: 1.1.1.9
+description: Helm chart for Dell Embedded Support Enabler (ESE)
+name: dell-ese
+version: 1.0.0
+icon: https://avatars0.githubusercontent.com/u/12926680
+maintainers:
+  - name: Dell EMC
+    url: http://dellemc.com
