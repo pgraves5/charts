@@ -193,6 +193,7 @@ vSpherePlugin:
       keySize: 2048           # size of the key in bits (ex. 2048, 4096, 8192)
 
 graphql:
+  enabled: true
   image:
     repository: ecs-flex-graphql
     # tag: stable

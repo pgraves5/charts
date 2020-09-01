@@ -1,0 +1,188 @@
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: install-controller
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app.kubernetes.io/name: objectscale-manager
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion }}
+    app.kubernetes.io/component: objectscale-operator
+    app.kubernetes.io/part-of: {{ .Release.Name }}
+    helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    release: {{ .Release.Name}}
+    operator: objectscale-operator
+    product: objectscale
+  {{- if .Values.global.registrySecret }}
+imagePullSecrets:
+  - name: {{ .Values.global.registrySecret }}
+  {{- end }}
+---
+  {{- if eq .Values.global.watchAllNamespaces true }}
+kind: ClusterRole
+  {{- else }}
+kind: Role
+  {{- end }}
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: install-controller
+  {{- if ne .Values.global.watchAllNamespaces true }}
+  namespace: {{ .Release.Namespace }}
+  {{- end }}
+  labels:
+    app.kubernetes.io/name: objectscale-manager
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion }}
+    app.kubernetes.io/component: objectscale-operator
+    app.kubernetes.io/part-of: {{ .Release.Name }}
+    helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    release: {{ .Release.Name}}
+    operator: objectscale-operator
+    product: objectscale
+rules:
+  - apiGroups:
+      - rbac.authorization.k8s.io
+    resources:
+      - roles
+      - rolebindings
+      - clusterroles
+      - clusterrolebindings
+    verbs:
+      - '*'
+  - apiGroups:
+      - ecs.dellemc.com
+    resources:
+      - "*"
+    verbs:
+      - "*"
+  - apiGroups:
+      - decks.ecs.dellemc.com
+    resources:
+      - "*"
+    verbs:
+      - "*"
+  - apiGroups:
+      - storage.k8s.io
+    resources:
+      - storageclasses
+      - storageclasslists
+    verbs:
+      - get
+      - list
+  - apiGroups:
+      - ""
+    resources:
+      - pods
+      - services
+      - endpoints
+      - persistentvolumeclaims
+      - persistentvolumes
+      - events
+      - configmaps
+      - secrets
+      - serviceaccounts
+    verbs:
+      - "*"
+  - apiGroups:
+      - batch
+    resources:
+      - jobs
+      - cronjobs
+    verbs:
+      - "*"
+  - apiGroups:
+      - certificates.k8s.io
+    resources:
+      - certificatesigningrequests
+    verbs:
+      - "*"
+  - apiGroups:
+      - certificates.k8s.io
+    resources:
+      - certificatesigningrequests/approval
+    verbs:
+      - update
+  - apiGroups:
+      - policy
+    resources:
+      - poddisruptionbudgets
+    verbs:
+      - "*"
+  - apiGroups:
+      - apps
+    resources:
+      - deployments
+      - daemonsets
+      - replicasets
+      - statefulsets
+    verbs:
+      - "*"
+  - apiGroups:
+      - zookeeper.pravega.io
+    resources:
+      - "*"
+    verbs:
+      - "*"
+  - apiGroups:
+      - app.k8s.io
+    resources:
+      - "*"
+    verbs:
+      - "*"
+  - apiGroups:
+      - atlas.dellemc.com
+    resources:
+      - "*"
+    verbs:
+      - "*"
+  - apiGroups:
+      - influxdata.com
+    resources:
+      - influxdbs
+    verbs:
+      - "*"
+  - apiGroups:
+      - ""
+    resources:
+      - nodes
+      - clusterroles
+    verbs:
+      - "*"
+---
+  {{- if eq .Values.global.watchAllNamespaces true }}
+kind: ClusterRoleBinding
+  {{- else }}
+kind: RoleBinding
+  {{- end }}
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: service-account-install-controller
+  {{- if ne .Values.global.watchAllNamespaces true }}
+  namespace: {{ .Release.Namespace }}
+  {{- end }}
+  labels:
+    app.kubernetes.io/name: objectscale-manager
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion }}
+    app.kubernetes.io/component: objectscale-operator
+    app.kubernetes.io/part-of: {{ .Release.Name }}
+    helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    release: {{ .Release.Name}}
+    operator: objectscale-operator
+    product: objectscale
+subjects:
+  - kind: ServiceAccount
+    name: install-controller
+    namespace: {{ .Release.Namespace }}
+roleRef:
+  {{- if eq .Values.global.watchAllNamespaces true }}
+  kind: ClusterRole
+  {{- else }}
+  kind: Role
+  {{- end }}
+  name: install-controller
+  apiGroup: rbac.authorization.k8s.io

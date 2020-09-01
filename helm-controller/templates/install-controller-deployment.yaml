@@ -35,7 +35,7 @@ spec:
         operator: objectscale-operator
         product: objectscale
     spec:
-      serviceAccountName: objectscale-operator
+      serviceAccountName: install-controller
       containers:
         - name: objectscale-install-controller
           image: {{ .Values.global.registry }}/{{ .Values.image.repository }}:{{ default .Values.tag .Values.image.tag }}

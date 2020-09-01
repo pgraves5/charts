@@ -15,6 +15,14 @@ dependencies:
     version: 0.33.0
     repository: file://../helm-controller
     condition: installcontroller.enabled
+  - name: vsphere
+    version: 0.33.0
+    repository: file://../vsphere
+    condition: vSpherePlugin.enabled
+  - name: graphql
+    version: 0.33.0
+    repository: file://../graphql
+    condition: graphql.enabled
   - name: objectscale-monitoring
     version: x.x
     condition: global.monitoring.enabled
