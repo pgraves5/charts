@@ -1,0 +1,6 @@
+dependencies:
+- name: ecs-monitoring
+  repository: file://../monitoring/ecs-monitoring
+  version: 0.0.1
+digest: sha256:ebc014b36b2ac4b643442941cd5e04417ca135f5a64cec93dbd03f505c72d610
+generated: "2020-08-18T16:06:16.991307608-07:00"

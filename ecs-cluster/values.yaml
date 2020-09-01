@@ -489,6 +489,8 @@ managementGateway:
     # Type of Kubernetes service to create: ClusterIP, NodePort, or LoadBalancer
     type: ClusterIP
 
+  kubectl get secret koala-initial-user -o jsonpath='{.data.accessKey}' | base64 -d; echo;  kubectl get secret koala-initial-user -o jsonpath='{.data.secretKey}' | base64 -d ; echo; kubectl  get secret koala-initial-user -o jsonpath='{.data.managementKey}' | base64 -d; echo
+
     # Specify the service port configuration for the managementGateway service
     ports:
       - name: api

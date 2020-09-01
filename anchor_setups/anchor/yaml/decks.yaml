@@ -1,0 +1,455 @@
+---
+# Source: decks/templates/rbac.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: decks
+  namespace: anchor
+  labels:
+    app.kubernetes.io/name: "decks"
+    app.kubernetes.io/version: 1.2.0
+    app.kubernetes.io/instance: decks
+    app.kubernetes.io/managed-by: nautilus
+    helm.sh/chart: decks-1.2.1
+    release: decks
+---
+# Source: decks/templates/support-store-secret.yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: decks-support-store-secret
+  namespace: anchor
+type: Opaque
+data:
+    username: "MXhTWW8="
+    password: "Zm9SZHZrTjJ5RQ=="
+    salt: "UjVCcGc1cHRxWg=="
+---
+# Source: decks/templates/decks-app-configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+    name: decks-app-config
+    namespace: anchor
+    labels:
+        app.kubernetes.io/name: "decks"
+        app.kubernetes.io/version: 1.2.0
+        app.kubernetes.io/instance: decks
+        app.kubernetes.io/managed-by: nautilus
+        helm.sh/chart: decks-1.2.1
+        release: decks
+    annotations:
+        com.dellemc.kahm.subscribed: "true"
+data:
+    eventRules: |-
+    healthChecks: |-
+    eventRemedies: |-
+      symptoms:
+        - symptomid: DECKS-1007
+          description: Unable to register with Dell EMC Secure Remote Services
+          remedies:
+            - Make sure a valid Dell EMC license has been applied
+            - Make sure the SRS Gateway has not been disabled
+            - Verify the correct hostname or IP addr/port was used for
+              the SRS gateway
+            - Verify the correct Dell EMC customer support account name
+              and password were specified
+            - Verify the SRS Gateway system is running
+            - Check if the SRS gateway has connectivity through the firewall
+              to Dell EMC
+            - Verify the network connection to the SRS gateway
+            - Check the health of the SRS gateway by connecting to the user
+              interface
+            - Check the status of the SRS Gateway resource in the k8s cluster
+            - Make sure the kubernetes cluster has enabled external
+              IP provisioning capabilities, (for example LoadBalancer)
+        - symptomid: DECKS-1015
+          description: Unable to send events to the Dell EMC Secure Remote Service
+          remedies:
+            - Verify the SRS Gateway system is running
+            - Check if the SRS gateway has connectivity through the firewall
+              to Dell EMC
+            - Verify the network connection to the SRS gateway
+            - Check the health of the SRS gateway by connecting to the user
+              interface
+            - View the logs of the decks and srs-notifier services for any
+              additional details
+---
+# Source: decks/templates/admin-role.yaml
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: decks-admin
+  namespace: anchor
+  labels:
+    app.kubernetes.io/name: "decks"
+    app.kubernetes.io/version: 1.2.0
+    app.kubernetes.io/instance: decks
+    app.kubernetes.io/managed-by: nautilus
+    helm.sh/chart: decks-1.2.1
+    release: decks
+rules:
+- apiGroups:
+  - decks.ecs.dellemc.com
+  resources:
+  - "*"
+  verbs:
+  - "*"
+- apiGroups:
+  - kahm.emcecs.github.com
+  resources:
+  - notifiers
+  verbs:
+  - "*"
+- apiGroups:
+  - app.k8s.io
+  resources:
+  - "*"
+  verbs:
+  - "*"
+- apiGroups:
+  - ""
+  - extensions
+  resources:
+  - pods
+  - services
+  - endpoints
+  - persistentvolumeclaims
+  - events
+  - configmaps
+  - secrets
+  - applications
+  - nodes
+  - namespaces
+  - replicationcontrollers
+  - daemonsets
+  - deployments
+  - replicasets
+  verbs:
+  - "*"
+- apiGroups:
+  - batch
+  resources:
+  - jobs
+  - cronjobs
+  verbs:
+  - "*"
+- apiGroups:
+  - policy
+  resources:
+  - poddisruptionbudgets
+  verbs:
+  - "*"
+- apiGroups:
+  - apps
+  resources:
+  - deployments
+  - daemonsets
+  - replicasets
+  - statefulsets
+  verbs:
+  - "*"
+- apiGroups:
+  - zookeeper.pravega.io
+  resources:
+  - "*"
+  verbs:
+  - "*"
+- apiGroups:
+  - storage.k8s.io
+  resources:
+  - storageclasses
+  - storageclasslists
+  verbs:
+  - get
+  - list
+---
+# Source: decks/templates/rbac.yaml
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: decks
+  namespace: anchor
+  labels:
+    app.kubernetes.io/name: "decks"
+    app.kubernetes.io/version: 1.2.0
+    app.kubernetes.io/instance: decks
+    app.kubernetes.io/managed-by: nautilus
+    helm.sh/chart: decks-1.2.1
+    release: decks
+rules:
+- apiGroups:
+  - decks.ecs.dellemc.com
+  resources:
+  - "*"
+  verbs:
+  - "*"
+- apiGroups:
+  - kahm.emcecs.github.com
+  resources:
+  - notifiers
+  verbs:
+  - "*"
+- apiGroups:
+  - app.k8s.io
+  resources:
+  - "*"
+  verbs:
+  - "*"
+- apiGroups:
+  - ""
+  - extensions
+  resources:
+  - pods
+  - services
+  - endpoints
+  - persistentvolumeclaims
+  - events
+  - configmaps
+  - secrets
+  - applications
+  - nodes
+  - namespaces
+  - replicationcontrollers
+  - daemonsets
+  - deployments
+  - replicasets
+  verbs:
+  - "*"
+- apiGroups:
+  - batch
+  resources:
+  - jobs
+  - cronjobs
+  verbs:
+  - "*"
+- apiGroups:
+  - policy
+  resources:
+  - poddisruptionbudgets
+  verbs:
+  - "*"
+- apiGroups:
+  - apps
+  resources:
+  - deployments
+  - daemonsets
+  - replicasets
+  - statefulsets
+  verbs:
+  - "*"
+- apiGroups:
+  - zookeeper.pravega.io
+  resources:
+  - "*"
+  verbs:
+  - "*"
+- apiGroups:
+  - storage.k8s.io
+  resources:
+  - storageclasses
+  - storageclasslists
+  verbs:
+  - get
+  - list
+---
+# Source: decks/templates/rbac.yaml
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1beta1
+metadata:
+  name: service-account-decks
+  namespace: anchor
+  labels:
+    app.kubernetes.io/name: "decks"
+    app.kubernetes.io/version: 1.2.0
+    app.kubernetes.io/instance: decks
+    app.kubernetes.io/managed-by: nautilus
+    helm.sh/chart: decks-1.2.1
+    release: decks
+subjects:
+- kind: ServiceAccount
+  name: decks
+  namespace: anchor
+roleRef:
+  kind: Role
+  name: decks
+  apiGroup: rbac.authorization.k8s.io
+---
+# Source: decks/templates/support-store-service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: decks-support-store
+  namespace: anchor
+  labels:
+    io.kompose.service: decks-support-store
+spec:
+  type: ClusterIP
+  ports:
+  - name: http
+    port: 7443
+    targetPort: 7443
+  selector:
+    io.kompose.service: decks-support-store
+---
+# Source: decks/templates/decks.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: decks
+  namespace: anchor
+  labels:
+    app.kubernetes.io/name: "decks"
+    release: decks
+    name: decks
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: decks
+  template:
+    metadata:
+      labels:
+        name: decks
+        app.kubernetes.io/name: "decks"
+        release: decks
+    spec:
+      serviceAccountName: "decks"
+      containers:
+      - name: decks
+        image: objectscale/decks:1.2.0
+        imagePullPolicy: IfNotPresent
+        command:
+        - decks
+        env:
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: WATCH_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        - name: POD_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        - name: CONTROLLER_NAME
+          value: decks
+---
+# Source: decks/templates/support-store-stateful-set.yaml
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: decks-support-store
+  namespace: anchor
+  labels:
+    io.kompose.service: decks-support-store
+    app.kubernetes.io/name: decks
+    release: decks
+    name: decks
+spec:
+  serviceName: decks-support-store
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: decks-support-store
+  template:
+    metadata:
+      labels:
+        io.kompose.service: decks-support-store
+    spec:
+      containers:
+      - name: decks-support-store
+        env:
+        - name: USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: decks-support-store-secret
+              key: username
+        - name: PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: decks-support-store-secret
+              key: password
+        - name: SALT
+          valueFrom:
+            secretKeyRef:
+              name: decks-support-store-secret
+              key: salt
+        image: objectscale/decks-support-store:1.0.0
+        imagePullPolicy: IfNotPresent
+        command: ["/bin/sh", "-c"]
+        args: ["chmod +x /usr/local/bin/*.sh;
+                sh /usr/local/bin/run-nginx.sh;
+                nginx -g 'daemon off;'"]
+        ports:
+        - containerPort: 7443
+        resources: {}
+        volumeMounts:
+        - mountPath: /opt/secure/data
+          name: decks-support-store-claim0
+      restartPolicy: Always
+  volumeClaimTemplates:
+    - metadata:
+        labels:
+          app: decks-support-store
+          release: decks
+        name: decks-support-store-claim0
+      spec:
+        accessModes:
+        - ReadWriteOnce
+        storageClassName: dellemc-objectscale-highly-available
+        dataSource: null
+        resources:
+          requests:
+            storage: 200Gi
+---
+# Source: decks/templates/decks-app.yaml
+apiVersion: app.k8s.io/v1beta1
+kind: Application
+metadata:
+  name: "decks"
+  namespace: anchor
+  labels:
+    app.kubernetes.io/name: "decks"
+    app.kubernetes.io/version: 1.2.0
+    app.kubernetes.io/instance: decks
+    app.kubernetes.io/managed-by: Helm
+    helm.sh/chart: decks-1.2.1
+    release: decks
+  annotations:
+    com.dellemc.kahm.subscribed: "true"
+    nautilus.dellemc.com/chart-name: decks
+    nautilus.dellemc.com/chart-version: "1.2.1"
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: "decks"
+  componentKinds:
+    - group: apps
+      kind: Deployment
+    - group: core
+      kind: ConfigMap
+    - group: core
+      kind: ServiceAccount
+    - group: core
+      kind: Pod
+    - group: apps
+      kind: ReplicaSet
+    - group: rbac.authorization.k8s.io
+      kind: ClusterRoles
+    - group: rbac.authorization.k8s.io
+      kind: ClusterRoleBinding
+  assemblyPhase: "Pending"
+  descriptor:
+    type: "decks"
+    version: 1.2.0
+    description: >
+      Dell EMC Common Kubernetes Services
+    keywords:
+      - "decks"
+      - "srs"
+      - "licensing"
+    info:
+      - "Copyright (c) 2019-2020 Dell Inc. or its subsidiaries. All Rights Reserved."

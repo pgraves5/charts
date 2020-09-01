@@ -1,0 +1,269 @@
+---
+# Source: kahm/templates/rbac.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: kahm
+  namespace: anchor
+imagePullSecrets:
+  - name: dockerhub-registry-secret
+---
+# Source: kahm/templates/Rest-Secret.yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: kahm-restapi-secrets
+  namespace: anchor
+  labels:
+    kahm-restapi: "true"
+type: Opaque
+stringData:
+  credentials.conf: |-
+    realm: kahm-restapi
+    username: kahm
+    password: ChangeMe
+---
+# Source: kahm/templates/ConfigMap.yaml
+apiVersion: v1
+data:
+    dbType: BadgerDB
+    eventTTL: "2592000"
+kind: ConfigMap
+metadata:
+  name: kahm-db-config
+  namespace: anchor
+  labels:
+    release: kahm
+---
+# Source: kahm/templates/rbac.yaml
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: kahm
+  namespace: anchor
+  labels:
+    release: kahm
+rules:
+- apiGroups: ["*"]
+  resources: ["*"]
+  verbs: ["get", "watch", "list"]
+- apiGroups:
+  - kahm.emcecs.github.com
+  resources:
+  - '*'
+  verbs:
+  - '*'
+- apiGroups:
+  - app.k8s.io 
+  resources:
+  - "*"
+  verbs:
+  - "*"
+- apiGroups:
+  - ""
+  - extensions
+  resources:
+  - pods
+  - pods/log
+  - services
+  - endpoints
+  - persistentvolumeclaims
+  - events
+  - configmaps
+  - secrets
+  - applications
+  - deployments
+  verbs:
+  - "*"
+- apiGroups:
+  - apps
+  resources:
+  - deployments
+  - daemonsets
+  - replicasets
+  - statefulsets
+  verbs:
+  - "*"
+---
+# Source: kahm/templates/rbac.yaml
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1beta1
+metadata:
+  name: service-account-kahm
+  namespace: anchor
+  labels:
+    release: kahm
+subjects:
+- kind: ServiceAccount
+  name: kahm
+  namespace: anchor
+roleRef:
+  kind: Role
+  name: kahm
+  apiGroup: rbac.authorization.k8s.io
+---
+# Source: kahm/templates/Headless-Service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: kahm 
+    release: kahm
+  name: kahm-headless 
+  namespace: anchor
+spec:
+  clusterIP: None
+  ports:
+  - name: metrics
+    port: 60000 
+    targetPort: 0
+  selector:
+    app: kahm
+---
+# Source: kahm/templates/Rest-Service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: kahm
+    release: kahm
+  name: kahm-restapi
+  namespace: anchor
+spec:
+  ports:
+  - protocol: TCP
+    name: rest 
+    port: 17999 
+    targetPort: rest 
+  selector:
+    app: kahm
+  type: ClusterIP
+---
+# Source: kahm/templates/kahm.yaml
+apiVersion: apps/v1
+kind: StatefulSet 
+metadata:
+  name: kahm
+  namespace: anchor
+  labels:
+    release: kahm
+spec:
+  podManagementPolicy: Parallel
+  replicas: 1
+  selector:
+    matchLabels:
+      name: kahm
+  serviceName: kahm-headless
+  template:
+    metadata:
+      labels:
+        name: kahm
+        release: kahm
+        app: kahm
+    spec:
+      serviceAccountName: "kahm"
+      imagePullSecrets:
+        - name: dockerhub-registry-secret
+      containers:
+      - name: kahm
+        image: objectscale/kahm:1.2.0
+        imagePullPolicy: IfNotPresent
+        command:
+        - kahm
+        ports:
+        - containerPort: 60000 
+          name: metrics
+        - containerPort: 17999
+          name: rest
+        volumeMounts:
+        - mountPath: /data/db
+          name: db
+        env:
+        - name: POD_NAME
+          valueFrom:
+           fieldRef:
+             fieldPath: metadata.name
+        - name: MY_POD_IP
+          valueFrom:
+           fieldRef:
+             fieldPath: status.podIP
+        - name: WATCH_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        - name: REGISTRY_SECRET
+          value: dockerhub-registry-secret
+        - name: KAHM_DB_TYPE
+          valueFrom:
+            configMapKeyRef:
+             name: kahm-db-config
+             key: dbType 
+        - name: KAHM_DB_EVENT_TTL
+          valueFrom:
+            configMapKeyRef:
+             name: kahm-db-config
+             key: eventTTL
+  volumeClaimTemplates:
+  - metadata:
+      labels:
+        app: kahm 
+        release: kahm
+      name: db
+      namespace: anchor
+    spec:
+      accessModes:
+      - ReadWriteOnce
+      storageClassName: dellemc-objectscale-highly-available
+      dataSource: null
+      resources:
+        requests:
+          storage: 2Gi
+---
+# Source: kahm/templates/kahm-app.yaml
+apiVersion: app.k8s.io/v1beta1
+kind: Application
+metadata:
+  name: "kahm"
+  namespace: anchor
+  labels:
+    app.kubernetes.io/name: "kahm"
+    app.kubernetes.io/version: 1.2.0
+    app.kubernetes.io/instance: kahm
+    app.kubernetes.io/managed-by: Helm
+    helm.sh/chart: kahm-1.2.1
+    release: kahm
+  annotations:
+    com.dellemc.kahm.subscribed: "true"
+    nautilus.dellemc.com/chart-name: kahm
+    nautilus.dellemc.com/chart-version: "1.2.1"
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: "kahm"
+  componentKinds:
+    - group: apps
+      kind: StatefulSet
+    - group: core
+      kind: ConfigMap
+    - group: core
+      kind: ServiceAccount
+    - group: core
+      kind: Pod
+    - group: apps
+      kind: ReplicaSet
+    - group: rbac.authorization.k8s.io
+      kind: ClusterRoles
+    - group: rbac.authorization.k8s.io
+      kind: ClusterRoleBinding
+  assemblyPhase: "Pending"
+  descriptor:
+    type: "kahm"
+    version: 1.2.0
+    description: >
+      Kubernetes Application Health Management
+    keywords:
+      - "kahm"
+      - "event"
+      - "health"
+    info:
+      - "Copyright (c) 2019-2020 Dell Inc. or its subsidiaries. All Rights Reserved."

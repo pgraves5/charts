@@ -1,0 +1,18 @@
+dependencies:
+- name: zookeeper-operator
+  repository: file://../zookeeper-operator
+  version: 0.2.7
+- name: atlas-operator
+  repository: file://../atlas-operator
+  version: 0.26.0
+- name: sonobuoy
+  repository: file://../sonobuoy
+  version: 0.16.6
+- name: helm-controller
+  repository: file://../helm-controller
+  version: 0.33.0
+- name: objectscale-monitoring
+  repository: file://../monitoring/objectscale-monitoring
+  version: 0.0.1
+digest: sha256:e48dfaab951cc0d54f6d16fc0469340122a7693a5801eff24237a55c1cc70e8d
+generated: "2020-08-18T16:06:17.678749535-07:00"

@@ -43,7 +43,7 @@ atlas:
 objectStoreAvailableVersions:
   - 0.33.0
 
-# Create an application resource for management using Dell EMC common installer or other application-resource
+# Create an application resource for management  using Dell EMC common installer or other application-resource
 # controllers
 createApplicationResource: true
 

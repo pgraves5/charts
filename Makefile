@@ -135,7 +135,9 @@ create-manager-manifest: create-temp-package
 	--set logReceiver.create=true --set logReceiver.type=Syslog \
 	--set logReceiver.persistence.storageClassName=${STORAGECLASSNAME} \
 	-f objectscale-manager/values.yaml > ${TEMP_PACKAGE}/yaml/${MANAGER_MANIFEST}
-
+create-manager-app-template:
+	helm template
+>> yaml/manager_manifest
 create-kahm-manifest: create-temp-package
 	helm template kahm ./kahm -n ${NAMESPACE} --set global.platform=VMware \
 	--set global.watchAllNamespaces=false --set global.registry=${KAHM_REGISTRY} \
