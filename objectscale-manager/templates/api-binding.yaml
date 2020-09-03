@@ -38,7 +38,11 @@ roleRef:
   {{- end }}
   name: objectscale-admin
 {{- else }}
+  {{- if eq .Values.global.watchAllNamespaces true }}
+  kind: ClusterRole
+  {{- else }}
   kind: Role
+  {{- end }}
   name: objectscale-api
 {{- end }}
   apiGroup: rbac.authorization.k8s.io
