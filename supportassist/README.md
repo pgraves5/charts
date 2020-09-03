@@ -1,5 +1,5 @@
-# Helm Chart for Deploying Dell EMC Enbedded Support Enabler
-This chart allows the user to deploy a Dell EMC embedded support enabler service in the Kubernetes cluster for a product.
+# Helm Chart for Deploying Dell EMC SupportAssist Embedded Services Enabler
+This chart allows the user to deploy a Dell EMC embedded services enabler pod in the Kubernetes cluster for a product.
  
 ## Table of Contents
 
@@ -11,60 +11,58 @@ This chart allows the user to deploy a Dell EMC embedded support enabler service
 ## Description
 
 This Helm chart deploys:
-1. A k8s set of services for REST API access
-2. A persistent volume for the ESE Pod
-3. A `dell-ese-<productname>` pod 
+1. A k8s statefulset pod for SupportAssist ESE for the product:
+   `supportassist-objectscale-0`
+2. A persistent volume to store logs and secure keys
+3. Future changes will add in the supportassist custom resource, secrets etc...
 
 ## Requirements
 
 * A [Helm 3.0](https://helm.sh) installation with access to install to one or more namespaces.
 * Access to https://github.com/EMCECS/charts
 * Access to docker registries:
-    * https://hub.docker.com/emccorp 
-    * https://harbor.lss.emc.com/ecs
+    * https://hub.docker.com/objectscale
+    * https://asdrepo.isus.emc.com:9042
 * Dell EMC Connectivity servers:
     * Direct firewalled access to https://esrs3*.com servers or
     * Local SRS gateways already firewalled to Dell EMC Connectivity servers:
-* Dell EMC ESE Release Notes:
-    * http://100.90.136.211/builds-ese/ese/latest/release-notes.txt
-
+* SupportAssist ESE Release Info:
+    * http://10.236.140.82/ese/
+    - Username: `cecuser`
+    - Password: `Password!`
 
 ## Quick Start
 
-1. First, [install and setup Helm](https://docs.helm.sh/using_helm/#quickstart).  *_Note:_* you'll likely need to setup role-based access controls for Helm to have rights to install packages, so be sure to read that part.
+1. First, [install and setup Helm](https://docs.helm.sh/using_helm/#quickstart).
 
-2. Use `git clone` or `git pull` to get the latest changes from master:
+2. Using your github token add the helm chart repo
 
     ```
-    $ cd src/emcecs
-    $ git clone https://github.com/emcecs/charts
-    $ git checkout -b feature-ese-1.1
+    $ helm repo add objscharts https://<yourgihubtoken>@raw.githubusercontent.com/emcecs/charts/master/docs
+    $ helm repo update
     ```
 
 3. Install the Dell EMC Embedded support enables (ESE) for the product: 
     - for **objectscale** 
     ```
-    $ helm install de-objs ./dell-ese --set product=objectscale --set global.registry=harbor.lss.emc.com/ecs
-    ```
-    - for **streamingdata**
-    ```
-    $ helm install de-objs ./dell-ese --set product=streamingdata --set global.registry=harbor.lss.emc.com/ecs
+    $ helm install sa-objs objscharts/supportassist --set product=objectscale --set global.registry=asdrepo.isus.emc.com:9042
     ```
 
 4. Verify the pod and service is available:
-    ```
-    $ kubectl get pod,svc -l release=dell-ese-objectscale
-    NAME                         READY   STATUS    RESTARTS   AGE
-    pod/dell-ese-objectscale-0   1/1     Running   0          19h
+    ```bash
+    $ kubectl get pod,svc -l release=supportassist-objectscale
 
-    NAME                                    TYPE           CLUSTER-IP       EXTERNAL-IP      PORT(S)                         AGE
-    service/dell-ese-objectscale            LoadBalancer   10.100.200.231   10.240.125.192   9447:30421/TCP,8080:32312/TCP   19h
-    service/dell-ese-objectscale-headless   ClusterIP      None             <none>           9447/TCP,8080/TCP               19h
+    NAME                              READY   STATUS    RESTARTS   AGE
+    pod/supportassist-objectscale-0   1/1     Running   0          15h
+
+    NAME                                         TYPE           CLUSTER-IP   EXTERNAL-IP    PORT(S)                         AGE
+    service/supportassist-objectscale            LoadBalancer   10.96.1.89   10.240.124.9   9447:31526/TCP,8080:32740/TCP   15h
+    service/supportassist-objectscale-headless   ClusterIP      None         <none>         9447/TCP,8080/TCP               15h
     ```
 
 
 ## Configuration
-- ESE services are now running with an empty configuration.  Use the steps below to configure ESE for the product.
+- SupportAssist ESE services are now running with an empty configuration.  Use the steps below to configure ESE for the product.
 
 1. Use [postman](https://postman.com) to create a collection of REST API calls
     
@@ -76,16 +74,16 @@ This Helm chart deploys:
     ```json
     {
         "communicationEnabled": true,
-        "eseVersion": "1.1.1.9",
+        "eseVersion": "2.0.3.7",
         "primaryDirectEndpoint": "https://esrs3-corestg.isus.emc.com",
-        "primaryGatewayEndpoint": "https://10.249.238.218:9443",
+        "primaryGatewayEndpoint": "https://10.249.238.250:9443",
         "connectionPreference": "gateway",
-        "lastConnection": "2020-02-24 13:42:53",
+        "lastConnection": "2020-09-03 04:15:45",
         "eseProcessInfo": {
-            "timestamp": 1582552016,
-            "pid": 6,
-            "memory": 49225728,
-            "cpu_percent": 10.1
+            "timestamp": 1599106924,
+            "pid": 14,
+            "memory": 50094080,
+            "cpu_percent": 0.0
         },
         "initialized": true,
         "proxyMode": "none"
@@ -100,9 +98,10 @@ This Helm chart deploys:
     {
         "productIdBlock": {
             "productModel": "OBJECTSCALE",
-            "productType": "dell.enterprise.objectscale",
-            "productVersion": "0.22.0"
-        },
+            "productType": "dell.enterprise.storage.objectscale",
+            "productName": "OBJECTSCALE",
+            "productVersion": "0.52.0"
+	},
         "useGateways": true,
         "gatewayEndpoints": [
             {
@@ -114,9 +113,10 @@ This Helm chart deploys:
             }
         ]
     }
+    ```
 
 4. Now obtain an access key using the product name, Party (site ID) and a PIN:
-    - Go to: https://ssopcf-connectivityaccesskey-tst.cft.isus.emc.com/
+    - Go to: https://connectivitykeyprovider.cft.isus.emc.com/accessCodes
     - Select `SoftwareInstance`
       - Model: `OBJECTSCALE`
       - Party No: (aka site id): `11145366`
@@ -146,7 +146,7 @@ This Helm chart deploys:
         "backendResponse": {
             "responseCode": 201,
             "message": "Device Key Inserted successfully",
-            "serialNumber": "ELMOBJ0220Q3KZ"
+            "serialNumber": "ELMOBJ09209QZC"
         }
     }
     ```
@@ -156,7 +156,7 @@ This Helm chart deploys:
         "identifiers": [
 			{
 				"idType": "serialNumber",
-				"value": "ELMOBJ0120N59P"
+				"value": "ELMOBJ09209QZC"
 			}
 		],
     }
