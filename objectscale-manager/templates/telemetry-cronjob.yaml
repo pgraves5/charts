@@ -1,4 +1,3 @@
-{{- if (ne .Values.global.platform "VMware") }}
 ---
 apiVersion: batch/v1beta1
 kind: CronJob
@@ -64,4 +63,3 @@ spec:
           - emptyDir: {}
             name: host-data
           restartPolicy: Never
-{{- end }}

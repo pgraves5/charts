@@ -1,4 +1,3 @@
-{{- if (ne .Values.global.platform "VMware") }}
 ---
 apiVersion: v1
 kind: ServiceAccount
@@ -19,5 +18,4 @@ metadata:
 {{- if .Values.global.registrySecret }}
 imagePullSecrets:
   - name: {{ .Values.global.registrySecret }}
-{{- end }}
 {{- end }}

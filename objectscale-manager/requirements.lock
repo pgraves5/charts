@@ -14,8 +14,11 @@ dependencies:
 - name: vsphere
   repository: file://../vsphere
   version: 0.33.0
+- name: graphql
+  repository: file://../graphql
+  version: 0.33.0
 - name: objectscale-monitoring
   repository: file://../monitoring/objectscale-monitoring
   version: 0.0.1
-digest: sha256:c038d73d1c824228af17b52c757999283d176774f228a9c3c242b0169419e671
-generated: "2020-09-01T15:51:26.671726608-07:00"
+digest: sha256:9363302f52cad72ded2e61f3f96eae5f5004297c95a25f66b643bd97aac57669
+generated: "2020-09-02T14:12:57.384578506-07:00"
