@@ -382,9 +382,9 @@ spec:
     replicas: {{ .Values.geoService.replicas }}
     {{- end }}
     image:
-      repository: {{ .Values.global.registry }}/{{ .Values.geoservice.image.repository }}
-      {{- if .Values.geoservice.image.tag }}
-      tag: {{ .Values.geoservice.image.tag }}
+      repository: {{ .Values.global.registry }}/{{ .Values.geoService.image.repository }}
+      {{- if .Values.geoService.image.tag }}
+      tag: {{ .Values.geoService.image.tag }}
       {{- else }}
       tag: {{ .Values.tag }}
       {{- end }}
