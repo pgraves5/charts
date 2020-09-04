@@ -388,7 +388,7 @@ spaceReclaimer:
     # pullPolicy: IfNotPresent
 
 # The ECS geo service configuration specification
-geoservice:
+geoService:
 
   # Override the default ECS Cluster replicas to set the number of nodes in the
   # ons cluster separately. This value should not be set when using
