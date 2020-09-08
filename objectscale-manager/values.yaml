@@ -221,6 +221,16 @@ installcontroller:
 sonobuoy:
   enabled: true
 
+pravega-operator:
+  enabled: false
+#  webhookCert:
+#    generate: true
+#    crt:
+#    key:
+
+bookkeeper-operator:
+  enabled: false
+
 nodeSelector: {}
 
 tolerations: []
