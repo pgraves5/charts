@@ -377,6 +377,23 @@ spec:
       {{ toYaml .Values.diagnostic.service | nindent 6 | trim }}
 {{- end }}
 
+  geoService:
+    {{- if .Values.geoService.replicas }}
+    replicas: {{ .Values.geoService.replicas }}
+    {{- end }}
+    image:
+      repository: {{ .Values.global.registry }}/{{ .Values.geoService.image.repository }}
+      {{- if .Values.geoService.image.tag }}
+      tag: {{ .Values.geoService.image.tag }}
+      {{- else }}
+      tag: {{ .Values.tag }}
+      {{- end }}
+      {{- if .Values.geoService.image.pullPolicy }}
+      pullPolicy: {{ .Values.geoService.image.pullPolicy }}
+      {{- else }}
+      pullPolicy: {{ .Values.pullPolicy }}
+  {{- end }}
+
   geoReceiver:
 {{- if .Values.geoReceiver.replicas }}
     replicas: {{ .Values.geoReceiver.replicas }}

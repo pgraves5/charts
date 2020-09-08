@@ -102,7 +102,7 @@ spec:
         command: ["fluxd"]
         args: ["--disable-lb", "--cf-disabled", "--disable-zk", "--node-id", "$(NODE_ID)", "--storage-hosts", "$(STORAGE_HOSTS)", "--store-namespace", "{{ .Release.Namespace }}", "--port", "{{ .Values.config.http.bind_address }}", "--logger-config", "/non_existing"]
         resources:
-{{ include "common-lib.resources" (dict "top" . "micro" "150Mi" "small" "300Mi" "medium" "300Mi" "large" "300Mi") | indent 10}}
+{{ include "common-lib.resources" (dict "top" . "micro" "200Mi" "small" "350Mi" "medium" "350Mi" "large" "350Mi") | indent 10}}
         ports:
         - name: api
           containerPort: {{ .Values.config.http.bind_address }}
@@ -113,7 +113,8 @@ spec:
               # use pod name as node id
               fieldPath: metadata.name
         - name: STORAGE_HOSTS
-          value: "127.0.0.10:8086,127.0.0.11:8186,127.0.0.12:8286"
+          {{- $replicas := include "common-lib.influxdb_replicas" . }}
+          value: "{{ include "influxdbhosts" $replicas }}"
         - name: POD_NAMESPACE
           valueFrom:
             fieldRef:
@@ -125,9 +126,6 @@ spec:
       - name: nginx
         image: "{{ .Values.global.monitoring_registry }}/nginx:{{ .Values.global.monitoring_tag }}"
         imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
-        resources:
-          requests:
-            memory: 50Mi
         ports:
         - name: api
           containerPort: {{ .Values.service.bind_address }}
