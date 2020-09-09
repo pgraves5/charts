@@ -83,7 +83,7 @@ flexver:
 build: monitoring-dep
 	@echo "looking for yq command"
 	which yq
-	@echo "Ensure no helm repo accessible" 
+	@echo "Ensure no helm repo accessible"
 	helm repo list | grep .; \
         if [ $${?} -eq 0 ]; then exit 1; fi
 	REINDEX=0; \
@@ -123,10 +123,36 @@ combine-crds:
 create-vmware-package:
 	./vmware/vmware_pack.sh ${NAMESPACE}
 
-create-manifests: create-manager-manifest create-kahm-manifest create-decks-manifest create-deploy-script
+create-manifests: create-manager-templates create-kahm-manifest create-decks-manifest create-deploy-script
 
-create-manager-manifest: create-temp-package
+create-helm-controller-templates: create-temp-package
+	helm template helm-controller ./helm-controller -n ${NAMESPACE} \
+	--set global.platform=VMware \
+	--set global.watchAllNamespaces=true \
+	--set global.registry=${REGISTRY} \
+	--set global.storageClassName=${STORAGECLASSNAME} \
+	--set image.tag=${OPERATOR_VERSION} \
+	--set logReceiver.create=true --set logReceiver.type=Syslog \
+	--set logReceiver.persistence.storageClassName=${STORAGECLASSNAME} \
+	-f helm-controller/values.yaml >> ${TEMP_PACKAGE}/yaml/${MANAGER_MANIFEST}
+
+create-manager-app: create-temp-package
+	helm template manager ./objectscale-manager -n ${NAMESPACE} \
+	--set sonobuoy.enabled=false \
+	--set installcontroller.enabled=false \
+	--set graphql.enabled=false \
+	--set global.watchAllNamespaces=false \
+	--set global.registry=${REGISTRY} \
+	--set global.storageClassName=${STORAGECLASSNAME} \
+	--set image.tag=${OPERATOR_VERSION} \
+	--set logReceiver.create=true --set logReceiver.type=Syslog \
+	--set logReceiver.persistence.storageClassName=${STORAGECLASSNAME} \
+	-f objectscale-manager/values.yaml
+
+create-manager-templates: create-temp-package create-vsphere-templates create-helm-controller-templates
 	helm template objectscale-manager ./objectscale-manager -n ${NAMESPACE} \
+	--set installcontroller.enabled=false \
+	--set graphql.enabled=true \
 	--set global.platform=VMware --set global.watchAllNamespaces=false \
 	--set sonobuoy.enabled=false --set global.registry=${REGISTRY} \
 	--set global.storageClassName=${STORAGECLASSNAME} \
@@ -134,6 +160,31 @@ create-manager-manifest: create-temp-package
 	--set logReceiver.create=true --set logReceiver.type=Syslog \
 	--set logReceiver.persistence.storageClassName=${STORAGECLASSNAME} \
 	-f objectscale-manager/values.yaml >> ${TEMP_PACKAGE}/yaml/${MANAGER_MANIFEST}
+
+
+create-vsphere-templates: create-temp-package
+	helm template vsphere-plugin ./vsphere -n ${NAMESPACE} \
+	--set global.platform=VMware \
+	--set global.watchAllNamespaces=false \
+	--set global.registry=${REGISTRY} \
+	--set global.storageClassName=${STORAGECLASSNAME} \
+	--set image.tag=${OPERATOR_VERSION} \
+	--set logReceiver.create=true --set logReceiver.type=Syslog \
+	--set logReceiver.persistence.storageClassName=${STORAGECLASSNAME} \
+	-f objectscale-manager/values.yaml >> ${TEMP_PACKAGE}/yaml/${MANAGER_MANIFEST}
+
+create-graphql-templates: create-temp-package
+	helm template graphql ./graphql -n ${NAMESPACE} \
+	--set global.platform=VMware \
+	--set global.watchAllNamespaces=false \
+	--set global.registry=${REGISTRY} \
+	--set global.storageClassName=${STORAGECLASSNAME} \
+	--set image.tag=${OPERATOR_VERSION} \
+	--set logReceiver.create=true --set logReceiver.type=Syslog \
+	--set logReceiver.persistence.storageClassName=${STORAGECLASSNAME} \
+	-f objectscale-manager/values.yaml >> ${TEMP_PACKAGE}/yaml/${MANAGER_MANIFEST}
+
+create-manager-app-template:
 
 create-kahm-manifest: create-temp-package
 	helm template kahm ./kahm -n ${NAMESPACE} --set global.platform=VMware \

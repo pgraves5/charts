@@ -1,4 +1,3 @@
-{{- if or (eq .Values.global.platform "VMware") (eq .Values.global.platform "VMware-PKS") }}
 ---
 apiVersion: v1
 kind: Service
@@ -22,4 +21,3 @@ spec:
     app.kubernetes.io/name: objectscale-manager
     app.kubernetes.io/component: objectscale-vsphere-plugin
   ports: {{ toYaml .Values.vSpherePlugin.service.ports | nindent 6 }}
-{{- end }}
