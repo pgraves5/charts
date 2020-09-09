@@ -1,0 +1,93 @@
+---
+# Default values for ecs-flex.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+# These global settings relate to both the ECS Flex operator as well as the
+# Zookeeper Operator subchart
+global:
+  # Name of the target platform
+  # By setting this value all necessary resources for ecs-flex will be created and configured accordingly.
+  # Valid values are
+  # "VMware" - VMWare Persistent Services Platform
+  # "Vmware-PKS" - PKS platform with vSphere UI integration
+  # "Atlantic" - Project Atlantic Bare-Metal Kubernetes platform
+  # "Default" - All others
+  platform: Default
+
+  # Name of a Kubernetes secret with Docker credentials for the private registry
+  # registrySecret: ecs-flex-registry
+
+  # The private docker registry hosting containers for ECS Flex
+  registry: objectscale
+
+  # Default: true == Watch ALL namespaces
+  watchAllNamespaces: true
+
+tag: 0.33.0
+
+image:
+  repository: install-controller
+  pullPolicy: IfNotPresent
+
+vSpherePlugin:
+  enabled: false
+  image:
+    repository: ecs-flex-vsphere-plugin
+    # tag: stable
+    # pullPolicy: IfNotPresent
+  service:
+    # Type of Kubernetes service to create: ClusterIP, NodePort, or LoadBalancer
+    type: LoadBalancer
+
+    # Specify the service port configuration for the vSpherePlugin service
+    ports:
+      - name: http
+        port: 4443
+        targetPort: 4443
+        # nodePort:           # select specific node port for the connection
+
+    # loadBalancerIP:     # select specific load balancer IP of the connection
+    # externalHostnames:
+    #   - objectscale-vsp.example.com
+    # externalIPAddresses:
+    #   - 203.0.113.10
+    #   - 203.0.113.30
+    # externalIPv6Addresses:
+    #   - 2001:0db8:0000:0000:0000:0000:0000:0001
+
+  tls:
+    # Type of certificate signing: SelfSigned, KubernetesSigned, or ExternallySigned
+    certificateType: SelfSigned
+
+    certificate:
+      {}
+      # publicKey: < server side customer certificate>
+      # privateKey: <private key for server side cert>
+      # password: # cert password (optional)
+      # authority: |-  # (optional)
+    #   rootCA: xxxx
+    #   intermediateCA:      # provide the intermediate CA here (optional)
+
+    signingRequest:
+      # commonName:        # override common Name for this CSR.  Defaults to cluster.local FQDN.
+      # email: insertyouremail@example.com.local
+      names: # names used to sign this cert
+        country: USA
+        state: MA
+        locality: Hopkinton
+        organization: Dell EMC
+        organizationalUnit: ObjectScale
+      keyAlgorithm: RSA       # algorithm use to generate the key (ex. RSA, ECDSA)
+      keySize: 2048           # size of the key in bits (ex. 2048, 4096, 8192)
+
+graphql:
+  image:
+    repository: ecs-flex-graphql
+    # tag: stable
+    # pullPolicy: IfNotPresent
+  withPlayground: false
+  port: 8080
+  serviceName: objectscale-graphql
+  service:
+    type: ClusterIP

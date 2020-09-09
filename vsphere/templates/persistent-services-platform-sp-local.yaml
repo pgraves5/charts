@@ -1,4 +1,3 @@
-{{- if (eq .Values.global.platform "VMware") }}
 ---
 apiVersion: appplatform.wcp.vmware.com/v1beta1
 kind: StoragePolicy
@@ -13,4 +12,3 @@ spec:
     VSAN.hostFailuresToTolerate: "0"
     VSAN.locality: "HostLocal"
     VSAN.stripeWidth: "1"
-{{- end }}
