@@ -137,7 +137,9 @@ create-helm-controller-templates: create-temp-package
 	-f helm-controller/values.yaml >> ${TEMP_PACKAGE}/yaml/${MANAGER_MANIFEST}
 
 create-manager-app: create-temp-package
-	helm template manager ./objectscale-manager -n ${NAMESPACE} \
+	# cd in makefiles spawns a subshell, so continue the command with ; \
+	cd objectscale-manager; \
+	helm template --show-only templates/objectscale-manager-app.yaml objectscale-manager ../objectscale-manager/  -n ${NAMESPACE} \
 	--set sonobuoy.enabled=false \
 	--set installcontroller.enabled=false \
 	--set graphql.enabled=false \
@@ -147,7 +149,9 @@ create-manager-app: create-temp-package
 	--set image.tag=${OPERATOR_VERSION} \
 	--set logReceiver.create=true --set logReceiver.type=Syslog \
 	--set logReceiver.persistence.storageClassName=${STORAGECLASSNAME} \
-	-f objectscale-manager/values.yaml
+	-f values.yaml > objectscale-manager-app.yaml; \
+	 sed -i 's/createApplicationResource\\":true/createApplicationResource\\":false/g' objectscale-manager-app.yaml
+	 cat objectscale-manager/objectscale-manager-app.yaml >> ${TEMP_PACKAGE}/yaml/${MANAGER_MANIFEST}
 
 create-manager-templates: create-temp-package create-vsphere-templates create-helm-controller-templates
 	helm template objectscale-manager ./objectscale-manager -n ${NAMESPACE} \
