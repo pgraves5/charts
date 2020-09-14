@@ -23,6 +23,8 @@ global:
 
   # Default: true == Watch ALL namespaces
   watchAllNamespaces: true
+  # watchNamespace allows setting a specific watch while installing with cluster scope
+  #watchNamespace:
 
 tag: 0.33.0
 

@@ -27,7 +27,7 @@ kind: Role
   {{- end }}
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: install-controller
+  name: {{ .Release.Namespace }}-install-controller
   {{- if ne .Values.global.watchAllNamespaces true }}
   namespace: {{ .Release.Namespace }}
   {{- end }}
@@ -172,8 +172,8 @@ kind: RoleBinding
   {{- end }}
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: service-account-install-controller
-  {{- if ne .Values.global.watchAllNamespaces true }}
+  name: {{ .Release.Namespace }}-install-controller-service-account
+  {{- if eq .Values.global.watchAllNamespaces false }}
   namespace: {{ .Release.Namespace }}
   {{- end }}
   labels:
@@ -197,5 +197,5 @@ roleRef:
   {{- else }}
   kind: Role
   {{- end }}
-  name: install-controller
+  name: install-controller-{{ .Release.Namespace }}
   apiGroup: rbac.authorization.k8s.io

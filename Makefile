@@ -136,6 +136,7 @@ create-helm-controller-templates: create-temp-package
 	--set image.tag=${OPERATOR_VERSION} \
 	--set logReceiver.create=true --set logReceiver.type=Syslog \
 	--set logReceiver.persistence.storageClassName=${STORAGECLASSNAME} \
+	--set global.watchNamespace=${NAMESPACE} \
 	-f helm-controller/values.yaml >> ${TEMP_PACKAGE}/yaml/${MANAGER_MANIFEST}
 
 create-manager-app: create-temp-package
@@ -152,7 +153,7 @@ create-manager-app: create-temp-package
 	-f values.yaml > objectscale-manager-app.yaml; \
 	 sed -i 's/createApplicationResource\\":true/createApplicationResource\\":false/g' objectscale-manager-app.yaml && \
 	 sed -i 's/app.kubernetes.io\/managed-by: Helm/app.kubernetes.io\/managed-by: nautilus/g' objectscale-manager-app.yaml
-	 cat objectscale-manager/objectscale-manager-app.yaml >> ${TEMP_PACKAGE}/yaml/${MANAGER_MANIFEST}
+	 cat objectscale-manager/objectscale-manager-app.yaml >> ${TEMP_PACKAGE}/yaml/${MANAGER_MANIFEST} && rm objectscale-manager/objectscale-manager-app.yaml
 
 create-manager-templates: create-temp-package create-vsphere-templates create-helm-controller-templates
 	helm template objectscale-manager ./objectscale-manager -n ${NAMESPACE} \
