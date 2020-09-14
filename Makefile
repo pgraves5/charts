@@ -133,7 +133,8 @@ create-helm-controller-templates: create-temp-package
 	--set global.watchAllNamespaces=true \
 	--set global.registry=${REGISTRY} \
 	--set image.tag=${OPERATOR_VERSION} \
-	--set grahql.enabled=true \
+	--set graphql.enabled=true \
+	--set global.watchNamespace=${NAMESPACE} \
 	-f helm-controller/values.yaml >> ${TEMP_PACKAGE}/yaml/${MANAGER_MANIFEST}
 
 create-manager-app: create-temp-package
@@ -150,7 +151,7 @@ create-manager-app: create-temp-package
 	-f values.yaml > objectscale-manager-app.yaml; \
 	 sed -i 's/createApplicationResource\\":true/createApplicationResource\\":false/g' objectscale-manager-app.yaml && \
 	 sed -i 's/app.kubernetes.io\/managed-by: Helm/app.kubernetes.io\/managed-by: nautilus/g' objectscale-manager-app.yaml
-	 cat objectscale-manager/objectscale-manager-app.yaml >> ${TEMP_PACKAGE}/yaml/${MANAGER_MANIFEST}
+	 cat objectscale-manager/objectscale-manager-app.yaml >> ${TEMP_PACKAGE}/yaml/${MANAGER_MANIFEST} && rm objectscale-manager/objectscale-manager-app.yaml
 
 create-manager-templates: create-temp-package create-vsphere-templates create-helm-controller-templates
 	helm template objectscale-manager ./objectscale-manager -n ${NAMESPACE} \

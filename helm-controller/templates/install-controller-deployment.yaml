@@ -44,7 +44,7 @@ spec:
               value: objectscale-operator
             - name: WATCH_NAMESPACE
               {{- if eq .Values.global.watchAllNamespaces true}}
-              value: ""
+              value: {{ .Values.global.watchNamespace | default "" }}
               {{- else }}
               valueFrom:
                 fieldRef:
