@@ -30,3 +30,22 @@ Create chart name and version as used by the chart label.
 {{- define "supportassist.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
+
+{{/*
+Common labels
+*/}}
+{{- define "supportassist.labels" -}}
+  app.kubernetes.io/name: {{ include "supportassist.name" . }}
+app.kubernetes.io/instance: {{ .Release.Name }}
+app.kubernetes.io/managed-by: {{ .Release.Service }}
+app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+helm.sh/chart: {{ include "supportassist.chart" . }}
+app: supportassist-{{.Values.product}}
+name: supportassist-{{.Values.product}}
+product: {{.Values.product}}
+release: {{.Release.Name}}
+{{- range $key, $value := .Values.global.labels }}
+{{ $key }}: {{ $value | quote }}
+{{- end }}
+{{- end -}}
+
