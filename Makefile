@@ -15,6 +15,7 @@ DECKS_MANIFEST   := decks.yaml
 PACKAGE_NAME     := objectscale-charts-package.tgz
 NAMESPACE         = dellemc-objectscale-system
 TEMP_PACKAGE     := temp_package/${NAMESPACE}
+SERVICE_ID        = objectscale
 REGISTRY          = objectscale
 DECKS_REGISTRY    = objectscale
 KAHM_REGISTRY     = objectscale
@@ -121,7 +122,7 @@ combine-crds:
 	rm -rf ${TEMP_PACKAGE}/crds
 
 create-vmware-package:
-	./vmware/vmware_pack.sh ${NAMESPACE}
+	./vmware/vmware_pack.sh ${NAMESPACE} ${SERVICE_ID}
 
 create-manifests: create-vsphere-install create-kahm-manifest create-decks-manifest create-manager-app create-deploy-script
 
@@ -139,7 +140,7 @@ create-helm-controller-templates: create-temp-package
 	-f helm-controller/values.yaml >> ${TEMP_PACKAGE}/yaml/${MANAGER_MANIFEST}
 
 create-manager-app: create-temp-package
-	# cd in makefiles spawns a subshell, so continue the command with ; \
+	# cd in makefiles spawns a subshell, so continue the command with ;
 	cd objectscale-manager; \
 	helm template --show-only templates/objectscale-manager-app.yaml objectscale-manager ../objectscale-manager/  -n ${NAMESPACE} \
 	--set sonobuoy.enabled=false \
@@ -149,10 +150,10 @@ create-manager-app: create-temp-package
 	--set global.registry=${REGISTRY} \
 	--set global.storageClassName=${STORAGECLASSNAME} \
 	--set image.tag=${OPERATOR_VERSION} \
-	-f values.yaml > objectscale-manager-app.yaml; \
-	 sed -i 's/createApplicationResource\\":true/createApplicationResource\\":false/g' objectscale-manager-app.yaml && \
-	 sed -i 's/app.kubernetes.io\/managed-by: Helm/app.kubernetes.io\/managed-by: nautilus/g' objectscale-manager-app.yaml
-	 cat objectscale-manager/objectscale-manager-app.yaml >> ${TEMP_PACKAGE}/yaml/${MANAGER_MANIFEST}
+	-f values.yaml > ${TEMP_PACKAGE}/yaml/objectscale-manager-app.yaml; \
+	 sed -i 's/createApplicationResource\\":true/createApplicationResource\\":false/g' ${TEMP_PACKAGE}/yaml/objectscale-manager-app.yaml && \
+	 sed -i 's/app.kubernetes.io\/managed-by: Helm/app.kubernetes.io\/managed-by: nautilus/g' ${TEMP_PACKAGE}/yaml/objectscale-manager-app.yaml
+	 cat ${TEMP_PACKAGE}/yaml/objectscale-manager-app.yaml >> ${TEMP_PACKAGE}/yaml/${MANAGER_MANIFEST}
 
 create-manager-templates: create-temp-package create-vsphere-templates create-helm-controller-templates
 	helm template objectscale-manager ./objectscale-manager -n ${NAMESPACE} \
