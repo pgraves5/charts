@@ -1,18 +1,11 @@
 ---
-apiVersion: "decks.ecs.dellemc.com/v1beta1"
+apiVersion: decks.ecs.dellemc.com/v1beta1
 kind: SupportAssist
 metadata:
   name: supportassist-{{required "product must be specified" .Values.product}}
   namespace: {{.Release.namespace}}
   labels:
-    app.kubernetes.io/name: {{ .Release.Name }}
-    app.kubernetes.io/instance: {{ .Release.Name }}
-    app.kubernetes.io/managed-by: {{ .Release.Service }}
-    app.kubernetes.io/version: {{.Chart.AppVersion}}
-    app.kubernetes.io/part-of: {{.Release.Name}}
-    helm.sh/chart: {{.Chart.Name}}-{{.Chart.Version | replace "+" "_"}}
-    product: {{.Values.product}}
-    release: {{.Release.Name}}
+{{ include "supportassist.labels" . | indent 4 }}
 spec:
   productName: {{.Values.product}}
   productType: dell.enterprise.storage.{{.Values.product}}
