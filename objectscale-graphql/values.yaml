@@ -52,7 +52,7 @@ logReceiver:
   # Elasticsearch, the administrator is expected to create the cluster, and then
   # provide connectivity details in the "logReceiver" configuration block below.
   #
-  type: Syslog
+  type:
 
   # User login will be used by fluentd to connect to the elastic search.
   # user: elastic
@@ -78,4 +78,3 @@ fluentbitAgent:
     repository: fluent-bit
     tag: 0.28.0
     # pullPolicy: IfNotPresent
-
