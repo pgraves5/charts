@@ -5,7 +5,8 @@ metadata:
   name: supportassist-{{required "product must be specified" .Values.product}}-default-properties
   namespace: {{.Release.namespace}}
   labels:
-    release: supportassist-{{.Values.product}}
+{{ include "supportassist.labels" . | indent 4 }}
+# yamllint disable-rule:colons
 data:
   DefaultProperties.json: |
     # ESE Static configuration. It is simple JSON, but
@@ -30,8 +31,8 @@ data:
         "usingBuiltinConfig": false,
         "remoteConfig": {},
         "gatewayEndpoints": [],
-        "productFrontendUri": "http://localhost:8087",
-        # Could also be HTTPS: "productFrontendUri": "https://localhost:8447",
+        "productFrontendUri": "http://supportassist-{{.Values.product}}.{{.Release.Namespace}}.svc.cluster.local:8087",
+        # Could also be HTTPS: "productFrontendUri": "https://supportassist-{{.Values.product}}.{{.Release.Namespace}}.svc.cluster.local:8447",
         "productFrontendPrefix": "{{.Values.product}}",
         "productFrontendType": "webrest",
         "contractVersion": "1.0",
@@ -46,8 +47,7 @@ metadata:
   name: supportassist-{{.Values.product}}
   namespace: {{.Release.namespace}}
   labels:
-    app: supportassist-{{.Values.product}}
-    release: supportassist-{{.Values.product}}
+{{ include "supportassist.labels" . | indent 4 }}
 spec:
   type: LoadBalancer
   ports:
@@ -68,8 +68,7 @@ metadata:
   name: supportassist-{{.Values.product}}-headless
   namespace: {{.Release.namespace}}
   labels:
-    app: supportassist-{{.Values.product}}-headless
-    release: supportassist-{{.Values.product}}
+{{ include "supportassist.labels" . | indent 4 }}
 spec:
   clusterIP: None
   ports:
@@ -90,7 +89,7 @@ metadata:
   name: supportassist-{{.Values.product}}
   namespace: {{.Release.namespace}}
   labels:
-    release: supportassist-{{.Values.product}}
+{{ include "supportassist.labels" . | indent 4 }}
 spec:
   serviceName: supportassist-{{.Values.product}}-headless
   podManagementPolicy: Parallel
@@ -103,26 +102,11 @@ spec:
       name: supportassist-{{.Values.product}}
       namespace: {{.Release.namespace}}
       labels:
-        name: supportassist-{{.Values.product}}
-        release: supportassist-{{.Values.product}}
-        app: supportassist-{{.Values.product}}
+{{ include "supportassist.labels" . | indent 8 }}
     spec:
-      # option 1: change permission so that ese process can access the persistent volume
-      # securityContext:
-      #   runAsUser: 1000
-      #   runAsGroup: 3000
-      #   fsGroup: 2000
-      # option 2
-      initContainers:
-      - name: ese-data-permission-fix
-        image: busybox
-        command: ["/bin/chmod", "-R", "777", "/opt/ese/var"]
-        volumeMounts:
-        - name: supportassist-{{.Values.product}}-persistentdata
-          mountPath: /opt/ese/var
       containers:
       - name: supportassist-{{.Values.product}}
-          # image: asdrepo.isus.emc.com:9042/dell-supportassist-ese:2.0.3
+        # image: <docker_registry>/dell-supportassist-ese:2.0.3
         image: {{.Values.global.registry}}/{{.Values.image.repository}}:{{default .Values.image.tag .Values.tag}}
         imagePullPolicy: {{default .Values.image.pullPolicy .Values.pullPolicy}}
         command: ["/opt/ese/bin/entrypoint.sh"]
@@ -140,6 +124,8 @@ spec:
             mountPath: /opt/ese/etc/DefaultProperties.json
             subPath: DefaultProperties.json
         env:
+        - name: ESE_USER
+          value: "eseservice"
         - name: REGISTRY_SECRET
           value: dockerhub-registry-secret
       volumes:
@@ -148,11 +134,10 @@ spec:
           name: supportassist-{{.Values.product}}-default-properties
   volumeClaimTemplates:
     - metadata:
-        labels:
-          release: supportassist-{{.Values.product}}
-          app: supportassist-{{.Values.product}}
         name: supportassist-{{.Values.product}}-persistentdata
         namespace: {{.Release.namespace}}
+        labels:
+{{ include "supportassist.labels" . | indent 10 }}
       spec:
         {{- if .Values.global.storageClassName}}
         storageClassName: {{.Values.global.storageClassName}}
