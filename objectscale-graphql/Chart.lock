@@ -1,0 +1,6 @@
+dependencies:
+- name: helm-controller
+  repository: file://../helm-controller
+  version: 0.33.0
+digest: sha256:05ddbb873f82245627fc547ee218cc2415d797c64a98b7ab96474bef1818239d
+generated: "2020-09-15T09:20:00.481952171-04:00"

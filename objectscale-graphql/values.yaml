@@ -78,3 +78,6 @@ fluentbitAgent:
     repository: fluent-bit
     tag: 0.28.0
     # pullPolicy: IfNotPresent
+
+helmController:
+  enabled: true
