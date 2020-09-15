@@ -18,6 +18,8 @@ spec:
   componentKinds:
     - group: apps
       kind: StatefulSet
+    - group: apps
+      kind: Deployment
     - group: core
       kind: Secrets
     - group: core
