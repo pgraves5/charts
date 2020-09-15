@@ -39,15 +39,6 @@ zookeeper:
 atlas:
   enabled: true
 
-vSpherePlugin:
-  enabled: false
-
-installcontroller:
-  enabled: true
-
-graphql:
-  enabled: true
-
 sonobuoy:
   enabled: true
 

@@ -133,9 +133,6 @@ create-manager-app: create-temp-package
 	cd objectscale-manager; \
 	helm template --show-only templates/objectscale-manager-app.yaml objectscale-manager ../objectscale-manager  -n ${NAMESPACE} \
 	--set sonobuoy.enabled=false \
-	--set installController.enabled=false \
-	--set graphql.enabled=false \
-	--set vSpherePlugin.enabled=false \
 	--set global.watchAllNamespaces=false \
 	--set global.registry=${REGISTRY} \
 	--set global.storageClassName=${STORAGECLASSNAME} \
@@ -143,7 +140,7 @@ create-manager-app: create-temp-package
 	-f values.yaml > ../${TEMP_PACKAGE}/yaml/objectscale-manager-app.yaml;
 	sed -i 's/createApplicationResource\\":true/createApplicationResource\\":false/g' ${TEMP_PACKAGE}/yaml/objectscale-manager-app.yaml && \
 	sed -i 's/app.kubernetes.io\/managed-by: Helm/app.kubernetes.io\/managed-by: nautilus/g' ${TEMP_PACKAGE}/yaml/objectscale-manager-app.yaml
-	cat ${TEMP_PACKAGE}/yaml/objectscale-manager-app.yaml >> ${TEMP_PACKAGE}/yaml/${MANAGER_MANIFEST}
+	cat ${TEMP_PACKAGE}/yaml/objectscale-manager-app.yaml >> ${TEMP_PACKAGE}/yaml/${MANAGER_MANIFEST} && rm ${TEMP_PACKAGE}/yaml/objectscale-manager-app.yaml
 
 create-vsphere-templates: create-temp-package
 	helm template vsphere-plugin ./objectscale-vsphere -n ${NAMESPACE} \

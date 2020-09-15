@@ -29,6 +29,6 @@ tag: 0.33.0
 pullPolicy: IfNotPresent
 
 image:
-  repository: ecs-flex-graphql
+  repository: install-controller
   # tag: stable
   # pullPolicy: IfNotPresent
