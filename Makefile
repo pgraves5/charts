@@ -3,9 +3,9 @@ HELM_URL     := https://get.helm.sh
 HELM_TGZ      = helm-${HELM_VERSION}-linux-amd64.tar.gz
 YQ_VERSION   := 2.4.1
 YAMLLINT_VERSION := 1.20.0
-CHARTS := ecs-cluster objectscale-manager mongoose zookeeper-operator atlas-operator decks kahm srs-gateway dks-testapp fio-test sonobuoy dellemc-license service-pod objectscale-graphql helm-controller
+CHARTS := ecs-cluster objectscale-manager mongoose zookeeper-operator atlas-operator decks kahm srs-gateway dks-testapp fio-test sonobuoy dellemc-license service-pod objectscale-graphql helm-controller objectscale-vsphere
 DECKSCHARTS := decks kahm srs-gateway dks-testapp dellemc-license service-pod
-FLEXCHARTS := ecs-cluster objectscale-manager helm-controller
+FLEXCHARTS := ecs-cluster objectscale-manager objectscale-vsphere objectscale-graphql helm-controller
 MONITORING_DIR := monitoring
 
 # packaging
@@ -126,59 +126,31 @@ create-vmware-package:
 
 create-manifests: create-vsphere-install create-kahm-manifest create-decks-manifest create-manager-app create-deploy-script
 
-create-vsphere-install: create-vsphere-templates create-helm-controller-templates
-
-create-helm-controller-templates: create-temp-package
-	helm template helm-controller ./helm-controller -n ${NAMESPACE} \
-	--set global.platform=VMware \
-	--set global.watchAllNamespaces=true \
-	--set global.registry=${REGISTRY} \
-	--set image.tag=${OPERATOR_VERSION} \
-	--set graphql.enabled=true \
-	-f helm-controller/values.yaml >> ${TEMP_PACKAGE}/yaml/${MANAGER_MANIFEST}
+create-vsphere-install: create-vsphere-templates
 
 create-manager-app: create-temp-package
 	# cd in makefiles spawns a subshell, so continue the command with ;
 	cd objectscale-manager; \
-	helm template --show-only templates/objectscale-manager-app.yaml objectscale-manager ../objectscale-manager/  -n ${NAMESPACE} \
+	helm template --show-only templates/objectscale-manager-app.yaml objectscale-manager ../objectscale-manager  -n ${NAMESPACE} \
 	--set sonobuoy.enabled=false \
-	--set installcontroller.enabled=false \
-	--set graphql.enabled=false \
 	--set global.watchAllNamespaces=false \
 	--set global.registry=${REGISTRY} \
 	--set global.storageClassName=${STORAGECLASSNAME} \
 	--set image.tag=${OPERATOR_VERSION} \
-	-f values.yaml > ${TEMP_PACKAGE}/yaml/objectscale-manager-app.yaml; \
-	 sed -i 's/createApplicationResource\\":true/createApplicationResource\\":false/g' ${TEMP_PACKAGE}/yaml/objectscale-manager-app.yaml && \
-	 sed -i 's/app.kubernetes.io\/managed-by: Helm/app.kubernetes.io\/managed-by: nautilus/g' ${TEMP_PACKAGE}/yaml/objectscale-manager-app.yaml
-	 cat ${TEMP_PACKAGE}/yaml/objectscale-manager-app.yaml >> ${TEMP_PACKAGE}/yaml/${MANAGER_MANIFEST}
-
-create-manager-templates: create-temp-package create-vsphere-templates create-helm-controller-templates
-	helm template objectscale-manager ./objectscale-manager -n ${NAMESPACE} \
-    --set createApplicationResource=false \
-	--set installcontroller.enabled=false \
-	--set graphql.enabled=false \
-	--set global.platform=VMware --set global.watchAllNamespaces=false \
-	--set sonobuoy.enabled=false --set global.registry=${REGISTRY} \
-	--set global.storageClassName=${STORAGECLASSNAME} \
-	--set image.tag=${OPERATOR_VERSION} \
-	--set logReceiver.create=true --set logReceiver.type=Syslog \
-	--set logReceiver.persistence.storageClassName=${STORAGECLASSNAME} \
-	-f objectscale-manager/values.yaml >> ${TEMP_PACKAGE}/yaml/${MANAGER_MANIFEST}
-
+	-f values.yaml > ../${TEMP_PACKAGE}/yaml/objectscale-manager-app.yaml;
+	sed -i 's/createApplicationResource\\":true/createApplicationResource\\":false/g' ${TEMP_PACKAGE}/yaml/objectscale-manager-app.yaml && \
+	sed -i 's/app.kubernetes.io\/managed-by: Helm/app.kubernetes.io\/managed-by: nautilus/g' ${TEMP_PACKAGE}/yaml/objectscale-manager-app.yaml
+	cat ${TEMP_PACKAGE}/yaml/objectscale-manager-app.yaml >> ${TEMP_PACKAGE}/yaml/${MANAGER_MANIFEST} && rm ${TEMP_PACKAGE}/yaml/objectscale-manager-app.yaml
 
 create-vsphere-templates: create-temp-package
-	helm template vsphere-plugin ./vsphere -n ${NAMESPACE} \
+	helm template vsphere-plugin ./objectscale-vsphere -n ${NAMESPACE} \
 	--set global.platform=VMware \
 	--set global.watchAllNamespaces=false \
+        --set graphql.enabled=true \
 	--set global.registry=${REGISTRY} \
 	--set global.storageClassName=${STORAGECLASSNAME} \
 	--set image.tag=${OPERATOR_VERSION} \
-	--set logReceiver.create=true --set logReceiver.type=Syslog \
-	--set logReceiver.persistence.storageClassName=${STORAGECLASSNAME} \
-	-f objectscale-manager/values.yaml >> ${TEMP_PACKAGE}/yaml/${MANAGER_MANIFEST}
-
-create-manager-app-template:
+	-f objectscale-vsphere/values.yaml >> ${TEMP_PACKAGE}/yaml/${MANAGER_MANIFEST}
 
 create-kahm-manifest: create-temp-package
 	helm template kahm ./kahm -n ${NAMESPACE} --set global.platform=VMware \

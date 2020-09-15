@@ -13,7 +13,6 @@ global:
   # "Atlantic" - Project Atlantic Bare-Metal Kubernetes platform
   # "Default" - All others
   platform: Default
-  clusterResources: true
 
   # Name of a Kubernetes secret with Docker credentials for the private registry
   # registrySecret: ecs-flex-registry
@@ -78,3 +77,6 @@ fluentbitAgent:
     repository: fluent-bit
     tag: 0.28.0
     # pullPolicy: IfNotPresent
+
+helmController:
+  enabled: true
