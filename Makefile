@@ -133,7 +133,7 @@ create-helm-controller-templates: create-temp-package
 	--set global.watchAllNamespaces=true \
 	--set global.registry=${REGISTRY} \
 	--set image.tag=${OPERATOR_VERSION} \
-	--set grahql.enabled=true \
+	--set graphql.enabled=true \
 	-f helm-controller/values.yaml >> ${TEMP_PACKAGE}/yaml/${MANAGER_MANIFEST}
 
 create-manager-app: create-temp-package
