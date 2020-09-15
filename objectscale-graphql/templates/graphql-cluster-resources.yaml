@@ -2,13 +2,13 @@
 kind: ClusterRole
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: {{ .Release.Namespace }}-operator-cluster-resources
+  name: {{ .Release.Namespace }}-graphql-cluster-resources
   labels:
     app.kubernetes.io/name: objectscale-manager
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
     app.kubernetes.io/version: {{ .Chart.AppVersion }}
-    app.kubernetes.io/component: objectscale-operator
+    app.kubernetes.io/component: graphql-cluster-scoped-resources
     app.kubernetes.io/part-of: {{ .Release.Name }}
     helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
     release: {{ .Release.Name}}
@@ -49,17 +49,26 @@ rules:
       - clusterroles
     verbs:
       - "*"
+  - apiGroups:
+      - ""
+    resources:
+      - serviceaccounts
+      - secrets
+    verbs:
+      - get
+      - list
+
 ---
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: {{ .Release.Namespace }}-operator-cluster-resources
+  name: {{ .Release.Namespace }}-graphql-cluster-resources
   labels:
     app.kubernetes.io/name: objectscale-manager
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
     app.kubernetes.io/version: {{ .Chart.AppVersion }}
-    app.kubernetes.io/component: objectscale-operator
+    app.kubernetes.io/component: objectscale-graphql
     app.kubernetes.io/part-of: {{ .Release.Name }}
     helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
     release: {{ .Release.Name}}
@@ -67,9 +76,9 @@ metadata:
     product: objectscale
 subjects:
   - kind: ServiceAccount
-    name: objectscale-operator
+    name: objectscale-api
     namespace: {{ .Release.Namespace }}
 roleRef:
   kind: ClusterRole
-  name: {{ .Release.Namespace }}-operator-cluster-resources
+  name: {{ .Release.Namespace }}-graphql-cluster-resources
   apiGroup: rbac.authorization.k8s.io

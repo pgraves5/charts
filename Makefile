@@ -3,9 +3,9 @@ HELM_URL     := https://get.helm.sh
 HELM_TGZ      = helm-${HELM_VERSION}-linux-amd64.tar.gz
 YQ_VERSION   := 2.4.1
 YAMLLINT_VERSION := 1.20.0
-CHARTS := ecs-cluster objectscale-manager mongoose zookeeper-operator atlas-operator decks kahm srs-gateway dks-testapp fio-test sonobuoy dellemc-license service-pod
+CHARTS := ecs-cluster objectscale-manager mongoose zookeeper-operator atlas-operator decks kahm srs-gateway dks-testapp fio-test sonobuoy dellemc-license service-pod objectscale-graphql helm-controller
 DECKSCHARTS := decks kahm srs-gateway dks-testapp dellemc-license service-pod
-FLEXCHARTS := ecs-cluster objectscale-manager
+FLEXCHARTS := ecs-cluster objectscale-manager helm-controller
 MONITORING_DIR := monitoring
 
 # packaging
@@ -126,17 +126,15 @@ create-vmware-package:
 
 create-manifests: create-vsphere-install create-kahm-manifest create-decks-manifest create-manager-app create-deploy-script
 
-create-vsphere-install: create-vsphere-templates create-graphql-templates create-helm-controller-templates
+create-vsphere-install: create-vsphere-templates create-helm-controller-templates
 
 create-helm-controller-templates: create-temp-package
 	helm template helm-controller ./helm-controller -n ${NAMESPACE} \
 	--set global.platform=VMware \
 	--set global.watchAllNamespaces=true \
 	--set global.registry=${REGISTRY} \
-	--set global.storageClassName=${STORAGECLASSNAME} \
 	--set image.tag=${OPERATOR_VERSION} \
-	--set logReceiver.create=true --set logReceiver.type=Syslog \
-	--set logReceiver.persistence.storageClassName=${STORAGECLASSNAME} \
+	--set graphql.enabled=true \
 	-f helm-controller/values.yaml >> ${TEMP_PACKAGE}/yaml/${MANAGER_MANIFEST}
 
 create-manager-app: create-temp-package
@@ -159,7 +157,7 @@ create-manager-templates: create-temp-package create-vsphere-templates create-he
 	helm template objectscale-manager ./objectscale-manager -n ${NAMESPACE} \
     --set createApplicationResource=false \
 	--set installcontroller.enabled=false \
-	--set graphql.enabled=true \
+	--set graphql.enabled=false \
 	--set global.platform=VMware --set global.watchAllNamespaces=false \
 	--set sonobuoy.enabled=false --set global.registry=${REGISTRY} \
 	--set global.storageClassName=${STORAGECLASSNAME} \
@@ -171,17 +169,6 @@ create-manager-templates: create-temp-package create-vsphere-templates create-he
 
 create-vsphere-templates: create-temp-package
 	helm template vsphere-plugin ./vsphere -n ${NAMESPACE} \
-	--set global.platform=VMware \
-	--set global.watchAllNamespaces=false \
-	--set global.registry=${REGISTRY} \
-	--set global.storageClassName=${STORAGECLASSNAME} \
-	--set image.tag=${OPERATOR_VERSION} \
-	--set logReceiver.create=true --set logReceiver.type=Syslog \
-	--set logReceiver.persistence.storageClassName=${STORAGECLASSNAME} \
-	-f objectscale-manager/values.yaml >> ${TEMP_PACKAGE}/yaml/${MANAGER_MANIFEST}
-
-create-graphql-templates: create-temp-package
-	helm template graphql ./graphql -n ${NAMESPACE} \
 	--set global.platform=VMware \
 	--set global.watchAllNamespaces=false \
 	--set global.registry=${REGISTRY} \

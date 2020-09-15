@@ -1,0 +1,6 @@
+dependencies:
+- name: objectscale-graphql
+  repository: file://../objectscale-graphql
+  version: 0.33.0
+digest: sha256:121e7e205f7673c7b5138bdac84922f0a200750570d90b0f0d5ffa131c4db59a
+generated: "2020-09-14T18:31:58.460942755-04:00"
