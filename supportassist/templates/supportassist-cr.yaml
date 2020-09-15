@@ -28,3 +28,9 @@ spec:
   gateways:
   {{toYaml .Values.gateways | indent 2 | trim }}
   {{- end }}
+status:
+  state: "Configuring"
+  statusMessage: "Configuring SupportAssist for {{.Values.product}}"
+  serialNumber: "None"
+  lastConnected: "Never"
+  lastUpdated: {{ dateInZone "20060102150405" (now) "UTC" }}
