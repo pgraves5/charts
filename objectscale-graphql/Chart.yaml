@@ -25,4 +25,3 @@ dependencies:
     version: 0.33.0
     repository: file://../helm-controller
     condition: helmController.enabled
-

@@ -10,7 +10,7 @@ maintainers:
     url: https://dellemc.com
 
 dependencies:
-  - name: objectscale-graphql 
+  - name: objectscale-graphql
     version: 0.33.0
     repository: file://../objectscale-graphql
     condition: graphql.enabled

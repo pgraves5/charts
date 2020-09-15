@@ -23,9 +23,6 @@ global:
   # Default: true == Watch ALL namespaces
   watchAllNamespaces: true
 
-graphql:
-  enabled: true
-
 # The default docker tag and pull policy for objectscale-vsphere and other containers
 tag: 0.33.0
 pullPolicy: IfNotPresent
@@ -40,6 +37,7 @@ decks:
       name: decks-support-store
       port: 7443
 graphql:
+  enabled: true
   port: 8080
   serviceName: objectscale-graphql
 
