@@ -304,69 +304,6 @@ control:
     # tag: stable
     # pullPolicy: IfNotPresent
 
-# The ECS telegraf configuration specification
-telegraf:
-  # Override the number of telegraf replicas to run with the the deployment
-  # replicas: 1
-
-  # Docker repository to be used for telegraf instances
-  image:
-    repository: telegraf
-    # tag: latest
-    # pullPolicy: IfNotPresent
-
-# The ECS Grafana configuration specification
-grafana:
-  # Override the number of Grafana replicas to run with the the deployment
-  # replicas: 1
-
-  # Docker repository to be used for Grafana instances
-  image:
-    repository: grafana
-    # tag: latest
-    # pullPolicy: IfNotPresent
-  service:
-    type: LoadBalancer
-    ports:
-      - port: 3000
-        name: grafana-port
-
-# The ECS fluxd configuration specification
-fluxd:
-  # Override the number of FluxD replicas to run with the the deployment
-  # replicas: 1
-
-  # Docker repository to be used for FluxD instances
-  image:
-    repository: fluxd
-    # tag: latest
-    # pullPolicy: IfNotPresent
-
-# The ECS throttler configuration specification
-throttler:
-  # Override the number of throttler replicas to run with the the deployment
-  # replicas: 1
-
-  # Docker repository to be used for throttler instances
-  image:
-    repository: throttler
-    # tag: latest
-    # pullPolicy: IfNotPresent
-
-influxdb:
-  # Override the number of influxdb replicas to run with the the deployment
-  replicas: 1
-
-  persistence:
-    volumesCount: 1
-    size: 32GB
-
-  # Docker repository to be used for influxdb instances
-  image:
-    repository: influxdb
-    # tag: latest
-    # pullPolicy: IfNotPresent
-
 # The managementGateway configuration specification
 managementGateway:
   # Override the number of managementGateway replicas to run with the the deployment

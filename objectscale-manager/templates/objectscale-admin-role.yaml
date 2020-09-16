@@ -94,12 +94,6 @@ rules:
   verbs:
   - "*"
 - apiGroups:
-  - influxdata.com
-  resources:
-  - influxdbs
-  verbs:
-  - "*"
-- apiGroups:
     - metrics.k8s.io
   resources:
     - "*"

@@ -116,12 +116,6 @@ rules:
   - "*"
   verbs:
   - "*"
-- apiGroups:
-  - influxdata.com
-  resources:
-  - influxdbs
-  verbs:
-  - "*"
 ---
 {{- if eq .Values.global.watchAllNamespaces true }}
 kind: ClusterRoleBinding

@@ -47,12 +47,6 @@ spec:
       kind: ServiceAccount
     - group: ecs.dellemc.com
       kind: ECSCluster
-    - group: influxdata.com
-      kind: Influxdb
-    - group: influxdata.com
-      kind: Backup
-    - group: influxdata.com
-      kind: Restore
     - group: batch
       kind: Job
     - group: batch
