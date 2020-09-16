@@ -15,14 +15,14 @@ global:
 tag: 2.0.3
 pullPolicy: Always
 
-# The number of replicas for the SupportAssist ESE deployment
-replicaCount: 1
-
 # The image configured for dell-ese
 image:
   repository: dell-supportassist-ese
   tag: 2.0.3
   # pullPolicy: Always
+
+# Create app resource thru helm
+createSupportAssistAppResource: true
 
 # We usually recommend not to specify default resources and to leave this as a
 # conscious choice for the user. This also increases chances charts run on
