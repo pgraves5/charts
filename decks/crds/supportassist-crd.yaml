@@ -11,5 +11,13 @@ spec:
     plural: supportassists
     singular: supportassist
   scope: Namespaced
-  version: v1beta1
+  versions:
+    - name: v1beta1
+      served: true
+      storage: true
+  additionalPrinterColumns:
+  - name: PHASE
+    type: string
+    description: The current phase of SupportAssist
+    JSONPath: .status.phase
   
