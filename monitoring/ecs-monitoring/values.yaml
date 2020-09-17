@@ -22,6 +22,8 @@ global:
   # communication_scheme defined separately from tls_enabled as found no way to make conditional set in values.yaml
   communication_scheme: http
   internal_dns: kube-dns.kube-system.svc.cluster.local
+  rsyslog_enabled: false
+  performanceProfile: Large
 
 objectscale_release_name: "objectscale"
 objectscale_namespace: "objectscale"
