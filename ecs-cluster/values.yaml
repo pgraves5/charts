@@ -55,9 +55,9 @@ features:
   enableAdvancedStatistics: true
 
   # Object type defines which service will be used: Blob service or Object service.
-  # Values: BLOBSVC or OBJECTSVC
+  # Values: blobSVC or objectSVC
   # NOTE: If CRR is enabled then Object service will be used forcibly
-  objectType: BLOBSVC
+  objectType: blobSVC
 
 #
 # ECS Service Configuration
