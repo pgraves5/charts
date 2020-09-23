@@ -698,3 +698,5 @@ spec:
   enableAdvancedStatistics: {{ .Values.features.enableAdvancedStatistics }}
 
   objectType: {{ .Values.features.objectType }}
+
+  deploymentDeadlineSeconds: {{ .Values.deploymentDeadlineSeconds }}
