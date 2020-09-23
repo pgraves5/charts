@@ -137,6 +137,32 @@ telegraf:
           # host and node_id are removed because CQs from several nodes can write same data (even if not simultaneously)
           tagexclude: ["host", "node_id", "vdc", "storage_pool", "cluster", "release_name"]
           namepass: ["cq_*"]
+      - influxdb:
+          insecure_skip_verify: true
+          skip_database_creation: true
+          timeout: "30s"
+          database: "monitoring_op"
+          retention_policy: "default"
+          tagexclude: ["vdc", "storage_pool", "cluster", "release_name"]
+          fielddrop: ["*Timestamp"]
+          namepass:
+            - "segmentstore_stream_write_bytes"
+            - "segmentstore_stream_read_bytes"
+            - "segmentstore_storage_write_bytes"
+            - "segmentstore_storage_read_bytes"
+            - "pravega_segmentstore_segment_write_latency_ms_percentile"
+            - "pravega_segmentstore_segment_read_latency_ms_percentile"
+            - "pravega_segmentstore_storage_write_latency_ms_percentile"
+            - "pravega_segmentstore_storage_read_latency_ms_percentile"
+            - "segmentstore_stream_write_bytes"
+            - "segmentstore_stream_read_bytes"
+            - "segmentstore_stream_write_events"
+            - "segmentstore_stream_read_events"
+            - "pravega_controller_stream_created_latency_ms"
+            - "pravega_controller_stream_deleted_latency_ms"
+            - "pravega_controller_stream_truncated_latency_ms"
+            - "pravega_segmentstore_bookkeeper_write_latency_ms_percentile"
+            - "pravega_segmentstore_container_operation_processor_delay_ms"
     inputs:
       # Influx HTTP write listener
       - influxdb_listener:
