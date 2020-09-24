@@ -1,0 +1,11 @@
+apiVersion: atlas.dellemc.com/v1beta1
+kind: AtlasCluster
+metadata:
+  name: {{ .Release.Name }}-iam-atlas
+spec:
+  # Add fields here
+  replicas: 1
+  image:
+    repository: "asdrepo.isus.emc.com:8099/atlas"
+    tag: "v1.1.1"
+    pullPolicy: "Always"

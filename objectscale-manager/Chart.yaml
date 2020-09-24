@@ -26,6 +26,10 @@ dependencies:
     version: x.x
     condition: global.monitoring.enabled
     repository: file://../monitoring/objectscale-monitoring
+  - name: iam
+    version: 0.1.0
+    repository: file://../iam
+    condition: atlas.enabled
 ###
 ### OBSDEF-2983 needs to address incorporating into subcharts
 #  - name: pravega-operator
