@@ -5,13 +5,13 @@ metadata:
 spec:
   # Add fields here
   #replicas: 1
-  replicas: {{ .Values.atlas.replicaCount }}
+  replicas: {{ .Values.global.iam.atlas.replicaCount }}
   image:
     #repository: "asdrepo.isus.emc.com:8099/atlas"
-    repository:  {{ .Values.global.iamregistry }}/{{ .Values.atlas.image.repository }}
+    repository:  {{ .Values.global.iam.registry }}/{{ .Values.atlas.image.repository }}
     tag: {{ .Values.atlas.image.tag }}
     pullPolicy: {{ .Values.atlas.image.pullPolicy }}
-{{- if .Values.atlas.affinity }}
+{{- if .Values.global.iam.atlas.affinity }}
   # junk node affinity allows multiple atlas instances on the same node
   # - needed for replicaes=3 deployed on a single node(test only)
   pod:

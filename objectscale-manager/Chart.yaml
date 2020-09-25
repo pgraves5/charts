@@ -29,7 +29,7 @@ dependencies:
   - name: iam
     version: 0.1.0
     repository: file://../iam
-    condition: atlas.enabled
+    condition: iam.enabled
 ###
 ### OBSDEF-2983 needs to address incorporating into subcharts
 #  - name: pravega-operator

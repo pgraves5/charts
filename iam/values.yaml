@@ -4,7 +4,12 @@
 # Declare variables to be passed into your templates.
 global:
   # The private docker registry and organization hosting containers for Flex
-  iamregistry: emccorp
+  iam:
+    registry: emccorp
+    atlas:
+      replicaCount: 1
+      #set to true to allow replicaCount=3 on single node
+      affinity: false
 
 # The default docker tag and pull policy for iam.
 tag: 0.1.0
@@ -12,9 +17,6 @@ pullPolicy: IfNotPresent
 # product for which the service pod is required
 # product: objectscale
 atlas:
-  replicaCount: 1
-  #set to true to allow replicaCount=3 on single node
-  #affinity: true
   image:
     repository: atlas
     tag: v1.1.1
