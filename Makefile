@@ -46,18 +46,13 @@ decksver:
 		exit 1 ; \
 	fi
 
-	if [ -z $${DCHARTVER} ] ; then \
-		echo "Missing DCHARTVER= param" ; \
-		exit 1 ; \
-	fi
-
 	echo "looking for yq command"
 	which yq
 	echo "Found it"
 	for CHART in ${DECKSCHARTS}; do  \
 		echo "Setting version $$DECKSVER in $$CHART" ;\
 		yq w -i $$CHART/Chart.yaml appVersion $${DECKSVER} ; \
-		yq w -i $$CHART/Chart.yaml version $${DCHARTVER} ; \
+		yq w -i $$CHART/Chart.yaml version $${DECKSVER} ; \
 		echo "---\n`cat $$CHART/Chart.yaml`" > $$CHART/Chart.yaml ; \
 		sed -i -e "0,/^tag.*/s//tag: $${DECKSVER}/"  $$CHART/values.yaml; \
 	done ;
