@@ -691,7 +691,6 @@ spec:
 {{- else }}
       pullPolicy: {{ .Values.pullPolicy }}
 {{- end }}
-{{- end }}
 
   enableCRR: {{ .Values.features.enableCRR }}
 
@@ -700,3 +699,5 @@ spec:
   objectType: {{ .Values.features.objectType }}
 
   deploymentDeadlineSeconds: {{ .Values.deploymentDeadlineSeconds }}
+
+{{- end }}
