@@ -20,21 +20,20 @@ To enable iam on the install - include:
 ```
 
 
-The atlas registry port is 8099, the objectscale port is 8200.
-In order to find the iam images (including atlas) - include:
+You can specify a different repository for iam using:
 ```bash
-  --set global.iam.registry=asdrepo.isus.emc.com:8099
+  --set global.iam.registry=<repo>
 ```
 
 
 
-By default the iam number of replicas is set to 1.
-To increase the number of replicas use:
+By default the iam number of replicas is set to 3.
+To decrease the number of replicas use:
 ```bash
-  --set global.iam.atlas.replicaCount=3
+  --set global.iam.atlas.replicaCount=1
 ```
 
-If installing on single node with replicaCount=3, you will also need to set affinity:
+By default,atlas affinity is set to false. When installing on single a node with replicaCount=3, you will also need to set affinity:
 ```bash
   --set global.iam.atlas.affinity=true
 ```

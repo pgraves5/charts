@@ -7,7 +7,7 @@ global:
   iam:
     registry: emccorp
     atlas:
-      replicaCount: 1
+      replicaCount: 3
       #set to true to allow replicaCount=3 on single node
       affinity: false
 
