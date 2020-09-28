@@ -22,7 +22,7 @@ To enable iam on the install - include:
 
 You can specify a different repository for iam using:
 ```bash
-  --set global.iam.registry=<repo>
+  --set iam.atlas.registry=<repo>
 ```
 
 
@@ -30,12 +30,12 @@ You can specify a different repository for iam using:
 By default the iam number of replicas is set to 3.
 To decrease the number of replicas use:
 ```bash
-  --set global.iam.atlas.replicaCount=1
+  --set iam.atlas.replicaCount=1
 ```
 
 By default,atlas affinity is set to false. When installing on single a node with replicaCount=3, you will also need to set affinity:
 ```bash
-  --set global.iam.atlas.affinity=true
+  --set iam.atlas.affinity=true
 ```
 
 

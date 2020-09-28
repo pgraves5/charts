@@ -3,17 +3,22 @@ kind: AtlasCluster
 metadata:
   name: {{ .Release.Name }}-iam-atlas
 spec:
-  # Add fields here
-  #replicas: 1
-  replicas: {{ .Values.global.iam.atlas.replicaCount }}
+  replicas: {{ .Values.atlas.replicaCount }}
   image:
-    #repository: "asdrepo.isus.emc.com:8099/atlas"
-    repository:  {{ .Values.global.iam.registry }}/{{ .Values.atlas.image.repository }}
+    repository:  {{ .Values.atlas.registry }}/{{ .Values.atlas.image.repository }}
     tag: {{ .Values.atlas.image.tag }}
     pullPolicy: {{ .Values.atlas.image.pullPolicy }}
-{{- if .Values.global.iam.atlas.affinity }}
+    persistence:
+      spec:
+        {{- if .Values.global.storageClassName}}
+        storageClassName: {{.Values.global.storageClassName}}
+        {{- end }}
+        resources:
+          requests:
+            storage: {{ required "atlas.persistence.size is required" .Values.atlas.persistence.size }}
+{{- if .Values.atlas.affinity }}
   # junk node affinity allows multiple atlas instances on the same node
-  # - needed for replicaes=3 deployed on a single node(test only)
+  # - needed for 3 replicas deployed on a single node(test only)
   pod:
     affinity:
       nodeAffinity:
