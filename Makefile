@@ -140,7 +140,7 @@ create-manager-app: create-temp-package
 	--set global.monitoring_registry=${REGISTRY} \
 	--set ecs-monitoring.influxdb.persistence.storageClassName=${STORAGECLASSNAME} \
 	--set global.monitoring.enabled=false \
-	--set iam.enabled=false
+	--set iam.enabled=false \
 	--set global.monitoring.tag=${OPERATOR_VERSION} \
 	-f values.yaml > ../${TEMP_PACKAGE}/yaml/objectscale-manager-app.yaml;
 	sed -i 's/createApplicationResource\\":true/createApplicationResource\\":false/g' ${TEMP_PACKAGE}/yaml/objectscale-manager-app.yaml && \
