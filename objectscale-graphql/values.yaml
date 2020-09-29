@@ -28,7 +28,7 @@ objectStoreAvailableVersions:
   - 0.50.0
 
 # The default docker tag and pull policy for objectscale-graphql services
-tag: 0.50.0
+tag: 0.51.0
 pullPolicy: IfNotPresent
 
 image:
