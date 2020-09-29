@@ -42,6 +42,8 @@ atlas:
 sonobuoy:
   enabled: true
 
+iam:
+  enabled: false
 
 # Create an application resource for management  using Dell EMC common installer or other application-resource
 # controllers
