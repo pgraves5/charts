@@ -105,7 +105,7 @@ echomsg "$kctlVers"
 kubectl -n vmware-system-appplatform-operator-system get cm ${service_id} 2>/dev/null
 if [ $? -eq 0 ]
 then
-    echomsg "ObjectScale Plugin has already been deployed"
+    echomsg "ObjectScale Plugin \"${service_id}\" has already been deployed"
     echomsg "It must be disabled and removed before a new one can be applied"
     exit 1
 fi
