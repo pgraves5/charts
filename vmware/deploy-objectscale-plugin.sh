@@ -109,6 +109,20 @@ then
     exit 1
 fi
 
+service_port=`kubectl -n kube-system get svc kube-apiserver-authproxy-svc -o jsonpath='{.spec.ports[0].targetPort}'`
+if [ ${service_port} -ne 443 ]
+then
+    echomsg "The kube-apiserver-authproxy-svc is configured with incorrect port \"${service_port}\" and will be updated now"
+    kubectl -n kube-system patch svc kube-apiserver-authproxy-svc --type=json -p '[{"op":"replace", "path":"/spec/ports/0/targetPort", "value":443}]'
+    if [ $? -eq 0 ]
+    then
+        echomsg "Successfully updated the kube-apiserver-authproxy-svc targetPort to 443"
+    else
+        echomsg "Unable to update the targetPort of kube-apiserver-authproxy-svc to 443"
+        exit 1
+    fi
+fi
+
 ## Now check if the api groups have been added for VMware vSphere7 app platform:
 add_vsphere7_clusterrole_rules
 
