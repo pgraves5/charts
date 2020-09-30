@@ -4,7 +4,7 @@ HELM_TGZ      = helm-${HELM_VERSION}-linux-amd64.tar.gz
 YQ_VERSION   := 2.4.1
 YAMLLINT_VERSION := 1.20.0
 CHARTS := ecs-cluster objectscale-manager mongoose zookeeper-operator atlas-operator decks kahm srs-gateway dks-testapp fio-test sonobuoy dellemc-license service-pod objectscale-graphql helm-controller objectscale-vsphere iam
-DECKSCHARTS := decks kahm srs-gateway dks-testapp dellemc-license service-pod
+DECKSCHARTS := decks kahm supportassist
 FLEXCHARTS := ecs-cluster objectscale-manager objectscale-vsphere objectscale-graphql helm-controller
 MONITORING_DIR := monitoring
 
@@ -20,7 +20,7 @@ REGISTRY          = objectscale
 DECKS_REGISTRY    = objectscale
 KAHM_REGISTRY     = objectscale
 STORAGECLASSNAME  = dellemc-objectscale-highly-available
-OPERATOR_VERSION  = 0.50.0
+OPERATOR_VERSION  = 0.51.0
 
 clean: clean-package
 
@@ -49,18 +49,13 @@ decksver:
 		exit 1 ; \
 	fi
 
-	if [ -z $${DCHARTVER} ] ; then \
-		echo "Missing DCHARTVER= param" ; \
-		exit 1 ; \
-	fi
-
 	echo "looking for yq command"
 	which yq
 	echo "Found it"
 	for CHART in ${DECKSCHARTS}; do  \
 		echo "Setting version $$DECKSVER in $$CHART" ;\
 		yq w -i $$CHART/Chart.yaml appVersion $${DECKSVER} ; \
-		yq w -i $$CHART/Chart.yaml version $${DCHARTVER} ; \
+		yq w -i $$CHART/Chart.yaml version $${DECKSVER} ; \
 		echo "---\n`cat $$CHART/Chart.yaml`" > $$CHART/Chart.yaml ; \
 		sed -i -e "0,/^tag.*/s//tag: $${DECKSVER}/"  $$CHART/values.yaml; \
 	done ;
@@ -145,6 +140,7 @@ create-manager-app: create-temp-package
 	--set global.monitoring_registry=${REGISTRY} \
 	--set ecs-monitoring.influxdb.persistence.storageClassName=${STORAGECLASSNAME} \
 	--set global.monitoring.enabled=false \
+	--set iam.enabled=false \
 	--set global.monitoring.tag=${OPERATOR_VERSION} \
 	-f values.yaml > ../${TEMP_PACKAGE}/yaml/objectscale-manager-app.yaml;
 	sed -i 's/createApplicationResource\\":true/createApplicationResource\\":false/g' ${TEMP_PACKAGE}/yaml/objectscale-manager-app.yaml && \
