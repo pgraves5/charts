@@ -8,6 +8,7 @@
 ## terms and conditions of the License Agreement under which it is provided by or
 ## on behalf of Dell Inc. or its subsidiaries.
 
+service_id="SERVICE_ID"
 
 echomsg () {
 
@@ -101,10 +102,10 @@ fi
 kctlVers=$(cat /tmp/kubectl_version.txt)
 echomsg "$kctlVers"
 
-kubectl -n kube-system get cm objectscale 2>/dev/null
+kubectl -n vmware-system-appplatform-operator-system get cm ${service_id} 2>/dev/null
 if [ $? -eq 0 ]
 then
-    echomsg "ObjectScale Plugin has already been deployed"
+    echomsg "ObjectScale Plugin \"${service_id}\" has already been deployed"
     echomsg "It must be disabled and removed before a new one can be applied"
     exit 1
 fi
