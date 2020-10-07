@@ -1,4 +1,6 @@
 ---
+{{- if (eq .Values.global.platform "VMware") }}
+---
 apiVersion: appplatform.wcp.vmware.com/v1beta1
 kind: VCUIPlugin
 metadata:
@@ -16,3 +18,4 @@ spec:
   uiBackendService: objectscale-vsphere-plugin
   vSphereUiPluginUrl: /plugin.json
   vSphereExtensionKey: com.dellemc.vsphere.plugin.{{ .Release.Namespace }}
+{{- end }} 
