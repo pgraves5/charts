@@ -62,6 +62,11 @@ spec:
         livenessProbe:
           tcpSocket:
             port: 514
+        resources:
+          limits:
+            memory: "60Mi"
+          requests:
+            memory: "30Mi"
         env:
         - name: MODE
           value: SERVER
