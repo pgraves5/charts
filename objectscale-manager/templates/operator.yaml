@@ -55,9 +55,9 @@ spec:
         - objectscale-operator
         resources:
           limits:
-            memory: "70Mi"
+            memory: {{ .Values.resources.operator.limits.memory }}
           requests:
-            memory: "35Mi"
+            memory: {{ .Values.resources.operator.requests.memory }}
         env:
         - name: POD_NAME
           valueFrom:
@@ -137,9 +137,9 @@ spec:
         imagePullPolicy: {{ default .Values.pullPolicy .Values.fluentbitAgent.image.pullPolicy }}
         resources:
           limits:
-            memory: "40Mi"
+            memory: {{ .Values.resources.fluentbitAgent.limits.memory }}
           requests:
-            memory: "20Mi"
+            memory: {{ .Values.resources.fluentbitAgent.requests.memory }}
         env:
           - name: POD
             valueFrom:

@@ -64,9 +64,9 @@ spec:
             port: 514
         resources:
           limits:
-            memory: "60Mi"
+            memory: {{ .Values.resources.rsyslog.limits.memory }}
           requests:
-            memory: "30Mi"
+            memory: {{ .Values.resources.rsyslog.requests.memory }}
         env:
         - name: MODE
           value: SERVER
