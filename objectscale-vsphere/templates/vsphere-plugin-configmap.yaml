@@ -69,6 +69,12 @@ data:
                 #proxy_pass http://iamsvc.{{ .Release.Namespace }}.svc.cluster.local:9288;
                 proxy_pass http://iamsvc:9288;
             }
+            location /sts {
+                proxy_pass http://iamsvc:9288;
+            }
+            location /ecs-service-provider {
+                proxy_pass http://iamsvc:9288;
+            }
             location /platform {
                 default_type application/json;
                 return 200 '{"value":"{{ .Values.global.platform }}"}';
