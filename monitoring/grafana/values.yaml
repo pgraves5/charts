@@ -15,7 +15,7 @@
 ## This is a YAML-formatted file.
 
 global:
-  monitoring_registry: emccorp
+  registry: emccorp
   tls_enabled: false
   internal_dns: kube-dns.kube-system.svc.cluster.local
 
@@ -74,3 +74,6 @@ config:
     signout_url: ""
     client_id: ""
     client_secret: ""
+
+  limitedUsers: []
+  users: []
