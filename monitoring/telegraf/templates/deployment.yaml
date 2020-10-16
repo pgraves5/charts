@@ -78,6 +78,8 @@ spec:
         - name: extra-files
           mountPath: {{ .Values.extra_files.mount_path }}
 {{- end }}
+        - mountPath: /crash-dump
+          name: crash-dump
       {{- if and .Values.global.tls_enabled .Values.global.telegraf_tls_enabled }}
       - name: nginx
         image: "{{ include "common-lib.monitoring_registry" . }}/nginx:{{ .Values.global.monitoring_tag }}"
@@ -116,3 +118,5 @@ spec:
         configMap:
           name: {{ .Values.extra_files.config_map_name }}
 {{- end }}
+      - name: crash-dump
+        emptyDir: {}

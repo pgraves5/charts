@@ -78,6 +78,8 @@ spec:
           mountPath: /etc/telegraf
         - name: additional-configs
           mountPath: /etc/telegraf/telegraf.d
+        - mountPath: /crash-dump
+          name: crash-dump
     {{- with .Values.tolerations }}
       tolerations:
 {{ toYaml . | indent 8 }}
@@ -102,3 +104,5 @@ spec:
         configMap:
           name: telegraf-external-monitoring-endpoint
           optional: true
+      - name: crash-dump
+        emptyDir: {}

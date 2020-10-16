@@ -133,6 +133,8 @@ spec:
         - mountPath: /etc/alerter
           name: alerter
         {{- end }}
+        - mountPath: /crash-dump
+          name: crash-dump
       {{- if .Values.global.tls_enabled }}
       - name: nginx
         image: "{{ include "common-lib.monitoring_registry" . }}/nginx:{{ .Values.global.monitoring_tag }}"
@@ -196,3 +198,5 @@ spec:
         configMap:
           name: {{ template "throttler.fullname" . }}-alerter
       {{- end }}
+      - name: crash-dump
+        emptyDir: {}

@@ -51,6 +51,8 @@ spec:
           mountPath: /var/log/pods
         - name: var-lib-docker-containers
           mountPath: /var/lib/docker/containers
+        - mountPath: /crash-dump
+          name: crash-dump
         env:
           # This pulls HOSTNAME from the node, not the pod.
           - name: HOSTNAME
@@ -114,6 +116,8 @@ spec:
         configMap:
           name: {{ .Release.Name }}-rsyslog-client-cleanup-logs-script
           defaultMode: 0755
+      - name: crash-dump
+        emptyDir: {}
       {{- if (not .Values.persistence.enabled ) }}
       - name: {{ template "rsyslog.fullname" . }}-data
         emptyDir: {}

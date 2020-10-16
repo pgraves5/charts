@@ -122,6 +122,8 @@ spec:
         - mountPath: /etc/fluxd/hl.json
           name: config-hl
           subPath: hl.json
+        - mountPath: /crash-dump
+          name: crash-dump
       {{- if .Values.global.tls_enabled }}
       - name: nginx
         image: "{{ include "common-lib.monitoring_registry" . }}/nginx:{{ .Values.global.monitoring_tag }}"
@@ -174,3 +176,6 @@ spec:
       - name: config-hl
         configMap:
           name: {{ include "fluxd.fullname" . }}-hl
+      - name: crash-dump
+        emptyDir: {}
+

@@ -22,10 +22,12 @@ tests:
           path: spec.template.spec.containers[0].resources.requests
           value:
             memory: 410Mi
+            ephemeral-storage: 410Mi
       - equal:
           path: spec.template.spec.initContainers[0].resources.requests
           value:
             memory: 300Mi
+            ephemeral-storage: 300Mi
   - it: Small
     set:
       global.performanceProfile: "Small"
@@ -34,10 +36,12 @@ tests:
           path: spec.template.spec.containers[0].resources.requests
           value:
             memory: 410Mi
+            ephemeral-storage: 410Mi
       - equal:
           path: spec.template.spec.initContainers[0].resources.requests
           value:
             memory: 300Mi
+            ephemeral-storage: 300Mi
   - it: Medium
     set:
       global.performanceProfile: "Medium"
@@ -46,10 +50,12 @@ tests:
           path: spec.template.spec.containers[0].resources.requests
           value:
             memory: 1134Mi
+            ephemeral-storage: 1134Mi
       - equal:
           path: spec.template.spec.initContainers[0].resources.requests
           value:
             memory: 1Gi
+            ephemeral-storage: 1Gi
   - it: Large
     set:
       global.performanceProfile: "Large"
@@ -58,7 +64,9 @@ tests:
           path: spec.template.spec.containers[0].resources.requests
           value:
             memory: 2154Mi
+            ephemeral-storage: 2154Mi
       - equal:
           path: spec.template.spec.initContainers[0].resources.requests
           value:
             memory: 2Gi
+            ephemeral-storage: 2Gi

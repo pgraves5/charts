@@ -152,6 +152,8 @@ spec:
           mountPath: /data/influxdb/conf/
         - name: varlog
           mountPath: /var/log
+        - mountPath: /crash-dump
+          name: crash-dump
       {{- if .Values.global.tls_enabled }}
       - name: nginx
         image: "{{ include "common-lib.monitoring_registry" . }}/nginx:{{ .Values.global.monitoring_tag }}"
@@ -317,7 +319,9 @@ spec:
         configMap:
           name: {{ .Release.Name }}-rsyslog-client-cleanup-logs-script
           defaultMode: 0755
-    {{- if .Values.schedulerName }}
+      - name: crash-dump
+        emptyDir: {}
+      {{- if .Values.schedulerName }}
       schedulerName: "{{ .Values.schedulerName }}"
     {{- end }}
     {{- if .Values.nodeSelector }}
