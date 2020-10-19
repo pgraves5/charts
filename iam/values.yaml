@@ -24,3 +24,14 @@ atlas:
         size: 10Gi
         # Name of the storage class that storage should be provisioned from
         # storageClassName:
+iamsvc:
+    registry: emccorp
+    replicaCount: 3
+    affinity: false
+    image:
+        repository: ecs/iamsvc
+        tag: 0.52.0
+        pullPolicy: IfNotPresent
+    service:
+        type: ClusterIP
+        port: 9400

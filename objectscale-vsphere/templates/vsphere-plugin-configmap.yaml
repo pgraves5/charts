@@ -66,14 +66,17 @@ data:
                 proxy_pass http://$2-grafana.$1.svc.cluster.local:3000;
             }
             location /iam {
-                #proxy_pass http://iamsvc.{{ .Release.Namespace }}.svc.cluster.local:9288;
-                proxy_pass http://iamsvc:9288;
+                #proxy_pass http://iamsvc.{{ .Release.Namespace }}.svc.cluster.local:9400;
+                proxy_pass http://iamsvc:9400;
+            }
+            location /iamhealthcheck {
+                proxy_pass http://iamsvc:9400;
             }
             location /sts {
-                proxy_pass http://iamsvc:9288;
+                proxy_pass http://iamsvc:9400;
             }
             location /ecs-service-provider {
-                proxy_pass http://iamsvc:9288;
+                proxy_pass http://iamsvc:9400;
             }
             location /platform {
                 default_type application/json;
