@@ -43,4 +43,17 @@ spec:
           - name: http
             containerPort: 9401 
             protocol: TCP
+        livenessProbe:
+            httpGet:
+                path: {{ .Values.iamsvc.livenessProbe.probePath }}
+                port: http
+            failureThreshold: {{ .Values.iamsvc.livenessProbe.failureThreshold | default 3 }}
+            periodSeconds: {{ .Values.iamsvc.livenessProbe.periodSeconds | default 60 }}
+        readinessProbe:
+            httpGet:
+                path: {{ .Values.iamsvc.readinessProbe.probePath }}
+                port: http
+            failureThreshold: {{ .Values.iamsvc.readinessProbe.failureThreshold | default 3 }}
+            periodSeconds: {{ .Values.iamsvc.readinessProbe.periodSeconds | default 60 }}
+
 
