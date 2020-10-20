@@ -75,6 +75,19 @@ add_vsphere7_clusterrole_rules () {
   - applications
   verbs:
   - '*'
+- apiGroups:
+  - rbac.authorization.k8s.io
+  resources:
+  - roles
+  - rolebindings
+  verbs:
+  - "*"
+- apiGroups:
+  - networking.k8s.io
+  resources:
+  - networkpolicy
+  verbs:
+  - "*"
 EOT
       eval ${vsphere7AppRoles} > /tmp/currrules.yaml
       kubectl apply -f <(cat <(cat /tmp/currrules.yaml) /tmp/newrules.yaml)
