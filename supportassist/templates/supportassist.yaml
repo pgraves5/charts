@@ -98,6 +98,7 @@ spec:
     matchLabels:
       app.kubernetes.io/component: supportassist-{{.Values.product}}-ese
       app.kubernetes.io/name: supportassist-{{.Values.product}}
+      io.kompose.service: ese-store
   strategy:
     type: Recreate
   template:
@@ -107,32 +108,68 @@ spec:
       labels:
         app.kubernetes.io/component: supportassist-{{.Values.product}}-ese
         app.kubernetes.io/name: supportassist-{{.Values.product}}
+        io.kompose.service: ese-store
 {{ include "supportassist.labels" . | indent 8 }}
     spec:
       containers:
-      - name: supportassist-{{.Values.product}}
-        # image: <docker_registry>/dell-supportassist-ese:2.0.3
-        image: {{.Values.global.registry}}/{{.Values.image.repository}}:{{default .Values.tag .Values.image.tag}}
-        imagePullPolicy: {{default .Values.image.pullPolicy .Values.pullPolicy}}
-        command: ["/opt/ese/bin/entrypoint.sh"]
-        ports:
-        - containerPort: 9447
-          name: secure
-          protocol: TCP
-        - containerPort: 8080
-          name: insecure
-          protocol: TCP
-        volumeMounts:
-          - mountPath: /opt/ese/var
-            name: supportassist-{{.Values.product}}-persistentdata
-          - name: supportassist-{{.Values.product}}-default-properties
-            mountPath: /opt/ese/etc/DefaultProperties.json
-            subPath: DefaultProperties.json
-        env:
-        - name: ESE_USER
-          value: "eseservice"
-        - name: REGISTRY_SECRET
-          value: {{.Values.global.registrySecret}}
+        - name: supportassist-{{.Values.product}}
+          # image: <docker_registry>/dell-supportassist-ese:2.0.3
+          image: {{.Values.global.registry}}/{{.Values.image.repository}}:{{default .Values.tag .Values.image.tag}}
+          imagePullPolicy: {{default .Values.image.pullPolicy .Values.pullPolicy}}
+          command: ["/opt/ese/bin/entrypoint.sh"]
+          ports:
+            - containerPort: 9447
+              name: secure
+              protocol: TCP
+            - containerPort: 8080
+              name: insecure
+              protocol: TCP
+          volumeMounts:
+            - mountPath: /opt/ese/var
+              name: supportassist-{{.Values.product}}-persistentdata
+            - name: supportassist-{{.Values.product}}-default-properties
+              mountPath: /opt/ese/etc/DefaultProperties.json
+              subPath: DefaultProperties.json
+            - name: supportassist-{{.Values.product}}-store-claim0
+              mountPath: /opt/ese/data
+          env:
+            - name: ESE_USER
+              value: "eseservice"
+            - name: REGISTRY_SECRET
+              value: {{.Values.global.registrySecret}}
+        - name: ese-store
+          image: {{ .Values.global.registry }}/{{.Values.eseStore.image.repository }}:{{ .Values.eseStore.image.version }}
+          imagePullPolicy: {{ default .Values.pullPolicy .Values.eseStore.image.pullPolicy }}
+          command: [ "/bin/sh", "-c" ]
+          args: [ "chmod +x /usr/local/bin/*.sh;
+                   sh /usr/local/bin/run-nginx.sh;
+                   nginx -g 'daemon off;'" ]
+          ports:
+          - containerPort: {{ .Values.eseStore.containerPort }}
+          resources: {}
+          volumeMounts:
+          - mountPath: /opt/secure/data
+            name: supportassist-{{.Values.product}}-store-claim0
+          env:
+{{- if .Values.global.registrySecret }}
+          - name: REGISTRY_SECRET
+            value: {{ .Values.global.registrySecret }}
+{{- end }}
+          - name: USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: supportassist-{{.Values.product}}-store-secret
+                key: username
+          - name: PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: supportassist-{{.Values.product}}-store-secret
+                key: password
+          - name: SALT
+            valueFrom:
+              secretKeyRef:
+                name: supportassist-{{.Values.product}}-store-secret
+                key: salt
       securityContext:
         runAsUser: 999
         runAsGroup: 999
@@ -145,3 +182,10 @@ spec:
       - name: supportassist-{{.Values.product}}-default-properties
         configMap:
           name: supportassist-{{.Values.product}}-default-properties
+      - name: supportassist-{{.Values.product}}-store-claim0
+        persistentVolumeClaim:
+          claimName: supportassist-{{.Values.product}}-store-claim0
+{{- if .Values.global.registrySecret }}
+      imagePullSecrets:
+      - name: {{ .Values.global.registrySecret }}
+{{- end }}
