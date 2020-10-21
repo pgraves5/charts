@@ -1,9 +1,10 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "iam-service.fullname" . }}
+  name: iamsvc 
+  namespace: {{ .Release.Namespace }}
   labels:
-    {{- include "iam-service.labels" . | nindent 4 }}
+    {{- include "iamsvc.labels" . | nindent 4 }}
 spec:
   type: {{ .Values.iamsvc.service.type }}
   ports:
@@ -12,4 +13,4 @@ spec:
       protocol: TCP
       name: http
   selector:
-    {{- include "iam-service.selectorLabels" . | nindent 4 }}
+    {{- include "iamsvc.selectorLabels" . | nindent 4 }}
