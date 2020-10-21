@@ -6,6 +6,9 @@ metadata:
     io.kompose.service: ese-store-claim
   name: supportassist-{{.Values.product}}-store-claim0
 spec:
+  { { - if .Values.global.storageClassName } }
+  storageClassName: {{.Values.global.storageClassName}}
+  { { - end } }
   accessModes:
     - ReadWriteOnce
   resources:
