@@ -30,7 +30,7 @@ global:
 
   # Flex 1.0 regional monitoring stack
   monitoring:
-    enabled: false
+    enabled: true
 
 # sub-chart enablers
 zookeeper:
