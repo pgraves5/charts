@@ -14,8 +14,8 @@ iamsvc:
   affinity: false
   image:
     pullPolicy: IfNotPresent
-    repository: ecs/iamsvc
-    tag: 0.52.0
+    repository: iamsvc
+    tag: latest 
   livenessProbe:
     probePath: /iam/local?Action=ListUsers
   readinessProbe:
@@ -26,4 +26,3 @@ iamsvc:
     port: 9400
     type: ClusterIP
 pullPolicy: IfNotPresent
-tag: 0.1.0
