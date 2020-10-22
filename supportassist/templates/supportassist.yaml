@@ -144,6 +144,8 @@ spec:
         args: [ "chmod +x /usr/local/bin/*.sh;
                  sh /usr/local/bin/run-nginx.sh;
                  nginx -g 'daemon off;'" ]
+        securityContext:
+          runAsUser: 0
         ports:
         - containerPort: {{.Values.eseStore.containerPort}}
         resources: {}
