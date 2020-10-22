@@ -1,3 +1,4 @@
+---
 atlas:
   affinity: false
   image:
@@ -15,12 +16,11 @@ iamsvc:
   image:
     pullPolicy: IfNotPresent
     repository: iamsvc
-    tag: latest 
+    tag: 0.52.0
   livenessProbe:
     probePath: /iam/local?Action=ListUsers
   readinessProbe:
     probePath: /iamhealthcheck
-  registry: emccorp
   replicaCount: 3
   service:
     port: 9400

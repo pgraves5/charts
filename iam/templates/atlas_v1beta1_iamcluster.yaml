@@ -1,3 +1,4 @@
+---
 apiVersion: atlas.dellemc.com/v1beta1
 kind: AtlasCluster
 metadata:
