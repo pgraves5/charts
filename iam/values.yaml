@@ -1,4 +1,6 @@
 ---
+global:
+  registry: emccorp
 atlas:
   affinity: false
   image:
@@ -7,10 +9,7 @@ atlas:
     tag: v1.1.1
   persistence:
     size: 10Gi
-  registry: emccorp
   replicaCount: 3
-global:
-  registry: emccorp
 iamsvc:
   affinity: false
   image:
@@ -25,4 +24,3 @@ iamsvc:
   service:
     port: 9400
     type: ClusterIP
-pullPolicy: IfNotPresent
