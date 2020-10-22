@@ -92,7 +92,7 @@ eseStore:
   service:
     port: 7443
     targetPort: 7443
-    type: LoadBalancer
+    type: ClusterIP
 
 # We usually recommend not to specify default resources and to leave this as a
 # conscious choice for the user. This also increases chances charts run on
