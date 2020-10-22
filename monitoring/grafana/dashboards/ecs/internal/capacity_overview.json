@@ -52,7 +52,7 @@
   "gnetId": null,
   "graphTooltip": 0,
   "id": null,
-  "iteration": 1603403738746,
+  "iteration": 1603403738749,
   "links": [
     {
       "asDropdown": true,
@@ -67,132 +67,13 @@
   "panels": [
     {
       "columns": [],
-      "description": "Monitor the total, used, and available capacity at the ObjectStore level.\nReserved capacity is the 10 percent of the total capacity that is reserved for failure handling and performing erasure encoding/XOR operations.",
-      "fontSize": "100%",
-      "gridPos": {
-        "h": 3,
-        "w": 24,
-        "x": 0,
-        "y": 0
-      },
-      "id": 17,
-      "links": [],
-      "options": {},
-      "pageSize": null,
-      "scroll": true,
-      "showHeader": true,
-      "sort": {
-        "col": 0,
-        "desc": true
-      },
-      "styles": [
-        {
-          "alias": "Time",
-          "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "pattern": "Time",
-          "type": "hidden"
-        },
-        {
-          "alias": "$1",
-          "colorMode": null,
-          "colors": [
-            "rgba(245, 54, 54, 0.9)",
-            "rgba(237, 129, 40, 0.89)",
-            "rgba(50, 172, 45, 0.97)"
-          ],
-          "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "decimals": 2,
-          "mappingType": 1,
-          "pattern": "/vl[0-3]_(.*)/",
-          "thresholds": [],
-          "type": "number",
-          "unit": "bytes"
-        },
-        {
-          "alias": "",
-          "colorMode": null,
-          "colors": [
-            "rgba(245, 54, 54, 0.9)",
-            "rgba(237, 129, 40, 0.89)",
-            "rgba(50, 172, 45, 0.97)"
-          ],
-          "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "decimals": 2,
-          "mappingType": 1,
-          "pattern": "Measurement",
-          "thresholds": [],
-          "type": "hidden",
-          "unit": "short"
-        },
-        {
-          "alias": "",
-          "colorMode": null,
-          "colors": [
-            "rgba(245, 54, 54, 0.9)",
-            "rgba(237, 129, 40, 0.89)",
-            "rgba(50, 172, 45, 0.97)"
-          ],
-          "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "decimals": 2,
-          "mappingType": 1,
-          "pattern": "Field",
-          "thresholds": [],
-          "type": "hidden",
-          "unit": "short"
-        },
-        {
-          "alias": "",
-          "colorMode": null,
-          "colors": [
-            "rgba(245, 54, 54, 0.9)",
-            "rgba(237, 129, 40, 0.89)",
-            "rgba(50, 172, 45, 0.97)"
-          ],
-          "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "decimals": 2,
-          "mappingType": 1,
-          "pattern": "Value",
-          "thresholds": [],
-          "type": "hidden",
-          "unit": "short"
-        },
-        {
-          "alias": "",
-          "colorMode": null,
-          "colors": [
-            "rgba(245, 54, 54, 0.9)",
-            "rgba(237, 129, 40, 0.89)",
-            "rgba(50, 172, 45, 0.97)"
-          ],
-          "decimals": 2,
-          "pattern": "/.*/",
-          "thresholds": [],
-          "type": "number",
-          "unit": "short"
-        }
-      ],
-      "targets": [
-        {
-          "query": "from(bucket: \"monitoring_vdc\")\n  |> filter(fn: (r) => r._measurement == \"cq_capacity_vdc\"\n                       and (r._field == \"total_i\" or r._field == \"used\"\n                            or r._field == \"available\" or r._field == \"reserved\"\n                            or r._field == \"offline\"))\n  |> range(start: -1h)\n  |> last()\n  |> keep(columns: [\"_time\", \"_field\", \"_value\"])\n  |> pivot(rowKey:[\"_time\"],columnKey: [\"_field\"],valueColumn: \"_value\")\n  |> map(fn: (r) => ({\"vl0_Total\": r.total_i, \"vl1_Used\": r.used, \"vl2_Available\": r.available, \"vl3_Reserved\": r.reserved}))\n",
-          "refId": "A",
-          "resultFormat": "table"
-        }
-      ],
-      "timeFrom": null,
-      "timeShift": null,
-      "title": "Capacity",
-      "transform": "table",
-      "type": "table"
-    },
-    {
-      "columns": [],
       "description": "The forecast table provides an estimated number of days when the capacity is expected to reach 50% and 80% based on the last 1, 7, and 30 days trend.",
       "fontSize": "100%",
       "gridPos": {
         "h": 3,
         "w": 24,
         "x": 0,
-        "y": 3
+        "y": 0
       },
       "id": 23,
       "links": [],
@@ -376,6 +257,125 @@
       "timeFrom": null,
       "timeShift": null,
       "title": "Trends",
+      "transform": "table",
+      "type": "table"
+    },
+    {
+      "columns": [],
+      "description": "Monitor the total, used, and available capacity at the ObjectStore level.\nReserved capacity is the 10 percent of the total capacity that is reserved for failure handling and performing erasure encoding/XOR operations.",
+      "fontSize": "100%",
+      "gridPos": {
+        "h": 3,
+        "w": 24,
+        "x": 0,
+        "y": 3
+      },
+      "id": 17,
+      "links": [],
+      "options": {},
+      "pageSize": null,
+      "scroll": true,
+      "showHeader": true,
+      "sort": {
+        "col": 0,
+        "desc": true
+      },
+      "styles": [
+        {
+          "alias": "Time",
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "pattern": "Time",
+          "type": "hidden"
+        },
+        {
+          "alias": "$1",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "/vl[0-3]_(.*)/",
+          "thresholds": [],
+          "type": "number",
+          "unit": "bytes"
+        },
+        {
+          "alias": "",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "Measurement",
+          "thresholds": [],
+          "type": "hidden",
+          "unit": "short"
+        },
+        {
+          "alias": "",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "Field",
+          "thresholds": [],
+          "type": "hidden",
+          "unit": "short"
+        },
+        {
+          "alias": "",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "Value",
+          "thresholds": [],
+          "type": "hidden",
+          "unit": "short"
+        },
+        {
+          "alias": "",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "decimals": 2,
+          "pattern": "/.*/",
+          "thresholds": [],
+          "type": "number",
+          "unit": "short"
+        }
+      ],
+      "targets": [
+        {
+          "query": "from(bucket: \"monitoring_vdc\")\n  |> filter(fn: (r) => r._measurement == \"cq_capacity_vdc\"\n                       and (r._field == \"total_i\" or r._field == \"used\"\n                            or r._field == \"available\" or r._field == \"reserved\"\n                            or r._field == \"offline\"))\n  |> range(start: -1h)\n  |> last()\n  |> keep(columns: [\"_time\", \"_field\", \"_value\"])\n  |> pivot(rowKey:[\"_time\"],columnKey: [\"_field\"],valueColumn: \"_value\")\n  |> map(fn: (r) => ({\"vl0_Total\": r.total_i, \"vl1_Used\": r.used, \"vl2_Available\": r.available, \"vl3_Reserved\": r.reserved}))\n",
+          "refId": "A",
+          "resultFormat": "table"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Capacity",
       "transform": "table",
       "type": "table"
     },
