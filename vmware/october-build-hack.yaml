@@ -1,21 +1,9 @@
-apiVersion: networking.k8s.io/v1
-kind: NetworkPolicy
-metadata:
-  annotations:
-  name: vmware-hack-allow-all
-  namespace: { { .Release.Namespace } }
-spec:
-  ingress:
-    - {}
-  podSelector: {}
-  policyTypes:
-    - Ingress
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
   name: vmware-hack-default-role
-  namespace: { { .Release.Namespace } }
+  namespace: dellemc-objectscale-system
 rules:
   - apiGroups:
       - policy
@@ -30,7 +18,7 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
   name: vmware-hack-default-binding
-  namespace: { { .Release.Namespace } }
+  namespace: dellemc-objectscale-system
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
@@ -38,4 +26,16 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: default
-    namespace: { { .Release.Namespace } }
+    namespace: dellemc-objectscale-system
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: vmware-hack-allow-all
+  namespace: dellemc-objectscale-system
+spec:
+  ingress:
+    - {}
+  podSelector: {}
+  policyTypes:
+    - Ingress

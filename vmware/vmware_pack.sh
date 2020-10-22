@@ -19,6 +19,8 @@ then
 else sed -i "s/SERVICE_ID//g" temp_package/yaml/objectscale-manager.yaml
 fi
 
+cp -p ./vmware/october-build-hack.yaml temp_package/yaml
+
 cat <<EOT >> temp_package/yaml/${vsphere7_plugin_file}
 ---
 apiVersion: v1
@@ -35,6 +37,7 @@ $(awk '{printf "%4s%s\n", "", $0}' temp_package/yaml/objectscale-crd.yaml)
 $(awk '{printf "%4s%s\n", "", $0}' temp_package/yaml/objectscale-manager.yaml)
 $(awk '{printf "%4s%s\n", "", $0}' temp_package/yaml/kahm.yaml)
 $(awk '{printf "%4s%s\n", "", $0}' temp_package/yaml/decks.yaml)
+$(awk '{printf "%4s%s\n", "", $0}' temp_package/yaml/october-build-hack.yaml)
   ${service_id}.yaml: |-
     apiVersion: appplatform.wcp.vmware.com/v1alpha1
     kind: SupervisorService
