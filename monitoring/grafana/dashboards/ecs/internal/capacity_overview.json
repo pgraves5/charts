@@ -52,7 +52,7 @@
   "gnetId": null,
   "graphTooltip": 0,
   "id": null,
-  "iteration": 1603335408140,
+  "iteration": 1603403738746,
   "links": [
     {
       "asDropdown": true,
@@ -186,7 +186,7 @@
     },
     {
       "columns": [],
-      "description": "The forecast table provides an estimated number of days of when the capacity is expected to reach 50% and 80% based on the last 1, 7 and 30 days trend.",
+      "description": "The forecast table provides an estimated number of days when the capacity is expected to reach 50% and 80% based on the last 1, 7, and 30 days trend.",
       "fontSize": "100%",
       "gridPos": {
         "h": 3,
@@ -368,7 +368,7 @@
       ],
       "targets": [
         {
-          "query": "sec_in_ns = 1000000000\nalign_time = 15 * 60\nstop_time_aligned = $__range_to_s / align_time * align_time\nstop_dt = time(v:stop_time_aligned * sec_in_ns)\n\ntotal = from(bucket: \"monitoring_vdc\")\n|> filter(fn: (r) => r._measurement == \"cq_capacity_vdc\" and r._field == \"total_i\")\n|> range(start: -24h)\n|> last()\n|> toFloat()\n|> keep(columns: [\"_value\"])\n\ntarget50 = total\n|> map(fn: (r) => ({_value: int(v: r._value * 0.5) }))\n\ntarget80 = total\n|> map(fn: (r) => ({_value: int(v: r._value * 0.8) }))\n\nused30Days = from(bucket: \"monitoring_vdc\")\n|> filter(fn: (r) => r._measurement == \"cq_capacity_vdc\" and r._field == \"used\")\n|> range(start: -30d)\n|> keep(columns: [\"_time\", \"_value\"]) \n\nused7Days = used30Days \n|> range(start: -7d) \n\nused1Day = used7Days \n|> range(start: -1d) \n\ndays30Target50 = join(tables: {t: target50, u: used30Days}, on: [\"\"])\n|> map(fn: (r) => ({_time: r._time, _value: r._value_u - r._value_t}))\n|> predictLinear(wantedValue: 0.0)\n|> map(fn: (r) => ({T3_D30T50: if r._time > now() then string(v: (int(v: r._time) - int(v:stop_dt)) / sec_in_ns) else \"-\"}))\n|> yield(name: \"T3_D30T50\")\n\ndays30Target80 = join(tables: {t: target80, u: used30Days}, on: [\"\"])\n|> map(fn: (r) => ({_time: r._time, _value: r._value_u - r._value_t}))\n|> predictLinear(wantedValue: 0.0)\n|> map(fn: (r) => ({T6_D30T80: if r._time > now() then string(v: (int(v: r._time) - int(v:stop_dt)) / sec_in_ns) else \"-\"}))\n|> yield(name: \"T6_D30T80\")\n\ndays7Target50 = join(tables: {t: target50, u: used7Days}, on: [\"\"])\n|> map(fn: (r) => ({_time: r._time, _value: r._value_u - r._value_t}))\n|> predictLinear(wantedValue: 0.0)\n|> map(fn: (r) => ({T2_D7T50: if r._time > now() then string(v: (int(v: r._time) - int(v:stop_dt)) / sec_in_ns) else \"-\"}))\n|> yield(name: \"T2_D7T50\")\n\ndays7Target80 = join(tables: {t: target80, u: used7Days}, on: [\"\"])\n|> map(fn: (r) => ({_time: r._time, _value: r._value_u - r._value_t}))\n|> predictLinear(wantedValue: 0.0)\n|> map(fn: (r) => ({T5_D7T80: if r._time > now() then string(v: (int(v: r._time) - int(v:stop_dt)) / sec_in_ns) else \"-\"}))\n|> yield(name: \"T5_D7T80\")\n\ndays1Target50 = join(tables: {t: target50, u: used1Day}, on: [\"\"])\n|> map(fn: (r) => ({_time: r._time, _value: r._value_u - r._value_t}))\n|> predictLinear(wantedValue: 0.0)\n|> map(fn: (r) => ({T1_D1T50: if r._time > now() then string(v: (int(v: r._time) - int(v:stop_dt)) / sec_in_ns) else \"-\"}))\n|> yield(name: \"T1_D1T50\")\n\ndays1Target80 = join(tables: {t: target80, u: used1Day}, on: [\"\"])\n|> map(fn: (r) => ({_time: r._time, _value: r._value_u - r._value_t}))\n|> predictLinear(wantedValue: 0.0)\n|> map(fn: (r) => ({T4_D1T80: if r._time > now() then string(v: (int(v: r._time) - int(v:stop_dt)) / sec_in_ns) else \"-\"}))\n|> yield(name: \"T4_D1T80\")\n",
+          "query": "sec_in_ns = 1000000000\nalign_time = 15 * 60\nstop_time_aligned = $__range_to_s / align_time * align_time\nstop_dt = time(v:stop_time_aligned * sec_in_ns)\n\ntotal = from(bucket: \"monitoring_vdc\")\n|> filter(fn: (r) => r._measurement == \"cq_capacity_vdc\" and r._field == \"total_i\")\n|> range(start: -24h)\n|> last()\n|> toFloat()\n|> keep(columns: [\"_value\"])\n\ntarget50 = total\n|> map(fn: (r) => ({_value: int(v: r._value * 0.5) }))\n\ntarget80 = total\n|> map(fn: (r) => ({_value: int(v: r._value * 0.8) }))\n\nused30Days = from(bucket: \"monitoring_vdc\")\n|> filter(fn: (r) => r._measurement == \"cq_capacity_vdc\" and r._field == \"used\")\n|> range(start: -30d)\n|> keep(columns: [\"_time\", \"_value\"]) \n\nused7Days = used30Days \n|> range(start: -7d) \n\nused1Day = used7Days \n|> range(start: -1d) \n\ndays30Target50 = join(tables: {t: target50, u: used30Days}, on: [\"\"])\n|> map(fn: (r) => ({_time: r._time, _value: r._value_u - r._value_t}))\n|> predictLinear(wantedValue: 0.0)\n|> map(fn: (r) => ({T3_D30T50: if r._time > now() then string(v: (int(v: r._time) - int(v:stop_dt)) / sec_in_ns) else \"N/A\"}))\n|> yield(name: \"T3_D30T50\")\n\ndays30Target80 = join(tables: {t: target80, u: used30Days}, on: [\"\"])\n|> map(fn: (r) => ({_time: r._time, _value: r._value_u - r._value_t}))\n|> predictLinear(wantedValue: 0.0)\n|> map(fn: (r) => ({T6_D30T80: if r._time > now() then string(v: (int(v: r._time) - int(v:stop_dt)) / sec_in_ns) else \"N/A\"}))\n|> yield(name: \"T6_D30T80\")\n\ndays7Target50 = join(tables: {t: target50, u: used7Days}, on: [\"\"])\n|> map(fn: (r) => ({_time: r._time, _value: r._value_u - r._value_t}))\n|> predictLinear(wantedValue: 0.0)\n|> map(fn: (r) => ({T2_D7T50: if r._time > now() then string(v: (int(v: r._time) - int(v:stop_dt)) / sec_in_ns) else \"N/A\"}))\n|> yield(name: \"T2_D7T50\")\n\ndays7Target80 = join(tables: {t: target80, u: used7Days}, on: [\"\"])\n|> map(fn: (r) => ({_time: r._time, _value: r._value_u - r._value_t}))\n|> predictLinear(wantedValue: 0.0)\n|> map(fn: (r) => ({T5_D7T80: if r._time > now() then string(v: (int(v: r._time) - int(v:stop_dt)) / sec_in_ns) else \"N/A\"}))\n|> yield(name: \"T5_D7T80\")\n\ndays1Target50 = join(tables: {t: target50, u: used1Day}, on: [\"\"])\n|> map(fn: (r) => ({_time: r._time, _value: r._value_u - r._value_t}))\n|> predictLinear(wantedValue: 0.0)\n|> map(fn: (r) => ({T1_D1T50: if r._time > now() then string(v: (int(v: r._time) - int(v:stop_dt)) / sec_in_ns) else \"N/A\"}))\n|> yield(name: \"T1_D1T50\")\n\ndays1Target80 = join(tables: {t: target80, u: used1Day}, on: [\"\"])\n|> map(fn: (r) => ({_time: r._time, _value: r._value_u - r._value_t}))\n|> predictLinear(wantedValue: 0.0)\n|> map(fn: (r) => ({T4_D1T80: if r._time > now() then string(v: (int(v: r._time) - int(v:stop_dt)) / sec_in_ns) else \"N/A\"}))\n|> yield(name: \"T4_D1T80\")\n",
           "refId": "A",
           "resultFormat": "table"
         }
@@ -657,12 +657,211 @@
       "panels": [
         {
           "columns": [],
+          "description": "The forecast table provides an estimated number of days when nodes capacity is expected to reach 50% and 80% based on the last 1, 7, and 30 days trend.",
+          "fontSize": "100%",
+          "gridPos": {
+            "h": 8,
+            "w": 24,
+            "x": 0,
+            "y": 8
+          },
+          "id": 25,
+          "links": [],
+          "options": {},
+          "pageSize": null,
+          "scroll": true,
+          "showHeader": true,
+          "sort": {
+            "col": 3,
+            "desc": false
+          },
+          "styles": [
+            {
+              "alias": "Time",
+              "dateFormat": "YYYY-MM-DD HH:mm:ss",
+              "pattern": "Time",
+              "type": "hidden"
+            },
+            {
+              "alias": "",
+              "colorMode": null,
+              "colors": [
+                "rgba(245, 54, 54, 0.9)",
+                "rgba(237, 129, 40, 0.89)",
+                "rgba(50, 172, 45, 0.97)"
+              ],
+              "dateFormat": "YYYY-MM-DD HH:mm:ss",
+              "decimals": 2,
+              "mappingType": 1,
+              "pattern": "Measurement",
+              "thresholds": [],
+              "type": "hidden",
+              "unit": "short"
+            },
+            {
+              "alias": "",
+              "colorMode": null,
+              "colors": [
+                "rgba(245, 54, 54, 0.9)",
+                "rgba(237, 129, 40, 0.89)",
+                "rgba(50, 172, 45, 0.97)"
+              ],
+              "dateFormat": "YYYY-MM-DD HH:mm:ss",
+              "decimals": 2,
+              "mappingType": 1,
+              "pattern": "Field",
+              "thresholds": [],
+              "type": "hidden",
+              "unit": "short"
+            },
+            {
+              "alias": "",
+              "colorMode": null,
+              "colors": [
+                "rgba(245, 54, 54, 0.9)",
+                "rgba(237, 129, 40, 0.89)",
+                "rgba(50, 172, 45, 0.97)"
+              ],
+              "dateFormat": "YYYY-MM-DD HH:mm:ss",
+              "decimals": 2,
+              "mappingType": 1,
+              "pattern": "Value",
+              "thresholds": [],
+              "type": "hidden",
+              "unit": "short"
+            },
+            {
+              "alias": "Per 1 Day Trend 50%",
+              "colorMode": null,
+              "colors": [
+                "rgba(245, 54, 54, 0.9)",
+                "rgba(237, 129, 40, 0.89)",
+                "rgba(50, 172, 45, 0.97)"
+              ],
+              "dateFormat": "YYYY-MM-DD HH:mm:ss",
+              "decimals": 1,
+              "mappingType": 1,
+              "pattern": "t1_D1T50",
+              "thresholds": [],
+              "type": "number",
+              "unit": "dtdurations"
+            },
+            {
+              "alias": "Per 7 Day Trend 50%",
+              "colorMode": null,
+              "colors": [
+                "rgba(245, 54, 54, 0.9)",
+                "rgba(237, 129, 40, 0.89)",
+                "rgba(50, 172, 45, 0.97)"
+              ],
+              "dateFormat": "YYYY-MM-DD HH:mm:ss",
+              "decimals": 1,
+              "mappingType": 1,
+              "pattern": "t2_D7T50",
+              "thresholds": [],
+              "type": "number",
+              "unit": "dtdurations"
+            },
+            {
+              "alias": "Per 30 Day Trend 50%",
+              "colorMode": null,
+              "colors": [
+                "rgba(245, 54, 54, 0.9)",
+                "rgba(237, 129, 40, 0.89)",
+                "rgba(50, 172, 45, 0.97)"
+              ],
+              "dateFormat": "YYYY-MM-DD HH:mm:ss",
+              "decimals": 1,
+              "mappingType": 1,
+              "pattern": "t3_D30T50",
+              "thresholds": [],
+              "type": "number",
+              "unit": "dtdurations"
+            },
+            {
+              "alias": "Per 1 Day Trend 80%",
+              "colorMode": null,
+              "colors": [
+                "rgba(245, 54, 54, 0.9)",
+                "rgba(237, 129, 40, 0.89)",
+                "rgba(50, 172, 45, 0.97)"
+              ],
+              "dateFormat": "YYYY-MM-DD HH:mm:ss",
+              "decimals": 1,
+              "mappingType": 1,
+              "pattern": "t4_D1T80",
+              "thresholds": [],
+              "type": "number",
+              "unit": "dtdurations"
+            },
+            {
+              "alias": "Per 7 Day Trend 80%",
+              "colorMode": null,
+              "colors": [
+                "rgba(245, 54, 54, 0.9)",
+                "rgba(237, 129, 40, 0.89)",
+                "rgba(50, 172, 45, 0.97)"
+              ],
+              "dateFormat": "YYYY-MM-DD HH:mm:ss",
+              "decimals": 1,
+              "mappingType": 1,
+              "pattern": "t5_D7T80",
+              "thresholds": [],
+              "type": "number",
+              "unit": "dtdurations"
+            },
+            {
+              "alias": "Per 30 Day Trend 80%",
+              "colorMode": null,
+              "colors": [
+                "rgba(245, 54, 54, 0.9)",
+                "rgba(237, 129, 40, 0.89)",
+                "rgba(50, 172, 45, 0.97)"
+              ],
+              "dateFormat": "YYYY-MM-DD HH:mm:ss",
+              "decimals": 1,
+              "mappingType": 1,
+              "pattern": "t6_D30T80",
+              "thresholds": [],
+              "type": "number",
+              "unit": "dtdurations"
+            },
+            {
+              "alias": "",
+              "colorMode": null,
+              "colors": [
+                "rgba(245, 54, 54, 0.9)",
+                "rgba(237, 129, 40, 0.89)",
+                "rgba(50, 172, 45, 0.97)"
+              ],
+              "decimals": 2,
+              "pattern": "/.*/",
+              "thresholds": [],
+              "type": "number",
+              "unit": "short"
+            }
+          ],
+          "targets": [
+            {
+              "query": "sec_in_ns = 1000000000\nalign_time = 15 * 60\nstop_time_aligned = $__range_to_s / align_time * align_time\nstop_dt = time(v:stop_time_aligned * sec_in_ns)\n\ntotal = from(bucket: \"monitoring_vdc\")\n|> filter(fn: (r) => r._measurement == \"cq_capacity_nodes\" and r._field == \"total_i\")\n|> range(start: -24h)\n|> last()\n|> keep(columns: [\"_time\", \"_field\", \"_value\", \"_host_id\"])\n|> rename(columns: {_host_id: \"host_id\"})\n|> pivot(rowKey:[\"_time\"],columnKey: [\"_field\"],valueColumn: \"_value\")\n|> drop(columns: [\"_time\"])\n//|> yield(name: \"nodes\")\n\ntarget50 = total\n|> map(fn: (r) => ({ total: int(v: float(v: r.total_i) * 0.5) }))\n\ntarget80 = total\n|> map(fn: (r) => ({ total: int(v: float(v: r.total_i) * 0.8) }))\n//|> yield(name: \"target80\")\n\nused30Days = from(bucket: \"monitoring_vdc\")\n|> filter(fn: (r) => r._measurement == \"cq_capacity_nodes\" and r._field == \"used\")\n|> range(start: -30d)\n|> keep(columns: [\"_time\", \"_value\", \"_host_id\", \"_field\"])\n|> rename(columns: {_host_id: \"host_id\"})\n|> pivot(rowKey:[\"_time\"],columnKey: [\"_field\"],valueColumn: \"_value\")\n//|> yield(name: \"used30\")\n\nused7Days = used30Days\n|> range(start: -7d)\n\nused1Day = used7Days\n|> range(start: -1d)\n//|> yield(name: \"used1d\")\n\ndays1Target50 = join(tables: {t: target50, u: used1Day}, on: [\"host_id\"])\n|> map(fn: (r) => ({_time: r._time, _value: r.used - r.total}))\n|> predictLinear(wantedValue: 0.0)\n|> map(fn: (r) => ({t1_D1T50: if r._time > now() then string(v: (int(v: r._time) - int(v:stop_dt)) / sec_in_ns) else (if r._value > 0.0 then string(v: 0.0) else \"N/A\")}))\n|> yield(name: \"t1_D1T50\")\n\ndays7Target50 = join(tables: {t: target50, u: used7Days}, on: [\"host_id\"])\n|> map(fn: (r) => ({_time: r._time, _value: r.used - r.total}))\n|> predictLinear(wantedValue: 0.0)\n|> map(fn: (r) => ({t2_D7T50: if r._time > now() then string(v: (int(v: r._time) - int(v:stop_dt)) / sec_in_ns) else (if r._value > 0.0 then string(v: 0.0) else \"N/A\")}))\n|> yield(name: \"t2_D7T50\")\n\ndays30Target50 = join(tables: {t: target50, u: used30Days}, on: [\"host_id\"])\n|> map(fn: (r) => ({_time: r._time, _value: r.used - r.total}))\n|> predictLinear(wantedValue: 0.0)\n|> map(fn: (r) => ({t3_D30T50: if r._time > now() then string(v: (int(v: r._time) - int(v:stop_dt)) / sec_in_ns) else (if r._value > 0.0 then string(v: 0.0) else \"N/A\")}))\n|> yield(name: \"t3_D30T50\")\n\ndays1Target80 = join(tables: {t: target80, u: used1Day}, on: [\"host_id\"])\n|> map(fn: (r) => ({_time: r._time, _value: r.used - r.total}))\n|> predictLinear(wantedValue: 0.0)\n|> map(fn: (r) => ({t4_D1T80: if r._time > now() then string(v: (int(v: r._time) - int(v:stop_dt)) / sec_in_ns) else (if r._value > 0.0 then string(v: 0.0) else \"N/A\")}))\n|> yield(name: \"t4_D1T80\")\n\ndays7Target80 = join(tables: {t: target80, u: used7Days}, on: [\"host_id\"])\n|> map(fn: (r) => ({_time: r._time, _value: r.used - r.total}))\n|> predictLinear(wantedValue: 0.0)\n|> map(fn: (r) => ({t5_D7T80: if r._time > now() then string(v: (int(v: r._time) - int(v:stop_dt)) / sec_in_ns) else (if r._value > 0.0 then string(v: 0.0) else \"N/A\")}))\n|> yield(name: \"t5_D7T80\")\n\ndays30Target80 = join(tables: {t: target80, u: used30Days}, on: [\"host_id\"])\n|> map(fn: (r) => ({_time: r._time, _value: r.used - r.total}))\n|> predictLinear(wantedValue: 0.0)\n|> map(fn: (r) => ({t6_D30T80: if r._time > now() then string(v: (int(v: r._time) - int(v:stop_dt)) / sec_in_ns) else (if r._value > 0.0 then string(v: 0.0) else \"N/A\")}))\n|> yield(name: \"t6_D30T80\")\n",
+              "refId": "A",
+              "resultFormat": "table"
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Nodes Trend",
+          "transform": "table",
+          "type": "table"
+        },
+        {
+          "columns": [],
           "fontSize": "100%",
           "gridPos": {
             "h": 7,
             "w": 24,
             "x": 0,
-            "y": 8
+            "y": 16
           },
           "id": 15,
           "links": [],
@@ -829,7 +1028,7 @@
             "h": 8,
             "w": 8,
             "x": 0,
-            "y": 16
+            "y": 9
           },
           "id": 6,
           "legend": {
@@ -912,7 +1111,7 @@
             "h": 8,
             "w": 8,
             "x": 8,
-            "y": 16
+            "y": 9
           },
           "id": 7,
           "legend": {
@@ -995,7 +1194,7 @@
             "h": 8,
             "w": 8,
             "x": 16,
-            "y": 16
+            "y": 9
           },
           "id": 8,
           "legend": {
