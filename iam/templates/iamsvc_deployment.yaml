@@ -6,7 +6,7 @@ metadata:
   labels:
     {{- include "iamsvc.labels" . | nindent 4 }}
 spec:
-  replicas: {{ .Values.replicaCount }}
+  replicas: 1 
   selector:
     matchLabels:
       {{- include "iamsvc.selectorLabels" . | nindent 6 }}
@@ -25,7 +25,7 @@ spec:
         - name: SPRING_PROFILES_ACTIVE
           value: "atlas,flex,dns"
         - name: ATLAS_SERVICE_HOSTNAME
-          value: "iamsvc-atlas-client"
+          value: "{{ .Release.Name }}-atlas-client"
         - name: MY_POD_NAME
           valueFrom:
             fieldRef:

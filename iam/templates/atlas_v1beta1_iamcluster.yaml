@@ -6,7 +6,7 @@ metadata:
 spec:
   replicas: {{ .Values.atlas.replicaCount }}
   image:
-    repository:  {{ .Values.atlas.registry }}/{{ .Values.atlas.image.repository }}
+    repository:  {{  default  .Values.global.registry  .Values.atlas.registry }}/{{ .Values.atlas.image.repository }}
     tag: {{ .Values.atlas.image.tag }}
     pullPolicy: {{ .Values.atlas.image.pullPolicy }}
     persistence:
