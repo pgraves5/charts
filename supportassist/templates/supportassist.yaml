@@ -118,12 +118,12 @@ spec:
         imagePullPolicy: {{default .Values.image.pullPolicy .Values.pullPolicy}}
         command: ["/opt/ese/bin/entrypoint.sh"]
         ports:
-          - containerPort: 9447
-            name: secure
-            protocol: TCP
-          - containerPort: 8080
-            name: insecure
-            protocol: TCP
+        - containerPort: 9447
+          name: secure
+          protocol: TCP
+        - containerPort: 8080
+          name: insecure
+          protocol: TCP
         volumeMounts:
           - mountPath: /opt/ese/var
             name: supportassist-{{.Values.product}}-persistentdata
@@ -133,10 +133,10 @@ spec:
           - name: supportassist-{{.Values.product}}-store-claim0
             mountPath: /opt/ese/data
         env:
-          - name: ESE_USER
-            value: "eseservice"
-          - name: REGISTRY_SECRET
-            value: {{.Values.global.registrySecret}}
+        - name: ESE_USER
+          value: "eseservice"
+        - name: REGISTRY_SECRET
+          value: {{.Values.global.registrySecret}}
       - name: ese-store
         image: {{ .Values.global.registry }}/{{.Values.eseStore.image.repository }}:{{ .Values.eseStore.image.version }}
         imagePullPolicy: {{ default .Values.pullPolicy .Values.eseStore.image.pullPolicy }}
