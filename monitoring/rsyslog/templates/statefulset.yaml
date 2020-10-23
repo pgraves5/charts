@@ -84,6 +84,9 @@ spec:
         - mountPath: /etc/logrotate.d/svc
           name: logrotate-config
           subPath: svc
+        - mountPath: /etc/logrotate.d/remove_old
+          name: logrotate-config
+          subPath: remove_old
         - mountPath: /etc/logrotate.conf
           name: logrotate-config
           subPath: logrotate.conf
@@ -120,6 +123,8 @@ spec:
       {{- range $key, $value := .Values.persistence.annotations }}
         {{ $key }}: "{{ $value }}"
       {{- end}}
+      labels:
+        release: {{ .Release.Name }}
     spec:
       accessModes:
         - {{ .Values.persistence.accessMode | quote }}
