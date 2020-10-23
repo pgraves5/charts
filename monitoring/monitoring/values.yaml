@@ -276,6 +276,6 @@ fluxd:
 rsyslog:
   persistence:
     enabled: true
-    storageClassName: "baremetal-csi-sc-ssdlvg"
+    storageClassName: "baremetal-csi-sc-syslvg"
     accessMode: ReadWriteOnce
     size: 20Gi
