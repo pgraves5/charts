@@ -99,6 +99,7 @@ telegraf:
             - "cm_Chunk_Statistics"
             - "cm_EC_Statistics"
             - "cm_REPO_GC_Statistics"
+            - "cm_Flex_Statistics"
             - "sr_REPO_GC_Statistics"
             - "cm_Recover_Statistics"
             - "cm_Rebalance_Statistics"
@@ -107,6 +108,7 @@ telegraf:
             - "ssm_sstable_SSTable_SS_partitions_PD_status"
             - "statDataHead_performance_internal_*"
             - "blob_SSDReadCache_Stats"
+            - "objcontrolsvc_Topology*"
           tagpasscoordinated:
             limit: 25
             namespace: ["*"]
