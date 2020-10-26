@@ -170,6 +170,8 @@ spec:
         - mountPath: /etc/cleanup_logs
           name: cleanup-script
           subPath: cleanup_logs
+        - mountPath: /crash-dump
+          name: crash-dump
       {{- if .Values.imagePullSecrets }}
       imagePullSecrets:
 {{ toYaml .Values.imagePullSecrets | indent 8 }}
