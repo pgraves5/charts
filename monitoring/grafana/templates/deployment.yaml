@@ -118,6 +118,8 @@ spec:
         - mountPath: /etc/nginx/cert
           name: cert
         {{- end }}
+        - mountPath: /crash-dump
+          name: crash-dump
       # In case tls is disabled - liveness & readiness probes will go to main container
       {{- end }}
         # nginx logs to stdout, no need to mount varlog

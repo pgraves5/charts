@@ -117,6 +117,8 @@ spec:
         {{- end }}
         - name: varlog
           mountPath: /var/log
+        - mountPath: /crash-dump
+          name: crash-dump
       containers:
       - name: {{ .Chart.Name }}
         image: "{{ include "common-lib.monitoring_registry" . }}/{{ .Values.image.repository }}:{{ .Values.image.tag | default .Values.global.monitoring_tag }}"
@@ -173,6 +175,8 @@ spec:
         - mountPath: /etc/nginx/cert
           name: cert
         {{- end }}
+        - mountPath: /crash-dump
+          name: crash-dump
       # In case tls is disabled - liveness & readiness probes will go to main container
       {{- end }}
         livenessProbe:
@@ -238,6 +242,8 @@ spec:
           mountPath: /var/log
         - name: restore-ranges-cron-config
           mountPath: /etc/cron.d
+        - mountPath: /crash-dump
+          name: crash-dump
       {{- end }}
       - name: logrotate
         image: "{{ include "common-lib.monitoring_registry" . }}/rsyslog:{{ .Values.global.monitoring_tag }}"

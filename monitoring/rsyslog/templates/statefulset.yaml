@@ -95,6 +95,8 @@ spec:
         - mountPath: /etc/cleanup_logs
           name: cleanup-script
           subPath: cleanup_logs
+        - mountPath: /crash-dump
+          name: crash-dump
     {{- with .Values.tolerations }}
       tolerations:
 {{ toYaml . | indent 8 }}

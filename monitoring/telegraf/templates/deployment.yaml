@@ -95,6 +95,8 @@ spec:
         - mountPath: /etc/nginx/cert
           name: cert
         {{- end }}
+        - mountPath: /crash-dump
+          name: crash-dump
       {{- end }}
       volumes:
       - name: config
