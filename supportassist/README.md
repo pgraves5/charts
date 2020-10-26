@@ -6,6 +6,7 @@ This chart allows the user to deploy a Dell EMC SupportAssist embedded services 
 * [Description](#description)
 * [Requirements](#requirements)
 * [Quick Start](#quick-start)
+* [Configuration](#configuration)
 
 ## Description
 
@@ -55,3 +56,41 @@ This Helm chart deploys:
     service/supportassist-objectscale-headless   ClusterIP      None         <none>         9447/TCP,8080/TCP               15h
     ```
 5. For internal testing Use Postman to test SupportAssist ESE RESTAPIs
+
+## Configuration
+
+Customer contact information can be supplied thru an array or via a file using the following examples:
+###  customercontactsfile
+it is a location of the product customer contact yaml file. The file must be in yaml format and follow the template below.If the file is in your current directory, you can simply provide the name of the yaml file. If the file is in another location, you need to provide the pathname of the file.
+#### Customer contacts file template:
+```yaml
+contacts:
+  - contactOrder: 1
+    firstName: XXX
+    lastName: XXX
+    phoneNumber: "+1 (555) 555-7746"
+    emailAddress: test@dell.com
+    timeZoneOffset: -06:00
+    prefContact: phone
+    prefContactTime: 11:00AM - 1:00AM
+    prefLanguage: En
+  - contactOrder: 2
+    firstName: XXX
+    lastName: XXX
+    phoneNumber: "+1 (312) 555-7748"
+    emailAddress: test@dell.com
+    timeZoneOffset: -06:00
+    prefContact: email
+    prefContactTime: 1:00PM - 3:00AM
+    prefLanguage: En
+```
+Example helm install command line setting:
+```
+--set-file customercontactsfile=objectscale-customercontact.yaml
+--set-file customercontactsfile=/home/xxx/objectscale-customercontact.yaml
+--set-file customercontactsfile=../../../xxx/objectscale-customercontact.yaml
+```
+###  contacts
+```    
+$ helm install objs-sa objectscale/supportassist --set product=contacts[0].contactOrder=1,contacts[0].firstName=XXX,contacts[0].lastName=XXX,contacts[1].contactOrder=2,contacts[1].lastName=XXX,contacts[1].firstName=XXX
+```

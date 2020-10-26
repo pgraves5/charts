@@ -20,7 +20,7 @@ metadata:
     app.kubernetes.io/instance: {{ .Release.Name }}
     helm.sh/chart: {{ include "throttler.chart" . }}
 spec:
-  replicas: {{ .Values.replicaCount }}
+  replicas: {{ include "common-lib.replicaCount" (dict "top" . "micro" 1 "small" 1 "medium" 1 "large" 1)}}
   selector:
     matchLabels:
       app.kubernetes.io/name: {{ include "throttler.fullname" . }}
@@ -30,6 +30,7 @@ spec:
       labels:
         app.kubernetes.io/name: {{ include "throttler.fullname" . }}
         app.kubernetes.io/instance: {{ .Release.Name }}
+        release: {{ .Release.Name }}
       annotations:
         {{- if .Values.global.use_vault_for_ssl }}
         vault.hashicorp.com/agent-inject: "true"
@@ -111,7 +112,7 @@ spec:
     spec:
       containers:
       - name: {{ .Chart.Name }}
-        image: "{{ .Values.global.monitoring_registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag | default .Values.global.monitoring_tag }}"
+        image: "{{ include "common-lib.monitoring_registry" . }}/{{ .Values.image.repository }}:{{ .Values.image.tag | default .Values.global.monitoring_tag }}"
         imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
         command: ["throttler"]
         args: ["--logger-config", "/etc/throttler/logger.json", "--port", "{{ .Values.config.http.bind_address }}"]
@@ -135,7 +136,7 @@ spec:
         {{- end }}
       {{- if .Values.global.tls_enabled }}
       - name: nginx
-        image: "{{ .Values.global.monitoring_registry }}/nginx:{{ .Values.global.monitoring_tag }}"
+        image: "{{ include "common-lib.monitoring_registry" . }}/nginx:{{ .Values.global.monitoring_tag }}"
         imagePullPolicy: IfNotPresent
         ports:
         - name: api

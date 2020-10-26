@@ -12,8 +12,9 @@
 #
 
 global:
-  monitoring_registry: ecs-monitoring
+  registry: ecs-monitoring
   tls_enabled: true
+  started: true
 
 replicaCount: 1
 

@@ -16,8 +16,9 @@
 ## ref: https://hub.docker.com/r/library/telegraf/tags/
 
 global:
-  monitoring_registry: emccorp
+  registry: emccorp
   tls_enabled: true
+  started: true
 
 replicaCount: 1
 

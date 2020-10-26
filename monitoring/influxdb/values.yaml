@@ -22,7 +22,7 @@ global:
 
   # The private docker registry hosting containers for ECS Flex
   # registry: harbor.lss.emc.com/ecs
-  monitoring_registry: emccorp
+  registry: emccorp
 
   # Default: "" == Watch ALL namespaces
   watchNamespace: ""
@@ -32,6 +32,7 @@ global:
   internal_dns: kube-dns.kube-system.svc.cluster.local
 
   performanceProfile: "Small"
+  started: true
 
 
 disable_recovery: false
@@ -159,7 +160,7 @@ config:
     supress_logo: false
 
 initScripts:
-  enabled: false
+  enabled: true
   scripts:
     init.iql: |+
       CREATE DATABASE "monitoring_main" WITH DURATION 60d SHARD DURATION 10d NAME "default"
@@ -167,3 +168,4 @@ initScripts:
       CREATE DATABASE "monitoring_last" WITH DURATION 1d SHARD DURATION 1d NAME "default"
       CREATE DATABASE "monitoring_vdc" WITH DURATION 60d SHARD DURATION 10d NAME "default"
       CREATE DATABASE "monitoring_meta" WITH DURATION 60d SHARD DURATION 10d NAME "default"
+      CREATE DATABASE "monitoring_rt" WITH DURATION 1h SHARD DURATION 1h NAME "default"

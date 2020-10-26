@@ -27,6 +27,7 @@ spec:
     metadata:
       labels:
         app.kubernetes.io/name: {{ template "telegraf.fullname" . }}
+        release: {{ .Release.Name }}
       annotations:
         # Include a hash of the configmap in the pod template
         # This means that if the configmap changes, the deployment will be rolled
@@ -60,7 +61,7 @@ spec:
       serviceAccountName: {{ template "telegraf.serviceAccountName" . }}
       containers:
       - name: telegraf
-        image: "{{ .Values.global.monitoring_registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag | default .Values.global.monitoring_tag }}"
+        image: "{{ include "common-lib.monitoring_registry" . }}/{{ .Values.image.repository }}:{{ .Values.image.tag | default .Values.global.monitoring_tag }}"
         imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
         command: ["telegraf"]
         args: ["--config", "/etc/telegraf/telegraf.conf", "--config-directory", "/etc/telegraf/telegraf.d/"]
@@ -80,7 +81,7 @@ spec:
 {{- end }}
       {{- if and .Values.global.tls_enabled .Values.global.telegraf_tls_enabled }}
       - name: nginx
-        image: "{{ .Values.global.monitoring_registry }}/nginx:{{ .Values.global.monitoring_tag }}"
+        image: "{{ include "common-lib.monitoring_registry" . }}/nginx:{{ .Values.global.monitoring_tag }}"
         imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
         ports:
         - name: api
