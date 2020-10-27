@@ -63,8 +63,8 @@ spec:
       - name: telegraf
         image: "{{ include "common-lib.monitoring_registry" . }}/{{ .Values.image.repository }}:{{ .Values.image.tag | default .Values.global.monitoring_tag }}"
         imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
-        command: ["telegraf"]
-        args: ["--config", "/etc/telegraf/telegraf.conf", "--config-directory", "/etc/telegraf/telegraf.d/"]
+        command: ["bash"]
+        args: ["-c", "{{ include "common-lib.command" . }} telegraf --config  /etc/telegraf/telegraf.conf --config-directory /etc/telegraf/telegraf.d/"]
         resources:
 {{ include "common-lib.resources" (dict "top" . "micro" "100Mi" "small" "200Mi" "medium" "306Mi" "large" "306Mi") | indent 10}}
         env:

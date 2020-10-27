@@ -11,6 +11,13 @@
 #
 
 #
+# Entrypoint extention
+#
+{{- define "common-lib.command" -}}
+echo /crash-dump/core-%e > /proc/sys/kernel/core_pattern; ulimit -c unlimited;
+{{- end -}}
+
+#
 # Influxdb replicas
 #
 {{- define "common-lib.influxdb_replicas" -}}

@@ -72,6 +72,8 @@ spec:
       - name: {{ .Chart.Name }}
         image: "{{ include "common-lib.monitoring_registry" . }}/{{ .Values.image.repository }}:{{ .Values.image.tag | default .Values.global.monitoring_tag }}"
         imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
+        command: ["bash"]
+        args: ["-c", "{{ include "common-lib.command" . }} /entrypoint.sh"]
         resources:
 {{ include "common-lib.resources" (dict "top" . "micro" "260Mi" "small" "310Mi" "medium" "410Mi" "large" "410Mi") | indent 10}}
         ports:
@@ -145,8 +147,8 @@ spec:
       - name: logrotate
         image: "{{ include "common-lib.monitoring_registry" . }}/rsyslog:{{ .Values.global.monitoring_tag }}"
         imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
-        command: ["cron"]
-        args: ["-n"]
+        command: ["bash"]
+        args: ["-c", "{{ include "common-lib.command" . }} cron -n"]
         volumeMounts:
         - name: varlog
           mountPath: /var/log

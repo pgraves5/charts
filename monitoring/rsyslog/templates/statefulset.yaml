@@ -71,8 +71,8 @@ spec:
       - name: logrotate
         image: "{{ include "common-lib.monitoring_registry" . }}/{{ .Values.image.repository }}:{{ .Values.image.tag | default .Values.global.monitoring_tag }}"
         imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
-        command: ["cron"]
-        args: ["-n"]
+        command: ["bash"]
+        args: ["-c", "{{ include "common-lib.command" . }} cron -n"]
         env:
           - name: LOGS_SIZE_HIGH_WATERMARK
             value: "{{ .Values.config.logs_size_high_watermark }}"

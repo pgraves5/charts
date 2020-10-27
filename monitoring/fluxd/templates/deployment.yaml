@@ -100,8 +100,8 @@ spec:
       - name: {{ .Chart.Name }}
         image: "{{ include "common-lib.monitoring_registry" . }}/{{ .Values.image.repository }}:{{ .Values.image.tag | default .Values.global.monitoring_tag }}"
         imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
-        command: ["fluxd"]
-        args: ["--disable-lb", "--cf-disabled", "--disable-zk", "--node-id", "$(NODE_ID)", "--storage-hosts", "$(STORAGE_HOSTS)", "--store-namespace", "{{ .Release.Namespace }}", "--port", "{{ .Values.config.http.bind_address }}", "--logger-config", "/non_existing"]
+        command: ["bash"]
+        args: ["-c", "{{ include "common-lib.command" . }} fluxd --disable-lb --cf-disabled --disable-zk --node-id $(NODE_ID) --storage-hosts $(STORAGE_HOSTS) --store-namespace {{ .Release.Namespace }} --port {{ .Values.config.http.bind_address }} --logger-config /non_existing"]
         resources:
 {{ include "common-lib.resources" (dict "top" . "micro" "200Mi" "small" "350Mi" "medium" "350Mi" "large" "350Mi") | indent 10}}
         ports:
