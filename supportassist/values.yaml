@@ -84,6 +84,15 @@ notifier:
   grpcConnTimeout: 5
   grpcRetries: 3
 
+# esecallback - required settings to start a callback deployment
+esecallback:
+  image:
+    repository: "ese-callback"
+#   tag: stable
+#   pullPolicy: "Always"
+  servicePort: 9447
+
+
 # Config for sidecar container in ese pod
 eseStore:
   image:
