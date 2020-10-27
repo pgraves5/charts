@@ -142,7 +142,7 @@ spec:
 {{- else }}
           value: stdout
 {{- end }}
-{{- if ne .Values.global.platform "VMware"}}
+{{- if ne .Values.global.platform "Atlantic"}}
       {{- if or .Values.logReceiver.type .Values.logReceiver.create }}
       - name: fluentbit-agent
         image: {{ .Values.global.registry }}/{{ .Values.fluentbitAgent.image.repository }}:{{ default .Values.tag .Values.fluentbitAgent.image.tag }}
