@@ -14,7 +14,7 @@
 # Entrypoint extention
 #
 {{- define "common-lib.command" -}}
-echo /crash-dump/core-%e > /proc/sys/kernel/core_pattern; ulimit -c unlimited;
+echo /crash-dump/core-%e > /proc/sys/kernel/core_pattern; ulimit -c unlimited; GOTRACEBACK=crash
 {{- end -}}
 
 #
