@@ -169,6 +169,8 @@ spec:
       {{- end }}
 {{- end }}
 
+# Because volumes config was created if platform is not VMware and logReceiver is active it's needed to add this
+# checking here to save previous logic
 {{- if or (eq .Values.loggerConfig.enabled true) (and (ne .Values.global.platform "VMware") (or .Values.logReceiver.type .Values.logReceiver.create)) }}
       volumes:
         {{- if and (ne .Values.global.platform "VMware") (or .Values.logReceiver.type .Values.logReceiver.create) }}
