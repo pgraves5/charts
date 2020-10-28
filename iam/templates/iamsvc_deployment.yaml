@@ -38,7 +38,7 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: status.podIP
-        image: {{ default  .Values.global.registry .Values.iamsvc.image.registry }}/{{ .Values.iamsvc.image.repository }}:{{ .Values.iamsvc.image.tag }}
+        image: {{ default  .Values.global.registry .Values.iamsvc.image.registry }}/{{ .Values.iamsvc.image.repository }}:{{ default .Values.tag .Values.iamsvc.image.tag }}
         imagePullPolicy: {{ .Values.iamsvc.image.pullPolicy }}
         ports:
           - name: http
