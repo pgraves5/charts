@@ -84,7 +84,7 @@ telegraf:
             - "cm_Chunk_Statistics"
             - "cm_EC_Statistics"
             - "cm_REPO_GC_Statistics"
-            - "cm_Flex_Statistics"
+            - "cm_Flex_Statistics*"
             - "sr_REPO_GC_Statistics"
             - "cm_Recover_Statistics"
             - "cm_Rebalance_Statistics"
