@@ -12,7 +12,7 @@ global:
   registry: emccorp
 
 # The default docker tag and pull policy for dell-supportassist-ese
-tag: 2.0.52
+tag: 2.0.53
 pullPolicy: Always
 
 # The image configured for dell-ese
@@ -83,6 +83,29 @@ notifier:
   servicePort: 50051
   grpcConnTimeout: 5
   grpcRetries: 3
+
+# esecallback - required settings to start a callback deployment
+esecallback:
+  image:
+    repository: "ese-callback"
+#   tag: stable
+#   pullPolicy: "Always"
+  servicePort: 9447
+
+
+# Config for sidecar container in ese pod
+eseStore:
+  image:
+    repository: decks-support-store
+    #tag: stable
+    pullPolicy: Always
+  persistentVolume:
+    size: 50Gi
+  containerPort: 7443
+  service:
+    port: 7443
+    targetPort: 7443
+    type: ClusterIP
 
 # We usually recommend not to specify default resources and to leave this as a
 # conscious choice for the user. This also increases chances charts run on

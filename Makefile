@@ -3,7 +3,7 @@ HELM_URL     := https://get.helm.sh
 HELM_TGZ      = helm-${HELM_VERSION}-linux-amd64.tar.gz
 YQ_VERSION   := 2.4.1
 YAMLLINT_VERSION := 1.20.0
-CHARTS := ecs-cluster objectscale-manager mongoose zookeeper-operator atlas-operator decks kahm srs-gateway dks-testapp fio-test sonobuoy dellemc-license service-pod objectscale-graphql helm-controller objectscale-vsphere iam
+CHARTS := ecs-cluster objectscale-manager mongoose zookeeper-operator atlas-operator decks kahm dks-testapp fio-test sonobuoy dellemc-license service-pod objectscale-graphql helm-controller objectscale-vsphere iam pravega-operator bookkeeper-operator supportassist
 DECKSCHARTS := decks kahm supportassist service-pod dellemc-license
 FLEXCHARTS := ecs-cluster objectscale-manager objectscale-vsphere objectscale-graphql helm-controller
 MONITORING_DIR := monitoring
@@ -33,7 +33,7 @@ HELM_KAHM_ARGS       = # --set image.tag=${YOUR_VERSION_HERE}
 clean: clean-package
 
 test: monitoring-test
-	helm lint ${CHARTS} --set product=objectscale
+	helm lint ${CHARTS} --set product=objectscale --set global.product=objectscale
 	yamllint -c .yamllint.yml */Chart.yaml */values.yaml
 	yamllint -c .yamllint.yml -s .yamllint.yml .travis.yml
 	helm unittest ${CHARTS}
@@ -138,7 +138,6 @@ create-manager-app: create-temp-package
 	cd objectscale-manager; \
 	helm template --show-only templates/objectscale-manager-app.yaml objectscale-manager ../objectscale-manager  -n ${NAMESPACE} \
 	--set global.platform=VMware \
-	--set sonobuoy.enabled=false \
 	--set global.watchAllNamespaces=${WATCH_ALL_NAMESPACES} \
 	--set global.registry=${REGISTRY} \
 	--set global.storageClassName=${STORAGECLASSNAME} \
@@ -187,13 +186,14 @@ combine-crd-manager-ci: create-temp-package
 create-manager-manifest-ci: create-temp-package
 	helm template objectscale-manager ./objectscale-manager -n ${NAMESPACE} \
 	--set global.platform=Default --set global.watchAllNamespaces=${WATCH_ALL_NAMESPACES} \
-	--set sonobuoy.enabled=false --set global.registry=${REGISTRY} \
+	--set global.registry=${REGISTRY} \
 	--set global.storageClassName=${STORAGECLASSNAME} \
 	--set logReceiver.create=false \
 	-f objectscale-manager/values.yaml >> ${TEMP_PACKAGE}/yaml/${MANAGER_MANIFEST}
 
 monitoring-test:
 	make -C ${MONITORING_DIR} test
+	git checkout -- monitoring 
 
 monitoring-dep:
 	make -C ${MONITORING_DIR} dep
