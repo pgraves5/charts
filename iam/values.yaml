@@ -15,6 +15,7 @@ iamsvc:
   image:
     pullPolicy: IfNotPresent
     repository: iamsvc
+    #tag: stable
   livenessProbe:
     probePath: /iam/local?Action=ListUsers
   readinessProbe:
