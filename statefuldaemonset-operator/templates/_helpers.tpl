@@ -30,10 +30,3 @@ Create chart name and version as used by the chart label.
 {{- define "statefuldaemonset-operator.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
-
-{{/*
-Create the name of the service account to use
-*/}}
-{{- define "statefuldaemonset-operator.serviceAccountName" -}}
-{{- printf "%s-%s" (include "statefuldaemonset-operator.fullname" .) "serviceaccount" -}}
-{{- end -}}

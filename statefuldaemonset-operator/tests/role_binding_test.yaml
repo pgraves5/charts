@@ -5,7 +5,7 @@ tests:
   - it: should create a ClusterRoleBinding resource
     asserts:
       - isKind:
-          of: ClusterRoleBinding
+          of: RoleBinding
       - equal:
           path: metadata.name
           value: RELEASE-NAME-statefuldaemonset-operator-statefuldaemonset-operator-binding
@@ -33,7 +33,7 @@ tests:
     asserts:
       - equal:
           path: roleRef.kind
-          value: ClusterRole
+          value: Role
       - equal:
           path: roleRef.name
           value: RELEASE-NAME-statefuldaemonset-operator-statefuldaemonset-operator-role
@@ -42,7 +42,7 @@ tests:
           value: ServiceAccount
       - equal:
           path: subjects[0].name
-          value: RELEASE-NAME-statefuldaemonset-operator-serviceaccount
+          value: default
   - it: should bind the Role to the default account
     set:
       global.watchAllNamespaces: false
@@ -58,4 +58,4 @@ tests:
           value: ServiceAccount
       - equal:
           path: subjects[0].name
-          value: RELEASE-NAME-statefuldaemonset-operator-serviceaccount
+          value: default

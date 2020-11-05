@@ -7,7 +7,7 @@
 global:
 
   # The Docker registry hosting containers for the statefuldaemonset operator
-  registry: asdrepo.isus.emc.com:8099
+  registry: emccorp
 
   # Specifies if the Operator should watch all namespaces for statefuldaemonset
   # resources or only the namespace that is is deployed in.
@@ -26,6 +26,14 @@ nameOverride: ""
 podSecurityContext: {}
 
 securityContext: {}
+
+resources:
+  requests:
+    cpu: 250m
+    memory: 64Mi
+  limits:
+    cpu: 1
+    memory: 128Mi
 
 nodeSelector: {}
 

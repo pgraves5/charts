@@ -5,7 +5,7 @@ tests:
   - it: should create a ClusterRole resource
     asserts:
       - isKind:
-          of: ClusterRole
+          of: Role
       - equal:
           path: metadata.name
           value: RELEASE-NAME-statefuldaemonset-operator-leader-election-role

@@ -28,10 +28,12 @@ tests:
           path: spec.replicas
           value: 1
   - it: should have a default image
+    set:
+      global.monitoring_tag: v0.53
     asserts:
       - matchRegex:
           path: spec.template.spec.containers[0].image
-          pattern: ^asdrepo.isus.emc.com:8099/statefuldaemonset-operator:.+$
+          pattern: ^emccorp/statefuldaemonset-operator:.+$
       - equal:
           path: spec.template.spec.containers[0].imagePullPolicy
           value: IfNotPresent

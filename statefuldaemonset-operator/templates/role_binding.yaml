@@ -15,5 +15,5 @@ roleRef:
   name: {{ template "statefuldaemonset-operator.fullname" . }}-statefuldaemonset-operator-role
 subjects:
 - kind: ServiceAccount
-  name: {{ template "statefuldaemonset-operator.serviceAccountName" . }}
+  name: default
   namespace: {{ .Release.Namespace }}
