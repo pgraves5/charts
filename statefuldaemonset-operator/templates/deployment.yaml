@@ -1,21 +1,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "statefuldaemonset-operator.name" . }}
+  name: {{ include "statefuldaemonset-operator.fullname" . }}
   namespace: {{ .Release.Namespace }}
   labels:
-{{ include "statefuldaemonset-operator.labels" . | indent 4 }}
+    app.kubernetes.io/name: {{ include "statefuldaemonset-operator.fullname" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    helm.sh/chart: {{ include "statefuldaemonset-operator.chart" . }}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app.kubernetes.io/name: {{ include "statefuldaemonset-operator.name" . }}
+      app.kubernetes.io/name: {{ include "statefuldaemonset-operator.fullname" . }}
       app.kubernetes.io/instance: {{ .Release.Name }}
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: {{ include "statefuldaemonset-operator.name" . }}
+        app.kubernetes.io/name: {{ include "statefuldaemonset-operator.fullname" . }}
         app.kubernetes.io/instance: {{ .Release.Name }}
+        release: {{ .Release.Name }}
     spec:
       {{- if .Values.global.registrySecret }}
       imagePullSecrets:
@@ -30,8 +33,8 @@ spec:
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           resources:
-            {{- toYaml .Values.resources | nindent 12 }}
-          args: ["--enable-leader-election"]
+{{ include "common-lib.resources" (dict "top" . "micro" "200Mi" "small" "350Mi" "medium" "350Mi" "large" "350Mi") | indent 12}}
+          args: ["-c", "{{ include "common-lib.command" . }} manager --enable-leader-election"]
           env:
             - name: WATCH_NAMESPACE
 {{- if eq .Values.global.watchAllNamespaces true }}
@@ -41,6 +44,12 @@ spec:
                 fieldRef:
                   fieldPath: metadata.namespace
 {{- end }}
+          volumeMounts:
+          - mountPath: /crash-dump
+            name: crash-dump
+      volumes:
+      - name: crash-dump
+        emptyDir: {}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

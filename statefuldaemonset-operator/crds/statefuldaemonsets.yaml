@@ -41,6 +41,9 @@ spec:
                 pods under a stateful set.
               type: string
             revisionHistoryLimit:
+              description: 'INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
+                Important: Run "make generate" to regenerate code after modifying
+                this file'
               format: int32
               type: integer
             selector:
@@ -91,12 +94,6 @@ spec:
               type: object
             serviceName:
               type: string
-            servicePort:
-              description: 'INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
-                Important: Run "make generate" to regenerate code after modifying
-                this file'
-              format: int32
-              type: integer
             template:
               description: PodTemplateSpec describes the data a pod should have when
                 created from a template
@@ -6091,7 +6088,6 @@ spec:
           required:
           - selector
           - serviceName
-          - servicePort
           - template
           type: object
         status:

@@ -1,9 +1,11 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: node-role
+  name: {{ template "statefuldaemonset-operator.fullname" . }}-node-role
   labels:
-{{ include "statefuldaemonset-operator.labels" . | indent 4 }}
+    app.kubernetes.io/name: {{ include "statefuldaemonset-operator.fullname" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    helm.sh/chart: {{ include "statefuldaemonset-operator.chart" . }}
 rules:
 - apiGroups:
   - ""

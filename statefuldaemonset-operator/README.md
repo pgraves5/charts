@@ -11,7 +11,7 @@ the cluster.
 - Kubernetes 1.14+
 
 
-## Customising values
+## Customizing values
 
 Default values can be overridden when installing the operator by creating a yaml file and
 passing in with the `--values` option.
