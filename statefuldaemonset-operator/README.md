@@ -1,7 +1,6 @@
 # StatefulDaemonSet Operator Chart
 
-This chart installs the [StatefulDaemonSet Operator](https://eos2git.cec.lab.emc.com/ECS/statefuldaemonset-operator) 
-using the [Helm](https://helm.sh) package manager.
+This chart installs the StatefulDaemonSet Operator using the [Helm](https://helm.sh) package manager.
 You can use the operator to create and manage statefuldaemonsets. The operator will install
 the associated resources (stateful-sets, config-maps, etc.) and handles changes made to
 the cluster.

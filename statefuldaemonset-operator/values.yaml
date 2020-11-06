@@ -1,5 +1,5 @@
 ---
-# Default values for Atlas operator
+# Default values for statefuldaemonset operator
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
@@ -18,7 +18,7 @@ global:
 
 image:
   repository: statefuldaemonset-operator
-  tag: 0.53.0
+  tag: stable
   pullPolicy: IfNotPresent
 
 nameOverride: ""
@@ -26,6 +26,11 @@ nameOverride: ""
 podSecurityContext: {}
 
 securityContext: {}
+
+## Service account name and whether to create it.
+serviceAccount:
+  create: true
+  name: statefuldaemonset-operator
 
 resources:
   requests:

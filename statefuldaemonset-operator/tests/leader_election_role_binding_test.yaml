@@ -42,7 +42,7 @@ tests:
           value: ServiceAccount
       - equal:
           path: subjects[0].name
-          value: default
+          value: statefuldaemonset-operator
   - it: should bind the Role to the default account
     set:
       global.watchAllNamespaces: false
@@ -58,4 +58,4 @@ tests:
           value: ServiceAccount
       - equal:
           path: subjects[0].name
-          value: default
+          value: statefuldaemonset-operator
