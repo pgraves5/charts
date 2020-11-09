@@ -18,7 +18,7 @@ global:
 
 image:
   repository: statefuldaemonset-operator
-  tag: stable
+  # tag: stable
   pullPolicy: IfNotPresent
 
 nameOverride: ""
