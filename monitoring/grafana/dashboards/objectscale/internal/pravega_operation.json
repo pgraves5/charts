@@ -4,12 +4,10 @@
       {
         "builtIn": 1,
         "datasource": "-- Grafana --",
-        "enable": false,
+        "enable": true,
         "hide": true,
         "iconColor": "rgba(0, 211, 255, 1)",
-        "limit": 100,
         "name": "Annotations & Alerts",
-        "showIn": 0,
         "type": "dashboard"
       }
     ]
@@ -17,29 +15,362 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
-  "id": 27,
-  "iteration": 1603791333205,
+  "id": null,
   "links": [],
   "panels": [
     {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 10,
+      "panels": [],
+      "title": "Current Latency Stats",
+      "type": "row"
+    },
+    {
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorValue": false,
+      "colors": [
+        "#299c46",
+        "rgba(237, 129, 40, 0.89)",
+        "#d44a3a"
+      ],
+      "format": "ms",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 5,
+        "x": 0,
+        "y": 1
+      },
+      "id": 4,
+      "interval": null,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "options": {},
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": false
+      },
+      "tableColumn": "",
+      "targets": [
+        {
+          "query": "from(bucket: \"monitoring_last\")\r\n|> filter(fn: (r) => r._measurement == \"pravega_segmentstore_segment_read_latency_ms_percentile\"\r and r.phi == \"0.99\" and r.host =~ /^${host:pipe}$/ )\r\n|> range($range)\r\n|> group()\n|> last()\n",
+          "refId": "A"
+        }
+      ],
+      "thresholds": "",
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Segment Read Latency (p0.99)",
+      "type": "singlestat",
+      "valueFontSize": "80%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "null"
+        }
+      ],
+      "valueName": "avg"
+    },
+    {
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorValue": false,
+      "colors": [
+        "#299c46",
+        "rgba(237, 129, 40, 0.89)",
+        "#d44a3a"
+      ],
+      "format": "ms",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 5,
+        "x": 5,
+        "y": 1
+      },
+      "id": 2,
+      "interval": null,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "options": {},
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": false
+      },
+      "tableColumn": "",
+      "targets": [
+        {
+          "query": "from(bucket: \"monitoring_last\")\r\n|> filter(fn: (r) => r._measurement == \"pravega_segmentstore_segment_write_latency_ms_percentile\"\r and r.phi == \"0.99\" and r.host =~ /^${host:pipe}$/ )\r\n|> range($range)\r\n|> group()\n|> last()\n",
+          "refId": "A"
+        }
+      ],
+      "thresholds": "",
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Segment Write Latency (p0.99)",
+      "type": "singlestat",
+      "valueFontSize": "80%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "null"
+        }
+      ],
+      "valueName": "avg"
+    },
+    {
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorValue": false,
+      "colors": [
+        "#299c46",
+        "rgba(237, 129, 40, 0.89)",
+        "#d44a3a"
+      ],
+      "format": "ms",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 5,
+        "x": 10,
+        "y": 1
+      },
+      "id": 8,
+      "interval": null,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "options": {},
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": false
+      },
+      "tableColumn": "",
+      "targets": [
+        {
+          "query": "from(bucket: \"monitoring_last\")\r\n|> filter(fn: (r) => r._measurement == \"pravega_segmentstore_storage_write_latency_ms_percentile\"\r and r.phi == \"0.99\" and r.host =~ /^${host:pipe}$/ )\r\n|> range($range)\r\n|> group()\n|> last()\n",
+          "refId": "A"
+        }
+      ],
+      "thresholds": "",
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Storage Write Latency (p0.99)",
+      "type": "singlestat",
+      "valueFontSize": "80%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "null"
+        }
+      ],
+      "valueName": "avg"
+    },
+    {
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorValue": false,
+      "colors": [
+        "#299c46",
+        "rgba(237, 129, 40, 0.89)",
+        "#d44a3a"
+      ],
+      "format": "ms",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 5,
+        "x": 15,
+        "y": 1
+      },
+      "id": 6,
+      "interval": null,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "options": {},
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": false
+      },
+      "tableColumn": "",
+      "targets": [
+        {
+          "query": "from(bucket: \"monitoring_last\")\r\n|> filter(fn: (r) => r._measurement == \"pravega_segmentstore_storage_read_latency_ms_percentile\"\r and r.phi == \"0.99\" and r.host =~ /^${host:pipe}$/ )\r\n|> range($range)\r\n|> group()\n|> last()\n",
+          "refId": "A"
+        }
+      ],
+      "thresholds": "",
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Storage Read Latency (p0.99)",
+      "type": "singlestat",
+      "valueFontSize": "80%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "null"
+        }
+      ],
+      "valueName": "avg"
+    },
+    {
       "aliasColors": {},
       "bars": false,
-      "cacheTimeout": null,
       "dashLength": 10,
       "dashes": false,
       "fill": 1,
       "gridPos": {
-        "h": 8,
-        "w": 12,
+        "h": 5,
+        "w": 10,
         "x": 0,
-        "y": 0
+        "y": 5
       },
-      "id": 51,
+      "id": 16,
       "legend": {
+        "alignAsTable": true,
         "avg": false,
         "current": false,
         "max": false,
         "min": false,
+        "rightSide": true,
         "show": true,
         "total": false,
         "values": false
@@ -59,362 +390,9 @@
       "steppedLine": false,
       "targets": [
         {
-          "query": "from(bucket: \"undefined\")\n  |> range($range)\n  |> limit(n:1000)\n",
-          "refId": "A"
-        }
-      ],
-      "thresholds": [],
-      "timeFrom": null,
-      "timeRegions": [],
-      "timeShift": null,
-      "title": "Panel Title",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        },
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        }
-      ],
-      "yaxis": {
-        "align": false,
-        "alignLevel": null
-      }
-    },
-    {
-      "cacheTimeout": null,
-      "colorBackground": false,
-      "colorValue": true,
-      "colors": [
-        "rgb(61, 166, 30)",
-        "#cca300",
-        "#d44a3a"
-      ],
-      "datasource": "-- Grafana --",
-      "format": "ms",
-      "gauge": {
-        "maxValue": 100,
-        "minValue": 0,
-        "show": false,
-        "thresholdLabels": false,
-        "thresholdMarkers": true
-      },
-      "gridPos": {
-        "h": 5,
-        "w": 4,
-        "x": 16,
-        "y": 0
-      },
-      "hideTimeOverride": true,
-      "id": 22,
-      "interval": null,
-      "links": [],
-      "mappingType": 1,
-      "mappingTypes": [
-        {
-          "name": "value to text",
-          "value": 1
-        },
-        {
-          "name": "range to text",
-          "value": 2
-        }
-      ],
-      "maxDataPoints": 100,
-      "nullPointMode": "connected",
-      "nullText": null,
-      "options": {},
-      "postfix": "",
-      "postfixFontSize": "50%",
-      "prefix": "",
-      "prefixFontSize": "50%",
-      "rangeMaps": [
-        {
-          "from": "null",
-          "text": "N/A",
-          "to": "null"
-        }
-      ],
-      "sparkline": {
-        "fillColor": "rgba(31, 118, 189, 0.18)",
-        "full": false,
-        "lineColor": "rgb(31, 120, 193)",
-        "show": false
-      },
-      "tableColumn": "",
-      "thresholds": "10,50",
-      "timeFrom": null,
-      "title": "Segment Read Latency (p0.99)",
-      "type": "singlestat",
-      "valueFontSize": "120%",
-      "valueMaps": [
-        {
-          "op": "=",
-          "text": "0 ms",
-          "value": "null"
-        }
-      ],
-      "valueName": "current"
-    },
-    {
-      "cacheTimeout": null,
-      "colorBackground": false,
-      "colorValue": true,
-      "colors": [
-        "rgb(61, 166, 30)",
-        "#cca300",
-        "#d44a3a"
-      ],
-      "format": "ms",
-      "gauge": {
-        "maxValue": 100,
-        "minValue": 0,
-        "show": false,
-        "thresholdLabels": false,
-        "thresholdMarkers": true
-      },
-      "gridPos": {
-        "h": 5,
-        "w": 4,
-        "x": 20,
-        "y": 0
-      },
-      "hideTimeOverride": true,
-      "id": 23,
-      "interval": null,
-      "links": [],
-      "mappingType": 1,
-      "mappingTypes": [
-        {
-          "name": "value to text",
-          "value": 1
-        },
-        {
-          "name": "range to text",
-          "value": 2
-        }
-      ],
-      "maxDataPoints": 100,
-      "nullPointMode": "connected",
-      "nullText": null,
-      "options": {},
-      "postfix": "",
-      "postfixFontSize": "50%",
-      "prefix": "",
-      "prefixFontSize": "50%",
-      "rangeMaps": [
-        {
-          "from": "null",
-          "text": "N/A",
-          "to": "null"
-        }
-      ],
-      "sparkline": {
-        "fillColor": "rgba(31, 118, 189, 0.18)",
-        "full": false,
-        "lineColor": "rgb(31, 120, 193)",
-        "show": false
-      },
-      "tableColumn": "",
-      "targets": [
-        {
-          "alias": "",
-          "groupBy": [],
-          "measurement": "pravega_segmentstore_storage_read_latency_ms_percentile",
-          "orderByTime": "ASC",
-          "policy": "$retention",
+          "query": "from(bucket: \"monitoring_last\")\n|> filter(fn: (r) => r._measurement == \"pravega_segmentstore_stream_write_bytes\"  and r.host =~ /$host/)\n|> range($range)\n|> keep(columns: [\"_time\", \"_value\", \"host\", \"_measurement\"])\n|> window(every: 1m)\n|> mean()\n|> rename(columns: {_stop: \"_time\"})\n|> group()\n\n\n\n\n\n",
           "refId": "A",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": [
-                  "value"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "last"
-              }
-            ]
-          ],
-          "tags": [
-            {
-              "key": "phi",
-              "operator": "=",
-              "value": "0.99"
-            },
-            {
-              "key": "host",
-              "operator": "=~",
-              "value": "/.*$host.*/"
-            }
-          ]
-        }
-      ],
-      "thresholds": "10,50",
-      "timeFrom": null,
-      "title": "Storage Read Latency (p0.99)",
-      "type": "singlestat",
-      "valueFontSize": "120%",
-      "valueMaps": [
-        {
-          "op": "=",
-          "text": "0 ms",
-          "value": "null"
-        }
-      ],
-      "valueName": "current"
-    },
-    {
-      "collapsed": false,
-      "gridPos": {
-        "h": 1,
-        "w": 24,
-        "x": 0,
-        "y": 8
-      },
-      "id": 19,
-      "panels": [],
-      "title": "Current Latency Stats",
-      "type": "row"
-    },
-    {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "fill": 1,
-      "fillGradient": 0,
-      "gridPos": {
-        "h": 9,
-        "w": 12,
-        "x": 0,
-        "y": 9
-      },
-      "id": 25,
-      "legend": {
-        "avg": false,
-        "current": false,
-        "max": false,
-        "min": false,
-        "show": true,
-        "total": false,
-        "values": false
-      },
-      "lines": true,
-      "linewidth": 1,
-      "links": [],
-      "nullPointMode": "connected",
-      "options": {
-        "dataLinks": []
-      },
-      "percentage": false,
-      "pointradius": 0.5,
-      "points": true,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
-      "targets": [
-        {
-          "alias": "sum(segment_write_bytes.Rate)",
-          "groupBy": [
-            {
-              "params": [
-                "$__interval"
-              ],
-              "type": "time"
-            },
-            {
-              "params": [
-                "null"
-              ],
-              "type": "fill"
-            }
-          ],
-          "measurement": "segmentstore_stream_write_bytes",
-          "orderByTime": "ASC",
-          "policy": "$retention",
-          "query": "SELECT sum(\"mean_rate\") FROM (SELECT mean(\"Rate\") as \"mean_rate\" FROM \"$retention\".\"segmentstore_stream_write_bytes\" WHERE $timeFilter GROUP BY time($__interval), \"scope\", \"stream\" ) GROUP BY time($__interval) fill(null)\n",
-          "rawQuery": true,
-          "refId": "A",
-          "resultFormat": "time_series",
-          "tags": []
-        },
-        {
-          "alias": "$tag_host",
-          "groupBy": [
-            {
-              "params": [
-                "$__interval"
-              ],
-              "type": "time"
-            },
-            {
-              "params": [
-                "host"
-              ],
-              "type": "tag"
-            },
-            {
-              "params": [
-                "null"
-              ],
-              "type": "fill"
-            }
-          ],
-          "measurement": "segmentstore_global_write_bytes",
-          "orderByTime": "ASC",
-          "policy": "$retention",
-          "refId": "B",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": [
-                  "Rate"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "mean"
-              }
-            ]
-          ],
-          "tags": [
-            {
-              "key": "host",
-              "operator": "=~",
-              "value": "/.*$host.*/"
-            }
-          ]
+          "resultFormat": "time_series"
         }
       ],
       "thresholds": [],
@@ -441,7 +419,7 @@
           "label": null,
           "logBase": 1,
           "max": null,
-          "min": "0",
+          "min": null,
           "show": true
         },
         {
@@ -454,7 +432,7 @@
         }
       ],
       "yaxis": {
-        "align": false,
+        "align": true,
         "alignLevel": null
       }
     },
@@ -464,19 +442,20 @@
       "dashLength": 10,
       "dashes": false,
       "fill": 1,
-      "fillGradient": 0,
       "gridPos": {
-        "h": 9,
-        "w": 12,
-        "x": 12,
-        "y": 9
+        "h": 5,
+        "w": 10,
+        "x": 10,
+        "y": 5
       },
-      "id": 26,
+      "id": 18,
       "legend": {
+        "alignAsTable": true,
         "avg": false,
         "current": false,
         "max": false,
         "min": false,
+        "rightSide": true,
         "show": true,
         "total": false,
         "values": false
@@ -484,13 +463,11 @@
       "lines": true,
       "linewidth": 1,
       "links": [],
-      "nullPointMode": "connected",
-      "options": {
-        "dataLinks": []
-      },
+      "nullPointMode": "null",
+      "options": {},
       "percentage": false,
-      "pointradius": 0.5,
-      "points": true,
+      "pointradius": 2,
+      "points": false,
       "renderer": "flot",
       "seriesOverrides": [],
       "spaceLength": 10,
@@ -498,78 +475,9 @@
       "steppedLine": false,
       "targets": [
         {
-          "alias": "sum(segment_read_bytes.Rate)",
-          "groupBy": [
-            {
-              "params": [
-                "$__interval"
-              ],
-              "type": "time"
-            },
-            {
-              "params": [
-                "null"
-              ],
-              "type": "fill"
-            }
-          ],
-          "measurement": "segmentstore_stream_read_bytes",
-          "orderByTime": "ASC",
-          "policy": "$retention",
-          "query": "SELECT sum(\"mean_rate\") FROM (SELECT mean(\"Rate\") as \"mean_rate\" FROM \"$retention\".\"segmentstore_stream_read_bytes\" WHERE $timeFilter GROUP BY time($__interval), \"scope\", \"stream\" ) GROUP BY time($__interval) fill(null)\n",
-          "rawQuery": true,
+          "query": "from(bucket: \"monitoring_last\")\n|> filter(fn: (r) => r._measurement == \"pravega_segmentstore_stream_read_bytes\"  and r.host =~ /$host/)\n|> range($range)\n|> keep(columns: [\"_time\", \"_value\", \"host\", \"_measurement\"])\n|> window(every: 1m)\n|> mean()\n|> rename(columns: {_stop: \"_time\"})\n|> group()\n\n\n\n\n\n",
           "refId": "A",
-          "resultFormat": "time_series",
-          "tags": []
-        },
-        {
-          "alias": "$tag_host",
-          "groupBy": [
-            {
-              "params": [
-                "$__interval"
-              ],
-              "type": "time"
-            },
-            {
-              "params": [
-                "host"
-              ],
-              "type": "tag"
-            },
-            {
-              "params": [
-                "null"
-              ],
-              "type": "fill"
-            }
-          ],
-          "measurement": "segmentstore_global_read_bytes",
-          "orderByTime": "ASC",
-          "policy": "$retention",
-          "refId": "B",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": [
-                  "Rate"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "mean"
-              }
-            ]
-          ],
-          "tags": [
-            {
-              "key": "host",
-              "operator": "=~",
-              "value": "/.*$host.*/"
-            }
-          ]
+          "resultFormat": "time_series"
         }
       ],
       "thresholds": [],
@@ -596,7 +504,7 @@
           "label": null,
           "logBase": 1,
           "max": null,
-          "min": "0",
+          "min": null,
           "show": true
         },
         {
@@ -609,7 +517,7 @@
         }
       ],
       "yaxis": {
-        "align": false,
+        "align": true,
         "alignLevel": null
       }
     },
@@ -619,19 +527,20 @@
       "dashLength": 10,
       "dashes": false,
       "fill": 1,
-      "fillGradient": 0,
       "gridPos": {
-        "h": 9,
-        "w": 12,
+        "h": 5,
+        "w": 10,
         "x": 0,
-        "y": 18
+        "y": 10
       },
-      "id": 27,
+      "id": 12,
       "legend": {
+        "alignAsTable": true,
         "avg": false,
         "current": false,
         "max": false,
         "min": false,
+        "rightSide": true,
         "show": true,
         "total": false,
         "values": false
@@ -639,13 +548,11 @@
       "lines": true,
       "linewidth": 1,
       "links": [],
-      "nullPointMode": "connected",
-      "options": {
-        "dataLinks": []
-      },
+      "nullPointMode": "null",
+      "options": {},
       "percentage": false,
-      "pointradius": 0.5,
-      "points": true,
+      "pointradius": 2,
+      "points": false,
       "renderer": "flot",
       "seriesOverrides": [],
       "spaceLength": 10,
@@ -653,53 +560,9 @@
       "steppedLine": false,
       "targets": [
         {
-          "alias": "$tag_host",
-          "groupBy": [
-            {
-              "params": [
-                "$__interval"
-              ],
-              "type": "time"
-            },
-            {
-              "params": [
-                "host"
-              ],
-              "type": "tag"
-            },
-            {
-              "params": [
-                "null"
-              ],
-              "type": "fill"
-            }
-          ],
-          "measurement": "segmentstore_storage_write_bytes",
-          "orderByTime": "ASC",
-          "policy": "$retention",
+          "query": "from(bucket: \"monitoring_last\")\n|> filter(fn: (r) => r._measurement == \"pravega_segmentstore_storage_write_bytes\"  and r.host =~ /$host/)\n|> range($range)\n|> keep(columns: [\"_time\", \"_value\", \"host\", \"_measurement\"])\n|> window(every: 1m)\n|> mean()\n|> rename(columns: {_stop: \"_time\"})\n|> group()\n\n\n\n\n\n",
           "refId": "A",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": [
-                  "Rate"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "sum"
-              }
-            ]
-          ],
-          "tags": [
-            {
-              "key": "host",
-              "operator": "=~",
-              "value": "/.*$host.*/"
-            }
-          ]
+          "resultFormat": "time_series"
         }
       ],
       "thresholds": [],
@@ -726,7 +589,7 @@
           "label": null,
           "logBase": 1,
           "max": null,
-          "min": "0",
+          "min": null,
           "show": true
         },
         {
@@ -739,7 +602,7 @@
         }
       ],
       "yaxis": {
-        "align": false,
+        "align": true,
         "alignLevel": null
       }
     },
@@ -749,19 +612,20 @@
       "dashLength": 10,
       "dashes": false,
       "fill": 1,
-      "fillGradient": 0,
       "gridPos": {
-        "h": 9,
-        "w": 12,
-        "x": 12,
-        "y": 18
+        "h": 5,
+        "w": 10,
+        "x": 10,
+        "y": 10
       },
-      "id": 28,
+      "id": 14,
       "legend": {
+        "alignAsTable": true,
         "avg": false,
         "current": false,
         "max": false,
         "min": false,
+        "rightSide": true,
         "show": true,
         "total": false,
         "values": false
@@ -769,13 +633,11 @@
       "lines": true,
       "linewidth": 1,
       "links": [],
-      "nullPointMode": "connected",
-      "options": {
-        "dataLinks": []
-      },
+      "nullPointMode": "null",
+      "options": {},
       "percentage": false,
-      "pointradius": 0.5,
-      "points": true,
+      "pointradius": 2,
+      "points": false,
       "renderer": "flot",
       "seriesOverrides": [],
       "spaceLength": 10,
@@ -783,53 +645,9 @@
       "steppedLine": false,
       "targets": [
         {
-          "alias": "$tag_host",
-          "groupBy": [
-            {
-              "params": [
-                "$__interval"
-              ],
-              "type": "time"
-            },
-            {
-              "params": [
-                "host"
-              ],
-              "type": "tag"
-            },
-            {
-              "params": [
-                "null"
-              ],
-              "type": "fill"
-            }
-          ],
-          "measurement": "segmentstore_storage_read_bytes",
-          "orderByTime": "ASC",
-          "policy": "$retention",
+          "query": "from(bucket: \"monitoring_last\")\n|> filter(fn: (r) => r._measurement == \"pravega_segmentstore_storage_read_bytes\"  and r.host =~ /$host/)\n|> range($range)\n|> keep(columns: [\"_time\", \"_value\", \"host\", \"_measurement\"])\n|> window(every: 1m)\n|> mean()\n|> rename(columns: {_stop: \"_time\"})\n|> group()\n\n\n\n\n\n",
           "refId": "A",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": [
-                  "Rate"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "sum"
-              }
-            ]
-          ],
-          "tags": [
-            {
-              "key": "host",
-              "operator": "=~",
-              "value": "/.*$host.*/"
-            }
-          ]
+          "resultFormat": "time_series"
         }
       ],
       "thresholds": [],
@@ -856,7 +674,7 @@
           "label": null,
           "logBase": 1,
           "max": null,
-          "min": "0",
+          "min": null,
           "show": true
         },
         {
@@ -869,22 +687,9 @@
         }
       ],
       "yaxis": {
-        "align": false,
+        "align": true,
         "alignLevel": null
       }
-    },
-    {
-      "collapsed": false,
-      "gridPos": {
-        "h": 1,
-        "w": 24,
-        "x": 0,
-        "y": 27
-      },
-      "id": 49,
-      "panels": [],
-      "title": "Segmentstore - Segment Latencies",
-      "type": "row"
     },
     {
       "aliasColors": {},
@@ -892,19 +697,20 @@
       "dashLength": 10,
       "dashes": false,
       "fill": 1,
-      "fillGradient": 0,
       "gridPos": {
-        "h": 9,
-        "w": 12,
+        "h": 5,
+        "w": 10,
         "x": 0,
-        "y": 28
+        "y": 15
       },
-      "id": 32,
+      "id": 20,
       "legend": {
+        "alignAsTable": true,
         "avg": false,
         "current": false,
         "max": false,
         "min": false,
+        "rightSide": true,
         "show": true,
         "total": false,
         "values": false
@@ -912,13 +718,11 @@
       "lines": true,
       "linewidth": 1,
       "links": [],
-      "nullPointMode": "connected",
-      "options": {
-        "dataLinks": []
-      },
+      "nullPointMode": "null",
+      "options": {},
       "percentage": false,
-      "pointradius": 0.5,
-      "points": true,
+      "pointradius": 2,
+      "points": false,
       "renderer": "flot",
       "seriesOverrides": [],
       "spaceLength": 10,
@@ -926,60 +730,16 @@
       "steppedLine": false,
       "targets": [
         {
-          "alias": "p$tag_phi",
-          "groupBy": [
-            {
-              "params": [
-                "$__interval"
-              ],
-              "type": "time"
-            },
-            {
-              "params": [
-                "phi"
-              ],
-              "type": "tag"
-            },
-            {
-              "params": [
-                "null"
-              ],
-              "type": "fill"
-            }
-          ],
-          "measurement": "pravega_segmentstore_segment_write_latency_ms_percentile",
-          "orderByTime": "ASC",
-          "policy": "$retention",
+          "query": "from(bucket: \"monitoring_last\")\n|> filter(fn: (r) => r._measurement == \"pravega_segmentstore_bookkeeper_write_latency_ms_percetile\"  and r.host =~ /$host/)\n|> range($range)\n|> keep(columns: [\"_time\", \"_value\", \"host\", \"_measurement\"])\n|> window(every: 1m)\n|> mean()\n|> rename(columns: {_stop: \"_time\"})\n|> group()\n\n\n\n\n\n",
           "refId": "A",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": [
-                  "value"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "max"
-              }
-            ]
-          ],
-          "tags": [
-            {
-              "key": "host",
-              "operator": "=~",
-              "value": "/.*$host.*/"
-            }
-          ]
+          "resultFormat": "time_series"
         }
       ],
       "thresholds": [],
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Segment Write Latency",
+      "title": "BK Write Exclusive Latency",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -995,11 +755,11 @@
       },
       "yaxes": [
         {
-          "format": "ms",
+          "format": "bytes",
           "label": null,
           "logBase": 1,
           "max": null,
-          "min": "0",
+          "min": null,
           "show": true
         },
         {
@@ -1012,7 +772,7 @@
         }
       ],
       "yaxis": {
-        "align": false,
+        "align": true,
         "alignLevel": null
       }
     },
@@ -1022,19 +782,20 @@
       "dashLength": 10,
       "dashes": false,
       "fill": 1,
-      "fillGradient": 0,
       "gridPos": {
-        "h": 9,
-        "w": 12,
-        "x": 0,
-        "y": 37
+        "h": 5,
+        "w": 10,
+        "x": 10,
+        "y": 15
       },
-      "id": 36,
+      "id": 22,
       "legend": {
+        "alignAsTable": true,
         "avg": false,
         "current": false,
         "max": false,
         "min": false,
+        "rightSide": true,
         "show": true,
         "total": false,
         "values": false
@@ -1042,13 +803,11 @@
       "lines": true,
       "linewidth": 1,
       "links": [],
-      "nullPointMode": "connected",
-      "options": {
-        "dataLinks": []
-      },
+      "nullPointMode": "null",
+      "options": {},
       "percentage": false,
-      "pointradius": 0.5,
-      "points": true,
+      "pointradius": 2,
+      "points": false,
       "renderer": "flot",
       "seriesOverrides": [],
       "spaceLength": 10,
@@ -1056,183 +815,9 @@
       "steppedLine": false,
       "targets": [
         {
-          "alias": "p$tag_phi",
-          "groupBy": [
-            {
-              "params": [
-                "$__interval"
-              ],
-              "type": "time"
-            },
-            {
-              "params": [
-                "phi"
-              ],
-              "type": "tag"
-            },
-            {
-              "params": [
-                "null"
-              ],
-              "type": "fill"
-            }
-          ],
-          "measurement": "pravega_segmentstore_storage_write_latency_ms_percentile",
-          "orderByTime": "ASC",
-          "policy": "$retention",
+          "query": "from(bucket: \"monitoring_last\")\n|> filter(fn: (r) => r._measurement == \"pravega_segmentstore_container_operation_processor_delay_ms\"  and r.host =~ /$host/)\n|> range($range)\n|> keep(columns: [\"_time\", \"_value\", \"host\", \"_measurement\"])\n|> window(every: 1m)\n|> mean()\n|> rename(columns: {_stop: \"_time\"})\n|> group()\n\n\n\n\n\n",
           "refId": "A",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": [
-                  "value"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "max"
-              }
-            ]
-          ],
-          "tags": [
-            {
-              "key": "host",
-              "operator": "=~",
-              "value": "/.*$host.*/"
-            }
-          ]
-        }
-      ],
-      "thresholds": [],
-      "timeFrom": null,
-      "timeRegions": [],
-      "timeShift": null,
-      "title": "Storage Write Latency",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "format": "ms",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": "0",
-          "show": true
-        },
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        }
-      ],
-      "yaxis": {
-        "align": false,
-        "alignLevel": null
-      }
-    },
-    {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "fill": 1,
-      "fillGradient": 0,
-      "gridPos": {
-        "h": 9,
-        "w": 12,
-        "x": 0,
-        "y": 46
-      },
-      "id": 44,
-      "legend": {
-        "avg": false,
-        "current": false,
-        "max": false,
-        "min": false,
-        "show": true,
-        "total": false,
-        "values": false
-      },
-      "lines": true,
-      "linewidth": 1,
-      "links": [],
-      "nullPointMode": "connected",
-      "options": {
-        "dataLinks": []
-      },
-      "percentage": false,
-      "pointradius": 0.5,
-      "points": true,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
-      "targets": [
-        {
-          "alias": "$tag_throttler",
-          "groupBy": [
-            {
-              "params": [
-                "$__interval"
-              ],
-              "type": "time"
-            },
-            {
-              "params": [
-                "throttler"
-              ],
-              "type": "tag"
-            },
-            {
-              "params": [
-                "null"
-              ],
-              "type": "fill"
-            }
-          ],
-          "measurement": "pravega_segmentstore_container_operation_processor_delay_ms",
-          "orderByTime": "ASC",
-          "policy": "$retention",
-          "refId": "A",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": [
-                  "value"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "max"
-              }
-            ]
-          ],
-          "tags": [
-            {
-              "key": "host",
-              "operator": "=~",
-              "value": "/.*$host.*/"
-            }
-          ]
+          "resultFormat": "time_series"
         }
       ],
       "thresholds": [],
@@ -1255,11 +840,11 @@
       },
       "yaxes": [
         {
-          "format": "ms",
+          "format": "bytes",
           "label": null,
           "logBase": 1,
           "max": null,
-          "min": "0",
+          "min": null,
           "show": true
         },
         {
@@ -1272,82 +857,24 @@
         }
       ],
       "yaxis": {
-        "align": false,
+        "align": true,
         "alignLevel": null
       }
     }
   ],
-  "refresh": "10s",
+  "refresh": false,
   "schemaVersion": 18,
-  "style": "light",
-  "tags": [
-    "pravega",
-    "imported"
-  ],
+  "style": "dark",
+  "tags": [],
   "templating": {
-    "list": [
-      {
-        "allValue": null,
-        "current": {
-          "text": "All",
-          "value": "$__all"
-        },
-        "datasource": null,
-        "definition": "SHOW TAG VALUES WITH KEY=\"host\"",
-        "hide": 0,
-        "includeAll": true,
-        "label": "host",
-        "multi": false,
-        "name": "host",
-        "options": [],
-        "query": "SHOW TAG VALUES WITH KEY=\"host\"",
-        "refresh": 2,
-        "regex": "/.*(segmentstore-[0-9]*|segment-store-[0-9]*).*/",
-        "skipUrlSync": false,
-        "sort": 1,
-        "tagValuesQuery": "",
-        "tags": [],
-        "tagsQuery": "",
-        "type": "query",
-        "useTags": false
-      },
-      {
-        "allValue": null,
-        "current": {
-          "text": "two_hour",
-          "value": "two_hour"
-        },
-        "datasource": null,
-        "definition": "",
-        "hide": 0,
-        "includeAll": false,
-        "label": null,
-        "multi": false,
-        "name": "retention",
-        "options": [],
-        "query": "SHOW RETENTION POLICIES ON pravega",
-        "refresh": 2,
-        "regex": "",
-        "skipUrlSync": false,
-        "sort": 0,
-        "tagValuesQuery": "",
-        "tags": [],
-        "tagsQuery": "",
-        "type": "query",
-        "useTags": false
-      }
-    ]
+    "list": []
   },
   "time": {
-    "from": "now-5m",
-    "to": "now"
+    "from": "2020-11-08T21:37:35.052Z",
+    "to": "2020-11-09T09:37:35.052Z"
   },
   "timepicker": {
     "refresh_intervals": [
-      "10s",
-      "30s",
-      "1m",
-      "5m",
       "15m",
       "30m",
       "1h",
@@ -1355,7 +882,6 @@
       "1d"
     ],
     "time_options": [
-      "5m",
       "15m",
       "1h",
       "6h",
@@ -1367,7 +893,7 @@
     ]
   },
   "timezone": "",
-  "title": "Pravega Operation Dashboard v0.6",
-  "uid": "pravega_operation0_6",
-  "version": 7
+  "title": "New dashboard",
+  "uid": null,
+  "version": 0
 }
