@@ -8,6 +8,17 @@ DECKSCHARTS := decks kahm supportassist service-pod dellemc-license decks-suppor
 FLEXCHARTS := ecs-cluster objectscale-manager objectscale-vsphere objectscale-graphql helm-controller iam
 MONITORING_DIR := monitoring
 
+# release version
+PACKAGE_VERSION=0.54
+FULL_PACKAGE_VERSION=${PACKAGE_VERSION}.0
+FLEXVER=${FULL_PACKAGE_VERSION}
+DECKSVER=2.${PACKAGE_VERSION}
+
+GIT_COMMIT_COUNT=$(shell git rev-list HEAD | wc -l)
+GIT_COMMIT_ID=$(shell git rev-parse HEAD)
+GIT_COMMIT_SHORT_ID=$(shell git rev-parse --short HEAD)
+GIT_BRANCH_ID=$(shell git rev-parse --abbrev-ref HEAD)
+
 # packaging
 MANAGER_MANIFEST    := objectscale-manager.yaml
 KAHM_MANIFEST       := kahm.yaml
@@ -36,6 +47,8 @@ clean: clean-package
 
 all: test package
 
+release: decksver flexver monitoringver build-all add-to-git
+
 test: monitoring-test
 	helm lint ${CHARTS} --set product=objectscale --set global.product=objectscale
 	yamllint -c .yamllint.yml */Chart.yaml */values.yaml
@@ -56,7 +69,7 @@ dep:
 	sudo pip install yq=="${YQ_VERSION}"
 
 decksver:
-	if [ -z $${DECKSVER} ] ; then \
+	if [ -z ${DECKSVER} ] ; then \
 		echo "Missing DECKSVER= param" ; \
 		exit 1 ; \
 	fi
@@ -65,15 +78,20 @@ decksver:
 	which yq
 	echo "Found it"
 	for CHART in ${DECKSCHARTS}; do  \
-		echo "Setting version $$DECKSVER in $$CHART" ;\
-		yq w -i $$CHART/Chart.yaml appVersion $${DECKSVER} ; \
-		yq w -i $$CHART/Chart.yaml version $${DECKSVER} ; \
-		echo "---\n`cat $$CHART/Chart.yaml`" > $$CHART/Chart.yaml ; \
-		sed -i -e "0,/^tag.*/s//tag: $${DECKSVER}/"  $$CHART/values.yaml; \
+		echo "Setting version ${DECKSVER} in $$CHART" ;\
+		yq w -i $$CHART/Chart.yaml appVersion ${DECKSVER} ; \
+		yq w -i $$CHART/Chart.yaml version ${DECKSVER} ; \
+		echo -e "---\n`cat $$CHART/Chart.yaml`" > $$CHART/Chart.yaml ; \
+		sed -i -e "0,/^tag.*/s//tag: ${DECKSVER}/"  $$CHART/values.yaml; \
+	done ;
+
+	for CHART in ${FLEXCHARTS} ${DECKSCHARTS}; do  \
+		echo "Setting decs dep version ${DECKSVER} in $$CHART" ;\
+		sed -i -e "/no_auto_change__decks_auto_change/s/version:.*/version: ${DECKSVER} # no_auto_change__decks_auto_change/g"  $$CHART/Chart.yaml; \
 	done ;
 
 flexver:
-	if [ -z $${FLEXVER} ] ; then \
+	if [ -z ${FLEXVER} ] ; then \
 		echo "Missing FLEXVER= param" ; \
 		exit 1 ; \
 	fi
@@ -82,10 +100,10 @@ flexver:
 	echo "Found it"
 	for CHART in ${FLEXCHARTS}; do  \
 		echo "Setting version $$FLEXVER in $$CHART" ;\
-		yq w -i $$CHART/Chart.yaml appVersion $${FLEXVER} ; \
-		yq w -i $$CHART/Chart.yaml version $${FLEXVER} ; \
-		echo "---\n`cat $$CHART/Chart.yaml`" > $$CHART/Chart.yaml ; \
-		sed -i -e "0,/^tag.*/s//tag: $${FLEXVER}/"  $$CHART/values.yaml; \
+		yq w -i $$CHART/Chart.yaml appVersion ${FLEXVER} ; \
+		sed -i -e "/no_auto_change/!s/version:.*/version: ${FLEXVER}/g"  $$CHART/Chart.yaml; \
+		echo -e "---\n`cat $$CHART/Chart.yaml`" > $$CHART/Chart.yaml ; \
+		sed -i -e "0,/^tag.*/s//tag: ${FLEXVER}/"  $$CHART/values.yaml; \
 	done ;
 
 build-all: monitoring-dep build
@@ -112,6 +130,16 @@ build:
 	if [ "$${REINDEX}" -eq "1" ]; then \
 		cd docs && helm repo index . ; \
 	fi
+
+add-to-git:
+	for CHART in ${CHARTS}; do \
+		if [ -d "$${CHART}/charts" ]; then \
+			echo "Adding charts to git for $${CHART}" ; \
+			git add $${CHART}/charts; \
+		fi; \
+	done ; \
+	echo "Adding docs to git" ; \
+	git add docs; \
 
 package: clean-package create-temp-package create-manifests combine-crds create-vmware-package archive-package
 create-temp-package:
@@ -217,3 +245,20 @@ monitoring-test:
 
 monitoring-dep:
 	make -C ${MONITORING_DIR} dep
+
+monitoringver:
+	make -C ${MONITORING_DIR} ver PACKAGE_VERSION=${FULL_PACKAGE_VERSION}
+
+build-installer:
+	echo "Copy charts to container and build image"
+	docker pull asdrepo.isus.emc.com:8099/install-controller:green
+	docker create --name installer-container asdrepo.isus.emc.com:8099/install-controller:green
+	docker cp ./docs installer-container:/docs
+	docker commit installer-container asdrepo.isus.emc.com:8099/install-controller:${FULL_PACKAGE_VERSION}-$(GIT_COMMIT_COUNT).$(GIT_COMMIT_SHORT_ID)
+	docker push asdrepo.isus.emc.com:8099/install-controller:${FULL_PACKAGE_VERSION}-$(GIT_COMMIT_COUNT).$(GIT_COMMIT_SHORT_ID)
+	docker rm installer-container
+	docker rmi asdrepo.isus.emc.com:8099/install-controller:green
+
+tag-push-installer:
+	docker tag asdrepo.isus.emc.com:8099/install-controller:${FULL_PACKAGE_VERSION}-$(GIT_COMMIT_COUNT).$(GIT_COMMIT_SHORT_ID) asdrepo.isus.emc.com:8099/install-controller:${FULL_PACKAGE_VERSION}
+	docker push asdrepo.isus.emc.com:8099/install-controller:${FULL_PACKAGE_VERSION}
