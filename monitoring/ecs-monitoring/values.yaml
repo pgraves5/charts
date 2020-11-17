@@ -59,7 +59,7 @@ throttler:
       enabled: false
 influxdb:
   persistence:
-    storageClassName: "dellemc-objectscale-highly-available"
+    storageClassName: {{ .Values.global.storageClassName  }}
 telegraf:
   config:
     influxdb_inputs_enabled: false
