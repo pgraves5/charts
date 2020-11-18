@@ -150,12 +150,12 @@ telegraf:
 influxdb:
   persistence:
     enabled: true
-    storageClassName: {{ .Values.global.storageClassName  }}
+    storageClassName: "dellemc-objectscale-highly-available"
     accessMode: ReadWriteOnce
     size: 20Gi
 rsyslog:
   persistence:
     enabled: true
-    storageClassName: {{ .Values.global.storageClassName  }}
+    storageClassName: "dellemc-objectscale-highly-available"
     accessMode: ReadWriteOnce
     size: 20Gi
