@@ -45,6 +45,9 @@ tests:
       - equal:
           path: metadata.labels.app
           value: RELEASE-NAME-service-pod
+      - equal:
+          path: metadata.labels.remote_access
+          value: my-product-service-pod
   - it: should configure the image
     set:
       global.product: my-product
