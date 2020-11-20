@@ -30,8 +30,8 @@ SERVICE_ID           = objectscale
 REGISTRY             = objectscale
 DECKS_REGISTRY       = objectscale
 KAHM_REGISTRY        = objectscale
-STORAGECLASSNAME     = dellemc-objectscale-highly-available
-STORAGECLASSNAME_VSAN_SNA     = dellemc-objectscale-vsan-sna-thick
+STORAGECLASSNAME     = dellemc-${SERVICE_ID}-highly-available
+STORAGECLASSNAME_VSAN_SNA     = dellemc-${SERVICE_ID}-vsan-sna-thick
 
 WATCH_ALL_NAMESPACES = false # --set global.watchAllNamespaces={true | false}
 HELM_MANAGER_ARGS    = # --set image.tag={YOUR_VERSION_HERE}
@@ -253,13 +253,8 @@ monitoringver:
 
 build-installer:
 	echo "Copy charts to container and build image"
-	docker pull asdrepo.isus.emc.com:8099/install-controller:green
-	docker create --name installer-container asdrepo.isus.emc.com:8099/install-controller:green
-	docker cp ./docs installer-container:/docs
-	docker commit installer-container asdrepo.isus.emc.com:8099/install-controller:${FULL_PACKAGE_VERSION}-$(GIT_COMMIT_COUNT).$(GIT_COMMIT_SHORT_ID)
+	docker build -t asdrepo.isus.emc.com:8099/install-controller:${FULL_PACKAGE_VERSION}-$(GIT_COMMIT_COUNT).$(GIT_COMMIT_SHORT_ID) -f ./Dockerfile .
 	docker push asdrepo.isus.emc.com:8099/install-controller:${FULL_PACKAGE_VERSION}-$(GIT_COMMIT_COUNT).$(GIT_COMMIT_SHORT_ID)
-	docker rm installer-container
-	docker rmi asdrepo.isus.emc.com:8099/install-controller:green
 
 tag-push-installer:
 	docker tag asdrepo.isus.emc.com:8099/install-controller:${FULL_PACKAGE_VERSION}-$(GIT_COMMIT_COUNT).$(GIT_COMMIT_SHORT_ID) asdrepo.isus.emc.com:8099/install-controller:${FULL_PACKAGE_VERSION}
