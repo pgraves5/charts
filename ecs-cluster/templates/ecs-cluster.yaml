@@ -1,5 +1,5 @@
 ---
-{{- if .Values.started }}
+{{- if and  (.Values.started) (.Values.global.started) }}
 apiVersion: "ecs.dellemc.com/v1beta1"
 kind: "ECSCluster"
 metadata:
@@ -59,13 +59,11 @@ spec:
 {{- else }}
       pullPolicy: {{ .Values.pullPolicy }}
 {{- end }}
-{{ include "datasvc-lib.common-pod-spec" . | indent 4 }}
 
   blob:
 {{ include "datasvc-lib.common-labels" . | indent 4 }}
 {{- if .Values.blob.replicas }}
     replicas: {{ .Values.blob.replicas }}
-{{ include "datasvc-lib.common-labels" . | indent 4 }}
 {{- end }}
     image:
       repository: {{ .Values.global.registry }}/{{ .Values.blob.image.repository }}
@@ -79,7 +77,6 @@ spec:
 {{- else }}
       pullPolicy: {{ .Values.pullPolicy }}
 {{- end }}
-{{ include "datasvc-lib.common-pod-spec" . | indent 4 }}
 
   objectsvc:
 {{ include "datasvc-lib.common-labels" . | indent 4 }}
@@ -98,7 +95,6 @@ spec:
 {{- else }}
       pullPolicy: {{ .Values.pullPolicy }}
 {{- end }}
-{{ include "datasvc-lib.common-pod-spec" . | indent 4 }}
 
   ons:
 {{ include "datasvc-lib.common-labels" . | indent 4 }}
@@ -117,7 +113,6 @@ spec:
 {{- else }}
       pullPolicy: {{ .Values.pullPolicy }}
 {{- end }}
-{{ include "datasvc-lib.common-pod-spec" . | indent 4 }}
 
   rep:
 {{ include "datasvc-lib.common-labels" . | indent 4 }}
@@ -136,7 +131,6 @@ spec:
 {{- else }}
       pullPolicy: {{ .Values.pullPolicy }}
 {{- end }}
-{{ include "datasvc-lib.common-pod-spec" . | indent 4 }}
 
   zookeeper:
 {{- if .Values.zookeeper.replicas }}
@@ -222,7 +216,6 @@ spec:
     segmentStoreReplicas: {{ .Values.pravega.segmentStore.replicas }}
 
   storageServer:
-{{ include "datasvc-lib.common-labels" . | indent 4 }}
 {{- if .Values.storageServer.replicas }}
     replicas: {{ .Values.storageServer.replicas }}
 {{- end }}
@@ -281,7 +274,6 @@ spec:
 {{- else }}
       pullPolicy: {{ .Values.pullPolicy }}
 {{- end }}
-{{ include "datasvc-lib.common-pod-spec" . | indent 4 }}
 
   recordManager:
 {{ include "datasvc-lib.common-labels" . | indent 4 }}
@@ -301,7 +293,6 @@ spec:
 {{- else }}
       pullPolicy: {{ .Values.pullPolicy }}
 {{- end }}
-{{ include "datasvc-lib.common-pod-spec" . | indent 4 }}
 
   storageManagement:
 {{ include "datasvc-lib.common-labels" . | indent 4 }}
@@ -321,7 +312,6 @@ spec:
 {{- else }}
       pullPolicy: {{ .Values.pullPolicy }}
 {{- end }}
-{{ include "datasvc-lib.common-pod-spec" . | indent 4 }}
 
   metering:
 {{ include "datasvc-lib.common-labels" . | indent 4 }}
@@ -341,7 +331,6 @@ spec:
 {{- else }}
       pullPolicy: {{ .Values.pullPolicy }}
 {{- end }}
-{{ include "datasvc-lib.common-pod-spec" . | indent 4 }}
 
   event:
 {{ include "datasvc-lib.common-labels" . | indent 4 }}
@@ -367,7 +356,6 @@ spec:
           value: "{{ .Release.Name }}"
         - name: "NAMESPACE"
           value: "{{ .Release.Namespace }}"
-{{ include "datasvc-lib.common-env" . | indent 8 }}
 
   deosEvents:
 {{- if .Values.deosEvents.pullFreq }}
@@ -407,7 +395,6 @@ spec:
 {{- else }}
       pullPolicy: {{ .Values.pullPolicy }}
 {{- end }}
-{{ include "datasvc-lib.common-pod-spec" . | indent 4 }}
 
 
   controlPlane:
@@ -428,7 +415,6 @@ spec:
 {{- else }}
       pullPolicy: {{ .Values.pullPolicy }}
 {{- end }}
-{{ include "datasvc-lib.common-pod-spec" . | indent 4 }}
 
   diagnostic:
 {{ include "datasvc-lib.common-labels" . | indent 4 }}
@@ -452,7 +438,6 @@ spec:
     service:
       {{ toYaml .Values.diagnostic.service | nindent 6 | trim }}
 {{- end }}
-{{ include "datasvc-lib.common-pod-spec" . | indent 4 }}
 
   geoService:
 {{ include "datasvc-lib.common-labels" . | indent 4 }}
@@ -471,7 +456,6 @@ spec:
       {{- else }}
       pullPolicy: {{ .Values.pullPolicy }}
   {{- end }}
-{{ include "datasvc-lib.common-pod-spec" . | indent 4 }}
 
   geoReceiver:
 {{ include "datasvc-lib.common-labels" . | indent 4 }}
@@ -495,7 +479,6 @@ spec:
     service:
       {{ toYaml .Values.geoReceiver.service | nindent 6 | trim }}
 {{- end }}
-{{ include "datasvc-lib.common-pod-spec" . | indent 4 }}
 
   spaceReclaimer:
 {{ include "datasvc-lib.common-labels" . | indent 4 }}
@@ -515,7 +498,6 @@ spec:
 {{- else }}
       pullPolicy: {{ .Values.pullPolicy }}
 {{- end }}
-{{ include "datasvc-lib.common-pod-spec" . | indent 4 }}
 
   control:
 {{ include "datasvc-lib.common-labels" . | indent 4 }}
@@ -535,7 +517,6 @@ spec:
 {{- else }}
       pullPolicy: {{ .Values.pullPolicy }}
 {{- end }}
-{{ include "datasvc-lib.common-pod-spec" . | indent 4 }}
 
   s3:
 {{ include "datasvc-lib.common-labels" . | indent 4 }}
@@ -554,7 +535,6 @@ spec:
     tls:
       {{ toYaml .Values.s3.tls | nindent 6 | trim }}
 {{- end }}
-{{ include "datasvc-lib.common-pod-spec" . | indent 4 }}
 
   managementGateway:
 {{- if .Values.managementGateway.replicas }}

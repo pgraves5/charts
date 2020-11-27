@@ -1,4 +1,3 @@
----
 #
 # Copyright © [2020] Dell Inc. or its subsidiaries.
 # All Rights Reserved.
@@ -11,19 +10,19 @@
 #
 #
 
-#  RoleBinding for rsyslog-client to find instance of rsyslog service
+#  RoleBinding for injected rsyslog-client to find instance of rsyslog service
+{{- if .Values.rbac.create }}
 kind: RoleBinding
 apiVersion: rbac.authorization.k8s.io/v1beta1
 metadata:
-  name: "{{ .Release.Name }}-default-rsyslog-client"
+  name: "{{ .Release.Name }}-{{ template "fluxd.serviceAccountName" . }}-rsyslog-client"
   namespace: "{{ include "common-lib.rsyslog_svc_namespace" . }}"
-  labels:
-{{ include "rsyslog-client.labels" . | indent 4}}
 subjects:
-- kind: ServiceAccount
-  name: default
-  namespace: "{{ .Release.Namespace }}"
+  - kind: ServiceAccount
+    name: {{ template "fluxd.serviceAccountName" . }}
+    namespace: {{ .Release.Namespace }}
 roleRef:
   kind: Role
   apiGroup: rbac.authorization.k8s.io
   name: "{{ include "common-lib.rsyslog_svc_name" . }}-client"
+{{- end }}
