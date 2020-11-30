@@ -8,8 +8,8 @@ global:
   watchAllNamespaces: true
 
 image:
-  repository: pravega/bookkeeper-operator
-  tag: 0.1.2
+  repository: devops-repo.isus.emc.com:8116/nautilus/bookkeeper-operator
+  tag: 0.1.2-42-659f239
   pullPolicy: IfNotPresent
 
 ## Install RBAC roles and bindings.

@@ -652,6 +652,8 @@ spec:
 
   enableCRR: {{ .Values.features.enableCRR }}
 
+  enablePravega: {{ .Values.features.enablePravega }}
+
   objectType: {{ .Values.features.objectType }}
 
   deploymentDeadlineSeconds: {{ .Values.deploymentDeadlineSeconds }}

@@ -8,8 +8,8 @@ global:
   watchAllNamespaces: true
 
 image:
-  repository: pravega/pravega-operator
-  tag: 0.5.1
+  repository: devops-repo.isus.emc.com:8116/nautilus/pravega-operator
+  tag: 0.5.2-211-24bb31d0
   pullPolicy: IfNotPresent
 
 ## Install RBAC roles and bindings.
