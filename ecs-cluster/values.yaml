@@ -25,8 +25,11 @@ global:
   # Setting started = false will cause the manager to remove the objectstore
   started: true
 
+  # Set objectscale release name (needed for central logging and monitoring)
+  objectscale_release_name: objectscale-manager
+
 # The default docker tag and pull policy for the ECS Cluster
-tag: 0.54.0
+tag: 0.55.0
 pullPolicy: IfNotPresent
 
 # Override the default number of replicas which taken according to performance profile for each service
@@ -132,7 +135,7 @@ zookeeper:
 
   image:
     repository: zookeeper
-    tag: 0.2.7
+    tag: 0.2.9
     # pullPolicy: IfNotPresent
 
   # Persistent storage options for zookeeper volume requests

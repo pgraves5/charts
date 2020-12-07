@@ -60,7 +60,7 @@ bookkeeper:
 createApplicationResource: true
 
 # The default docker tag and pull policy for objectscale-manager services
-tag: 0.54.0
+tag: 0.55.0
 pullPolicy: IfNotPresent
 
 # The default number of replicas for the objectscale-manager deployment
@@ -150,14 +150,6 @@ installObjectStoreCRD: true
 
 # installApplicationCRD will install crd for application resources
 installApplicationCRD: true
-
-telemetry:
-  image:
-    repository: telemetry-upload
-    # tag: stable
-    # pullPolicy: IfNotPresent
-  # this is as per cronjob schedule - every 12 hours, please follow the cronjob format to edit it
-  schedule: "0 */12 * * *"
 
 nodeSelector: {}
 
