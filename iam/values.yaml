@@ -19,7 +19,7 @@ iamsvc:
   livenessProbe:
     probePath: /iamhealthcheck
   readinessProbe:
-    probePath: /iamhealthcheck
+    probePath: /iamhealthcheck/atlas
   replicaCount: 3
   service:
     port: 9400
