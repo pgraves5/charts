@@ -16,7 +16,11 @@ spec:
   systemMode: {{ default "preProd" .Values.systemMode }}
   eventMuted: {{ default false .Values.eventMuted }}
   testDialHome: {{ default false .Values.testDialHome }}
+  {{- if ne .Values.enabled true }}
+  remoteAccessEnabled: false
+  {{- else }}
   remoteAccessEnabled: {{ default false .Values.remoteAccessEnabled }}
+  {{- end }}
   useGateways: {{ default false .Values.useGateways }}
   {{- if .Values.gateways }}
   gateways:
