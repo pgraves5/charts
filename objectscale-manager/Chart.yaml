@@ -34,7 +34,7 @@ dependencies:
     condition: servicePod.enabled
     repository: file://../service-pod
   - name: pravega-operator
-    version: 0.5.1 # no_auto_change
+    version: 0.5.2 # no_auto_change
     repository: file://../pravega-operator
     condition: pravega.enabled
   - name: bookkeeper-operator
