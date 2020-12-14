@@ -119,7 +119,7 @@ bookkeeper:
   # labels:
   image:
     repository: devops-repo.isus.emc.com:8116/nautilus/bookkeeper
-    tag: 0.9.0-2684.01ecbde96
+  version: 0.9.0-2684.01ecbde96
   storage:
     ledger:
       # storageClassName:
