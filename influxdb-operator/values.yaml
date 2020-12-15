@@ -16,6 +16,8 @@ global:
   # Extra labels that will be applied to all resources created by the chart
   labels: {}
 
+  performanceProfile: "Small"
+
 image:
   repository: influxdb-operator
   # tag: stable
@@ -30,13 +32,11 @@ securityContext: {}
 serviceAccount:
   create: true
 
+## Configure resource requests and limits
+## ref: http://kubernetes.io/docs/user-guide/compute-resources/
 resources:
-  requests:
-    cpu: 250m
-    memory: 64Mi
-  limits:
-    cpu: 1
-    memory: 128Mi
+  requests: {}
+  limits: {}
 
 nodeSelector: {}
 
