@@ -172,7 +172,7 @@ spec:
       {{- else }}
       pullPolicy: {{ .Values.pullPolicy }}
     {{- end }}
-    Version:  {{ .Values.bookkeeper.version }}
+    version:  {{ .Values.bookkeeper.version }}
     storage:
       ledgerVolumeClaimTemplate:
         accessModes: [ "ReadWriteOnce" ]
