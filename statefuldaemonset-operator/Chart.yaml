@@ -12,4 +12,4 @@ maintainers:
 dependencies:
   - name: common-lib
     repository: https://asdrepo.isus.emc.com/artifactory/objectscale-helm-build/
-    version: 3.7.0-1081.cd220e2d # no_auto_change__monitoring_auto_change
+    version: 3.7.0-1082.edb43c45 # no_auto_change__monitoring_auto_change
