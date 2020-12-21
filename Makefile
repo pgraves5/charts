@@ -3,9 +3,9 @@ HELM_URL     := https://get.helm.sh
 HELM_TGZ      = helm-${HELM_VERSION}-linux-amd64.tar.gz
 YQ_VERSION   := 2.4.1
 YAMLLINT_VERSION := 1.20.0
-CHARTS := ecs-cluster objectscale-manager mongoose zookeeper-operator atlas-operator decks kahm dks-testapp fio-test sonobuoy dellemc-license service-pod objectscale-graphql helm-controller objectscale-vsphere iam pravega-operator bookkeeper-operator supportassist decks-support-store statefuldaemonset-operator influxdb-operator federation
+CHARTS := ecs-cluster objectscale-manager mongoose zookeeper-operator atlas-operator decks kahm dks-testapp fio-test sonobuoy dellemc-license service-pod objectscale-graphql helm-controller objectscale-vsphere iam pravega-operator bookkeeper-operator supportassist decks-support-store statefuldaemonset-operator influxdb-operator federation logging-injector
 DECKSCHARTS := decks kahm supportassist service-pod dellemc-license decks-support-store
-FLEXCHARTS := ecs-cluster objectscale-manager objectscale-vsphere objectscale-graphql helm-controller iam statefuldaemonset-operator influxdb-operator federation
+FLEXCHARTS := ecs-cluster objectscale-manager objectscale-vsphere objectscale-graphql helm-controller iam statefuldaemonset-operator influxdb-operator federation logging-injector
 
 # release version
 PACKAGE_VERSION=0.61
@@ -22,6 +22,7 @@ GIT_BRANCH_ID=$(shell git rev-parse --abbrev-ref HEAD)
 MANAGER_MANIFEST    := objectscale-manager.yaml
 KAHM_MANIFEST       := kahm.yaml
 DECKS_MANIFEST      := decks.yaml
+LOGGING_INJECTOR_MANIFEST := logging-injector.yaml
 PACKAGE_NAME        := objectscale-charts-package.tgz
 NAMESPACE            = dellemc-objectscale-system
 TEMP_PACKAGE        := temp_package
@@ -162,7 +163,7 @@ combine-crds:
 create-vmware-package:
 	./vmware/vmware_pack.sh ${SERVICE_ID}
 
-create-manifests: create-vsphere-install create-kahm-app create-decks-app create-manager-app
+create-manifests: create-vsphere-install create-kahm-app create-decks-app create-manager-app create-logging-injector-app
 
 create-vsphere-install: create-vsphere-templates
 
@@ -227,6 +228,19 @@ create-kahm-app: create-temp-package
 	sed -i 's/createkahmappResource\\":true/createkahmappResource\\":false/g' ${TEMP_PACKAGE}/yaml/kahm-app.yaml && \
 	sed -i 's/app.kubernetes.io\/managed-by: Helm/app.kubernetes.io\/managed-by: nautilus/g' ${TEMP_PACKAGE}/yaml/kahm-app.yaml
 	cat ${TEMP_PACKAGE}/yaml/kahm-app.yaml >> ${TEMP_PACKAGE}/yaml/${KAHM_MANIFEST} && rm ${TEMP_PACKAGE}/yaml/kahm-app.yaml
+
+create-logging-injector-app: create-temp-package
+	# cd in makefiles spawns a subshell, so continue the command with ;
+	cd logging-injector; \
+	helm template --show-only templates/logging-injector-app.yaml logging-injector ../logging-injector -n ${NAMESPACE} \
+	--set global.watchAllNamespaces=${WATCH_ALL_NAMESPACES} \
+	--set global.registry=${REGISTRY} \
+	--set global.objectscale_release_name=objectscale-manager \
+	-f values.yaml > ../${TEMP_PACKAGE}/yaml/logging-injector-app.yaml;
+	sed -i 's/createApplicationResource\\":true/createApplicationResource\\":false/g' ${TEMP_PACKAGE}/yaml/logging-injector-app.yaml && \
+	sed -i 's/app.kubernetes.io\/managed-by: Helm/app.kubernetes.io\/managed-by: nautilus/g' ${TEMP_PACKAGE}/yaml/logging-injector-app.yaml
+	cat ${TEMP_PACKAGE}/yaml/logging-injector-app.yaml >> ${TEMP_PACKAGE}/yaml/${LOGGING_INJECTOR_MANIFEST} && rm ${TEMP_PACKAGE}/yaml/logging-injector-app.yaml
+
 archive-package:
 	tar -zcvf ${PACKAGE_NAME} ${TEMP_PACKAGE}/*
 
