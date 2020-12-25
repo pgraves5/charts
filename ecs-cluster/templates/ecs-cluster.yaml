@@ -165,12 +165,9 @@ spec:
     replicas: {{ .Values.bookkeeper.replicas }}
     {{- end }}
     image:
-      repository: {{ .Values.bookkeeper.image.repository }}
-      {{- if .Values.bookkeeper.image.pullPolicy }}
-      pullPolicy: {{ .Values.bookkeeper.image.pullPolicy }}
-      {{- else }}
-      pullPolicy: {{ .Values.pullPolicy }}
-    {{- end }}
+      imageSpec:
+        repository: {{ with .Values.bookkeeper.image }}{{ .repository }}{{ end }}
+        pullPolicy: {{ with .Values.bookkeeper.image }}{{ .pullPolicy }}{{ end }}
     version:  {{ .Values.bookkeeper.version }}
     storage:
       ledgerVolumeClaimTemplate:
