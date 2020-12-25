@@ -119,17 +119,18 @@ bookkeeper:
   # labels:
   image:
     repository: devops-repo.isus.emc.com:8116/nautilus/bookkeeper
+    pullPolicy: IfNotPresent
   version: 0.9.0-2684.01ecbde96
   storage:
     ledger:
       # storageClassName:
-      volumeSize: 200Gi
+      volumeSize: 10Gi
     journal:
       # storageClassName:
-      volumeSize: 300Gi
+      volumeSize: 10Gi
     index:
       # storageClassName:
-      volumeSize: 100Gi
+      volumeSize: 5Gi
 
 zookeeper:
   # Override the number of nodes in the zookeeper cluster

@@ -166,7 +166,6 @@ spec:
     {{- end }}
     image:
       repository: {{ .Values.bookkeeper.image.repository }}
-      tag: {{ .Values.bookkeeper.image.tag }}
       {{- if .Values.bookkeeper.image.pullPolicy }}
       pullPolicy: {{ .Values.bookkeeper.image.pullPolicy }}
       {{- else }}
@@ -208,7 +207,6 @@ spec:
     {{- end }}
     image:
       repository: {{ .Values.pravega.image.repository }}
-      tag: {{ .Values.pravega.image.tag }}
       {{- if .Values.pravega.image.pullPolicy }}
       pullPolicy: {{ .Values.pravega.image.pullPolicy }}
       {{- else }}
