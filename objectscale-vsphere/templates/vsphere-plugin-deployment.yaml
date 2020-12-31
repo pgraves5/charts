@@ -65,7 +65,22 @@ spec:
             - name: config-volume
               mountPath: /etc/nginx/nginx.conf
               subPath: nginx.conf
-  {{- if (eq .Values.global.platform "VMware") }}
+            {{- if (eq .Values.global.platform "VMware") }}
             - name: certificate
               mountPath: /etc/nginx/ssl
-  {{- end }}
+            {{- end }}
+        - name: objectscale-policy-simulator
+          image: {{ .Values.global.registry }}/{{ .Values.policySimulator.image.repository }}:{{ default .Values.tag .Values.policySimulator.image.tag }}
+          env:
+            - name: OPERATOR_NAME
+              value: objectscale-operator
+          imagePullPolicy: {{ default .Values.pullPolicy .Values.policySimulator.image.pullPolicy }}
+          volumeMounts:
+            - name: config-volume
+              mountPath: /conf/policy-upstream.conf
+              subPath: upstream.conf
+            - name: config-volume
+              mountPath: /etc/nginx/policy-nginx.conf
+              subPath: policy-nginx.conf
+            - name: certificate
+              mountPath: /etc/nginx/ssl    

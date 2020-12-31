@@ -33,7 +33,7 @@ global:
 
 # The default docker tag and pull policy for objectscale-vsphere and other containers
 tag: 0.63.0
-pullPolicy: IfNotPresent
+pullPolicy: Always
 
 # This package gets values from objectscale-manager/values.yaml
 
@@ -43,16 +43,30 @@ decks:
     service:
       name: decks-support-store
       port: 7443
+
 graphql:
   enabled: true
   port: 8080
   serviceName: objectscale-graphql
 
+iam:
+  enabled: true
+  port: 8080
+  serviceName: objectscale-graphql  
+
+policySimulator:
+  image:
+    repository: objectscale-policy-simulator
+    tag: arunrm
+    pullPolicy: Always
+
 enabled: false
+
 image:
   repository: ecs-flex-vsphere-plugin
   # tag: stable
   # pullPolicy: IfNotPresent
+
 service:
   # Type of Kubernetes service to create: ClusterIP, NodePort, or LoadBalancer
   type: ClusterIP
@@ -62,6 +76,9 @@ service:
     - name: https
       port: 4443
       targetPort: 4443
+    - name: https
+      port: 4444
+      targetPort: 4444
       # nodePort:           # select specific node port for the connection
 
       # loadBalancerIP:     # select specific load balancer IP of the connection
