@@ -55,6 +55,9 @@ iam:
   serviceName: objectscale-graphql  
 
 policySimulator:
+  deployment: 
+    ports:
+      containerPort: 4444
   image:
     repository: objectscale-policy-simulator
     tag: arunrm
@@ -62,10 +65,16 @@ policySimulator:
 
 enabled: false
 
+
+
 image:
   repository: ecs-flex-vsphere-plugin
   # tag: stable
   # pullPolicy: IfNotPresent
+
+deployment: 
+  ports:
+    containerPort: 4443
 
 service:
   # Type of Kubernetes service to create: ClusterIP, NodePort, or LoadBalancer
@@ -76,7 +85,7 @@ service:
     - name: https
       port: 4443
       targetPort: 4443
-    - name: https
+    - name: https-for-policy-simulator
       port: 4444
       targetPort: 4444
       # nodePort:           # select specific node port for the connection

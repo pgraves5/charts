@@ -51,6 +51,8 @@ spec:
       containers:
         - name: objectscale-vsphere-plugin
           image: {{ .Values.global.registry }}/{{ .Values.image.repository }}:{{ default .Values.tag .Values.image.tag }}
+          ports: 
+          - containerPort: {{.Values.deployment.ports.containerPort}}
           env:
             - name: OPERATOR_NAME
               value: objectscale-operator
@@ -71,6 +73,8 @@ spec:
             {{- end }}
         - name: objectscale-policy-simulator
           image: {{ .Values.global.registry }}/{{ .Values.policySimulator.image.repository }}:{{ default .Values.tag .Values.policySimulator.image.tag }}
+          ports: 
+            - containerPort: {{.Values.policySimulator.deployment.ports.containerPort}}
           env:
             - name: OPERATOR_NAME
               value: objectscale-operator
