@@ -26,6 +26,10 @@ spec:
   gateways:
   {{toYaml .Values.gateways | indent 2 | trim}}
   {{- end }}
+  {{- if .Values.directEndpoints }}
+  directEndpoints:
+  {{toYaml .Values.directEndpoints | indent 2 | trim}}
+  {{- end }}
   CloudIQ:
     enabled: false
     inventory: 60

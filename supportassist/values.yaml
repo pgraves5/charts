@@ -51,6 +51,10 @@ useGateways: true
 #    port: 9443
 #    priority: 20
 
+# directEndpoints: - required field to pass using --set
+#  - hostname: esrs3-corestg.isus.emc.com
+#    priority: 20
+
 # contacts - when specifying SupportAssist Customer Contacts directly during deployment
 # contacts:
 #  - contactOrder: 1
