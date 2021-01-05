@@ -207,7 +207,6 @@ spec:
       image:
         repository: {{ .Values.pravega.image.repository }}
         pullPolicy: {{ .Values.pullPolicy }}
-      {{- end }}
       controllerReplicas: {{ .Values.pravega.controller.replicas }}
       segmentStoreReplicas: {{ .Values.pravega.segmentStore.replicas }}
 
