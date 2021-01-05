@@ -196,7 +196,7 @@ spec:
             storage: {{ .Values.bookkeeper.storage.index.volumeSize }}
 
   pravega:
-    version:{{ .Values.pravega.image.tag }}
+    version: {{ .Values.pravega.image.tag }}
     pravega:
       {{- if .Values.pravega.controller.service.type }}
       controllerExtServiceType: {{ .Values.pravega.controller.service.type }}
