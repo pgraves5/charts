@@ -103,7 +103,7 @@ pravega:
   # labels:
   image:
     repository: devops-repo.isus.emc.com:8116/nautilus/pravega
-    tag: 0.9.0-2684.01ecbde96
+    tag: 0.9.0-2732.066a3ad0b-SLTS_FOR_FLEX_12_14
   controller:
 #    replicas: 1
     service:

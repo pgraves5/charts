@@ -196,21 +196,20 @@ spec:
             storage: {{ .Values.bookkeeper.storage.index.volumeSize }}
 
   pravega:
-    {{- if .Values.pravega.controller.service.type }}
-    controllerExtServiceType: {{ .Values.pravega.controller.service.type }}
-    {{- end }}
-    {{- if .Values.pravega.segmentStore.service.type }}
-    segmentStoreExtServiceType: {{ .Values.pravega.segmentStore.service.type }}
-    {{- end }}
-    image:
-      repository: {{ .Values.pravega.image.repository }}
-      {{- if .Values.pravega.image.pullPolicy }}
-      pullPolicy: {{ .Values.pravega.image.pullPolicy }}
-      {{- else }}
-      pullPolicy: {{ .Values.pullPolicy }}
-    {{- end }}
-    controllerReplicas: {{ .Values.pravega.controller.replicas }}
-    segmentStoreReplicas: {{ .Values.pravega.segmentStore.replicas }}
+    version:{{ .Values.pravega.image.tag }}
+    pravega:
+      {{- if .Values.pravega.controller.service.type }}
+      controllerExtServiceType: {{ .Values.pravega.controller.service.type }}
+      {{- end }}
+      {{- if .Values.pravega.segmentStore.service.type }}
+      segmentStoreExtServiceType: {{ .Values.pravega.segmentStore.service.type }}
+      {{- end }}
+      image:
+        repository: {{ .Values.pravega.image.repository }}
+        pullPolicy: {{ .Values.pullPolicy }}
+      {{- end }}
+      controllerReplicas: {{ .Values.pravega.controller.replicas }}
+      segmentStoreReplicas: {{ .Values.pravega.segmentStore.replicas }}
 
   storageServer:
 {{ include "datasvc-lib.common-labels" . | indent 4 }}
