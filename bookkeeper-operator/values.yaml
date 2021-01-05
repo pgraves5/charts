@@ -10,7 +10,7 @@ global:
 image:
   repository: 10.249.232.230:5000/pravega/bookkeeper-operator
   tag: latest
-  pullPolicy: IfNotPresent
+  pullPolicy: Always
 
 ## Install RBAC roles and bindings.
 rbac:
