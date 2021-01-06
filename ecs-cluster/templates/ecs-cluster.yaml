@@ -215,10 +215,10 @@ spec:
         controller.metrics.influxDB.connect.db.name: {{ .Values.pravega.options.metrics.influxDBName }}
         metrics.influxDB.connect.db.name: {{ .Values.pravega.options.metrics.influxDBName }}
         log.level: {{ .Values.pravega.options.log.level }}
-        metrics.influxDB.reporter.enable: {{ .Values.global.monitoring.enabled }}
-        metrics.statistics.enable: {{ .Values.global.monitoring.enabled }}
-        controller.metrics.influxDB.reporter.enable: {{ .Values.global.monitoring.enabled }}
-        controller.metrics.statistics.enable: {{ .Values.global.monitoring.enabled }}
+        metrics.influxDB.reporter.enable: {{ .Values.global.monitoring.enabled | quote }}
+        metrics.statistics.enable: {{ .Values.global.monitoring.enabled | quote }}
+        controller.metrics.influxDB.reporter.enable: {{ .Values.global.monitoring.enabled | quote }}
+        controller.metrics.statistics.enable: {{ .Values.global.monitoring.enabled | quote }}
       debugLogging: {{ .Values.pravega.debugLogging }}
 
   storageServer:
