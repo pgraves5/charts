@@ -212,31 +212,8 @@ spec:
       controllerReplicas: {{ .Values.pravega.controller.replicas }}
       segmentStoreReplicas: {{ .Values.pravega.segmentStore.replicas }}
       options:
-        bookkeeper.write.outstanding.bytes.max: {{ .Values.pravega.options.bookkeeper.write.outstanding.bytes.max }}
-        bookkeeper.write.timeout.milliseconds: {{ .Values.pravega.options.bookkeeper.write.timeout.milliseconds }}
-        bookkeeper.zk.connect.sessionTimeout.milliseconds: {{ .Values.pravega.options.bookkeeper.zk.connect.sessionTimeout.milliseconds }}
-        controller.containerCount: {{ .Values.pravega.options.controller.containerCount }}
-        controller.metrics.dynamicCache.size: {{ .Values.pravega.options.controller.metrics.dynamicCache.size }}
-        controller.metrics.influxDB.connect.db.name: {{ .Values.pravega.options.controller.metrics.influxDB.connect.db.name }}
-        controller.metrics.influxDB.retention: {{ .Values.pravega.options.controller.metrics.influxDB.retention }}
-        controller.metrics.output.frequency.seconds: {{ .Values.pravega.options.controller.metrics.output.frequency.seconds }}
-        controller.retention.bucketCount: {{ .Values.pravega.options.controller.retention.bucketCount }}
-        controller.retention.threadCount: {{ .Values.pravega.options.controller.retention.threadCount }}
-        controller.service.asyncTaskPoolSize: {{ .Values.pravega.options.controller.service.asyncTaskPoolSize }}
-        metrics.dynamicCache.size: {{ .Values.pravega.options.metrics.dynamicCache.size }}
-        metrics.influxDB.connect.db.name: {{ .Values.pravega.options.metrics.influxDB.connect.db.name }}
-        metrics.influxDB.retention: {{ .Values.pravega.options.metrics.influxDB.retention }}
-        metrics.output.frequency.seconds: {{ .Values.pravega.options.metrics.output.frequency.seconds }}
-        pravegaservice.cache.size.max: {{ .Values.pravega.options.pravegaservice.cache.size.max }}
-        pravegaservice.cache.time.seconds.max: {{ .Values.pravega.options.pravegaservice.cache.time.seconds.max }}
-        pravegaservice.container.count: {{ .Values.pravega.options.pravegaservice.container.count }}
-        pravegaservice.storage.layout: {{ .Values.pravega.options.pravegaservice.storage.layout }}
-        pravegaservice.zk.connect.sessionTimeout.milliseconds: {{ .Values.pravega.options.pravegaservice.zk.connect.sessionTimeout.milliseconds }}
-        storage.appends.enable: {{ .Values.pravega.options.storage.appends.enable }}
-        writer.flush.size.bytes.max: {{ .Values.pravega.options.writer.flush.size.bytes.max }}
-        writer.flush.threshold.bytes: {{ .Values.pravega.options.writer.flush.threshold.bytes }}
-        controller.metrics.statsD.reporter.enable: {{ .Values.pravega.options.controller.metrics.statsD.reporter.enable }}
-        metrics.statsD.reporter.enable: {{ .Values.pravega.options.metrics.statsD.reporter.enable }}
+        controller.metrics.influxDB.connect.db.name: {{ .Values.pravega.options.metrics.influxDBName }}
+        metrics.influxDB.connect.db.name: {{ .Values.pravega.options.metrics.influxDBName }}
         log.level: {{ .Values.pravega.options.log.level }}
         metrics.influxDB.reporter.enable: {{ .Values.global.monitoring }}
         metrics.statistics.enable: {{ .Values.global.monitoring }}

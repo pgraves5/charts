@@ -114,11 +114,10 @@ pravega:
       type: ClusterIP
   debugLogging: false
   options:
-    log.level: "INFO"
-    metrics.influxDB.connect.db.name: "pravega"
-    controller.metrics.influxDB.connect.db.name: "pravega"
-#    controller.metrics.statsD.reporter.enable: "false"
-#    metrics.statsD.reporter.enable: "false"
+    log:
+      level: "INFO"
+    metrics:
+      influxDBName: "pravega"
 #    bookkeeper.write.outstanding.bytes.max: "33554432"
 #    bookkeeper.write.timeout.milliseconds: "60000"
 #    bookkeeper.zk.connect.sessionTimeout.milliseconds: "15000"
@@ -163,7 +162,8 @@ bookkeeper:
       # storageClassName:
       volumeSize: 5Gi
   options:
-    log.level: "INFO"
+    log:
+      level: "INFO"
 
 
 zookeeper:
