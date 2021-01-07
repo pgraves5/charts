@@ -114,8 +114,6 @@ pravega:
       type: ClusterIP
   debugLogging: false
   options:
-    log:
-      level: "INFO"
     metrics:
       influxDBName: "pravega"
 #    bookkeeper.write.outstanding.bytes.max: "33554432"
