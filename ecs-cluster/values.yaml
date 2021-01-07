@@ -148,7 +148,7 @@ bookkeeper:
   image:
     repository: devops-repo.isus.emc.com:8116/nautilus/bookkeeper
     pullPolicy: IfNotPresent
-  version: 0.9.0-2684.01ecbde96
+  version: 0.9.0-2725.77b13981a
   storage:
     ledger:
       # storageClassName:
