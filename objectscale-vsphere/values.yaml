@@ -64,9 +64,9 @@ policySimulator:
     tag: arunrm
     pullPolicy: Always
 
+
+
 enabled: false
-
-
 
 image:
   repository: ecs-flex-vsphere-plugin

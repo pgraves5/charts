@@ -79,12 +79,4 @@ spec:
             - name: OPERATOR_NAME
               value: objectscale-operator
           imagePullPolicy: {{ default .Values.pullPolicy .Values.policySimulator.image.pullPolicy }}
-          volumeMounts:
-            - name: config-volume
-              mountPath: /conf/policy-upstream.conf
-              subPath: upstream.conf
-            - name: config-volume
-              mountPath: /etc/nginx/policy-nginx.conf
-              subPath: policy-nginx.conf
-            - name: certificate
-              mountPath: /etc/nginx/ssl    
+             

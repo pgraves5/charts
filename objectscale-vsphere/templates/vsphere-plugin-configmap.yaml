@@ -21,11 +21,6 @@ data:
         server {{ .Values.graphql.serviceName }}:{{ .Values.graphql.port }};
     }
   
-  policy-upstream.conf: |  
-    upstream iam {
-        server {{ .Values.iam.serviceName }}:{{ .Values.iam.port }};
-    }
-  
   nginx.conf: |
     events {
         worker_connections  4096;  ## Default: 1024
@@ -81,39 +76,6 @@ data:
             }
             location / {
                 root   /usr/share/nginx/html;
-                index  index.html index.htm;
-            }
-        }
-    }
-
-  policy-nginx.conf: |
-    events {
-        worker_connections  4096;  ## Default: 1024
-    }
-
-    http {
-        include /etc/nginx/mime.types;
-        include /conf/policy-upstream.conf;
-       
-        server {
-            resolver kube-dns.kube-system.svc.cluster.local;
-            listen       4444;
-            server_name  localhost;
-            access_log /dev/stdout;
-            error_log /dev/stdout;
-            rewrite_log on;
-            ssl on;
-            ssl_protocols        TLSv1.2;
-            ssl_ciphers          AES:!ADH;
-            ssl_certificate /etc/nginx/ssl/tls.crt;
-            ssl_certificate_key /etc/nginx/ssl/tls.key;
-            
-            location /iam {
-               proxy_pass http://iam;
-            }
-            
-            location / {
-                root   /usr/share/nginx/policysimulator;
                 index  index.html index.htm;
             }
         }
