@@ -113,6 +113,9 @@ pravega:
     service:
       type: ClusterIP
   debugLogging: false
+  externalAccess:
+    enabled: false
+#    type: LoadBalancer
   options:
     metrics:
       influxDBName: "pravega"
@@ -149,6 +152,7 @@ bookkeeper:
     repository: devops-repo.isus.emc.com:8116/nautilus/bookkeeper
     pullPolicy: IfNotPresent
   version: 0.9.0-2725.77b13981a
+  autoRecovery: true
   storage:
     ledger:
       # storageClassName:

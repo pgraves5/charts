@@ -169,6 +169,7 @@ spec:
         repository: {{ with .Values.bookkeeper.image }}{{ .repository }}{{ end }}
         pullPolicy: {{ with .Values.bookkeeper.image }}{{ .pullPolicy }}{{ end }}
     version:  {{ .Values.bookkeeper.version }}
+    autoRecovery: {{ .Values.bookkeeper.autoRecovery }}
     storage:
       ledgerVolumeClaimTemplate:
         accessModes: [ "ReadWriteOnce" ]
@@ -199,6 +200,14 @@ spec:
 
   pravega:
     version: {{ .Values.pravega.image.tag }}
+    externalAccess:
+      enabled: {{ .Values.pravega.externalAccess.enabled }}
+      {{ if .Values.pravega.externalAccess.type }}
+      type: {{ .Values.pravega.externalAccess.type }}
+      {{ end }}
+      {{ if .Values.pravega.externalAccess.domainName }}
+      domainName: {{ .Values.pravega.externalAccess.domainName }}
+      {{ end }}
     pravega:
       {{- if .Values.pravega.controller.service.type }}
       controllerExtServiceType: {{ .Values.pravega.controller.service.type }}
