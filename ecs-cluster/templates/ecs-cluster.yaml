@@ -149,16 +149,15 @@ spec:
       pullPolicy: {{ .Values.pullPolicy }}
 {{- end }}
     persistence:
-{{- if .Values.zookeeper.persistence.storageClassName }}
       spec:
+{{- if .Values.zookeeper.persistence.storageClassName }}
         storageClassName: {{ .Values.zookeeper.persistence.storageClassName }}
 {{- else if .Values.storageClassName }}
-      spec:
         storageClassName: {{ .Values.storageClassName }}
 {{- end }}
-      resources:
-        requests:
-          storage: {{ .Values.zookeeper.persistence.size }}
+        resources:
+          requests:
+            storage: {{ .Values.zookeeper.persistence.size }}
 
   bookkeeper:
     {{- if .Values.bookkeeper.replicas }}
@@ -230,6 +229,7 @@ spec:
       debugLogging: {{ .Values.pravega.debugLogging }}
 
   storageServer:
+    serviceAccount: {{ .Release.Name }}
 {{ include "datasvc-lib.common-labels" . | indent 4 }}
 {{- if .Values.storageServer.replicas }}
     replicas: {{ .Values.storageServer.replicas }}
@@ -371,26 +371,6 @@ spec:
           value: "{{ .Release.Name }}"
         - name: "NAMESPACE"
           value: "{{ .Release.Namespace }}"
-
-  deosEvents:
-{{- if .Values.deosEvents.pullFreq }}
-    pullFreq: {{ .Values.deosEvents.pullFreq }}
-{{- else }}
-    pullFreq: 30
-{{- end }}
-
-    image:
-      repository: {{ .Values.global.registry }}/{{ .Values.deosEvents.image.repository }}
-{{- if .Values.deosEvents.image.tag }}
-      tag: {{ .Values.deosEvents.image.tag }}
-{{- else }}
-      tag: {{ .Values.tag }}
-{{- end }}
-{{- if .Values.deosEvents.image.pullPolicy }}
-      pullPolicy: {{ .Values.deosEvents.image.pullPolicy }}
-{{- else }}
-      pullPolicy: {{ .Values.pullPolicy }}
-{{- end }}
 
   resource:
 {{ include "datasvc-lib.common-labels" . | indent 4 }}
@@ -552,6 +532,8 @@ spec:
 {{- end }}
 
   managementGateway:
+{{ include "datasvc-lib.common-labels" . | indent 4 }}
+{{ include "datasvc-lib.logging-inject-logrotate-labels" . | indent 6 }}
 {{- if .Values.managementGateway.replicas }}
     replicas: {{ .Values.managementGateway.replicas }}
 {{- end }}

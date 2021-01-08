@@ -3,12 +3,12 @@ HELM_URL     := https://get.helm.sh
 HELM_TGZ      = helm-${HELM_VERSION}-linux-amd64.tar.gz
 YQ_VERSION   := 2.4.1
 YAMLLINT_VERSION := 1.20.0
-CHARTS := ecs-cluster objectscale-manager mongoose zookeeper-operator atlas-operator decks kahm dks-testapp fio-test sonobuoy dellemc-license service-pod objectscale-graphql helm-controller objectscale-vsphere iam pravega-operator bookkeeper-operator supportassist decks-support-store statefuldaemonset-operator federation
+CHARTS := ecs-cluster objectscale-manager mongoose zookeeper-operator atlas-operator decks kahm dks-testapp fio-test sonobuoy dellemc-license service-pod objectscale-graphql helm-controller objectscale-vsphere iam pravega-operator bookkeeper-operator supportassist decks-support-store statefuldaemonset-operator influxdb-operator federation logging-injector
 DECKSCHARTS := decks kahm supportassist service-pod dellemc-license decks-support-store
-FLEXCHARTS := ecs-cluster objectscale-manager objectscale-vsphere objectscale-graphql helm-controller iam statefuldaemonset-operator federation
+FLEXCHARTS := ecs-cluster objectscale-manager objectscale-vsphere objectscale-graphql helm-controller iam statefuldaemonset-operator influxdb-operator federation logging-injector
 
 # release version
-PACKAGE_VERSION=0.55
+PACKAGE_VERSION=0.64
 FULL_PACKAGE_VERSION=${PACKAGE_VERSION}.0
 FLEXVER=${FULL_PACKAGE_VERSION}
 DECKSVER=2.${PACKAGE_VERSION}
@@ -22,6 +22,7 @@ GIT_BRANCH_ID=$(shell git rev-parse --abbrev-ref HEAD)
 MANAGER_MANIFEST    := objectscale-manager.yaml
 KAHM_MANIFEST       := kahm.yaml
 DECKS_MANIFEST      := decks.yaml
+LOGGING_INJECTOR_MANIFEST := logging-injector.yaml
 PACKAGE_NAME        := objectscale-charts-package.tgz
 NAMESPACE            = dellemc-objectscale-system
 TEMP_PACKAGE        := temp_package
@@ -42,11 +43,14 @@ HELM_DECKS_ARGS      = # --set image.tag=${YOUR_VERSION_HERE}
 HELM_KAHM_ARGS       = # --set image.tag=${YOUR_VERSION_HERE}
 HELM_DECKS_SUPPORT_STORE_ARGS      = # --set decks-support-store.image.tag=${YOUR_VERSION_HERE}
 
+ISSUE_EVENTS_RAW     = ${TEMP_PACKAGE}/yaml/issues_events_${FLEXVER}.yaml
+ISSUE_EVENTS_REPORT  = ${TEMP_PACKAGE}/yaml/issues_events_${FLEXVER}.json
+
 clean: clean-package
 
 all: test package
 
-release: decksver flexver build-all add-to-git
+release: decksver flexver build-all generate-issues-events-all add-to-git
 
 test:
 	helm lint ${CHARTS} --set product=objectscale --set global.product=objectscale
@@ -80,12 +84,12 @@ decksver:
 		echo "Setting version ${DECKSVER} in $$CHART" ;\
 		yq w -i $$CHART/Chart.yaml appVersion ${DECKSVER} ; \
 		yq w -i $$CHART/Chart.yaml version ${DECKSVER} ; \
-		echo -e "---\n`cat $$CHART/Chart.yaml`" > $$CHART/Chart.yaml ; \
+		sed -i '1s/^/---\n/' $$CHART/Chart.yaml ; \
 		sed -i -e "0,/^tag.*/s//tag: ${DECKSVER}/"  $$CHART/values.yaml; \
 	done ;
 
 	for CHART in ${FLEXCHARTS} ${DECKSCHARTS}; do  \
-		echo "Setting decs dep version ${DECKSVER} in $$CHART" ;\
+		echo "Setting decks dep version ${DECKSVER} in $$CHART" ;\
 		sed -i -e "/no_auto_change__decks_auto_change/s/version:.*/version: ${DECKSVER} # no_auto_change__decks_auto_change/g"  $$CHART/Chart.yaml; \
 	done ;
 
@@ -101,7 +105,7 @@ flexver:
 		echo "Setting version $$FLEXVER in $$CHART" ;\
 		yq w -i $$CHART/Chart.yaml appVersion ${FLEXVER} ; \
 		sed -i -e "/no_auto_change/!s/version:.*/version: ${FLEXVER}/g"  $$CHART/Chart.yaml; \
-		echo -e "---\n`cat $$CHART/Chart.yaml`" > $$CHART/Chart.yaml ; \
+		sed -i '1s/^/---\n/' $$CHART/Chart.yaml ; \
 		sed -i -e "0,/^tag.*/s//tag: ${FLEXVER}/"  $$CHART/values.yaml; \
 	done ;
 
@@ -153,6 +157,7 @@ combine-crds:
 	cp -R kahm/crds ${TEMP_PACKAGE}
 	cp -R decks/crds ${TEMP_PACKAGE}
 	cp -R statefuldaemonset-operator/crds ${TEMP_PACKAGE}
+	cp -R influxdb-operator/crds ${TEMP_PACKAGE}
 	cat ${TEMP_PACKAGE}/crds/*.yaml > ${TEMP_PACKAGE}/yaml/objectscale-crd.yaml
 	## Remove # from crd to prevent app-platform from crashing in 7.0P1
 	sed -i -e "/^#.*/d" ${TEMP_PACKAGE}/yaml/objectscale-crd.yaml
@@ -161,7 +166,7 @@ combine-crds:
 create-vmware-package:
 	./vmware/vmware_pack.sh ${SERVICE_ID}
 
-create-manifests: create-vsphere-install create-kahm-app create-decks-app create-manager-app
+create-manifests: create-vsphere-install create-kahm-app create-decks-app create-manager-app create-logging-injector-app
 
 create-vsphere-install: create-vsphere-templates
 
@@ -180,7 +185,7 @@ create-manager-app: create-temp-package
 	--set global.monitoring_registry=${REGISTRY} \
 	--set ecs-monitoring.influxdb.persistence.storageClassName=${STORAGECLASSNAME} \
 	--set global.monitoring.enabled=false \
-	--set objectscale-monitoring.influxdb.persistence.storageClassName=${STORAGECLASSNAME_VSAN_SNA} \
+	--set objectscale-monitoring.influxdb.persistence.storageClassName=${STORAGECLASSNAME} \
 	--set objectscale-monitoring.rsyslog.persistence.storageClassName=${STORAGECLASSNAME_VSAN_SNA} \
 	--set iam.enabled=false ${HELM_MANAGER_ARGS} ${HELM_MONITORING_ARGS} \
 	--set federation.enabled=false ${HELM_MANAGER_ARGS} ${HELM_MONITORING_ARGS} \
@@ -226,6 +231,19 @@ create-kahm-app: create-temp-package
 	sed -i 's/createkahmappResource\\":true/createkahmappResource\\":false/g' ${TEMP_PACKAGE}/yaml/kahm-app.yaml && \
 	sed -i 's/app.kubernetes.io\/managed-by: Helm/app.kubernetes.io\/managed-by: nautilus/g' ${TEMP_PACKAGE}/yaml/kahm-app.yaml
 	cat ${TEMP_PACKAGE}/yaml/kahm-app.yaml >> ${TEMP_PACKAGE}/yaml/${KAHM_MANIFEST} && rm ${TEMP_PACKAGE}/yaml/kahm-app.yaml
+
+create-logging-injector-app: create-temp-package
+	# cd in makefiles spawns a subshell, so continue the command with ;
+	cd logging-injector; \
+	helm template --show-only templates/logging-injector-app.yaml logging-injector ../logging-injector -n ${NAMESPACE} \
+	--set global.watchAllNamespaces=${WATCH_ALL_NAMESPACES} \
+	--set global.registry=${REGISTRY} \
+	--set global.objectscale_release_name=objectscale-manager \
+	-f values.yaml > ../${TEMP_PACKAGE}/yaml/logging-injector-app.yaml;
+	sed -i 's/createApplicationResource\\":true/createApplicationResource\\":false/g' ${TEMP_PACKAGE}/yaml/logging-injector-app.yaml && \
+	sed -i 's/app.kubernetes.io\/managed-by: Helm/app.kubernetes.io\/managed-by: nautilus/g' ${TEMP_PACKAGE}/yaml/logging-injector-app.yaml
+	cat ${TEMP_PACKAGE}/yaml/logging-injector-app.yaml >> ${TEMP_PACKAGE}/yaml/${LOGGING_INJECTOR_MANIFEST} && rm ${TEMP_PACKAGE}/yaml/logging-injector-app.yaml
+
 archive-package:
 	tar -zcvf ${PACKAGE_NAME} ${TEMP_PACKAGE}/*
 
@@ -237,6 +255,7 @@ combine-crd-manager-ci: create-temp-package
 	cp -R atlas-operator/crds ${TEMP_PACKAGE}
 	cp -R zookeeper-operator/crds ${TEMP_PACKAGE}
 	cp -R statefuldaemonset-operator/crds ${TEMP_PACKAGE}
+	cp -R influxdb-operator/crds ${TEMP_PACKAGE}
 	cat ${TEMP_PACKAGE}/crds/*.yaml > ${TEMP_PACKAGE}/yaml/manager-crd.yaml
 	rm -rf ${TEMP_PACKAGE}/crds
 
@@ -256,3 +275,29 @@ build-installer:
 tag-push-installer:
 	docker tag asdrepo.isus.emc.com:8099/install-controller:${FULL_PACKAGE_VERSION}-$(GIT_COMMIT_COUNT).$(GIT_COMMIT_SHORT_ID) asdrepo.isus.emc.com:8099/install-controller:${FULL_PACKAGE_VERSION}
 	docker push asdrepo.isus.emc.com:8099/install-controller:${FULL_PACKAGE_VERSION}
+
+generate-issues-events-all:
+	mkdir -p ${TEMP_PACKAGE}/yaml
+
+	echo -n > ${ISSUE_EVENTS_RAW}
+
+	for chart in ${FLEXCHARTS}; do  \
+		chart_file=$$chart-${FLEXVER}.tgz ; \
+		echo "Templating chart $${chart_file}" ;  \
+		helm template $$chart docs/$${chart_file} \
+			--set product=objectscale --set global.product=objectscale \
+			>> ${ISSUE_EVENTS_RAW} ; \
+	done ;
+
+	for chart in ${DECKSCHARTS}; do  \
+		chart_file=$$chart-${DECKSVER}.tgz ; \
+		echo "Templating chart $${chart_file}" ;  \
+		helm template $$chart docs/$${chart_file} \
+			--set product=objectscale --set global.product=objectscale \
+                        --set accessKey=0 --set pin=0 \
+                        --set productVersion=0 --set siteID=0 \
+			>> ${ISSUE_EVENTS_RAW} ; \
+	done ;
+
+	python tools/issues_events_report/issues_events_reporter.py \
+		-i ${ISSUE_EVENTS_RAW} -o ${ISSUE_EVENTS_REPORT} -fv ${FLEXVER} -dv ${DECKSVER}

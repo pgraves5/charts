@@ -19,7 +19,7 @@ global:
   platform: Default
 
 # The default docker tag and pull policy for the KAHM
-tag: 2.0.55
+tag: 2.0.64
 pullPolicy: IfNotPresent
 
 # The number of replicas for the KAHM deployment
@@ -54,7 +54,7 @@ resources:
   #  memory: 2Gi
   requests:
     #  cpu: 100m
-    memory: 1Gi
+    memory: 2Gi
 
 nodeSelector: {}
 

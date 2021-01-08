@@ -167,6 +167,17 @@
             </Policies>
         </RollingFile>
 
+        <RollingFile name="AKKA_BFW" fileName="${sys:product.home}/logs/cm-akkabfw.log"
+                     filePattern="${sys:product.home}/logs/cm-akkabfw.log.%i">
+            <PatternLayout>
+                <Pattern>%d{ISO8601} [%t%X{apiRequestId}] %X{akkaSource} %5p %c{1} %m%n%ex</Pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="5 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="1"/>
+        </RollingFile>
+
         <RollingFile name="RCC" fileName="${sys:product.home}/logs/cm-refresh-chunk-cache.log"
                      filePattern="${sys:product.home}/logs/cm-refresh-chunk-cache.log.%d{yyyyMMdd-HHmmss}.gz">
             <PatternLayout>

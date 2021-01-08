@@ -4,6 +4,10 @@
   issueCategory: Auto
   matchOnList:
     - matchon:
+        # NORMAL
+        - label: SymptomID
+          value: 1324
+    - matchon:
         # WARNING
         - label: SymptomID
           value: 1325

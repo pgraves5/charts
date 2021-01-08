@@ -1,7 +1,8 @@
+---
 apiVersion: v2
 name: objectscale-vsphere
-version: 0.55.0
-appVersion: 0.55.0
+version: 0.64.1
+appVersion: 0.64.1
 description: |
   vsphere PSP necessary setup resources
 maintainers:
@@ -9,6 +10,10 @@ maintainers:
     url: https://dellemc.com
 dependencies:
   - name: objectscale-graphql
-    version: 0.55.0
+    version: 0.64.1
     repository: file://../objectscale-graphql
     condition: graphql.enabled
+  - name: rsyslog-client
+    repository: https://asdrepo.isus.emc.com/artifactory/objectscale-helm-build/
+    version: 3.7.0-1105.80a03afe # no_auto_change__monitoring_auto_change
+    condition: global.rsyslog_enabled
