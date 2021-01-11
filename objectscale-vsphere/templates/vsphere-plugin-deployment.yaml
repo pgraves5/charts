@@ -74,9 +74,6 @@ spec:
         - name: objectscale-policy-simulator
           image: {{ .Values.global.registry }}/{{ .Values.policySimulator.image.repository }}:{{ default .Values.tag .Values.policySimulator.image.tag }}
           ports: 
-            - containerPort: {{.Values.policySimulator.deployment.ports.containerPort}}
-          env:
-            - name: OPERATOR_NAME
-              value: objectscale-operator
+            - containerPort: {{.Values.policySimulator.containerPort}}
           imagePullPolicy: {{ default .Values.pullPolicy .Values.policySimulator.image.pullPolicy }}
              

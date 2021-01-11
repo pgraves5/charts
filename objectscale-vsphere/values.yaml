@@ -55,9 +55,8 @@ iam:
   serviceName: objectscale-graphql  
 
 policySimulator:
-  deployment: 
-    ports:
-      containerPort: 4444
+  serviceName: localhost
+  containerPort: 9090
   image:
     repository: objectscale-policy-simulator
     tag: arunrm
@@ -85,9 +84,6 @@ service:
     - name: https
       port: 4443
       targetPort: 4443
-    - name: https-for-policy-simulator
-      port: 4444
-      targetPort: 4444
       # nodePort:           # select specific node port for the connection
 
       # loadBalancerIP:     # select specific load balancer IP of the connection

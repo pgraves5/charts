@@ -20,6 +20,10 @@ data:
     upstream graphql {
         server {{ .Values.graphql.serviceName }}:{{ .Values.graphql.port }};
     }
+    upstream policysimulator {
+        server {{ .Values.policySimulator.serviceName }}:{{ .Values.policySimulator.containerPort }};
+    }
+
   
   nginx.conf: |
     events {
@@ -73,6 +77,10 @@ data:
             location /platform {
                 default_type application/json;
                 return 200 '{"value":"{{ .Values.global.platform }}"}';
+            }
+            location /policySimulator {
+                proxy_pass http://policysimulator;
+                proxy_redirect off;
             }
             location / {
                 root   /usr/share/nginx/html;
