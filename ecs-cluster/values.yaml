@@ -76,6 +76,8 @@ features:
   # Enable object notification
   enableNotification: false
 
+  enablePravega: false
+
   # Object type defines which service will be used: Blob service or Object service.
   # Values: blobSVC or objectSVC
   # NOTE: If CRR is enabled then Object service will be used forcibly
@@ -103,24 +105,57 @@ atlas:
 pravega:
   # labels:
   image:
-    repository: pravega
-  # tag: ...
+    repository: devops-repo.isus.emc.com:8116/nautilus/pravega
+    tag: 0.9.0-2732.066a3ad0b-SLTS_FOR_FLEX_12_14
   controller:
-    replicas: 1
+#    replicas: 1
     service:
       type: ClusterIP
   segmentStore:
-    replicas: 1
+#    replicas: 1
     service:
       type: ClusterIP
-
+  debugLogging: false
+  externalAccess:
+    enabled: false
+#    type: LoadBalancer
+  options:
+    metrics:
+      influxDBName: "pravega"
+#    bookkeeper.write.outstanding.bytes.max: "33554432"
+#    bookkeeper.write.timeout.milliseconds: "60000"
+#    bookkeeper.zk.connect.sessionTimeout.milliseconds: "15000"
+#    controller.containerCount: "32"
+#    controller.metrics.dynamicCache.size: "2000"
+#    controller.metrics.influxDB.retention: "two_hour"
+#    controller.metrics.output.frequency.seconds: "10"
+#    controller.retention.bucketCount: "8"
+#    controller.retention.threadCount: "4"
+#    controller.service.asyncTaskPoolSize: "20"
+#    metrics.influxDB.reporter.enable: "false"
+#    metrics.statistics.enable: "false"
+#    controller.metrics.influxDB.reporter.enable: "false"
+#    controller.metrics.statistics.enable: "false"
+#    metrics.dynamicCache.size: "2000"
+#    metrics.influxDB.retention: "two_hour"
+#    metrics.output.frequency.seconds: "10"
+#    pravegaservice.cache.size.max: "1073741824"
+#    pravegaservice.cache.time.seconds.max: "600"
+#    pravegaservice.container.count: "32"
+#    pravegaservice.storage.layout: "CHUNKED_STORAGE"
+#    pravegaservice.zk.connect.sessionTimeout.milliseconds: "30000"
+#    storage.appends.enable: "false"
+#    writer.flush.size.bytes.max: "67108864"
+#    writer.flush.threshold.bytes: "67108864"
 
 bookkeeper:
-  # replicas: 3
+#  replicas: 3
   # labels:
   image:
-    repository: bookkeeper
-  # tag:
+    repository: devops-repo.isus.emc.com:8116/nautilus/bookkeeper
+    pullPolicy: IfNotPresent
+  version: 0.9.0-2725.77b13981a
+  autoRecovery: true
   storage:
     ledger:
       # storageClassName:
@@ -130,7 +165,11 @@ bookkeeper:
       volumeSize: 10Gi
     index:
       # storageClassName:
-      volumeSize: 10Gi
+      volumeSize: 5Gi
+  options:
+    log:
+      level: "INFO"
+
 
 zookeeper:
   # Override the number of nodes in the zookeeper cluster
