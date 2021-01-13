@@ -4,7 +4,7 @@ metadata:
   name: {{ template "bookkeeper-operator.fullname" . }}
   namespace: {{ .Release.Namespace }}
   labels:
-  {{ include "bookkeeper-operator.commonLabels" . | indent 4 }}
+{{ include "bookkeeper-operator.commonLabels" . | indent 4 }}
 spec:
   replicas: 1
   selector:

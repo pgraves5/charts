@@ -17,6 +17,9 @@ image:
 rbac:
   create: true
 
+crd:
+  create: true
+
 ## Service account name and whether to create it.
 serviceAccount:
   create: true
