@@ -1,3 +1,4 @@
+{{- if ne .Values.features.enablePravega true}}
 {{- range $i, $svc := list "blob" "cm" "control" "cp" "diagnostic" "event" "geo" "metering" "rm" "resource" "s3" "sr" "sm" "ssm" "objectsvc" "storageserver" }}
 ---
 apiVersion: v1
@@ -16,4 +17,5 @@ metadata:
 
 data:
 {{ ($.Files.Glob (print "svc-configs/" $svc "/*")).AsConfig | indent 2 }}
+{{- end }}
 {{- end }}
