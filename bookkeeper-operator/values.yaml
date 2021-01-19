@@ -10,11 +10,14 @@ global:
 
 image:
   repository: pravega/bookkeeper-operator
-  tag: 0.1.2
+  tag: 0.1.3-50-f528f6f
   pullPolicy: IfNotPresent
 
 ## Install RBAC roles and bindings.
 rbac:
+  create: true
+
+crd:
   create: true
 
 ## Service account name and whether to create it.
@@ -23,15 +26,24 @@ serviceAccount:
   name: bookkeeper-operator
 
 testmode:
-  enabled: false
+  enabled: true
   ## version of pravega that you wish to deploy
   ## mention the major version number
   ## eg. enter 0.8.0 if u wish to deploy version 0.8.0-2500.efe501a
-  version: ""
+  version: "0.9.0"
 
 ## Specifies which namespace the Operator should watch over.
 ## An empty string means all namespaces.
 watchNamespace: ""
+
+webhookCert:
+  crt:
+  key:
+  ## Whether to generate the certificate or not.
+  generate: false
+  ## If false, the name of the pre-existing certificate needs to be provided.
+  certName: selfsigned-cert-bk
+  secretName: selfsigned-cert-tls-bk
 
 hooks:
   backoffLimit: 10
