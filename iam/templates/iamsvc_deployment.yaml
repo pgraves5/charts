@@ -38,6 +38,11 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: status.podIP
+        - name: SYSTEM_LOCAL_ACCOUNT_ADMIN_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Release.Name }}-system-local-account
+              key: ADMIN_PASSWORD
         image: {{ default  .Values.global.registry .Values.iamsvc.image.registry }}/{{ .Values.iamsvc.image.repository }}:{{ default .Values.tag .Values.iamsvc.image.tag }}
         imagePullPolicy: {{ .Values.iamsvc.image.pullPolicy }}
         ports:
