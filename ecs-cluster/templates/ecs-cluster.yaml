@@ -114,6 +114,24 @@ spec:
       pullPolicy: {{ .Values.pullPolicy }}
 {{- end }}
 
+  nds:
+{{ include "datasvc-lib.common-labels" . | indent 4 }}
+{{- if .Values.nds.replicas }}
+    replicas: {{ .Values.nds.replicas }}
+{{- end }}
+    image:
+      repository: {{ .Values.global.registry }}/{{ .Values.nds.image.repository }}
+{{- if .Values.nds.image.tag }}
+      tag: {{ .Values.nds.image.tag }}
+{{- else }}
+      tag: {{ .Values.tag }}
+{{- end }}
+{{- if .Values.nds.image.pullPolicy }}
+      pullPolicy: {{ .Values.nds.image.pullPolicy }}
+{{- else }}
+      pullPolicy: {{ .Values.pullPolicy }}
+{{- end }}
+
   rep:
 {{ include "datasvc-lib.common-labels" . | indent 4 }}
 {{- if .Values.rep.replicas }}
@@ -149,29 +167,26 @@ spec:
       pullPolicy: {{ .Values.pullPolicy }}
 {{- end }}
     persistence:
-{{- if .Values.zookeeper.persistence.storageClassName }}
       spec:
+{{- if .Values.zookeeper.persistence.storageClassName }}
         storageClassName: {{ .Values.zookeeper.persistence.storageClassName }}
 {{- else if .Values.storageClassName }}
-      spec:
         storageClassName: {{ .Values.storageClassName }}
 {{- end }}
-      resources:
-        requests:
-          storage: {{ .Values.zookeeper.persistence.size }}
+        resources:
+          requests:
+            storage: {{ .Values.zookeeper.persistence.size }}
 
   bookkeeper:
     {{- if .Values.bookkeeper.replicas }}
     replicas: {{ .Values.bookkeeper.replicas }}
     {{- end }}
     image:
-      repository: {{ .Values.global.registry }}/{{ .Values.bookkeeper.image.repository }}
-      tag: {{ .Values.bookkeeper.image.tag }}
-      {{- if .Values.bookkeeper.image.pullPolicy }}
-      pullPolicy: {{ .Values.bookkeeper.image.pullPolicy }}
-      {{- else }}
-      pullPolicy: {{ .Values.pullPolicy }}
-    {{- end }}
+      imageSpec:
+        repository: {{ .Values.pravegaRepository }}/bookkeeper
+        pullPolicy: {{ with .Values.bookkeeper.image }}{{ .pullPolicy }}{{ end }}
+    version:  {{ .Values.bookkeeper.version }}
+    autoRecovery: {{ .Values.bookkeeper.autoRecovery }}
     storage:
       ledgerVolumeClaimTemplate:
         accessModes: [ "ReadWriteOnce" ]
@@ -197,25 +212,46 @@ spec:
         resources:
           requests:
             storage: {{ .Values.bookkeeper.storage.index.volumeSize }}
+    options:
+      log.level: {{ .Values.bookkeeper.options.log.level }}
 
   pravega:
-    {{- if .Values.pravega.controller.service.type }}
-    controllerExtServiceType: {{ .Values.pravega.controller.service.type }}
-    {{- end }}
-    {{- if .Values.pravega.segmentStore.service.type }}
-    segmentStoreExtServiceType: {{ .Values.pravega.segmentStore.service.type }}
-    {{- end }}
-    image:
-      repository: {{ .Values.global.registry }}/{{ .Values.pravega.image.repository }}
-      {{- if .Values.pravega.image.pullPolicy }}
-      pullPolicy: {{ .Values.pravega.image.pullPolicy }}
-      {{- else }}
-      pullPolicy: {{ .Values.pullPolicy }}
-    {{- end }}
-    controllerReplicas: {{ .Values.pravega.controller.replicas }}
-    segmentStoreReplicas: {{ .Values.pravega.segmentStore.replicas }}
+    version: {{ .Values.pravega.image.tag }}
+    externalAccess:
+      enabled: {{ .Values.pravega.externalAccess.enabled }}
+      {{ if .Values.pravega.externalAccess.type }}
+      type: {{ .Values.pravega.externalAccess.type }}
+      {{ end }}
+      {{ if .Values.pravega.externalAccess.domainName }}
+      domainName: {{ .Values.pravega.externalAccess.domainName }}
+      {{ end }}
+    pravega:
+      {{- if .Values.pravega.controller.service.type }}
+      controllerExtServiceType: {{ .Values.pravega.controller.service.type }}
+      {{- end }}
+      {{- if .Values.pravega.segmentStore.service.type }}
+      segmentStoreExtServiceType: {{ .Values.pravega.segmentStore.service.type }}
+      {{- end }}
+      image:
+        repository: {{ .Values.pravegaRepository }}/pravega
+        pullPolicy: {{ .Values.pullPolicy }}
+      {{- if .Values.pravega.controller.replicas }}
+      controllerReplicas: {{ .Values.pravega.controller.replicas }}
+      {{- end }}
+      {{- if .Values.pravega.segmentStore.replicas }}
+      segmentStoreReplicas: {{ .Values.pravega.segmentStore.replicas }}
+      {{- end }}
+      options:
+        controller.metrics.influxDB.connect.db.name: {{ .Values.pravega.options.metrics.influxDBName }}
+        metrics.influxDB.connect.db.name: {{ .Values.pravega.options.metrics.influxDBName }}
+        metrics.influxDB.reporter.enable: {{ .Values.global.monitoring.enabled | quote }}
+        metrics.statistics.enable: {{ .Values.global.monitoring.enabled | quote }}
+        controller.metrics.influxDB.reporter.enable: {{ .Values.global.monitoring.enabled | quote }}
+        controller.metrics.statistics.enable: {{ .Values.global.monitoring.enabled | quote }}
+      debugLogging: {{ .Values.pravega.debugLogging }}
 
   storageServer:
+    serviceAccount: {{ .Release.Name }}
 {{ include "datasvc-lib.common-labels" . | indent 4 }}
 {{- if .Values.storageServer.replicas }}
     replicas: {{ .Values.storageServer.replicas }}
@@ -237,6 +273,9 @@ spec:
     volumes:
 {{- if .Values.storageServer.persistence.protected }}
       protected: {{ .Values.storageServer.persistence.protected }}
+{{- end }}
+{{- if .Values.storageServer.persistence.collocated }}
+      collocated: {{ .Values.storageServer.persistence.collocated }}
 {{- end }}
 {{- if .Values.storageServer.persistence.erasureCoding }}
       erasureCoding:
@@ -357,26 +396,6 @@ spec:
           value: "{{ .Release.Name }}"
         - name: "NAMESPACE"
           value: "{{ .Release.Namespace }}"
-
-  deosEvents:
-{{- if .Values.deosEvents.pullFreq }}
-    pullFreq: {{ .Values.deosEvents.pullFreq }}
-{{- else }}
-    pullFreq: 30
-{{- end }}
-
-    image:
-      repository: {{ .Values.global.registry }}/{{ .Values.deosEvents.image.repository }}
-{{- if .Values.deosEvents.image.tag }}
-      tag: {{ .Values.deosEvents.image.tag }}
-{{- else }}
-      tag: {{ .Values.tag }}
-{{- end }}
-{{- if .Values.deosEvents.image.pullPolicy }}
-      pullPolicy: {{ .Values.deosEvents.image.pullPolicy }}
-{{- else }}
-      pullPolicy: {{ .Values.pullPolicy }}
-{{- end }}
 
   resource:
 {{ include "datasvc-lib.common-labels" . | indent 4 }}
@@ -538,6 +557,8 @@ spec:
 {{- end }}
 
   managementGateway:
+{{ include "datasvc-lib.common-labels" . | indent 4 }}
+{{ include "datasvc-lib.logging-inject-logrotate-labels" . | indent 6 }}
 {{- if .Values.managementGateway.replicas }}
     replicas: {{ .Values.managementGateway.replicas }}
 {{- end }}
@@ -652,6 +673,10 @@ spec:
 {{- end }}
 
   enableCRR: {{ .Values.features.enableCRR }}
+
+  enablePravega: {{ .Values.features.enablePravega }}
+
+  enableNotification: {{ .Values.features.enableNotification }}
 
   objectType: {{ .Values.features.objectType }}
 

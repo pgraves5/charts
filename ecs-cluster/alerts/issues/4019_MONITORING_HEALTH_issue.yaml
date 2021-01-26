@@ -4,6 +4,10 @@
   issueCategory: Auto
   matchOnList:
     - matchon:
+        # NORMAL
+        - label: SymptomID
+          value: 4016
+    - matchon:
         # CRITICAL
         - label: SymptomID
           value: 4019

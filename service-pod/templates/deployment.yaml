@@ -35,6 +35,9 @@ spec:
         - containerPort: 22
           name: ssh
           protocol: TCP
+        resources:
+          requests:
+            memory: {{ .Values.resources.requests.memory }}
         env:
         - name: MY_POD_IP
           valueFrom:
@@ -54,27 +57,22 @@ spec:
           value: {{ .Release.Name }}
         {{- if .Values.resources }}
         resources:
-          {{- if .Values.resources.requests.storage }}
-          requests:
-             ephemeral-storage: {{ .Values.resources.requests.storage }}
-          {{- end }}
-          {{- if .Values.resources.limits.storage }}
-          limits:
-             ephemeral-storage: {{ .Values.resources.limits.storage }}
-          {{- end }}
+          {{- toYaml .Values.resources | nindent 10 }}
         {{- end }}
         volumeMounts:
         - mountPath: /dev/shm
           name: dshm
         - mountPath: /tmp
           name: host-data
+        - mountPath: /etc/svcpod/creds
+          name: creds-secret-vol
       dnsPolicy: ClusterFirst
       volumes:
       - name: dshm
         emptyDir:
           medium: Memory
-      - emptyDir: {}
-        name: host-data
+      - name: host-data
+        emptyDir: {}
       - name: creds-secret-vol
         secret:
           secretName: {{ .Release.Name }}-service-pod-secrets

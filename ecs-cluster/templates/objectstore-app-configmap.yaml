@@ -22,12 +22,20 @@ data:
 {{ end }}
     eventRemedies: |-
       symptoms:
-{{ range $path, $_ :=  .Files.Glob  "alerts/remedies/*_remedie.yaml" }}
+{{ range $path, $_ :=  .Files.Glob  "alerts/remedies/*_remedies.yaml" }}
 {{- $.Files.Get $path | indent 8 }}
 {{ end }}
     health: |-
       spec:
         - name: objectstore-healthcheck
-          container: {{.Values.global.registry}}/objectstore-connectivity:{{.Values.tag}}
+          container: {{.Values.global.registry}}/{{.Values.healthChecks.connectivity.image.repository}}:{{default .Values.tag .Values.healthChecks.connectivity.image.tag}}
+          serviceaccount: {{.Release.Name}}-healthchecks
           schedule: "0 */6 * * *"
+          timelimit: "5m"
+          args:
+            - all
+        - name: objectstore-pre-update
+          container: {{.Values.global.registry}}/{{.Values.healthChecks.preUpdate.image.repository}}:{{default .Values.tag .Values.healthChecks.preUpdate.image.tag}}
+          serviceaccount: {{.Release.Name}}-healthchecks
+          schedule: "*/30 * * * *"
           timelimit: "5m"
