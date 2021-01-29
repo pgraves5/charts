@@ -35,7 +35,11 @@ data:
          default {{ .Values.decks.supportStore.service.port }};
         }
         server {
+            {{- if (eq .Values.global.platform "OpenShift") }}
+            resolver dns-default.openshift-dns.svc.cluster.local;
+            {{- else }}
             resolver kube-dns.kube-system.svc.cluster.local;
+            {{- end }}
             listen       4443;
             server_name  localhost;
             access_log /dev/stdout;

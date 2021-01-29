@@ -16,7 +16,11 @@ metadata:
     operator: objectscale-operator
     product: objectscale
 spec:
+  {{- if eq .Values.global.platform "VMware" }}
+  type: ClusterIP
+  {{- else}}
   type: {{ .Values.service.type }}
+  {{- end }}
   selector:
     app.kubernetes.io/name: objectscale-manager
     app.kubernetes.io/component: objectscale-vsphere-plugin

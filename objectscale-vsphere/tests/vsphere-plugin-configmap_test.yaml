@@ -1,3 +1,4 @@
+---
 suite: test vsphere configmap pks
 templates:
   - vsphere-plugin-configmap.yaml

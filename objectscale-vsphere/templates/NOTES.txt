@@ -1,0 +1,13 @@
+
+Thank you for installing {{ .Chart.Name }}. This release provides 
+a Dell EMC ObjectScale User Interface (portal)
+
+This release is named {{ .Release.Name }}.
+
+To get started, simply read your service account token:
+
+  $ read -r SVCACCOUNT_TOKEN \
+        <<< $(kubectl get secret -o jsonpath='{.data.token}' $(kubectl get sa "objectscale-api" -o json | jq -r '.secrets[] | select (.name | test("objectscale-api-token-")).name') | base64 --decode; echo -n " ")
+
+Then paste this service account token into the ObjectScale UI login page.
+
