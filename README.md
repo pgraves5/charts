@@ -1,5 +1,7 @@
 # Dell EMC ObjectScale Helm Charts
 
+tagged here 7777
+
 This repository provides all Dell EMC ObjectScale related packages for [Kubernetes](http://kubernetes.io), formatted as [Helm](https://helm.sh) packages.
 
 To add this repository to your local Helm installation:
