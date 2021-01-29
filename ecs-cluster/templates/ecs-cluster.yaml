@@ -132,6 +132,25 @@ spec:
       pullPolicy: {{ .Values.pullPolicy }}
 {{- end }}
 
+  objectStoreMetering:
+{{ include "datasvc-lib.common-labels" . | indent 4 }}
+{{- if .Values.objectStoreMetering.replicas }}
+    replicas: {{ .Values.objectStoreMetering.replicas }}
+{{- end }}
+    image:
+      repository: {{ .Values.global.registry }}/{{ .Values.objectStoreMetering.image.repository }}
+{{- if .Values.objectStoreMetering.image.tag }}
+      tag: {{ .Values.objectStoreMetering.image.tag }}
+{{- else }}
+      tag: {{ .Values.tag }}
+{{- end }}
+{{- if .Values.objectStoreMetering.image.pullPolicy }}
+      pullPolicy: {{ .Values.objectStoreMetering.image.pullPolicy }}
+{{- else }}
+      pullPolicy: {{ .Values.pullPolicy }}
+{{- end }}
+
+
   rep:
 {{ include "datasvc-lib.common-labels" . | indent 4 }}
 {{- if .Values.rep.replicas }}
@@ -674,9 +693,14 @@ spec:
 
   enableCRR: {{ .Values.features.enableCRR }}
 
+  enableObjectStoreMetering: {{ .Values.features.enableObjectStoreMetering }}
+
   enablePravega: {{ .Values.features.enablePravega }}
 
   enableNotification: {{ .Values.features.enableNotification }}
+
+  enableRRDriven: {{ .Values.features.enableRRDriven }}
+  enableRRDrivenPartialSR: {{ .Values.features.enableRRDrivenPartialSR }}
 
   objectType: {{ .Values.features.objectType }}
 
