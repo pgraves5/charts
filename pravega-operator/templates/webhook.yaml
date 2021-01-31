@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ .Release.Namespace }}-pravega-webhook-svc
+  name: pravega-webhook-svc
   namespace: {{ .Release.Namespace }}
   labels:
 {{ include "pravega-operator.commonLabels" . | indent 4 }}
@@ -27,7 +27,7 @@ metadata:
 webhooks:
 - clientConfig:
     service:
-      name: {{ .Release.Namespace }}-pravega-webhook-svc
+      name: pravega-webhook-svc
       namespace: {{ .Release.Namespace }}
       path: /validate-pravega-pravega-io-v1beta1-pravegacluster
   name: pravegawebhook.pravega.io
