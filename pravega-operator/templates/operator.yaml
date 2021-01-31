@@ -32,14 +32,8 @@ spec:
         args: [-test]
         {{- end }}
         env:
-        - name: WATCH_NAMESPACE
-{{- if eq .Values.global.watchAllNamespaces true}}
-          value: ""
-{{- else }}
-          valueFrom:
-            fieldRef:
-              fieldPath: metadata.namespace
-{{- end }}
+          - name: WATCH_NAMESPACE
+            value: {{ .Release.Namespace }}
         - name: POD_NAME
           valueFrom:
             fieldRef:
