@@ -1,14 +1,14 @@
-HELM_VERSION := v3.0.3
+HELM_VERSION := v3.5.0
 HELM_URL     := https://get.helm.sh
 HELM_TGZ      = helm-${HELM_VERSION}-linux-amd64.tar.gz
-YQ_VERSION   := 2.4.1
+YQ_VERSION   := 4.4.1
 YAMLLINT_VERSION := 1.20.0
 CHARTS := ecs-cluster objectscale-manager mongoose zookeeper-operator atlas-operator decks kahm dks-testapp fio-test sonobuoy dellemc-license service-pod objectscale-graphql helm-controller objectscale-vsphere iam pravega-operator bookkeeper-operator supportassist decks-support-store statefuldaemonset-operator influxdb-operator federation logging-injector dcm
 DECKSCHARTS := decks kahm supportassist service-pod dellemc-license decks-support-store
 FLEXCHARTS := ecs-cluster objectscale-manager objectscale-vsphere objectscale-graphql helm-controller iam statefuldaemonset-operator influxdb-operator federation logging-injector dcm
 
 # release version
-PACKAGE_VERSION=0.64
+PACKAGE_VERSION=0.65
 FULL_PACKAGE_VERSION=${PACKAGE_VERSION}.0
 FLEXVER=${FULL_PACKAGE_VERSION}
 DECKSVER=2.${PACKAGE_VERSION}
@@ -17,6 +17,7 @@ GIT_COMMIT_COUNT=$(shell git rev-list HEAD | wc -l)
 GIT_COMMIT_ID=$(shell git rev-parse HEAD)
 GIT_COMMIT_SHORT_ID=$(shell git rev-parse --short HEAD)
 GIT_BRANCH_ID=$(shell git rev-parse --abbrev-ref HEAD)
+YQ_CMD_VERSION := $(shell yq --version | awk '{print $$3}')
 
 # packaging
 MANAGER_MANIFEST    := objectscale-manager.yaml
@@ -50,7 +51,7 @@ clean: clean-package
 
 all: test package
 
-release: decksver flexver build-all generate-issues-events-all add-to-git
+release: decksver flexver build generate-issues-events-all add-to-git
 
 test:
 	helm lint ${CHARTS} --set product=objectscale --set global.product=objectscale
@@ -61,7 +62,7 @@ test:
 dep:
 	wget -q ${HELM_URL}/${HELM_TGZ}
 	tar xzf ${HELM_TGZ} -C /tmp --strip-components=1
-	PATH=`pwd`/linux-amd64/:$PATH
+	PATH=`pwd`/linux-amd64/:${PATH}
 	chmod +x /tmp/helm
 	helm plugin list | grep -q "unittest" ; \
 	if [ "$${?}" -eq "1" ] ; then \
@@ -69,21 +70,29 @@ dep:
  	fi
 	export PATH=$PATH:/tmp
 	sudo pip install yamllint=="${YAMLLINT_VERSION}"
-	sudo pip install yq=="${YQ_VERSION}"
+	wget -q http://asdrepo.isus.emc.com/artifactory/objectscale-build/com/github/yq/v${YQ_VERSION}/yq_linux_amd64
+	sudo mv yq_linux_amd64 /usr/bin/yq
+	sudo chmod u+x /usr/bin/yq
 
-decksver:
+yqcheck:
+ifneq (${YQ_VERSION},${YQ_CMD_VERSION})
+	@echo "Requires yq version:${YQ_VERSION} found version:${YQ_CMD_VERSION}"
+	@echo
+	@echo "Run make dep to install 'yq'"
+	@echo
+	exit 1
+endif
+
+decksver: yqcheck
 	if [ -z ${DECKSVER} ] ; then \
 		echo "Missing DECKSVER= param" ; \
 		exit 1 ; \
 	fi
 
-	echo "looking for yq command"
-	which yq
-	echo "Found it"
 	for CHART in ${DECKSCHARTS}; do  \
 		echo "Setting version ${DECKSVER} in $$CHART" ;\
-		yq w -i $$CHART/Chart.yaml appVersion ${DECKSVER} ; \
-		yq w -i $$CHART/Chart.yaml version ${DECKSVER} ; \
+		yq e '.appVersion = "${DECKSVER}"' -i $$CHART/Chart.yaml ; \
+		yq e '.version = "${DECKSVER}"' -i $$CHART/Chart.yaml ; \
 		sed -i '1s/^/---\n/' $$CHART/Chart.yaml ; \
 		sed -i -e "0,/^tag.*/s//tag: ${DECKSVER}/"  $$CHART/values.yaml; \
 	done ;
@@ -93,34 +102,32 @@ decksver:
 		sed -i -e "/no_auto_change__decks_auto_change/s/version:.*/version: ${DECKSVER} # no_auto_change__decks_auto_change/g"  $$CHART/Chart.yaml; \
 	done ;
 
-flexver:
+graphqlver: yqcheck
+	yq e '(.objectStoreAvailableVersions[0] = "${FLEXVER}") | (.decks.licenseChartVersion = "${DECKSVER}") | (.decks.supportAssistChartVersion = "${DECKSVER}") ' -i objectscale-graphql/values.yaml
+	sed -i '1s/^/---\n/' objectscale-graphql/values.yaml
+	yamllint -c .yamllint.yml objectscale-graphql/values.yaml
+
+flexver: yqcheck graphqlver
 	if [ -z ${FLEXVER} ] ; then \
 		echo "Missing FLEXVER= param" ; \
 		exit 1 ; \
 	fi
-	echo "looking for yq command"
-	which yq
-	echo "Found it"
 	for CHART in ${FLEXCHARTS}; do  \
 		echo "Setting version $$FLEXVER in $$CHART" ;\
-		yq w -i $$CHART/Chart.yaml appVersion ${FLEXVER} ; \
+		yq e '.appVersion = "${FLEXVER}"' -i $$CHART/Chart.yaml ; \
 		sed -i -e "/no_auto_change/!s/version:.*/version: ${FLEXVER}/g"  $$CHART/Chart.yaml; \
 		sed -i '1s/^/---\n/' $$CHART/Chart.yaml ; \
 		sed -i -e "0,/^tag.*/s//tag: ${FLEXVER}/"  $$CHART/values.yaml; \
 	done ;
 
-build-all: build
-
-build:
-	@echo "looking for yq command"
-	which yq
+build: yqcheck
 	@echo "Ensure no helm repo accessible"
 	helm repo list | grep .; \
         if [ $${?} -eq 0 ]; then exit 1; fi
 	REINDEX=0; \
 	for CHART in ${CHARTS}; do \
-		CURRENT_VER=`yq r $$CHART/Chart.yaml version` ; \
-		yq r docs/index.yaml "entries.$${CHART}[*].version" | grep -q "\- $${CURRENT_VER}$$" ; \
+		CURRENT_VER=`yq e .version $$CHART/Chart.yaml` ; \
+		yq e ".entries.$${CHART}[].version" docs/index.yaml | grep -q "\- $${CURRENT_VER}$$" ; \
 		if [ "$${?}" -eq "1" ] || [ "$${REBUILDHELMPKG}" ] ; then \
 		    echo "Updating package for $${CHART}" ; \
 		    helm dep update $${CHART}; \

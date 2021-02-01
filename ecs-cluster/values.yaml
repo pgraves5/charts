@@ -29,7 +29,7 @@ global:
   objectscale_release_name: objectscale-manager
 
 # The default docker tag and pull policy for the ECS Cluster
-tag: 0.64.2
+tag: 0.65.0
 pullPolicy: IfNotPresent
 
 # Override the default number of replicas which taken according to performance profile for each service
@@ -73,13 +73,22 @@ features:
   # Enable Cross Region Replication
   enableCRR: false
 
+  # use old metering svc
+  enableObjectStoreMetering: false
+
   # Enable object notification
   enableNotification: false
+
+  enablePravega: false
 
   # Object type defines which service will be used: Blob service or Object service.
   # Values: blobSVC or objectSVC
   # NOTE: If CRR is enabled then Object service will be used forcibly
   objectType: objectSVC
+
+  # Enable RR-Driven space reclamation for sr/cm/objectsvc
+  enableRRDriven: true
+  enableRRDrivenPartialSR: true
 
 #
 # ECS Service Configuration
@@ -96,31 +105,61 @@ atlas:
   persistence:
     # Size of each volume to be provisioned
     size: 32Gi
-
     # Name of the storage class that storage should be provisioned from
     # storageClassName:
-
+pravegaRepository: pravega
 pravega:
   # labels:
   image:
-    repository: pravega
-  # tag: ...
+    tag: 0.9.0-2739.12fb64ed0-SLTS_COMBINED_FIXES_JAN_4
   controller:
-    replicas: 1
+#    replicas: 1
     service:
       type: ClusterIP
   segmentStore:
-    replicas: 1
+#    replicas: 1
     service:
       type: ClusterIP
-
+  debugLogging: false
+  externalAccess:
+    enabled: false
+#    type: LoadBalancer
+  options:
+    metrics:
+      influxDBName: "pravega"
+#    bookkeeper.write.outstanding.bytes.max: "33554432"
+#    bookkeeper.write.timeout.milliseconds: "60000"
+#    bookkeeper.zk.connect.sessionTimeout.milliseconds: "15000"
+#    controller.containerCount: "32"
+#    controller.metrics.dynamicCache.size: "2000"
+#    controller.metrics.influxDB.retention: "two_hour"
+#    controller.metrics.output.frequency.seconds: "10"
+#    controller.retention.bucketCount: "8"
+#    controller.retention.threadCount: "4"
+#    controller.service.asyncTaskPoolSize: "20"
+#    metrics.influxDB.reporter.enable: "false"
+#    metrics.statistics.enable: "false"
+#    controller.metrics.influxDB.reporter.enable: "false"
+#    controller.metrics.statistics.enable: "false"
+#    metrics.dynamicCache.size: "2000"
+#    metrics.influxDB.retention: "two_hour"
+#    metrics.output.frequency.seconds: "10"
+#    pravegaservice.cache.size.max: "1073741824"
+#    pravegaservice.cache.time.seconds.max: "600"
+#    pravegaservice.container.count: "32"
+#    pravegaservice.storage.layout: "CHUNKED_STORAGE"
+#    pravegaservice.zk.connect.sessionTimeout.milliseconds: "30000"
+#    storage.appends.enable: "false"
+#    writer.flush.size.bytes.max: "67108864"
+#    writer.flush.threshold.bytes: "67108864"
 
 bookkeeper:
-  # replicas: 3
+#  replicas: 3
   # labels:
   image:
-    repository: bookkeeper
-  # tag:
+    pullPolicy: IfNotPresent
+  version: 0.9.0-2725.77b13981a
+  autoRecovery: true
   storage:
     ledger:
       # storageClassName:
@@ -130,7 +169,11 @@ bookkeeper:
       volumeSize: 10Gi
     index:
       # storageClassName:
-      volumeSize: 10Gi
+      volumeSize: 5Gi
+  options:
+    log:
+      level: "INFO"
+
 
 zookeeper:
   # Override the number of nodes in the zookeeper cluster
@@ -167,6 +210,9 @@ storageServer:
     # Indicates that the storage volumes provisioned are highly available and
     # not dependent on a single node to function
     protected: true
+
+    # Indicates that the storage volumes can be provisioned on the same node even with enabled Erasure Coding
+    collocated: false
 
     # Number of volumes to be provisioned for each storage server instance
     # volumesCount: 1
@@ -228,6 +274,10 @@ objectsvc:
     repository: object-service
     # tag: stable
     # pullPolicy: IfNotPresent
+
+  # Elements to add to the service's ConfigMap. This is a map of string -> string
+  # for ConfigMap data entries. Values may be multiline strings.
+  extraConfig: {}
 
 # The ECS Object Notification Service configuration specification
 ons:
@@ -325,6 +375,18 @@ metering:
     # tag: stable
     # pullPolicy: IfNotPresent
 
+# The ECS objectStoreMetering configuration specification
+objectStoreMetering:
+  # Override the default ECS Cluster replicas to set the number of nodes in the
+  # objectStoreMetering cluster separately. This value should not be set when using
+  # FabricProxy as the service discovery mechanism
+  # replicas: 1
+
+  image:
+    repository: objmt
+    # tag: stable
+    # pullPolicy: IfNotPresent
+
 # The ECS Metering configuration specification
 event:
   # Override the default ECS Cluster replicas to set the number of nodes in the
@@ -348,6 +410,10 @@ resource:
     repository: resource-service
     # tag: stable
     # pullPolicy: IfNotPresent
+
+  # Elements to add to the service's ConfigMap. This is a map of string -> string
+  # for ConfigMap data entries. Values may be multiline strings.
+  extraConfig: {}
 
 # The ECS control configuration specification
 # This container image is used in "Micro" performance profile instances
