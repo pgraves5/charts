@@ -19,16 +19,16 @@ dependencies:
     repository: file://../atlas-operator
     condition: atlas.enabled
   - name: objectscale-monitoring
-    version: 3.7.0-1108.93754507 # no_auto_change__monitoring_auto_change
+    version: 3.7.0-1111.e5c34b7d # no_auto_change__monitoring_auto_change
     condition: global.monitoring.enabled
     repository: https://asdrepo.isus.emc.com/artifactory/objectscale-helm-build/
   - name: federation
     version: 0.65.0
     repository: file://../federation
     condition: federation.enabled
-  - name: iam
+  - name: objectscale-iam
     version: 0.65.0
-    repository: file://../iam
+    repository: file://../objectscale-iam
     condition: iam.enabled
   - name: service-pod
     version: 2.0.65 # no_auto_change__decks_auto_change
