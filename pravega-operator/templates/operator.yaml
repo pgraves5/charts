@@ -14,6 +14,8 @@ spec:
   template:
     metadata:
       labels:
+        app.kubernetes.io/name: {{ template "pravega-operator.fullname" . }}
+        app.kubernetes.io/component: pravega-operator
         name: {{ template "pravega-operator.fullname" . }}
         component: pravega-operator
     spec:
@@ -41,19 +43,14 @@ spec:
         - name: OPERATOR_NAME
           value: {{ template "pravega-operator.fullname" . }}
         volumeMounts:
-        - name: webhook-cert
-          mountPath: "/tmp/k8s-webhook-server/serving-certs"
-          readOnly: true
         - name: versions-volume
           mountPath: "/tmp/config"
+        - name: tls-secrets 
+          mountPath: "/tmp/k8s-webhook-server/serving-certs"
       volumes:
-      - name: webhook-cert
-        secret:
-          {{- if .Values.webhookCert.generate }}
-          secretName: {{ template "pravega-operator.fullname" . }}-cert-tls
-          {{- else }}
-          secretName: {{ .Values.webhookCert.secretName }}
-          {{- end }}
       - name: versions-volume
         configMap:
           name: supported-versions-map
+      - name: tls-secrets 
+        secret:
+          secretName: pravega-operator-tls
