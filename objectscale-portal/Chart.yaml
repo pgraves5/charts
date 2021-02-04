@@ -16,3 +16,6 @@ dependencies:
     repository: https://asdrepo.isus.emc.com/artifactory/objectscale-helm-build/
     version: 3.7.0-1111.e5c34b7d # no_auto_change__monitoring_auto_change
     condition: global.rsyslog_enabled
+  - name: objectscale-policy-simulator
+    version: 0.65.0
+    repository: file://../objectscale-policy-simulator
