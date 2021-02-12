@@ -64,7 +64,7 @@ affinity: {}
 # Currently we have only badgerdb as underlying database
 # Each event should have default lifetime of 30 days (2592000 seconds)
 db:
-  dbType: BadgerDB
+  dbType: PostgresDB
   eventTTL: "2592000"
 
 restapi:
