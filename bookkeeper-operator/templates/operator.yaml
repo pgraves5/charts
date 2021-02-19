@@ -13,6 +13,8 @@ spec:
   template:
     metadata:
       labels:
+        app.kubernetes.io/name: {{ template "bookkeeper-operator.fullname" . }}
+        app.kubernetes.io/component: bookkeeper-operator
         name: {{ template "bookkeeper-operator.fullname" . }}
         component: bookkeeper-operator
     spec:
@@ -39,19 +41,14 @@ spec:
             - name: OPERATOR_NAME
               value: {{ template "bookkeeper-operator.fullname" . }}
           volumeMounts:
-            - name: webhook-cert
-              mountPath: "/tmp/k8s-webhook-server/serving-certs"
-              readOnly: true
             - name: versions-volume
               mountPath: "/tmp/config"
+            - name: tls-secrets
+              mountPath: "/tmp/k8s-webhook-server/serving-certs"
       volumes:
-        - name: webhook-cert
+        - name: tls-secrets
           secret:
-            {{- if .Values.webhookCert.generate }}
-            secretName: {{ template "bookkeeper-operator.fullname" . }}-cert-tls-bk
-            {{- else }}
-            secretName: {{ .Values.webhookCert.secretName }}
-        {{- end }}
+            secretName: bookkeeper-operator-tls
         - name: versions-volume
           configMap:
             name: bk-supported-versions-map
