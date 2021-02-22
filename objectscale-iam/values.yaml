@@ -53,3 +53,8 @@ atlas:
 
   # Replica count for ObjectScale IAM Atlas Cluster
   replicaCount: 3
+
+# Create an application resource for management  using Dell EMC common installer or other application-resource
+# controllers
+createApplicationResource: true
+

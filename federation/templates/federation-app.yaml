@@ -1,0 +1,49 @@
+---
+  {{- if .Values.createApplicationResource }}
+apiVersion: app.k8s.io/v1beta1
+kind: Application
+metadata:
+  name: "federation"
+  namespace: {{.Release.Namespace}}
+  labels:
+    app.kubernetes.io/name: "federation"
+    app.kubernetes.io/version: {{ .Chart.AppVersion }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{.Release.Service}}
+    helm.sh/chart: {{.Chart.Name}}-{{.Chart.Version | replace "+" "_"}}
+    release: {{.Release.Name}}
+  annotations:
+    nautilus.dellemc.com/run-level: "12"
+    nautilus.dellemc.com/chart-name: {{.Chart.Name}}
+    nautilus.dellemc.com/chart-version: {{ .Chart.Version }}
+    nautilus.dellemc.com/chart-values: {{ .Values | toJson | quote }}
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: "federation"
+  componentKinds:
+    - group: apps
+      kind: StatefulSet
+    - group: core
+      kind: ConfigMap
+    - group: core
+      kind: ServiceAccount
+    - group: core
+      kind: Pod
+    - group: apps
+      kind: ReplicaSet
+    - group: rbac.authorization.k8s.io
+      kind: ClusterRole
+    - group: rbac.authorization.k8s.io
+      kind: ClusterRoleBinding
+  assemblyPhase: "Pending"
+  descriptor:
+    type: "federation"
+    version: {{.Values.tag}}
+    description: >
+      Kubernetes Objectscale Federation Management
+    keywords:
+      - "federation"
+    info:
+      - "Copyright (c) 2021 Dell Inc. or its subsidiaries. All Rights Reserved."
+  {{- end}}

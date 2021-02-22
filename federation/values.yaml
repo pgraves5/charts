@@ -20,3 +20,8 @@ fedsvc:
   service:
     port: 9500
     type: LoadBalancer
+
+# Create an application resource for management  using Dell EMC common installer or other application-resource
+# controllers
+createApplicationResource: true
+
