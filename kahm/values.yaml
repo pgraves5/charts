@@ -25,6 +25,9 @@ pullPolicy: IfNotPresent
 # The number of replicas for the KAHM deployment
 replicaCount: 1
 
+postgres:
+  enabled: true
+
 # The image configured for the KAHM
 image:
   repository: kahm
