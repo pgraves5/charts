@@ -112,13 +112,15 @@ rules:
 - apiGroups:
   - bookkeeper.pravega.io
   resources:
-  - "*"
+  - bookkeeperclusters
+  - bookkeeperclusters/finalizers
   verbs:
   - "*"
 - apiGroups:
   - pravega.pravega.io
   resources:
-  - "*"
+  - pravegaclusters
+  - pravegaclusters/finalizers
   verbs:
   - "*"
 - apiGroups:
