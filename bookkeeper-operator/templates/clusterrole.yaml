@@ -34,8 +34,7 @@ rules:
 - apiGroups:
   - bookkeeper.pravega.io
   resources:
-  - bookkeeperclusters
-  - bookkeeperclusters/finalizers
+  - "*"
   verbs:
   - "*"
 - apiGroups:

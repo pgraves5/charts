@@ -11,8 +11,7 @@ rules:
 - apiGroups:
   - pravega.pravega.io
   resources:
-  - pravegaclusters
-  - pravegaclusters/finalizers
+  - "*"
   verbs:
   - "*"
 - apiGroups:
