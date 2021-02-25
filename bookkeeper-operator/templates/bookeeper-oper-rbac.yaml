@@ -12,6 +12,7 @@ rules:
   - bookkeeper.pravega.io
   resources:
   - "*"
+  - bookkeeperclusters/finalizers
   verbs:
   - "*"
 - apiGroups:
