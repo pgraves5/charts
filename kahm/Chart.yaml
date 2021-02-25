@@ -10,6 +10,6 @@ maintainers:
     url: http://dellemc.com
 dependencies:
   - name: postgresql 
-    version: 10.0.0 # no_auto_change
+    version: 10.2.3 # no_auto_change
     repository: https://charts.bitnami.com/bitnami 
-    condition: postgres.enabled
+    condition: localPostgresInstance

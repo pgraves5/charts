@@ -74,6 +74,40 @@ spec:
           value: {{ .Values.db.dbType }}
         - name: KAHM_DB_EVENT_TTL
           value: "{{ .Values.db.eventTTL }}"
+        - name: RELEASE_NAME 
+          value: {{ .Release.Name }}
+        - name: RELEASE_NAMESPACE
+          value: {{ .Release.Namespace }}
+        - name: POSTGRES_DBNAME
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Release.Name }}-postgres-credentials
+              key: dbname 
+        - name: POSTGRES_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Release.Name }}-postgres-credentials
+              key: username 
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Release.Name }}-postgres-credentials
+              key: password 
+        - name: POSTGRES_PORT
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Release.Name }}-postgres-credentials
+              key: username 
+        - name: POSTGRES_HOSTNAME
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Release.Name }}-postgres-credentials
+              key: hostname
+        - name: POSTGRES_CREDENTIALS
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Release.Name }}-postgres-credentials
+              key: credentials
   volumeClaimTemplates:
   - metadata:
       labels:
