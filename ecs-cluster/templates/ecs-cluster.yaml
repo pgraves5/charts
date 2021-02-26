@@ -205,6 +205,7 @@ spec:
         repository: {{ .Values.pravegaRepository }}/bookkeeper
         pullPolicy: {{ with .Values.bookkeeper.image }}{{ .pullPolicy }}{{ end }}
     version:  {{ .Values.bookkeeper.version }}
+    blockOwnerDeletion:  {{ .Values.bookkeeper.blockOwnerDeletion }}
     autoRecovery: {{ .Values.bookkeeper.autoRecovery }}
     storage:
       ledgerVolumeClaimTemplate:
