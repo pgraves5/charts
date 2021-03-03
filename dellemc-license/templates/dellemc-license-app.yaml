@@ -14,6 +14,7 @@ metadata:
     product: {{.Values.product}}
     release: {{.Release.Name}}
   annotations:
+    "helm.sh/hook": "pre-install"
     com.dellemc.kahm.subscribed: "true"
 spec:
   selector:
