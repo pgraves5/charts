@@ -22,6 +22,7 @@ global:
 tag: 1.2.5
 pullPolicy: IfNotPresent
 
+
 # The number of replicas for the KAHM deployment
 replicaCount: 1
 
