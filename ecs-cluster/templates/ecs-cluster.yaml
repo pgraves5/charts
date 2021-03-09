@@ -199,6 +199,7 @@ spec:
             storage: {{ .Values.zookeeper.persistence.size }}
 
   bookkeeper:
+{{ include "datasvc-lib.common-labels" . | indent 4 }}
     {{- if .Values.bookkeeper.replicas }}
     replicas: {{ .Values.bookkeeper.replicas }}
     {{- end }}
@@ -257,6 +258,7 @@ spec:
       log.level: {{ .Values.bookkeeper.options.log.level }}
 
   pravega:
+{{ include "datasvc-lib.common-labels" . | indent 4 }}
     version: {{ .Values.pravega.image.tag }}
     externalAccess:
       enabled: {{ .Values.pravega.externalAccess.enabled }}
