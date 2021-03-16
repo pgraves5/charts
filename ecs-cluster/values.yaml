@@ -187,6 +187,7 @@ bookkeeper:
   options:
     log:
       level: "INFO"
+    emptyDirVolumeMounts: "log=/opt/pravega/logs"
 
 
 zookeeper:
