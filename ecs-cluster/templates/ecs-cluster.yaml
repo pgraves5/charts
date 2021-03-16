@@ -255,6 +255,7 @@ spec:
             storage: {{ .Values.bookkeeper.storage.index.volumeSize }}
     options:
       log.level: {{ .Values.bookkeeper.options.log.level }}
+      emptyDirVolumeMounts: {{ .Values.bookkeeper.options.emptyDirVolumeMounts }}
 
   pravega:
     version: {{ .Values.pravega.image.tag }}

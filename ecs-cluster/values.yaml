@@ -187,6 +187,7 @@ bookkeeper:
   options:
     log:
       level: "INFO"
+    emptyDirVolumeMounts: "heap-dump=/tmp/dumpfile/heap"
 
 
 zookeeper:
