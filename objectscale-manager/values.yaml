@@ -52,6 +52,9 @@ atlas:
 servicePod:
   enabled: true
 
+objectscale-gateway:
+  enabled: false
+
 federation:
   enabled: true
 

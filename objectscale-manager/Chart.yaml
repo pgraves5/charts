@@ -22,6 +22,10 @@ dependencies:
     version: 3.7.0-1150.ae95819a # no_auto_change__monitoring_auto_change
     condition: global.monitoring.enabled
     repository: https://asdrepo.isus.emc.com/artifactory/objectscale-helm-build/
+  - name: objectscale-gateway
+    version: 0.69.0
+    repository: file://../objectscale-gateway
+    condition: objectscale-gateway.enabled
   - name: federation
     version: 0.69.0
     repository: file://../federation
