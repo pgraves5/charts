@@ -121,10 +121,11 @@ pravega:
 #    replicas: 1
     service:
       type: ClusterIP
+      externalTrafficPolicy: Cluster
   debugLogging: false
   externalAccess:
-    enabled: false
-#    type: LoadBalancer
+    enabled: true
+    type: LoadBalancer
   options:
     metrics:
       influxDBName: "pravega"

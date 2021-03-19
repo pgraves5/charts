@@ -273,6 +273,9 @@ spec:
       {{- if .Values.pravega.segmentStore.service.type }}
       segmentStoreExtServiceType: {{ .Values.pravega.segmentStore.service.type }}
       {{- end }}
+      {{- if .Values.pravega.segmentStore.service.externalTrafficPolicy }}
+      segmentStoreExternalTrafficPolicy:  {{ .Values.pravega.segmentStore.service.externalTrafficPolicy }}
+      {{- end }}
       image:
         repository: "{{ .Values.global.registry }}/{{ .Values.pravegaRepository }}"
         pullPolicy: {{ .Values.pullPolicy }}
