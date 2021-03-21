@@ -298,6 +298,7 @@ spec:
         metrics.statistics.enable: {{ .Values.global.monitoring.enabled | quote }}
         controller.metrics.influxDB.reporter.enable: {{ .Values.global.monitoring.enabled | quote }}
         controller.metrics.statistics.enable: {{ .Values.global.monitoring.enabled | quote }}
+        emptyDirVolumeMounts: {{ .Values.pravega.options.emptyDirVolumeMounts }}
       debugLogging: {{ .Values.pravega.debugLogging }}
 
   storageServer:
