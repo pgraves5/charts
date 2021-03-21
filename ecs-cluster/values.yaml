@@ -127,6 +127,7 @@ pravega:
   options:
     metrics:
       influxDBName: "pravega"
+    emptyDirVolumeMounts: "log=/opt/pravega/logs,baz=/tmp/baz,quux=/tmp/quux"
 #    bookkeeper.write.outstanding.bytes.max: "33554432"
 #    bookkeeper.write.timeout.milliseconds: "60000"
 #    bookkeeper.zk.connect.sessionTimeout.milliseconds: "15000"
