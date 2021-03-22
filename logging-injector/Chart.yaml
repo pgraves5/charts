@@ -8,4 +8,4 @@ engine: gotpl
 dependencies:
   - name: logging-injector
     repository: https://asdrepo.isus.emc.com/artifactory/objectscale-helm-build/
-    version: 3.7.0-1155.7ee9770d # no_auto_change__monitoring_auto_change
+    version: 3.7.0-1156.f32c7c63 # no_auto_change__monitoring_auto_change
