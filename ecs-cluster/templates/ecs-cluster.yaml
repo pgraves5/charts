@@ -286,10 +286,12 @@ spec:
         app.kubernetes.io/namespace: {{ .Release.Namespace }}
         objectscale.dellemc.com/logging-inject: "true"
         objectscale.dellemc.com/logging-release-name: "{{ .Release.Name }}"
+        objectscale.dellemc.com/logging-inject-logrotate: "true"
       segmentStorePodLabels:
         app.kubernetes.io/namespace: {{ .Release.Namespace }}
         objectscale.dellemc.com/logging-inject: "true"
         objectscale.dellemc.com/logging-release-name: "{{ .Release.Name }}"
+        objectscale.dellemc.com/logging-inject-logrotate: "true"
       options:
         controller.metrics.influxDB.connect.db.name: {{ .Values.pravega.options.metrics.influxDBName }}
         metrics.influxDB.connect.db.name: {{ .Values.pravega.options.metrics.influxDBName }}
