@@ -17,3 +17,19 @@ spec:
       name: http
   selector:
     {{- include "fedsvc.selectorLabels" . | nindent 4 }}
+---
+{{$validity := .Values.ca.validity | int}}
+{{ $ca := genCA .Values.ca.commonName $validity }}
+apiVersion: v1
+kind: Secret
+metadata:
+  name: federation-ca
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "fedsvc.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": "pre-install"
+    "helm.sh/hook-delete-policy": "before-hook-creation"
+data:
+  ca-cert.pem: {{ b64enc $ca.Cert }}
+  ca-key.pem: {{ b64enc $ca.Key }}

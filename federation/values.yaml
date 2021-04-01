@@ -20,3 +20,7 @@ fedsvc:
   service:
     port: 9500
     type: LoadBalancer
+
+ca:
+  commonName: federation-ca
+  validity: "3650"

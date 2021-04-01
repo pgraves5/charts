@@ -53,5 +53,11 @@ spec:
                 port: http
             failureThreshold: {{ .Values.fedsvc.readinessProbe.failureThreshold | default 3 }}
             periodSeconds: {{ .Values.fedsvc.readinessProbe.periodSeconds | default 60 }}
-
+        volumeMounts:
+          - name: ca-secrets
+            mountPath: "/cfssl/ca"
+      volumes:
+        - name: ca-secrets
+          secret:
+            secretName: federation-ca
 
