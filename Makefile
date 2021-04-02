@@ -247,7 +247,7 @@ create-kahm-app: create-temp-package
 	--set global.registry=${KAHM_REGISTRY} \
 	--set global.registrySecret=${REGISTRYSECRET} \
 	--set storageClassName=${STORAGECLASSNAME} \
-        --set postgresql.persistence.storageClass=${STORAGECLASSNAME} \
+        --set postgresql-ha.persistence.storageClass=${STORAGECLASSNAME} \
         ${HELM_KAHM_ARGS} \
 	-f values.yaml > ../${TEMP_PACKAGE}/yaml/kahm-app.yaml;
 	sed ${SED_INPLACE} 's/createkahmappResource\\":true/createkahmappResource\\":false/g' ${TEMP_PACKAGE}/yaml/kahm-app.yaml && \
