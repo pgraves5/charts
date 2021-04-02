@@ -25,27 +25,11 @@ pullPolicy: IfNotPresent
 # The number of replicas for the KAHM deployment
 replicaCount: 1
 
-# should KAHM instantiate local postgres intance for the DB
-localPostgresInstance: true
-#  to overrite postgress sub-charts values from the parent. This is only useful if KAHM is using local postgress instance for database
-postgresql:
-  postgresqlPassword: ChangeMe
-  postgresqlUsername: kahm
-  postgresqlDatabase: kahm
-  postgresqlDataDir: /kahm/postgresql/data
-  service:
-    type: ClusterIP
-    port: 5432
-  persistence:
-    mountPath: /kahm/postgresql
-    # storageClass:
-    # default size is 8 Gi
-    # size:
 
 # The image configured for the KAHM
 image:
   repository: kahm
-  tag: postgres 
+  tag: postgres
   # pullPolicy: IfNotPresent
 
 ## Allow callers to bypass creating app resource
@@ -78,18 +62,36 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
-# Currently we have only badgerdb as underlying database
+# We can configure BadgerDB or PostgreDB as underlying database
 # Each event should have default lifetime of 30 days (2592000 seconds)
 db:
-  dbType: PostgresDB
-  postgresUserName: kahm
-  postgresPassword:  ChangeMe
-  postgresDatabaseName: kahm
-  # postgresHostName:
-  postgresPort: "5432"
   eventTTL: "2592000"
+  # BadgerDB or PostgresDB
+  dbType: BadgerDB
+  # this is valid only if the dbType is PostgresDB
+  postgres:
+   # by default don't spawn postgres DB sub-chart
+    enable: false
+    userName: kahm
+    password: ChangeMe
+    database: kahm
+    # hostName:
+    # port: "5432"
 
 restapi:
   realm: "kahm-restapi"
   username: kahm
   password: ChangeMe
+
+#  to overrite postgress sub-charts values from the parent. This is only useful if KAHM is using local postgress instance for database
+#  this is valid only if the db.postgres.enable is true
+postgresql-ha:
+  persistence:
+    mountPath: /kahm/postgresql
+    # storageClass:
+    # default size is 8 Gi
+    # size:
+  postgresql:
+    password: ChangeMe
+    username: kahm
+    database: kahm

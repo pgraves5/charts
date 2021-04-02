@@ -78,6 +78,8 @@ spec:
           value: {{ .Release.Name }}
         - name: RELEASE_NAMESPACE
           value: {{ .Release.Namespace }}
+
+{{- if eq .Values.db.dbType "PostgresDB" }}
         - name: POSTGRES_DBNAME
           valueFrom:
             secretKeyRef:
@@ -97,7 +99,7 @@ spec:
           valueFrom:
             secretKeyRef:
               name: {{ .Release.Name }}-postgres-credentials
-              key: username 
+              key: port 
         - name: POSTGRES_HOSTNAME
           valueFrom:
             secretKeyRef:
@@ -108,6 +110,7 @@ spec:
             secretKeyRef:
               name: {{ .Release.Name }}-postgres-credentials
               key: credentials
+{{- end }}
   volumeClaimTemplates:
   - metadata:
       labels:
