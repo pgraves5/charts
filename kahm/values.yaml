@@ -10,7 +10,7 @@ global:
 
   # The private docker registry hosting containers for ECS Flex
   # registry: harbor.lss.emc.com/ecs
-  registry: emccorp
+  registry: asdrepo.isus.emc.com:8099 
 
   # Default: true == Watch ALL namespaces
   watchAllNamespaces: true
@@ -67,11 +67,11 @@ affinity: {}
 db:
   eventTTL: "2592000"
   # BadgerDB or PostgresDB
-  dbType: BadgerDB
+  dbType: PostgresDB 
   # this is valid only if the dbType is PostgresDB
   postgres:
    # by default don't spawn postgres DB sub-chart
-    enable: false
+    enable: true
     userName: kahm
     password: ChangeMe
     database: kahm
@@ -95,12 +95,28 @@ postgresql-ha:
     password: ChangeMe
     username: kahm
     database: kahm
+    resources:
+    # We usually recommend not to specify default resources and to leave this as a conscious
+    # choice for the user. This also increases chances charts run on environments with little
+    # resources, such as Minikube. If you do want to specify resources, uncomment the following
+    # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+      limits:
+         memory: 2Gi
+      requests:
+         memory: 2Gi
+    #configuration: |-
+    #  listen_addresses = '0.0.0.0'
+    #extendedConf: |-
+    #  listen_addresses = '0.0.0.0'
+    #  unix_socket_directories = '""'
+
+
   pgpool:
   ## The number of preforked Pgpool-II server processes. It is also the concurrent
   ## connections limit to Pgpool-II from clients. Must be a positive integer. (PGPOOL_NUM_INIT_CHILDREN)
   ## ref: https://github.com/bitnami/bitnami-docker-pgpool#configuration
   ##
-    numInitChildren: 4
+    numInitChildren: 1
 
   ## The maximum number of cached connections in each child process (PGPOOL_MAX_POOL)
   ## ref: https://github.com/bitnami/bitnami-docker-pgpool#configuration
@@ -118,6 +134,6 @@ postgresql-ha:
     # resources, such as Minikube. If you do want to specify resources, uncomment the following
     # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
       limits:
-         memory: 1Gi
+         memory: 2Gi
       requests:
-         memory: 1Gi
+         memory: 2Gi
