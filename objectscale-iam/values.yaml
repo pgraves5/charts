@@ -18,7 +18,7 @@ global:
 image:
   pullPolicy: IfNotPresent
   repository: iamsvc
-  # tag: stable
+  tag:
 
 # Number of replicas for the ObjectScale IAM deployment
 replicaCount: 3
