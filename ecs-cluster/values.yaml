@@ -129,7 +129,7 @@ pravega:
     metrics:
       influxDBName: "pravega"
     emptyDirVolumeMounts: "heap-dump=/tmp/dumpfile/heap,log=/opt/pravega/logs"
-    configMapVolumeMounts: "objectstore-prvg-log4j2:logback.xml=/opt/pravega/conf/logback.xml"
+    configMapVolumeMounts: "objectstore-prvg-log4j2:logback.xml=/opt/pravega/conf"
 #    bookkeeper.write.outstanding.bytes.max: "33554432"
 #    bookkeeper.write.timeout.milliseconds: "60000"
 #    bookkeeper.zk.connect.sessionTimeout.milliseconds: "15000"
