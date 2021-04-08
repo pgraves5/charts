@@ -209,6 +209,10 @@ spec:
     version:  {{ .Values.bookkeeper.version }}
     blockOwnerDeletion:  {{ .Values.bookkeeper.blockOwnerDeletion }}
     autoRecovery: {{ .Values.bookkeeper.autoRecovery }}
+    labels:
+      app.kubernetes.io/namespace: {{ .Release.Namespace }}
+      objectscale.dellemc.com/logging-inject: "true"
+      objectscale.dellemc.com/logging-release-name: "{{ .Release.Name }}"
     {{- if .Values.bookkeeper.probes }}
     probes:
       {{- if .Values.bookkeeper.probes.readiness }}
