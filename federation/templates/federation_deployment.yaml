@@ -54,10 +54,19 @@ spec:
             failureThreshold: {{ .Values.fedsvc.readinessProbe.failureThreshold | default 3 }}
             periodSeconds: {{ .Values.fedsvc.readinessProbe.periodSeconds | default 60 }}
         volumeMounts:
-          - name: ca-secrets
-            mountPath: "/cfssl/ca"
+          - name: internal-ca-secrets
+            mountPath: "/cfssl"
+          {{- if eq .Values.federationCA.enabled true }}
+          - name: federation-ca-secrets
+            mountPath: "/federation"
+          {{- end }}
       volumes:
-        - name: ca-secrets
+        - name: internal-ca-secrets
           secret:
-            secretName: federation-ca
+            secretName: objectscale-internal-ca
+        {{- if eq .Values.federationCA.enabled true }}
+        - name: federation-ca-secrets
+          secret:
+            secretName: objectscale-federation-ca
+        {{- end }}
 

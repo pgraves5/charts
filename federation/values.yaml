@@ -21,6 +21,11 @@ fedsvc:
     port: 9500
     type: LoadBalancer
 
-ca:
-  commonName: federation-ca
+internalCA:
+  commonName: objectscale-internal-ca
+  validity: "3650"
+
+federationCA:
+  enabled: false
+  commonName: objectscale-federation-ca
   validity: "3650"

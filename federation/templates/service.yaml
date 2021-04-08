@@ -18,12 +18,12 @@ spec:
   selector:
     {{- include "fedsvc.selectorLabels" . | nindent 4 }}
 ---
-{{ $validity := .Values.ca.validity | int }}
-{{ $ca := genCA .Values.ca.commonName $validity }}
+{{ $validity := .Values.internalCA.validity | int }}
+{{ $ca := genCA .Values.internalCA.commonName $validity }}
 apiVersion: v1
 kind: Secret
 metadata:
-  name: federation-ca
+  name: objectscale-internal-ca
   namespace: {{ .Release.Namespace }}
   labels:
     {{- include "fedsvc.labels" . | nindent 4 }}
@@ -33,3 +33,18 @@ metadata:
 data:
   ca-cert.pem: {{ b64enc $ca.Cert }}
   ca-key.pem: {{ b64enc $ca.Key }}
+---
+{{- if eq .Values.federationCA.enabled true }}
+  {{ $validity := .Values.federationCA.validity | int }}
+  {{ $ca := genCA .Values.federationCA.commonName $validity }}
+apiVersion: v1
+kind: Secret
+metadata:
+  name: objectscale-federation-ca
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "fedsvc.labels" . | nindent 4 }}
+data:
+  ca-cert.pem: {{ b64enc $ca.Cert }}
+  ca-key.pem: {{ b64enc $ca.Key }}
+{{- end }}
