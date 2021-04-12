@@ -33,7 +33,7 @@ readinessProbe:
 iam:
 service:
   # Type of Kubernetes service to create: ClusterIP, NodePort, or LoadBalancer
-  type: LoadBalancer
+  type: ClusterIP
 
   # Specify the service port configuration for the s3 service
   ports:
