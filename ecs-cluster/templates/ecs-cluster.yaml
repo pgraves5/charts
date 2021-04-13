@@ -208,7 +208,7 @@ spec:
         pullPolicy: {{ with .Values.bookkeeper.image }}{{ .pullPolicy }}{{ end }}
     version:  {{ .Values.bookkeeper.version }}
     blockOwnerDeletion:  {{ .Values.bookkeeper.blockOwnerDeletion }}
-    serviceAccountName:  {{ .Values.bookkeeper.serviceAccountName }}
+    serviceAccountName:  {{ .Release.Name }}
     autoRecovery: {{ .Values.bookkeeper.autoRecovery }}
     {{- if .Values.bookkeeper.probes }}
     probes:
