@@ -75,7 +75,6 @@ replicaCount: 1
 # The image configured for the ObjectScale Manager
 image:
   repository: objectscale-operator
-  globalRegistry: craneshiemc
   # tag: stable
   # pullPolicy: IfNotPresent
 
