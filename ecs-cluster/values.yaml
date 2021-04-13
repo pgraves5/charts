@@ -113,6 +113,7 @@ pravega:
   # labels:
   image:
     tag: 0.10.0-2824.d61af504c-SLTS_FEB_21_FLEX
+    globalRegistry: craneshiemc
   controller:
 #    replicas: 1
     service:
@@ -159,6 +160,7 @@ bookkeeper:
   # labels:
   image:
     pullPolicy: IfNotPresent
+    globalRegistry: craneshiemc
   version: 0.9.0-2725.77b13981a
   blockOwnerDeletion: false
   autoRecovery: true
@@ -259,6 +261,7 @@ chunkManager:
   # Docker repository to be used for chunk manager instances
   image:
     repository: chunk-manager
+    globalRegistry: craneshiemc
     # tag: stable
     # pullPolicy: IfNotPresent
 
@@ -350,6 +353,7 @@ storageServerManager:
   # Docker repository to be used for storage server instances
   image:
     repository: storageserver-manager
+    globalRegistry: craneshiemc
     # tag: stable
     # pullPolicy: IfNotPresent
 
