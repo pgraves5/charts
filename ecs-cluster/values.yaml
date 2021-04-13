@@ -114,6 +114,7 @@ pravega:
   image:
     pullPolicy: IfNotPresent
 #    tag: 0.10.0-2831.d5f944ebf-issue-5853-SLTS-deep-copy
+    globalRegistry: craneshiemc
   controller:
 #    replicas: 1
     service:
@@ -160,6 +161,7 @@ bookkeeper:
   # labels:
   image:
     pullPolicy: IfNotPresent
+    globalRegistry: craneshiemc
 #  version: 0.10.0-2831.d5f944ebf-issue-5853-SLTS-deep-copy
   blockOwnerDeletion: false
   autoRecovery: true
@@ -260,6 +262,7 @@ chunkManager:
   # Docker repository to be used for chunk manager instances
   image:
     repository: chunk-manager
+    globalRegistry: craneshiemc
     # tag: stable
     # pullPolicy: IfNotPresent
 
@@ -351,6 +354,7 @@ storageServerManager:
   # Docker repository to be used for storage server instances
   image:
     repository: storageserver-manager
+    globalRegistry: craneshiemc
     # tag: stable
     # pullPolicy: IfNotPresent
 

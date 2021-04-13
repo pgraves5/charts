@@ -50,7 +50,7 @@ spec:
     replicas: {{ .Values.chunkManager.replicas }}
 {{- end }}
     image:
-      repository: {{ .Values.global.registry }}/{{ .Values.chunkManager.image.repository }}
+      repository: {{ .Values.chunkManager.image.globalRegistry }}/{{ .Values.chunkManager.image.repository }}
 {{- if .Values.chunkManager.image.tag }}
       tag: {{ .Values.chunkManager.image.tag }}
 {{- else }}
@@ -206,7 +206,7 @@ spec:
     {{- end }}
     image:
       imageSpec:
-        repository: "{{ .Values.global.registry }}/{{ .Values.bookkeeperRepository }}"
+        repository: "{{ .Values.bookkeeper.image.globalRegistry }}/{{ .Values.bookkeeperRepository }}"
         pullPolicy: {{ with .Values.bookkeeper.image }}{{ .pullPolicy }}{{ end }}
     {{- if .Values.bookkeeper.version }}
     version: {{ .Values.bookkeeper.version }}
@@ -285,7 +285,7 @@ spec:
       segmentStoreExtServiceType: {{ .Values.pravega.segmentStore.service.type }}
       {{- end }}
       image:
-        repository: "{{ .Values.global.registry }}/{{ .Values.pravegaRepository }}"
+        repository: "{{ .Values.pravega.image.globalRegistry }}/{{ .Values.pravegaRepository }}"
         pullPolicy: {{ .Values.pullPolicy }}
       {{- if .Values.pravega.controller.replicas }}
       controllerReplicas: {{ .Values.pravega.controller.replicas }}
@@ -357,7 +357,7 @@ spec:
 {{- end }}
 
     image:
-      repository: {{ .Values.global.registry }}/{{ .Values.storageServerManager.image.repository }}
+      repository: {{ .Values.storageServerManager.image.globalRegistry }}/{{ .Values.storageServerManager.image.repository }}
 {{- if .Values.storageServerManager.image.tag }}
       tag: {{ .Values.storageServerManager.image.tag }}
 {{- else }}
