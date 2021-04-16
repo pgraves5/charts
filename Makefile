@@ -63,7 +63,7 @@ clean: clean-package
 
 all: test package
 
-release: decksver flexver build generate-issues-events-all add-to-git
+release: decksver flexver build generate-issues-events-all
 
 test:
 	helm lint ${CHARTS} --set product=objectscale --set global.product=objectscale
@@ -139,6 +139,7 @@ resolve-versions:
 
 build: yqcheck
 	REINDEX=0; \
+	rm */charts/* ; \
 	if [ "$${CHARTS}" == "$${ALL_CHARTS}" ] ; then \
 	    BUILD_CHARTS=`python tools/build_helper/sort_charts_by_deps.py -c ${CHARTS}`; \
 	else  \
@@ -303,12 +304,12 @@ create-manager-manifest-ci: create-temp-package
 
 build-installer:
 	echo "Copy charts to container and build image"
-	docker build -t asdrepo.isus.emc.com:8099/install-controller:${FULL_PACKAGE_VERSION}-$(GIT_COMMIT_COUNT).$(GIT_COMMIT_SHORT_ID) -f ./Dockerfile .
-	docker push asdrepo.isus.emc.com:8099/install-controller:${FULL_PACKAGE_VERSION}-$(GIT_COMMIT_COUNT).$(GIT_COMMIT_SHORT_ID)
+	docker build -t asdrepo.isus.emc.com:8099/install-controller:${FULL_PACKAGE_VERSION}-$(GIT_COMMIT_COUNT).$(GIT_COMMIT_SHORT_ID)-nobins -f ./Dockerfile .
+	docker push asdrepo.isus.emc.com:8099/install-controller:${FULL_PACKAGE_VERSION}-$(GIT_COMMIT_COUNT).$(GIT_COMMIT_SHORT_ID)-nobins
 
 tag-push-installer:
-	docker tag asdrepo.isus.emc.com:8099/install-controller:${FULL_PACKAGE_VERSION}-$(GIT_COMMIT_COUNT).$(GIT_COMMIT_SHORT_ID) asdrepo.isus.emc.com:8099/install-controller:${FULL_PACKAGE_VERSION}
-	docker push asdrepo.isus.emc.com:8099/install-controller:${FULL_PACKAGE_VERSION}
+	docker tag asdrepo.isus.emc.com:8099/install-controller:${FULL_PACKAGE_VERSION}-$(GIT_COMMIT_COUNT).$(GIT_COMMIT_SHORT_ID)-nobins asdrepo.isus.emc.com:8099/install-controller:${FULL_PACKAGE_VERSION}-nobins
+	docker push asdrepo.isus.emc.com:8099/install-controller:${FULL_PACKAGE_VERSION}-nobins
 
 generate-issues-events-all:
 	mkdir -p ${TEMP_PACKAGE}/yaml
