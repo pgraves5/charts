@@ -31,7 +31,7 @@ spec:
           command:
             - bookkeeper-operator
           {{- if .Values.testmode.enabled }}
-          args: ["-test", "-webhook=false"]
+          args: ["-test=true", "-webhook=false"]
           {{- end }}
           env:
             - name: WATCH_NAMESPACE
