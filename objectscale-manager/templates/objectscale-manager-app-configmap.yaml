@@ -27,12 +27,12 @@ data:
           args:
             - -target-version
             - {{ default .Values.tag .Values.healthChecks.preUpdate.image.tag}}
-        - name: cloudiq-inventory-report
-          container: {{.Values.global.registry}}/objectstore-inventory:{{.Values.tag}}
+        - name: cloudiq-inventory
+          container: {{.Values.global.registry}}/objectscale-inventory:{{.Values.tag}}
           serviceaccount: {{ .Release.Name }}-healthchecks
           schedule: "0 */6 * * *"
           timelimit: "5m"
-        - name: cloudiq-health-report
+        - name: cloudiq-health
           container: {{.Values.global.registry}}/objectstore-health:{{.Values.tag}}
           serviceaccount: {{ .Release.Name }}-healthchecks
           schedule: "0 */6 * * *"
