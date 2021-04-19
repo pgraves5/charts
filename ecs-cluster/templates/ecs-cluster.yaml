@@ -208,8 +208,8 @@ spec:
       imageSpec:
         repository: "{{ .Values.global.registry }}/{{ .Values.bookkeeperRepository }}"
         pullPolicy: {{ with .Values.bookkeeper.image }}{{ .pullPolicy }}{{ end }}
-    {{- if .Values.bookkeeper.version }}
-    version: {{ .Values.bookkeeper.version }}
+    {{- if .Values.bookkeeper.image.tag }}
+    version: {{ .Values.bookkeeper.image.tag }}
     {{- else }}
     version: {{ .Values.tag }}
     {{- end }}
