@@ -4,5 +4,3 @@
 **/Chart.lock
 **/requirements.lock
 monitoring/**/*.tgz
-docs/
-*/charts/*
