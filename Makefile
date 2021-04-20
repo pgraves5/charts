@@ -1,4 +1,4 @@
-HELM_VERSION := v3.5.0
+HELM_VERSION := v3.5.3
 HELM_URL     := https://get.helm.sh
 HELM_TGZ      = helm-${HELM_VERSION}-linux-amd64.tar.gz
 YQ_VERSION   := 4.4.1
@@ -66,6 +66,8 @@ all: test package
 release: decksver flexver build generate-issues-events-all add-to-git
 
 test:
+	helm version
+	yamllint --version
 	helm lint ${CHARTS} --set product=objectscale --set global.product=objectscale
 	yamllint -c .yamllint.yml */Chart.yaml */values.yaml
 	yamllint -c .yamllint.yml -s .yamllint.yml .travis.yml
