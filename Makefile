@@ -309,7 +309,7 @@ build-installer:
 	docker push asdrepo.isus.emc.com:8099/install-controller:${FULL_PACKAGE_VERSION}-$(GIT_COMMIT_COUNT).$(GIT_COMMIT_SHORT_ID)
 
 tag-push-installer:
-	docker tag asdrepo.isus.emc.com:8099/install-controller:${FULL_PACKAGE_VERSION}-$(GIT_COMMIT_COUNT).$(GIT_COMMIT_SHORT_ID)-nobins asdrepo.isus.emc.com:8099/install-controller:${FULL_PACKAGE_VERSION}
+	docker tag asdrepo.isus.emc.com:8099/install-controller:${FULL_PACKAGE_VERSION}-$(GIT_COMMIT_COUNT).$(GIT_COMMIT_SHORT_ID) asdrepo.isus.emc.com:8099/install-controller:${FULL_PACKAGE_VERSION}
 	docker push asdrepo.isus.emc.com:8099/install-controller:${FULL_PACKAGE_VERSION}
 
 generate-issues-events-all:
