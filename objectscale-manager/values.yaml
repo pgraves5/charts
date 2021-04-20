@@ -232,8 +232,28 @@ loggerConfig:
     callerEncoder: "short"
 
 # KAHM health check configuration
-healthChecks:
+healthChecksAndReports:
   preUpdate:
     image:
       repository: objectscale-manager-pre-update
       # tag: stable
+  inventoryReport:
+    image:
+      repository: objectscale-inventory-report
+      tag: 0.71.2 
+    schedule: "0 * * * *"
+  capacityReport:
+    image:
+      repository: objectscale-capacity-report
+      tag: 0.71.2 
+    schedule: "0 * * * *"
+  performanceReport:
+    image:
+      repository: objectscale-performance-report
+      tag: 0.71.2 
+    schedule: "*/10 * * * *"
+  healthReport:
+    image:
+      repository: objectscale-health-report
+      tag: 0.71.2 
+    schedule: "*/10 * * * *"

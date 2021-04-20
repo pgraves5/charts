@@ -18,7 +18,7 @@ metadata:
         com.dellemc.kahm.subscribed: "true"
 data:
     eventRules: |-
-    health: |-
+    healthAndReports: |-
       spec:
         - name: pre-update
           container: {{.Values.global.registry}}/objectscale-manager-pre-update:{{.Values.tag}}
@@ -27,6 +27,26 @@ data:
           args:
             - -target-version
             - {{ default .Values.tag .Values.healthChecks.preUpdate.image.tag}}
+        - name: inventory-report 
+          container: {{.Values.global.registry}}/objectscale-inventory-report:{{.Values.tag}}
+          serviceaccount: {{ .Release.Name }}-inventory-report
+          timelimit: "5m"
+          schedule: {{ default "0 * * * *" .Values.healthChecksAndReports.inventoryReport.schedule }}
+        - name: capacity-report 
+          container: {{.Values.global.registry}}/objectscale-capacity-report:{{.Values.tag}}
+          serviceaccount: {{ .Release.Name }}-capacity-report
+          timelimit: "5m"
+          schedule: {{ default "0 * * * *" .Values.healthChecksAndReports.capacityReport.schedule }}
+        - name: performance-report 
+          container: {{.Values.global.registry}}/objectscale-performance-report:{{.Values.tag}}
+          serviceaccount: {{ .Release.Name }}-performance-report
+          timelimit: "5m"
+          schedule: {{ default "*/5 * * * *" .Values.healthChecksAndReports.performanceReport.schedule }}
+        - name: health-report 
+          container: {{.Values.global.registry}}/objectscale-health-report:{{.Values.tag}}
+          serviceaccount: {{ .Release.Name }}-health-report
+          timelimit: "5m"
+          schedule: {{ default "*/5 * * * *" .Values.healthChecksAndReports.healthReport.schedule }}
     eventRemedies: |-
       symptoms:
         - symptomid: DEOS-MGR-1001

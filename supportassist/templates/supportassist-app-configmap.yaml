@@ -33,4 +33,25 @@ data:
             - Is SupportAssist still disabled?
             - Verify connectivity of configured gateways.
             - Verify a valid AccessKey and PIN were used.
-    healthChecks: |-
+    healthAndReports: |-
+      spec:
+        - name: inventory-report
+          container: {{.Values.global.registry}}/telemetry-upload:{{.Values.tag}}
+          serviceaccount: {{ .Release.Name }}-telemetry-upload
+          timelimit: "5m"
+          schedule: {{ default "0 * * * *" .Values.cloudIQ.inventoryReport.schedule }}
+        - name: capacity-report
+          container: {{.Values.global.registry}}/telemetry-upload:{{.Values.tag}}
+          serviceaccount: {{ .Release.Name }}-telemetry-upload
+          timelimit: "5m"
+          schedule: {{ default "0 * * * *" .Values.cloudIQ.capacityReport.schedule }}
+        - name: performance-report
+          container: {{.Values.global.registry}}/telemetry-upload:{{.Values.tag}}
+          serviceaccount: {{ .Release.Name }}-telemetry-upload
+          timelimit: "5m"
+          schedule: {{ default "0 * * * *" .Values.cloudIQ.performanceReport.schedule }}
+        - name: health-report
+          container: {{.Values.global.registry}}/telemetry-upload:{{.Values.tag}}
+          serviceaccount: {{ .Release.Name }}-telemetry-upload
+          timelimit: "5m"
+          schedule: {{ default "0 * * * *" .Values.cloudIQ.healthReport.schedule }}
