@@ -33,25 +33,41 @@ data:
             - Is SupportAssist still disabled?
             - Verify connectivity of configured gateways.
             - Verify a valid AccessKey and PIN were used.
-    healthAndReports: |-
+    health: |-
       spec:
         - name: inventory-report
           container: {{.Values.global.registry}}/telemetry-upload:{{.Values.tag}}
           serviceaccount: {{ .Release.Name }}-telemetry-upload
           timelimit: "5m"
           schedule: {{ default "0 * * * *" .Values.cloudIQ.inventoryReport.schedule }}
+          args:
+            - -folder
+            - {{ .Values.cloudIQ.inventoryReport.folder}}
+          disabled: {{ default false .values.healthChecks.inventoryReport.disabled }}
         - name: capacity-report
           container: {{.Values.global.registry}}/telemetry-upload:{{.Values.tag}}
           serviceaccount: {{ .Release.Name }}-telemetry-upload
           timelimit: "5m"
           schedule: {{ default "0 * * * *" .Values.cloudIQ.capacityReport.schedule }}
+          args:
+            - -folder
+            - {{ .Values.cloudIQ.capacityReport.folder}}
+          disabled: {{ default false .values.healthChecks.capacityReport.disabled }}
         - name: performance-report
           container: {{.Values.global.registry}}/telemetry-upload:{{.Values.tag}}
           serviceaccount: {{ .Release.Name }}-telemetry-upload
           timelimit: "5m"
           schedule: {{ default "0 * * * *" .Values.cloudIQ.performanceReport.schedule }}
+          args:
+            - -folder
+            - {{ .Values.cloudIQ.performanceReport.folder}}
+          disabled: {{ default false .values.healthChecks.performanceReport.disabled }}
         - name: health-report
           container: {{.Values.global.registry}}/telemetry-upload:{{.Values.tag}}
           serviceaccount: {{ .Release.Name }}-telemetry-upload
           timelimit: "5m"
           schedule: {{ default "0 * * * *" .Values.cloudIQ.healthReport.schedule }}
+          args:
+            - -folder
+            - {{ .Values.cloudIQ.healthReport.folder}}
+          disabled: {{ default false .values.healthChecks.healthReport.disabled }}
