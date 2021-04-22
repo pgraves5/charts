@@ -166,7 +166,7 @@ bookkeeper:
   # labels:
   image:
     pullPolicy: IfNotPresent
-  version: # rfw-update-this bookkeeper-docker-image
+    tag: # rfw-update-this bookkeeper-docker-image
   blockOwnerDeletion: false
   autoRecovery: true
   probes:
