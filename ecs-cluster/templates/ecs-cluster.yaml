@@ -214,6 +214,10 @@ spec:
     version: {{ .Values.tag }}
     {{- end }}
     blockOwnerDeletion:  {{ .Values.bookkeeper.blockOwnerDeletion }}
+    labels:
+      app.kubernetes.io/namespace: {{ .Release.Namespace }}
+      objectscale.dellemc.com/logging-inject: "true"
+      objectscale.dellemc.com/logging-release-name: "{{ .Release.Name }}"
     serviceAccountName:  {{ .Release.Name }}-pravega
     autoRecovery: {{ .Values.bookkeeper.autoRecovery }}
     {{- if .Values.bookkeeper.probes }}
@@ -262,6 +266,8 @@ spec:
             storage: {{ .Values.bookkeeper.storage.index.volumeSize }}
     options:
       log.level: {{ .Values.bookkeeper.options.log.level }}
+      emptyDirVolumeMounts: {{ .Values.bookkeeper.options.emptyDirVolumeMounts }}
+      configMapVolumeMounts: {{$.Release.Name}}-bk-{{ .Values.bookkeeper.options.configMapVolumeMounts }}
 
   pravega:
     {{- if .Values.pravega.image.tag }}
@@ -308,7 +314,7 @@ spec:
         metrics.statistics.enable: {{ .Values.global.monitoring.enabled | quote }}
         controller.metrics.influxDB.reporter.enable: {{ .Values.global.monitoring.enabled | quote }}
         controller.metrics.statistics.enable: {{ .Values.global.monitoring.enabled | quote }}
-        emptyDirVolumeMounts: {{ .Values.pravega.options.emptyDirVolumeMounts }}
+        emptyDirVolumeMounts: {{$.Release.Name}}-prvg-{{ .Values.pravega.options.emptyDirVolumeMounts }}
         configMapVolumeMounts: {{ .Values.pravega.options.configMapVolumeMounts }}
       debugLogging: {{ .Values.pravega.debugLogging }}
       controllerServiceAccountName: {{ .Release.Name }}-pravega
