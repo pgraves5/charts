@@ -194,7 +194,7 @@ bookkeeper:
       volumeSize: 5Gi
   options:
     emptyDirVolumeMounts: "heap-dump=/crash-dump,log=/opt/bookkeeper/logs"
-    configMapVolumeMounts: "log4j2:log4j.properties=/opt/bookkeeper/conf/log4j.properties"
+#    configMapVolumeMounts: "log4j2:log4j.properties=/opt/bookkeeper/conf/log4j.properties"
     log:
       level: "INFO"
 
