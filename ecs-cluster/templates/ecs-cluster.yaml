@@ -313,8 +313,8 @@ spec:
         metrics.statistics.enable: {{ .Values.global.monitoring.enabled | quote }}
         controller.metrics.influxDB.reporter.enable: {{ .Values.global.monitoring.enabled | quote }}
         controller.metrics.statistics.enable: {{ .Values.global.monitoring.enabled | quote }}
-        emptyDirVolumeMounts: {{$.Release.Name}}-prvg-{{ .Values.pravega.options.emptyDirVolumeMounts }}
-        configMapVolumeMounts: {{ .Values.pravega.options.configMapVolumeMounts }}
+        emptyDirVolumeMounts: {{ .Values.pravega.options.emptyDirVolumeMounts }}
+        configMapVolumeMounts: {{$.Release.Name}}-prvg-{{ .Values.pravega.options.configMapVolumeMounts }}
       debugLogging: {{ .Values.pravega.debugLogging }}
       controllerServiceAccountName: {{ .Release.Name }}-pravega
       segmentStoreServiceAccountName: {{ .Release.Name }}-pravega
