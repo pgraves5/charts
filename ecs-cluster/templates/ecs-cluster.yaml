@@ -267,6 +267,9 @@ spec:
     options:
       log.level: {{ .Values.bookkeeper.options.log.level }}
       emptyDirVolumeMounts: {{ .Values.bookkeeper.options.emptyDirVolumeMounts }}
+      {{- if .Values.bookkeeper.options.configMapVolumeMounts }}
+      configMapVolumeMounts: {{$.Release.Name}}-bk-{{ .Values.bookkeeper.options.configMapVolumeMounts }}
+      {{ end }}
 
   pravega:
     {{- if .Values.pravega.image.tag }}
@@ -314,7 +317,9 @@ spec:
         controller.metrics.influxDB.reporter.enable: {{ .Values.global.monitoring.enabled | quote }}
         controller.metrics.statistics.enable: {{ .Values.global.monitoring.enabled | quote }}
         emptyDirVolumeMounts: {{ .Values.pravega.options.emptyDirVolumeMounts }}
+        {{- if .Values.pravega.options.configMapVolumeMounts }}
         configMapVolumeMounts: {{$.Release.Name}}-prvg-{{ .Values.pravega.options.configMapVolumeMounts }}
+        {{- end }}
       debugLogging: {{ .Values.pravega.debugLogging }}
       controllerServiceAccountName: {{ .Release.Name }}-pravega
       segmentStoreServiceAccountName: {{ .Release.Name }}-pravega
