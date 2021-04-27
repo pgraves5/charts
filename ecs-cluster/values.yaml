@@ -205,7 +205,7 @@ zookeeper:
 
   image:
     repository: zookeeper
-    tag: 0.2.9 # rfw-update-this zookeeper-docker-image
+    tag: 0.2.10 # rfw-update-this zookeeper-docker-image
     # pullPolicy: IfNotPresent
 
   # Persistent storage options for zookeeper volume requests
