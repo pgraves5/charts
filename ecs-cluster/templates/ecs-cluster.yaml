@@ -267,6 +267,8 @@ spec:
     options:
       log.level: {{ .Values.bookkeeper.options.log.level }}
       emptyDirVolumeMounts: {{ .Values.bookkeeper.options.emptyDirVolumeMounts }}
+      configMapVolumeMounts: {{$.Release.Name}}-bk-sp-{{ .Values.bookkeeper.options.configMapVolumeMounts }}
+
 
   pravega:
     {{- if .Values.pravega.image.tag }}
