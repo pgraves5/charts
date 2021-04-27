@@ -13,7 +13,7 @@ global:
   registry: emccorp
 
 # The default docker tag and pull policy for service-pod
-tag: 2.71.2
+tag: 2.72.0-1015
 pullPolicy: IfNotPresent
 # product for which the service pod is required
 # product: objectscale
@@ -21,7 +21,7 @@ pullPolicy: IfNotPresent
 # The image configured for the service-pod
 image:
   repository: base-service-tools
-  tag: # rfw-update-this objectscale-service-tools-docker-image
+  tag: 2.71.2-165.4b8651a # rfw-update-this objectscale-service-tools-docker-image
   # pullPolicy: IfNotPresent
 
 sshCred:
