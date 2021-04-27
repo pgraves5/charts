@@ -218,6 +218,11 @@ spec:
       app.kubernetes.io/namespace: {{ .Release.Namespace }}
       objectscale.dellemc.com/logging-inject: "true"
       objectscale.dellemc.com/logging-release-name: "{{ .Release.Name }}"
+      objectscale.dellemc.com/sp-integrated-disk-replacement: true
+      objectscale.dellemc.com/sp-integrated-tmm: true
+      objectscale.dellemc.com/sp-integrated-pmm: true
+      objectscale.dellemc.com/sp-integrated-recovery-status-probe-exec: "/opt/bookkeeper/bk_sp.sh -t precheck -o 600"
+      objectscale.dellemc.com/sp-integrated-initiate-decommission-exec: "/opt/bookkeeper/bk_sp.sh -t recover -o 600"
     serviceAccountName:  {{ .Release.Name }}-pravega
     autoRecovery: {{ .Values.bookkeeper.autoRecovery }}
     {{- if .Values.bookkeeper.probes }}
