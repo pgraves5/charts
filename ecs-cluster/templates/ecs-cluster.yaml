@@ -221,8 +221,8 @@ spec:
       objectscale.dellemc.com/sp-integrated-disk-replacement: "true"
       objectscale.dellemc.com/sp-integrated-tmm: "true"
       objectscale.dellemc.com/sp-integrated-pmm: "true"
-      objectscale.dellemc.com/sp-integrated-recovery-status-probe-exec: "bk_sp.sh -t precheck -o 600"
-      objectscale.dellemc.com/sp-integrated-initiate-decommission-exec: "bk_sp.sh -t recover -o 600"
+      objectscale.dellemc.com/sp-integrated-recovery-status-probe-exec: "bk_sp.sh_-t_precheck_-o_600"
+      objectscale.dellemc.com/sp-integrated-initiate-decommission-exec: "bk_sp.sh_-t_recover_-o_600"
     serviceAccountName:  {{ .Release.Name }}-pravega
     autoRecovery: {{ .Values.bookkeeper.autoRecovery }}
     {{- if .Values.bookkeeper.probes }}
