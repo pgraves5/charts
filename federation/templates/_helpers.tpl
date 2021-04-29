@@ -49,6 +49,7 @@ Selector labels
 {{- define "fedsvc.selectorLabels" -}}
 app.kubernetes.io/name: {{ include "fedsvc.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
+release: {{ .Release.Name }}
 {{- end -}}
 
 {{/*
