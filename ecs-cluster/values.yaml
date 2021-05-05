@@ -30,7 +30,7 @@ global:
 
 # The default docker tag and pull policy for the ECS Cluster
 # rfw-update-next *comp*object-services
-tag: 3.7.0.0-134257.2879f2f48ea
+tag: 3.7.0.0-134315.5d9c76ed530
 pullPolicy: IfNotPresent
 
 # Override the default number of replicas which taken according to performance profile for each service
@@ -117,7 +117,7 @@ pravega:
   # labels:
   image:
     pullPolicy: IfNotPresent
-    tag: 0.10.0-2871.bf888da5e # rfw-update-this pravega-docker-image
+    tag: 0.10.0-2876.1c3854e66 # rfw-update-this pravega-docker-image
   controller:
 #    replicas: 1
     service:
@@ -166,7 +166,7 @@ bookkeeper:
   # labels:
   image:
     pullPolicy: IfNotPresent
-    tag: 0.10.0-2871.bf888da5e # rfw-update-this bookkeeper-docker-image
+    tag: 0.10.0-2876.1c3854e66 # rfw-update-this bookkeeper-docker-image
   blockOwnerDeletion: false
   autoRecovery: false
   probes:
@@ -296,7 +296,7 @@ objectsvc:
   # Docker repository to be used for objectsvc instances
   image:
     repository: object-service
-    tag: 3.7.0.0-2249.0d5d0e50 # rfw-update-this objectsvc-docker-image
+    tag: 3.7.0.0-2262.3b47a5c1 # rfw-update-this objectsvc-docker-image
     # pullPolicy: IfNotPresent
 
   # Elements to add to the service's ConfigMap. This is a map of string -> string
@@ -606,7 +606,7 @@ managementGateway:
   # Docker repository to be used for managementGateway instances
   image:
     repository: management-gateway
-    tag: 0.72.0.0-165.4b8651a # rfw-update-this management-gateway-docker-image
+    tag: 0.72.0.0-168.d0e13c4 # rfw-update-this management-gateway-docker-image
     # pullPolicy: IfNotPresent
 
   service:
@@ -663,7 +663,7 @@ provision:
   newProvisionAPI: true
   image:
     repository: provision
-    tag: 0.70.0.0-808.c2da1079 # rfw-update-this provision-docker-image
+    tag: 0.70.0.0-814.7fa7d2fb # rfw-update-this provision-docker-image
     # pullPolicy: IfNotPresent
 
 # The job will assign new created ss to the sp
@@ -674,7 +674,7 @@ expandsp:
 cmfswitch:
   image:
     repository: cmf-switch
-    tag: 0.6.0-166.7a36f1d # rfw-update-this cmf-switch-docker-image
+    tag: 0.6.0-168.d0e13c4 # rfw-update-this cmf-switch-docker-image
     # pullPolicy: IfNotPresent
 
 #
