@@ -12,7 +12,7 @@ global:
   registry: emccorp
 
 # The default docker tag and pull policy for dell-supportassist-ese
-tag: 2.72.0
+tag: 2.73.0-1039
 pullPolicy: Always
 
 # The image configured for dell-ese

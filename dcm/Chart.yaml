@@ -1,9 +1,9 @@
 ---
 apiVersion: v2
-appVersion: 0.72.0
+appVersion: 0.73.0-1039
 description: A Helm chart for Dell EMC DCM
 name: dcm
-version: 0.72.0
+version: 0.73.0-1039
 icon: https://avatars0.githubusercontent.com/u/12926680
 maintainers:
   - name: Dell EMC
