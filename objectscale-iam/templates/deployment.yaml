@@ -19,6 +19,12 @@ spec:
       imagePullSecrets:
         - name: {{ .Values.global.registrySecret }}
       {{- end }}
+      initContainers:
+        - name: iam-init-container
+          image: asdrepo.isus.emc.com:9042/base-service-tools:latest
+          imagePullPolicy: "IfNotPresent"
+          command: ["bash"]
+          args: ["-c","mycmd() { kubectl get secrets $1;}; while ! mycmd objectscale-iam-tls; do echo waiting; sleep 10; done"]
       containers:
       - name: iam
         env:
