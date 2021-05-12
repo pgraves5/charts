@@ -212,6 +212,9 @@ spec:
       app: zookeeper
       component: zk
       release: {{ .Release.Name }}
+      app.kubernetes.io/namespace: {{ .Release.Namespace }}
+      objectscale.dellemc.com/logging-inject: "true"
+      objectscale.dellemc.com/logging-release-name: "{{ .Release.Name }}"
     image:
       repository: {{ .Values.global.registry }}/{{ .Values.zookeeper.image.repository }}
       tag: {{ .Values.zookeeper.image.tag }}
