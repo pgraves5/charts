@@ -55,6 +55,11 @@ graphql:
   port: 8080
   serviceName: objectscale-graphql
 
+# The service name and port used for nginx auth requests
+fedsvc:
+  name: fedsvc
+  port: 9500
+
 enabled: false
 image:
   repository: ecs-flex-vsphere-plugin
