@@ -55,6 +55,11 @@ graphql:
   port: 8080
   serviceName: objectscale-graphql
 
+# federation service endpoint settings
+fedsvc:
+  serviceName: fedsvc
+  port: 9500
+
 enabled: false
 image:
   repository: ecs-flex-vsphere-plugin
