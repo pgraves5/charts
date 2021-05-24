@@ -30,7 +30,7 @@ global:
 
 # The default docker tag and pull policy for the ECS Cluster
 # rfw-update-next *comp*object-services
-tag: 3.7.0.0-134567.270484f4999
+tag: 3.7.0.0-134702.41764e423a2
 pullPolicy: IfNotPresent
 
 # Override the default number of replicas which taken according to performance profile for each service
@@ -298,7 +298,7 @@ objectsvc:
   # Docker repository to be used for objectsvc instances
   image:
     repository: object-service
-    tag: 3.7.0.0-2343.bc745e41 # rfw-update-this objectsvc-docker-image
+    tag: 3.7.0.0-2357.a38b955c # rfw-update-this objectsvc-docker-image
     # pullPolicy: IfNotPresent
 
   # Elements to add to the service's ConfigMap. This is a map of string -> string
@@ -634,7 +634,7 @@ managementGateway:
   # Docker repository to be used for managementGateway instances
   image:
     repository: management-gateway
-    tag: 0.72.0.0-169.120135a # rfw-update-this management-gateway-docker-image
+    tag: 0.72.0.0-172.3a74a8b # rfw-update-this management-gateway-docker-image
     # pullPolicy: IfNotPresent
 
   service:
@@ -702,7 +702,7 @@ expandsp:
 cmfswitch:
   image:
     repository: cmf-switch
-    tag: 0.6.0-169.120135a # rfw-update-this cmf-switch-docker-image
+    tag: 0.6.0-172.3a74a8b # rfw-update-this cmf-switch-docker-image
     # pullPolicy: IfNotPresent
 
 #
@@ -736,7 +736,7 @@ fabricProxy:
   # Docker repository to be used for fabric proxy instances
   image:
     repository: fabric-proxy
-    tag: 1.1.0-24.bf06648 # rfw-update-this fabric-proxy-docker-image
+    tag: 1.1.0-25.769dc73 # rfw-update-this fabric-proxy-docker-image
     # pullPolicy: IfNotPresent
 
 # deos health check configuration
