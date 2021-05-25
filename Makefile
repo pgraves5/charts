@@ -227,7 +227,7 @@ create-manager-app: create-temp-package
 	--set global.monitoring.enabled=false \
 	--set objectscale-monitoring.influxdb.persistence.storageClassName=${STORAGECLASSNAME} \
 	--set objectscale-monitoring.rsyslog.persistence.storageClassName=${STORAGECLASSNAME_VSAN_SNA} \
-	--set objectscale-gateway.enabled=false ${HELM_MANAGER_ARGS} ${HELM_MONITORING_ARGS} \
+	--set objectscale-gateway.enabled=true ${HELM_MANAGER_ARGS} ${HELM_MONITORING_ARGS} \
 	--set objectscale-iam.enabled=true ${HELM_MANAGER_ARGS} ${HELM_MONITORING_ARGS} \
 	--set federation.enabled=true ${HELM_MANAGER_ARGS} ${HELM_MONITORING_ARGS} \
 	-f values.yaml > ../${TEMP_PACKAGE}/yaml/objectscale-manager-app.yaml;
@@ -243,6 +243,7 @@ create-vsphere-templates: create-temp-package
     --set graphql.enabled=true \
 	--set global.registry=${REGISTRY} \
 	--set global.registrySecret=${REGISTRYSECRET} \
+	--set objectscale-portal.objectscale-graphql.eventPaginationSource=KAHM \
 	--set global.storageClassName=${STORAGECLASSNAME} ${HELM_UI_ARGS} ${HELM_GRAPHQL_ARGS} ${HELM_INSTALLER_ARGS} \
 	-f objectscale-vsphere/values.yaml >> ${TEMP_PACKAGE}/yaml/${MANAGER_MANIFEST}
 
@@ -270,6 +271,7 @@ create-kahm-app: create-temp-package
 	--set global.registry=${KAHM_REGISTRY} \
 	--set global.registrySecret=${REGISTRYSECRET} \
 	--set storageClassName=${STORAGECLASSNAME} \
+	--set postgresql-ha.persistence.storageClass=${STORAGECLASSNAME} \
         ${HELM_KAHM_ARGS} \
 	-f values.yaml > ../${TEMP_PACKAGE}/yaml/kahm-app.yaml;
 	sed ${SED_INPLACE} 's/createkahmappResource\\":true/createkahmappResource\\":false/g' ${TEMP_PACKAGE}/yaml/kahm-app.yaml && \
