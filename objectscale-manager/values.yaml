@@ -255,13 +255,13 @@ healthChecks:
       repository: objectscale-capacity
       tag: # wait-73-rfw-update-this objectscale-capacity-image
     schedule: "0 * * * *"
-    disabled: true
+    disabled: false 
   performance:
     image:
       repository: objectscale-performance
       tag: # wait-73-rfw-update-this objectscale-performance-image
     schedule: "*/10 * * * *"
-    disabled: true
+    disabled: false
   health:
     image:
       repository: objectscale-health
