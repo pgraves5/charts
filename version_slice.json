@@ -707,7 +707,7 @@
             "componentVersion": "3.7.0.0-135301.a31017034e8"
         },
         {
-            "version": "3.7.0.0-135301.a31017034e8",
+            "version": "3.7.0.0-135328.d938bfe680e",
             "type": "docker-image",
             "artifactId": "geo-receiver-docker-image",
             "endpoint": "asdrepo.isus.emc.com:8099",

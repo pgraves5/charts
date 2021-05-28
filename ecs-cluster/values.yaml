@@ -569,7 +569,7 @@ geoReceiver:
   # Docker repository to be used for geo receiver instances
   image:
     repository: geo-receiver
-    tag: # rfw-update-this geo-receiver-docker-image, non-component-version
+    tag: 3.7.0.0-135328.d938bfe680e # rfw-update-this geo-receiver-docker-image, non-component-version
     # pullPolicy: IfNotPresent
   service:
     ports:
