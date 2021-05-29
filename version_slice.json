@@ -713,7 +713,7 @@
             "endpoint": "asdrepo.isus.emc.com:8099",
             "path": "geo-receiver",
             "componentName": "object-services",
-            "componentVersion": "3.7.0.0-135301.a31017034e8"
+            "componentVersion": "3.7.0.0-135328.d938bfe680e"
         },
         {
             "version": "3.7.0.0-135301.a31017034e8",
