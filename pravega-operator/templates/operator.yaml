@@ -38,6 +38,8 @@ spec:
         - pravega-operator
         {{- if .Values.testmode.enabled }}
         args: ["-test", "-webhook=false"]
+        {{- else }}
+        args: ["-webhook=false"]
         {{- end }}
         env:
         - name: WATCH_NAMESPACE
