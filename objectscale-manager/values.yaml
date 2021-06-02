@@ -271,3 +271,9 @@ healthChecks:
 
 features:
   spOperatorEnabled: false
+
+objectscale-monitoring:
+  grafana:
+    config:
+      auth_proxy:
+        enabled: true

@@ -764,3 +764,9 @@ healthChecks:
     image:
       repository: objectstore-post-upgrade
       tag: 0.74.0-45.5303b15 # rfw-update-this objectstore-pre-update-image
+
+ecs-monitoring:
+  grafana:
+    config:
+      auth_proxy:
+        enabled: true
