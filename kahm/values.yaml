@@ -152,3 +152,10 @@ postgresql-ha:
         memory: 500Mi
       requests:
         memory: 500Mi
+
+# KAHM health check configuration
+healthChecks:
+  preUpdate:
+    image:
+      repository: kahm-pre-update
+      tag: # rfw-update-this kahm-pre-update-image
