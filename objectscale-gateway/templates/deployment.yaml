@@ -73,8 +73,7 @@ spec:
       - name: tls-secrets-internal
         secret:
           secretName: objectscale-gateway-internal-tls
-      volumes:
-        - name: location-config-volume
-          configMap:
-            name: {{ include "objectscaleGateway.fullname" . }}-location-config
+      - name: location-config-volume
+        configMap:
+          name: {{ include "objectscaleGateway.fullname" . }}-location-config
 
