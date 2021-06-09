@@ -49,6 +49,10 @@ Selector labels
 {{- define "fedsvc.selectorLabels" -}}
 app.kubernetes.io/name: {{ include "fedsvc.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
+objectscale.dellemc.com/logging-inject: "true"
+app.kubernetes.io/namespace: "{{ .Release.Namespace }}"
+objectscale.dellemc.com/logging-release-name: {{ .Release.Name }}
+release: "{{ .Release.Name }}"
 {{- end -}}
 
 {{/*
