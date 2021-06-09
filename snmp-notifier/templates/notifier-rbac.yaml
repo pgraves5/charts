@@ -1,0 +1,47 @@
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: {{ .Release.Name }}-{{required "product must be specified" .Values.product}}-snmp-notifier
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app.kubernetes.io/component: {{required "product must be specified" .Values.product}}-snmp-notifier
+{{ include "notifier.labels" . | indent 4 }}
+{{- if .Values.global.registrySecret }}
+imagePullSecrets:
+  - name: {{ .Values.global.registrySecret }}
+{{- end }}
+---
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: {{ .Release.Name }}-{{required "product must be specified" .Values.product}}-snmp-notifier
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app.kubernetes.io/component: {{required "product must be specified" .Values.product}}-snmp-notifier
+{{ include "notifier.labels" . | indent 4 }}
+rules:
+- apiGroups:
+  - ""
+  - extensions
+  resources:
+  - secrets
+  - events
+  verbs:
+  - "*"
+---
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: {{ .Release.Name }}-{{required "product must be specified" .Values.product}}-snmp-notifier
+  labels:
+    app.kubernetes.io/component: {{required "product must be specified" .Values.product}}-snmp-notifier
+{{ include "notifier.labels" . | indent 4 }}
+subjects:
+- kind: ServiceAccount
+  name: {{ .Release.Name }}-{{required "product must be specified" .Values.product}}-snmp-notifier
+  namespace: {{ .Release.Namespace }}
+roleRef:
+  name: {{ .Release.Name }}-{{required "product must be specified" .Values.product}}-snmp-notifier
+  kind: Role
+  apiGroup: rbac.authorization.k8s.io

@@ -1,0 +1,69 @@
+---
+# Default values for dellemc-supportassist-ese
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+# These global settings relate to supportassist-ese
+global:
+  # Name of a Kubernetes secret with Docker credentials for the private registry
+  registrySecret: dockerhub-registry-secret
+
+  # The registry hosting containers for Dell based k8s products
+  registry: emccorp
+
+# The default docker tag and pull policy for dell-supportassist-ese
+tag: 2.74.0
+pullPolicy: Always
+
+# enabled - true - enable snmp-notifier false - disable it
+enabled: true
+
+# productName: objectscale - required field to pass in using --set
+
+# The image configured for snmp notifier 
+image:
+  repository: snmp-notifier
+  # tag: # rfw-update-this snmp-notifier-image
+  # pullPolicy: Always
+# the GRPC setting between KAHM and snmp-notifier
+grpc:
+  servicePort: 50051
+  grpcConnTimeout: 5
+  grpcRetries: 3
+
+# Create app resource thru helm
+createAppResource: true
+
+# snmpServer- required field to pass using --set
+snmpServer:
+   host: 10.11.12.13
+   port: 162
+   version: "v3"
+   username: "admin"
+# securityLevel options: "none", "auth" - authentication only , "priv" - authentication + privacy
+   securityLevel: "priv"
+   authProtocol: "MD5"
+   authPass: "ChangeMe" 
+   privProtocol: "AES128"
+   privPass: "ChangeMe"
+   communityString: "objectscale"
+
+
+# We usually recommend not to specify default resources and to leave this as a
+# conscious choice for the user. This also increases chances charts run on
+# environments with little resources, such as Minikube. If you do want to
+# specify resources, uncomment the following lines, adjust them as necessary,
+# and remove the curly braces after 'resources:'.
+resources: {}
+# limits:
+#  cpu: 100m
+#  memory: 128Mi
+# requests:
+#  cpu: 100m
+#  memory: 128Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
