@@ -30,7 +30,7 @@ global:
 
 # The default docker tag and pull policy for the ECS Cluster
 # rfw-update-next *comp*object-services
-tag: 3.7.0.0-135779.ab9ea6697e9
+tag: 3.7.0.0-135795.cffc8ee9b17
 pullPolicy: IfNotPresent
 
 # Override the default number of replicas which taken according to performance profile for each service
@@ -712,7 +712,7 @@ cmfswitch:
 syslogAgent:
   image:
     repository: rsyslog
-    tag: 3.7.0.0-1222.f9102d7c # rfw-update-this rsyslog-docker-image
+    tag: 3.7.0.0-1229.59bc519a # rfw-update-this rsyslog-docker-image
     # pullPolicy: IfNotPresent
 
 # The log agent configuration for log collection of ECS services with a Syslog
@@ -720,7 +720,7 @@ syslogAgent:
 fluentbitAgent:
   image:
     repository: fluent-bit
-    tag: 3.7.0.0-1222.f9102d7c # rfw-update-this fluent-bit-docker-image
+    tag: 3.7.0.0-1229.59bc519a # rfw-update-this fluent-bit-docker-image
     # pullPolicy: IfNotPresent
 
 # The fabric proxy sidecar configuration for ECS Service Discovery and container
@@ -755,12 +755,12 @@ healthChecks:
   connectivity:
     image:
       repository: objectstore-connectivity
-      tag: 0.75.0-49.92db4a2 # rfw-update-this objectstore-connectivity-image
+      tag: 0.75.0-50.e334c15 # rfw-update-this objectstore-connectivity-image
   preUpdate:
     image:
       repository: objectstore-pre-update
-      tag: 0.75.0-49.92db4a2 # rfw-update-this objectstore-pre-update-image
+      tag: 0.75.0-50.e334c15 # rfw-update-this objectstore-pre-update-image
   postUpgrade:
     image:
       repository: objectstore-post-upgrade
-      tag: 0.75.0-49.92db4a2 # rfw-update-this objectstore-pre-update-image
+      tag: 0.75.0-50.e334c15 # rfw-update-this objectstore-pre-update-image
