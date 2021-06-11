@@ -126,12 +126,12 @@ then
 fi
 
 chmod +x vmware/$vsphere_script
-mkdir -p temp_package/yaml/u3
+mkdir -p temp_package/u3/tmp
 
-(cd temp_package/yaml; cat logging-injector.yaml objectscale-manager.yaml kahm.yaml decks.yaml > u3/objectscale-vsphere-service-src.yaml )
-cat vmware/vs7u3-persistence-svc-config.yaml >> temp_package/yaml/u3/objectscale-vsphere-service-src.yaml
-vmware/$vsphere_script -c temp_package/yaml/objectscale-crd.yaml -p temp_package/yaml/u3/objectscale-vsphere-service-src.yaml -v $objs_ver --display-name "$label" \
-  --description "$objs_desc" -e dellemc_eula.txt -o temp_package/yaml/u3/objectscale-${objs_ver}-vsphere-service.yaml $svc_vs7u3_id
+(cd temp_package/yaml; cat logging-injector.yaml objectscale-manager.yaml kahm.yaml decks.yaml > ../u3/tmp/objectscale-vsphere-service-src.yaml )
+cat vmware/vs7u3-persistence-svc-config.yaml >> temp_package/u3/tmp/objectscale-vsphere-service-src.yaml
+vmware/$vsphere_script -c temp_package/yaml/objectscale-crd.yaml -p temp_package/u3/tmp/objectscale-vsphere-service-src.yaml -v $objs_ver --display-name "$label" \
+  --description "$objs_desc" -e dellemc_eula.txt -o temp_package/u3/objectscale-${objs_ver}-vsphere-service.yaml $svc_vs7u3_id
 
 if [ $? -ne 0 ]
 then
