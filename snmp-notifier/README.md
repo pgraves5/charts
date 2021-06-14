@@ -43,6 +43,8 @@ This Helm chart deploys:
     ```
     $ helm install snmp-notifier objectscale/snmp-notifier --set product=objectscale,snmpServer.host="10.11.12.13"
     ```
+    Note: by default v2c SNMP notifier will be confgured with "public" community string. Please see the configuration section for v3 configuration.
+
 4. Verify the pod and service is available:
     ```bash
     $ kubectl get pod,svc -l release=snmp-notifier
@@ -62,12 +64,13 @@ In order to setup SNMP v3 notifier, the following configuration parameters are m
  1. version
  2. username
  3. securityLevel
- 4. EngineID
+ 4. engineID
 
-if securityLevel is "auth", then the following parameters are mandatory in addtion to the above
+If securityLevel is "auth", then the following parameters are mandatory in addtion to the above
  1. authPass
  2. authProtocol
-if securityLevel is "authpriv", then the following parameters are mandatory in addtion to the above
+
+If securityLevel is "authpriv", then the following parameters are mandatory in addtion to the above
  1. privPass
  2. privProtocol
 
