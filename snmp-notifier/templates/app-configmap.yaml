@@ -17,13 +17,13 @@ metadata:
 data:
     eventRules: |-
       rules:
-      - description: test event
+      - description: test TRAP
         matchon:
         - field: type
           value: Normal
-        - field: label 
-          value: test-event
+        - label: SymptomID 
+          value: TEST-TRAP
         notifiers:
-        - {{.Release.Name}}-{{.Values.product}}-snmp-notifier
+        - {{.Values.product}}-snmp-notifier
     eventRemedies: |
     health: |-

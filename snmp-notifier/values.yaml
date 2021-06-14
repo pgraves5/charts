@@ -36,17 +36,28 @@ createAppResource: true
 
 # snmpServer- required field to pass using --set
 snmpServer:
-   host: 10.11.12.13
+   # snmp server host/ip address
+   host: 10.241.218.59 
+   # snmp server port
    port: 162
-   version: "v3"
-   username: "admin"
-# securityLevel options: "none", "auth" - authentication only , "priv" - authentication + privacy
-   securityLevel: "priv"
-   authProtocol: "MD5"
-   authPass: "ChangeMe" 
-   privProtocol: "AES128"
-   privPass: "ChangeMe"
-   communityString: "objectscale"
+   # v2c or v3
+   version: "v2c"
+   # needed only if v3
+   # username: "snmpv3_objectscale_md5_des"
+   # needed only if v3: "none", "auth" - authentication only , "authpriv" - authentication + privacy
+   # securityLevel: "authpriv"
+   # needed only if v3: "MD5" or "SHA"
+   # authProtocol: "MD5"
+   # needed only if v3
+   # authPass: "admin1234" 
+   # needed only if v3: privProtocol: "DES" or "AES"
+   # privProtocol: "DES"
+   # needed only if v3
+   # privPass: "admin1234"
+   # needed only if v3 -  A hexadecimal value of at least 10 characters, uniquely identifying the engineid.This is a mandatory argument
+   # engineID: "3AFE3256879867ABCD"
+   # needed only if v2c
+   communityString: "public"
 
 
 # We usually recommend not to specify default resources and to leave this as a

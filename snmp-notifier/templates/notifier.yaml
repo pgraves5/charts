@@ -112,4 +112,14 @@ spec:
             secretKeyRef:
               name: {{ .Release.Name }}-snmp-notifier-credentials
               key: communityString
+        - name: SNMP_SERVER_ENGINE_ID
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Release.Name }}-snmp-notifier-credentials
+              key: engineID 
+        - name: SNMP_SERVER_VERSION
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Release.Name }}-snmp-notifier-credentials
+              key: version
       restartPolicy: Always
