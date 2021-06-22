@@ -340,6 +340,21 @@ spec:
     options:
       log.level: {{ .Values.bookkeeper.options.log.level }}
       emptyDirVolumeMounts: {{ .Values.bookkeeper.options.emptyDirVolumeMounts }}
+      {{- if .Values.bookkeeper.options.multiVolumesSetPerBookieEnabled }}
+      multiVolumesSetPerBookieEnabled: {{ .Values.bookkeeper.options.multiVolumesSetPerBookieEnabled | quote }}
+      {{ end }}
+      {{- if .Values.bookkeeper.options.entryLogPerLedgerEnabled }}
+      entryLogPerLedgerEnabled: {{ .Values.bookkeeper.options.entryLogPerLedgerEnabled | quote }}
+      {{ end }}
+      {{- if .Values.bookkeeper.options.journalDirectories }}
+      journalDirectories: {{ .Values.bookkeeper.options.journalDirectories }}
+      {{ end }}
+      {{- if .Values.bookkeeper.options.ledgerDirectories }}
+      ledgerDirectories: {{ .Values.bookkeeper.options.ledgerDirectories }}
+      {{ end }}
+      {{- if .Values.bookkeeper.options.indexDirectories }}
+      indexDirectories: {{ .Values.bookkeeper.options.indexDirectories }}
+      {{ end }}
       {{- if .Values.bookkeeper.options.configMapVolumeMountsLog }}
       configMapVolumeMounts: "{{.Release.Name}}-bk-log4j2{{.Values.bookkeeper.options.configMapVolumeMountsLog}},{{.Release.Name}}-bk-sp-log4j2{{.Values.bookkeeper.options.configMapVolumeMountsSP}}"
       {{ end }}
