@@ -197,6 +197,11 @@ bookkeeper:
       volumeSize: 2Gi
   options:
     emptyDirVolumeMounts: "heap-dump=/crash-dump,log=/opt/bookkeeper/logs"
+    # multiVolumesSetPerBookieEnabled: true
+    # entryLogPerLedgerEnabled: true
+    # journalDirectories: "/bk/journal/j0,/bk/journal/j1,/bk/journal/j2,/bk/journal/j3"
+    # ledgerDirectories: "/bk/ledgers/l0,/bk/ledgers/l1,/bk/ledgers/l2,/bk/ledgers/l3"
+    # indexDirectories: "/bk/index/i0,/bk/index/i1,/bk/index/i2,/bk/index/i3"
     log:
       level: "INFO"
 
