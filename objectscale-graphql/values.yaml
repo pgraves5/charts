@@ -28,10 +28,10 @@ global:
 #
 # This is the list of available objectstore versions to graphql for UI to configure the store.
 objectStoreAvailableVersions:
-  - 0.76.0
+  - 0.77.0-1161
 #
 # The default docker tag and pull policy for objectscale-graphql services
-tag: 0.76.0
+tag: 0.77.0-1161
 pullPolicy: IfNotPresent
 #
 # This will create the graphql container with the debug image. debug image will always be {{image.repository}}-debug
@@ -49,8 +49,8 @@ service:
   type: ClusterIP
 #
 decks:
-  licenseChartVersion: "2.76.0"
-  supportAssistChartVersion: "2.76.0"
+  licenseChartVersion: "2.77.0-1161"
+  supportAssistChartVersion: "2.77.0-1161"
   srsGatewayChartVersion: "1.2.0"
 #
 logReceiver:
