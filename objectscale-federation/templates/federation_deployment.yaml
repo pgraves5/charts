@@ -81,4 +81,4 @@ spec:
           emptyDir: {}
         - name: config
           configMap:
-            name: fedsvc-log-config
+            name: objectscale-federation-log-config
