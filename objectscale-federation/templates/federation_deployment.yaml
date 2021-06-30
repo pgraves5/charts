@@ -24,7 +24,7 @@ spec:
         - name: {{ .Values.global.registrySecret }}
       {{- end }}
       containers:
-      - name: fedsvc
+      - name: {{ .Chart.Name }}
         resources:
           limits:
             memory: 1000M
