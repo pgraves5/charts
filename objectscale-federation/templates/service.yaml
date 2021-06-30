@@ -1,0 +1,19 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: objectscale-federation
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "fedsvc.labels" . | nindent 4 }}
+  annotations:
+    objectscale.dellemc.com/federationRegistration: "ObjectScale"
+spec:
+  type: {{ .Values.fedsvc.service.type }}
+  ports:
+    - port: {{ .Values.fedsvc.service.port }}
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    {{- include "fedsvc.selectorLabels" . | nindent 4 }}
