@@ -17,6 +17,10 @@ global:
   monitoring:
     enabled: {{ .Values.global.monitoring.enabled }}
 
+{{- if .Values.custom }}
+{{ toYaml .Values.custom }}
+{{- end }}
+
 hooks:
   registry: {{ .Values.hooks.registry }}
 

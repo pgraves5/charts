@@ -234,7 +234,7 @@ create-manager-app: create-temp-package
 	# nautilus.dellemc.com/chart-values of objectscale-manager with tons of default values
 	# from child charts. After that replace this value by sed.
 	cd objectscale-manager; \
-	helm template --show-only templates/objectscale-manager-custom-values.yaml objectscale-manager ../objectscale-manager -n ${NAMESPACE} ${HELM_MANAGER_ARGS} \
+	helm template --show-only templates/objectscale-manager-custom-values.yaml objectscale-manager ../objectscale-manager -n ${NAMESPACE} \
 	--set useCustomValues=true \
 	--set global.platform=VMware \
 	--set global.watchAllNamespaces=${WATCH_ALL_NAMESPACES} \
@@ -253,7 +253,7 @@ create-manager-app: create-temp-package
 	# Build the actual objectscale-manager application and master yaml file
 	cd objectscale-manager; \
 	helm template --show-only templates/objectscale-manager-app.yaml objectscale-manager ../objectscale-manager  -n ${NAMESPACE} \
-	-f values.yaml -f customvalues.yaml > ../${TEMP_PACKAGE}/yaml/objectscale-manager-app.yaml
+	-f values.yaml -f customvalues.yaml ${HELM_MANAGER_ARGS} > ../${TEMP_PACKAGE}/yaml/objectscale-manager-app.yaml
 	sed ${SED_INPLACE} 's/createApplicationResource\\":true/createApplicationResource\\":false/g' ${TEMP_PACKAGE}/yaml/objectscale-manager-app.yaml && \
 	sed ${SED_INPLACE} 's/app.kubernetes.io\/managed-by: Helm/app.kubernetes.io\/managed-by: nautilus/g' ${TEMP_PACKAGE}/yaml/objectscale-manager-app.yaml
 	cat ${TEMP_PACKAGE}/yaml/objectscale-manager-app.yaml >> ${TEMP_PACKAGE}/yaml/${MANAGER_MANIFEST}
