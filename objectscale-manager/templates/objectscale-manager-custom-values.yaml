@@ -52,7 +52,7 @@ createApplicationResource: {{ .Values.createApplicationResource }}
 
 
 {{- if .Values.objectscale_manager }}
-## pull in any other custom values from the builder set with --set objectscale-manager.image.tag=best-tag-evah
+## pull in any other custom values from the builder set with --set objectscale_manager.image.tag=best-tag-evah
 {{ toYaml .Values.objectscale_manager }}
 {{- end }}
 
