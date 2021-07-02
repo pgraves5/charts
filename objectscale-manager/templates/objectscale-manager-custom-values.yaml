@@ -3,7 +3,9 @@
 ---
 ## Used to create custom values for objectscale-manager upgrades
 global:
+  {{- if .Values.global.registrySecret }}
   registrySecret: {{ .Values.global.registrySecret }}
+  {{- end }}
 
   registry: {{ .Values.global.registry }}
 
