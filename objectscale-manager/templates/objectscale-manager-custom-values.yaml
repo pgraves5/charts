@@ -1,6 +1,7 @@
-## Used to create custom values for objectscale-manager upgrades
+
 {{- if .Values.useCustomValues }}
 ---
+## Used to create custom values for objectscale-manager upgrades
 global:
   registrySecret: {{ .Values.global.registrySecret }}
 
@@ -17,8 +18,10 @@ global:
   monitoring:
     enabled: {{ .Values.global.monitoring.enabled }}
 
-{{- if .Values.custom }}
-{{ toYaml .Values.custom }}
+{{- if .Values.image }}
+
+image:
+  tag: {{ .Values.image.tag }}
 {{- end }}
 
 hooks:
@@ -44,4 +47,12 @@ objectscale-gateway:
   enabled: {{ index .Values "objectscale-gateway" "enabled" }}
 
 createApplicationResource: {{ .Values.createApplicationResource }}
+
+
+{{- if .Values.objectscale_manager }}
+## pull in any other custom values from the builder set with --set objectscale-manager.image.tag=best-tag-evah
+{{ toYaml .Values.objectscale_manager }}
+{{- end }}
+
+
 {{- end }}
