@@ -19,7 +19,7 @@ global:
   platform: Default
 
 # The default docker tag and pull policy for the KAHM
-tag: 2.76.0
+tag: 2.77.0-1171
 pullPolicy: IfNotPresent
 
 # The number of replicas for the KAHM deployment
