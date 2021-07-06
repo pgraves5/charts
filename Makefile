@@ -18,6 +18,7 @@ FULL_PACKAGE_VERSION=${MAJOR}.${MINOR}.${PATCH}$(if $(PRERELEASE),-$(PRERELEASE)
 FLEXVER=${FULL_PACKAGE_VERSION}
 DECKSVER=2.${MINOR}.${PATCH}$(if $(PRERELEASE),-$(PRERELEASE),)
 
+
 GIT_COMMIT_COUNT=$(shell git rev-list HEAD | wc -l)
 GIT_COMMIT_ID=$(shell git rev-parse HEAD)
 GIT_COMMIT_SHORT_ID=$(shell git rev-parse --short HEAD)
@@ -25,10 +26,11 @@ GIT_BRANCH_ID=$(shell git rev-parse --abbrev-ref HEAD)
 YQ_CMD_VERSION := $(shell yq --version | awk '{print $$3}')
 
 # packaging
-MANAGER_MANIFEST    := objectscale-manager.yaml
-KAHM_MANIFEST       := kahm.yaml
-DECKS_MANIFEST      := decks.yaml
-LOGGING_INJECTOR_MANIFEST := logging-injector.yaml
+OBJS_VSPHERE_MANIFEST := objectscale-vsphere7-manifest.yaml
+OBJS_MGR_MANIFEST   := objectscale-manager-app.yaml
+KAHM_MANIFEST       := kahm-app.yaml
+DECKS_MANIFEST      := decks-app.yaml
+LOGGING_INJECTOR_MANIFEST := logging-injector-app.yaml
 PACKAGE_NAME        := objectscale-charts-package.tgz
 NAMESPACE            = dellemc-objectscale-system
 TEMP_PACKAGE        := temp_package
@@ -52,6 +54,10 @@ HELM_KAHM_ARGS       = # --set image.tag=${YOUR_VERSION_HERE}
 HELM_DECKS_SUPPORT_STORE_ARGS      = # --set decks-support-store.image.tag=${YOUR_VERSION_HERE}
 SED_INPLACE         := -i
 ENABLE_STDOUT_LOGS_COLLECTION   := false
+KUBECTL_BINARY				:= kubectl-linux-amd64-1.18.10
+KUBECTL_ARTIFACTORY_PATH 	:= ecs-build/io/pivotal/kubectl/1.18.10
+
+DOCKER_LABELS := --label "GIT_BRANCH=${GIT_BRANCH_ID}" --label "VERSION=${FLEXVER}" --label "PRODUCT_VERSION=${FULL_PACKAGE_VERSION}" --label "GITSHA=${GIT_COMMIT_SHORT_ID}"
 
 UNAME_S := $(shell uname -s)
 ifeq ($(UNAME_S),Darwin)
@@ -195,29 +201,40 @@ build: yqcheck
 
 package: clean-package create-temp-package create-manifests combine-crds create-packages archive-package
 create-temp-package:
-	mkdir -p ${TEMP_PACKAGE}/yaml
+	mkdir -p ${TEMP_PACKAGE}/yaml/apps
 	mkdir -p ${TEMP_PACKAGE}/scripts
 
 
 combine-crds:
-	cp -R objectscale-manager/crds ${TEMP_PACKAGE}
-	cp -R atlas-operator/crds ${TEMP_PACKAGE}
-	cp -R zookeeper-operator/crds ${TEMP_PACKAGE}
-	cp -R kahm/crds ${TEMP_PACKAGE}
-	cp -R decks/crds ${TEMP_PACKAGE}
-	cp -R statefuldaemonset-operator/crds ${TEMP_PACKAGE}
-	cp -R influxdb-operator/crds ${TEMP_PACKAGE}
-	cat ${TEMP_PACKAGE}/crds/*.yaml > ${TEMP_PACKAGE}/yaml/objectscale-crd.yaml
-	## Remove # from crd to prevent app-platform from crashing in 7.0P1
-	sed ${SED_INPLACE} "/^#.*/d" ${TEMP_PACKAGE}/yaml/objectscale-crd.yaml
-	rm -rf ${TEMP_PACKAGE}/crds
+	cat */crds/* > ${TEMP_PACKAGE}/yaml/objectscale-crd.yaml
+	# cp -R objectscale-manager/crds ${TEMP_PACKAGE}
+	# cp -R atlas-operator/crds ${TEMP_PACKAGE}
+	# cp -R zookeeper-operator/crds ${TEMP_PACKAGE}
+	# cp -R kahm/crds ${TEMP_PACKAGE}
+	# cp -R decks/crds ${TEMP_PACKAGE}
+	# cp -R statefuldaemonset-operator/crds ${TEMP_PACKAGE}
+	# cp -R influxdb-operator/crds ${TEMP_PACKAGE}
+	# cat ${TEMP_PACKAGE}/crds/*.yaml 
+	# ## Remove # from crd to prevent app-platform from crashing in 7.0P1
+	# sed ${SED_INPLACE} "/^#.*/d" ${TEMP_PACKAGE}/yaml/objectscale-crd.yaml
+	# rm -rf ${TEMP_PACKAGE}/crds
 
 create-packages:
 	./scripts/scripts_pkg.sh ${SERVICE_ID}
 
-create-manifests: create-vsphere-install create-kahm-app create-decks-app create-manager-app create-logging-injector-app
+create-manifests: create-vsphere-manifest create-kahm-app create-decks-app create-manager-app create-logging-injector-app
 
-create-vsphere-install: create-vsphere-templates
+create-vsphere-manifest: create-temp-package
+	helm template vsphere-plugin ./objectscale-vsphere -n ${NAMESPACE} \
+	--set global.platform=VMware \
+	--set global.watchAllNamespaces=${WATCH_ALL_NAMESPACES} \
+    --set graphql.enabled=true \
+	--set global.registry=${REGISTRY} \
+	--set global.registrySecret=${REGISTRYSECRET} \
+	--set global.rsyslog_client_stdout_enabled=${ENABLE_STDOUT_LOGS_COLLECTION} \
+	--set objectscale-portal.objectscale-graphql.eventPaginationSource=KAHM \
+	--set global.storageClassName=${STORAGECLASSNAME} ${HELM_UI_ARGS} ${HELM_GRAPHQL_ARGS} ${HELM_INSTALLER_ARGS} \
+	-f objectscale-vsphere/values.yaml > ${TEMP_PACKAGE}/yaml/${OBJS_VSPHERE_MANIFEST}
 
 create-manager-app: create-temp-package
 	# cd in makefiles spawns a subshell, so continue the command with ;
@@ -245,25 +262,12 @@ create-manager-app: create-temp-package
 	# Build the actual objectscale-manager application and master yaml file
 	cd objectscale-manager; \
 	helm template --show-only templates/objectscale-manager-app.yaml objectscale-manager ../objectscale-manager  -n ${NAMESPACE} \
-	-f values.yaml -f customvalues.yaml > ../${TEMP_PACKAGE}/yaml/objectscale-manager-app.yaml
-	sed ${SED_INPLACE} 's/createApplicationResource\\":true/createApplicationResource\\":false/g' ${TEMP_PACKAGE}/yaml/objectscale-manager-app.yaml && \
-	sed ${SED_INPLACE} 's/app.kubernetes.io\/managed-by: Helm/app.kubernetes.io\/managed-by: nautilus/g' ${TEMP_PACKAGE}/yaml/objectscale-manager-app.yaml
-	cat ${TEMP_PACKAGE}/yaml/objectscale-manager-app.yaml >> ${TEMP_PACKAGE}/yaml/${MANAGER_MANIFEST}
-	rm ${TEMP_PACKAGE}/yaml/objectscale-manager-app.yaml ## && rm -rf objectscale-manager/customvalues.*
+	-f values.yaml -f customvalues.yaml > ../${TEMP_PACKAGE}/yaml/apps/objectscale-manager-app.yaml
+	sed ${SED_INPLACE} 's/createApplicationResource\\":true/createApplicationResource\\":false/g' ${TEMP_PACKAGE}/yaml/apps/objectscale-manager-app.yaml && \
+	sed ${SED_INPLACE} 's/app.kubernetes.io\/managed-by: Helm/app.kubernetes.io\/managed-by: nautilus/g' ${TEMP_PACKAGE}/yaml/apps/objectscale-manager-app.yaml
+	#cat ${TEMP_PACKAGE}/yaml/objectscale-manager-app.yaml >> ${TEMP_PACKAGE}/yaml/apps/${OBJS_MGR_MANIFEST}
+	#rm ${TEMP_PACKAGE}/yaml/objectscale-manager-app.yaml 
 	rm -f objectscale-manager/customvalues.*
-
-
-create-vsphere-templates: create-temp-package
-	helm template vsphere-plugin ./objectscale-vsphere -n ${NAMESPACE} \
-	--set global.platform=VMware \
-	--set global.watchAllNamespaces=${WATCH_ALL_NAMESPACES} \
-    --set graphql.enabled=true \
-	--set global.registry=${REGISTRY} \
-	--set global.registrySecret=${REGISTRYSECRET} \
-	--set global.rsyslog_client_stdout_enabled=${ENABLE_STDOUT_LOGS_COLLECTION} \
-	--set objectscale-portal.objectscale-graphql.eventPaginationSource=KAHM \
-	--set global.storageClassName=${STORAGECLASSNAME} ${HELM_UI_ARGS} ${HELM_GRAPHQL_ARGS} ${HELM_INSTALLER_ARGS} \
-	-f objectscale-vsphere/values.yaml >> ${TEMP_PACKAGE}/yaml/${MANAGER_MANIFEST}
 
 create-decks-app: create-temp-package
 	# cd in makefiles spawns a subshell, so continue the command with ;
@@ -281,10 +285,10 @@ create-decks-app: create-temp-package
 	# Build the actual decks application yaml file to apply
 	cd decks; \
 	helm template --show-only templates/decks-app.yaml decks ../decks  -n ${NAMESPACE} \
-	-f values.yaml -f custom-values.yaml > ../${TEMP_PACKAGE}/yaml/decks-app.yaml
-	sed ${SED_INPLACE} 's/createdecksappResource\\":true/createdecksappResource\\":false/g' ${TEMP_PACKAGE}/yaml/decks-app.yaml && \
-	sed ${SED_INPLACE} 's/app.kubernetes.io\/managed-by: Helm/app.kubernetes.io\/managed-by: nautilus/g' ${TEMP_PACKAGE}/yaml/decks-app.yaml
-	cat ${TEMP_PACKAGE}/yaml/decks-app.yaml > ${TEMP_PACKAGE}/yaml/${DECKS_MANIFEST} && rm ${TEMP_PACKAGE}/yaml/decks-app.yaml
+	-f values.yaml -f custom-values.yaml > ../${TEMP_PACKAGE}/yaml/apps/decks-app.yaml
+	sed ${SED_INPLACE} 's/createdecksappResource\\":true/createdecksappResource\\":false/g' ${TEMP_PACKAGE}/yaml/apps/decks-app.yaml && \
+	sed ${SED_INPLACE} 's/app.kubernetes.io\/managed-by: Helm/app.kubernetes.io\/managed-by: nautilus/g' ${TEMP_PACKAGE}/yaml/apps/decks-app.yaml
+	# cat ${TEMP_PACKAGE}/yaml/decks-app.yaml > ${TEMP_PACKAGE}/yaml/${DECKS_MANIFEST} && rm ${TEMP_PACKAGE}/yaml/decks-app.yaml
 	rm -rf decks/custom-values.*
 
 create-kahm-app: create-temp-package
@@ -304,10 +308,9 @@ create-kahm-app: create-temp-package
 	# Build the actual kahm application yaml file to apply
 	cd kahm; \
 	helm template --show-only templates/kahm-app.yaml kahm ../kahm  -n ${NAMESPACE} \
-	-f values.yaml -f customvalues.yaml > ../${TEMP_PACKAGE}/yaml/kahm-app.yaml
-	sed ${SED_INPLACE} 's/createkahmappResource\\":true/createkahmappResource\\":false/g' ${TEMP_PACKAGE}/yaml/kahm-app.yaml && \
-	sed ${SED_INPLACE} 's/app.kubernetes.io\/managed-by: Helm/app.kubernetes.io\/managed-by: nautilus/g' ${TEMP_PACKAGE}/yaml/kahm-app.yaml
-	cat ${TEMP_PACKAGE}/yaml/kahm-app.yaml > ${TEMP_PACKAGE}/yaml/${KAHM_MANIFEST} && rm ${TEMP_PACKAGE}/yaml/kahm-app.yaml
+	-f values.yaml -f customvalues.yaml > ../${TEMP_PACKAGE}/yaml/apps/kahm-app.yaml
+	sed ${SED_INPLACE} 's/createkahmappResource\\":true/createkahmappResource\\":false/g' ${TEMP_PACKAGE}/yaml/apps/kahm-app.yaml && \
+	sed ${SED_INPLACE} 's/app.kubernetes.io\/managed-by: Helm/app.kubernetes.io\/managed-by: nautilus/g' ${TEMP_PACKAGE}/yaml/apps/kahm-app.yaml
 	rm -rf kahm/customvalues.*
 
 create-logging-injector-app: create-temp-package
@@ -327,10 +330,10 @@ create-logging-injector-app: create-temp-package
 	# Build the actual logging injector appication yaml file to apply
 	cd logging-injector; \
 	helm template --show-only templates/logging-injector-app.yaml logging-injector ../logging-injector -n ${NAMESPACE} \
-	-f values.yaml -f customvalues.yaml > ../${TEMP_PACKAGE}/yaml/logging-injector-app.yaml;
-	sed ${SED_INPLACE} 's/createApplicationResource\\":true/createApplicationResource\\":false/g' ${TEMP_PACKAGE}/yaml/logging-injector-app.yaml && \
-	sed ${SED_INPLACE} 's/app.kubernetes.io\/managed-by: Helm/app.kubernetes.io\/managed-by: nautilus/g' ${TEMP_PACKAGE}/yaml/logging-injector-app.yaml
-	cat ${TEMP_PACKAGE}/yaml/logging-injector-app.yaml >> ${TEMP_PACKAGE}/yaml/${LOGGING_INJECTOR_MANIFEST} && rm ${TEMP_PACKAGE}/yaml/logging-injector-app.yaml
+	-f values.yaml -f customvalues.yaml > ../${TEMP_PACKAGE}/yaml/apps/logging-injector-app.yaml;
+	sed ${SED_INPLACE} 's/createApplicationResource\\":true/createApplicationResource\\":false/g' ${TEMP_PACKAGE}/yaml/apps/logging-injector-app.yaml && \
+	sed ${SED_INPLACE} 's/app.kubernetes.io\/managed-by: Helm/app.kubernetes.io\/managed-by: nautilus/g' ${TEMP_PACKAGE}/yaml/apps/logging-injector-app.yaml
+	#cat ${TEMP_PACKAGE}/yaml/logging-injector-app.yaml >> ${TEMP_PACKAGE}/yaml/${LOGGING_INJECTOR_MANIFEST} && rm ${TEMP_PACKAGE}/yaml/logging-injector-app.yaml
 	rm -rf logging-injector/customvalues.*
 
 archive-package:
@@ -358,9 +361,12 @@ create-manager-manifest-ci: create-temp-package
 	-f objectscale-manager/values.yaml >> ${TEMP_PACKAGE}/yaml/${MANAGER_MANIFEST}
 
 build-installer:
-	echo "Copy charts to container and build image"
-	docker build -t asdrepo.isus.emc.com:8099/install-controller:${FULL_PACKAGE_VERSION}-$(GIT_COMMIT_COUNT).$(GIT_COMMIT_SHORT_ID) -f ./Dockerfile .
+	echo "Setting up install-controller container and building image"
+	rm -f ${KUBECTL_BINARY}*
+	wget "http://asdrepo.isus.emc.com:8081/artifactory/${KUBECTL_ARTIFACTORY_PATH}/${KUBECTL_BINARY}" 
+	docker build ${DOCKER_LABELS} --network host --build-arg KUBECTL_BINARY=${KUBECTL_BINARY} -t asdrepo.isus.emc.com:8099/install-controller:${FULL_PACKAGE_VERSION}-$(GIT_COMMIT_COUNT).$(GIT_COMMIT_SHORT_ID) -f ./Dockerfile .
 	docker push asdrepo.isus.emc.com:8099/install-controller:${FULL_PACKAGE_VERSION}-$(GIT_COMMIT_COUNT).$(GIT_COMMIT_SHORT_ID)
+	rm -f ${KUBECTL_BINARY}*
 
 tag-push-installer:
 	docker tag asdrepo.isus.emc.com:8099/install-controller:${FULL_PACKAGE_VERSION}-$(GIT_COMMIT_COUNT).$(GIT_COMMIT_SHORT_ID) asdrepo.isus.emc.com:8099/install-controller:${FULL_PACKAGE_VERSION}

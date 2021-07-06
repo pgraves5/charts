@@ -51,6 +51,7 @@ spec:
             requests:
               memory: 250M
           image: {{ .Values.global.registry }}/{{ .Values.image.repository }}:{{ default .Values.tag .Values.image.tag }}
+          command: ["/entrypoint.sh"]
           {{- if .Values.testStartupCommand }}
           command: ["/bin/sh"]
           args: ["-c", "{{ .Values.testStartupCommand }}"]
@@ -76,16 +77,22 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.namespace
-          {{- end }}
+              {{- end }}
+            - name: POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: GLOBAL_REGISTRY
+              value: {{ .Values.global.registry }}
           imagePullPolicy: {{ .Values.image.pullPolicy | default .Values.pullPolicy }}
           ports:
             - containerPort: {{ .Values.service.targetPort | default 8080 }}
               name: http
-{{- if .Values.debug }}
+          {{- if .Values.debug }}
             - containerPort: 40000
               name: debug
               protocol: TCP
           securityContext:
             capabilities:
               add: ["SYS_PTRACE"]
-{{- end }}
+          {{- end }}
