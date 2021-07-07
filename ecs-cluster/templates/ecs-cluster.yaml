@@ -395,9 +395,21 @@ spec:
         {{- if .Values.pravega.options.configMapVolumeMounts }}
         configMapVolumeMounts: {{$.Release.Name}}-prvg-{{ .Values.pravega.options.configMapVolumeMounts }}
         {{- end }}
+        {{- if .Values.pravega.options.controllerPodAntiAffinityType }}
+        controllerPodAntiAffinityType: {{ .Values.pravega.options.controllerPodAntiAffinityType }}
+        {{- end }}
+        {{- if .Values.pravega.options.segmentStorePodAntiAffinityType }}
+        segmentStorePodAntiAffinityType: {{ .Values.pravega.options.segmentStorePodAntiAffinityType }}
+        {{- end }}
       debugLogging: {{ .Values.pravega.debugLogging }}
       controllerServiceAccountName: {{ .Release.Name }}-pravega
       segmentStoreServiceAccountName: {{ .Release.Name }}-pravega
+      {{- if .Values.pravega.controller.affinity }}
+      controllerPodAffinity: {{ toYaml .Values.pravega.controller.affinity | indent 8 }}
+      {{- end }}
+      {{- if .Values.pravega.segmentStore.affinity }}
+      segmentStorePodAffinity: {{ toYaml .Values.pravega.segmentStore.affinity | indent 8 }}
+      {{- end }}
 
   storageServer:
     serviceAccount: {{ .Release.Name }}-storageserver
