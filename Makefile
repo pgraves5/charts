@@ -239,7 +239,7 @@ create-manager-app: create-temp-package
 	--set objectscale-monitoring.influxdb.persistence.storageClassName=${STORAGECLASSNAME} \
 	--set objectscale-monitoring.rsyslog.persistence.storageClassName=${STORAGECLASSNAME_VSAN_SNA} \
 	${HELM_MANAGER_ARGS} ${HELM_MONITORING_ARGS} \
-	-f values.yaml > ./customvalues.yaml && sed -i '1,5d' ./customvalues.yaml; \
+	-f values.yaml > ./customvalues.yaml && sed -i -e "/^-/d" -e "/^\#/d" ./customvalues.yaml; \
 	# helm does not template referenced files, so we cannot | toJson a file inline
 	yq eval objectscale-manager/customvalues.yaml -j -I 0 > objectscale-manager/customvalues.json; \
 	# Build the actual objectscale-manager application and master yaml file
@@ -321,7 +321,7 @@ create-logging-injector-app: create-temp-package
     	--set global.registrySecret=${REGISTRYSECRET} \
     	--set global.objectscale_release_name=objectscale-manager \
     	--set global.rsyslog_client_stdout_enabled=${ENABLE_STDOUT_LOGS_COLLECTION} \
-    -f values.yaml > ./customvalues.yaml
+		-f values.yaml > ./customvalues.yaml
   	# helm does not template referenced files, so we cannot | toJson a file inline
 	yq eval logging-injector/customvalues.yaml -j -I 0 > logging-injector/customvalues.json; \
 	# Build the actual logging injector appication yaml file to apply

@@ -21,3 +21,5 @@ createApplicationResource: {{ .Values.createApplicationResource }}
 ## pull in any other custom values from the builder set with --set logging_injector.platform=OpenShift
 {{ toYaml .Values.logging_injector }}
 {{- end }}
+
+{{- end }}
