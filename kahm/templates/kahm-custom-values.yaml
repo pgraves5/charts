@@ -18,4 +18,10 @@ postgresql-ha:
     storageClass: {{ index .Values "postgresql-ha" "persistence" "storageClass" }}
 
 createkahmappResource: {{ .Values.createkahmappResource }}
+
+{{- if .Values.kahm }}
+## pull in any other custom values from the builder set with --set kahm.image.tag=best-tag-evah
+{{ toYaml .Values.kahm }}
+{{- end }}
+
 {{- end }}

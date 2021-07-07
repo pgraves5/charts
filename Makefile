@@ -226,7 +226,7 @@ create-manager-app: create-temp-package
 	# nautilus.dellemc.com/chart-values of objectscale-manager with tons of default values
 	# from child charts. After that replace this value by sed.
 	cd objectscale-manager; \
-	helm template --show-only templates/objectscale-manager-custom-values.yaml objectscale-manager ../objectscale-manager -n ${NAMESPACE} ${HELM_MANAGER_ARGS} \
+	helm template --show-only templates/objectscale-manager-custom-values.yaml objectscale-manager ../objectscale-manager -n ${NAMESPACE} \
 	--set useCustomValues=true \
 	--set global.platform=VMware \
 	--set global.watchAllNamespaces=${WATCH_ALL_NAMESPACES} \
@@ -239,13 +239,13 @@ create-manager-app: create-temp-package
 	--set objectscale-monitoring.influxdb.persistence.storageClassName=${STORAGECLASSNAME} \
 	--set objectscale-monitoring.rsyslog.persistence.storageClassName=${STORAGECLASSNAME_VSAN_SNA} \
 	${HELM_MANAGER_ARGS} ${HELM_MONITORING_ARGS} \
-	-f values.yaml > ./customvalues.yaml && sed -i '1,5d' ./customvalues.yaml; \
+	-f values.yaml > ./customvalues.yaml && sed -i -e "/^-/d" -e "/^\#/d" ./customvalues.yaml; \
 	# helm does not template referenced files, so we cannot | toJson a file inline
 	yq eval objectscale-manager/customvalues.yaml -j -I 0 > objectscale-manager/customvalues.json; \
 	# Build the actual objectscale-manager application and master yaml file
 	cd objectscale-manager; \
 	helm template --show-only templates/objectscale-manager-app.yaml objectscale-manager ../objectscale-manager  -n ${NAMESPACE} \
-	-f values.yaml -f customvalues.yaml > ../${TEMP_PACKAGE}/yaml/objectscale-manager-app.yaml
+	-f values.yaml -f customvalues.yaml ${HELM_MANAGER_ARGS} > ../${TEMP_PACKAGE}/yaml/objectscale-manager-app.yaml
 	sed ${SED_INPLACE} 's/createApplicationResource\\":true/createApplicationResource\\":false/g' ${TEMP_PACKAGE}/yaml/objectscale-manager-app.yaml && \
 	sed ${SED_INPLACE} 's/app.kubernetes.io\/managed-by: Helm/app.kubernetes.io\/managed-by: nautilus/g' ${TEMP_PACKAGE}/yaml/objectscale-manager-app.yaml
 	cat ${TEMP_PACKAGE}/yaml/objectscale-manager-app.yaml >> ${TEMP_PACKAGE}/yaml/${MANAGER_MANIFEST}
@@ -321,7 +321,7 @@ create-logging-injector-app: create-temp-package
     	--set global.registrySecret=${REGISTRYSECRET} \
     	--set global.objectscale_release_name=objectscale-manager \
     	--set global.rsyslog_client_stdout_enabled=${ENABLE_STDOUT_LOGS_COLLECTION} \
-    -f values.yaml > ./customvalues.yaml
+		-f values.yaml > ./customvalues.yaml
   	# helm does not template referenced files, so we cannot | toJson a file inline
 	yq eval logging-injector/customvalues.yaml -j -I 0 > logging-injector/customvalues.json; \
 	# Build the actual logging injector appication yaml file to apply
