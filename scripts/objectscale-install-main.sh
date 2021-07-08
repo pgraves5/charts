@@ -36,6 +36,7 @@ function usage()
    helm repo add objectscale "https://MY_PRIVATE_TOKEN@raw.githubusercontent.com/emcecs/charts/v0.7x.0/docs"
    helm repo update
    ./objectscale-install.sh --set type=install --set helmrepo=objectscale --set global.registry=asdrepo.isus.emc.com:8099 --set primaryStorageClassName=csi-baremetal-sc-ssdlvg --set secondaryStorageClassName=csi-baremetal-sc-hddlvg
+   ./objectscale-install.sh --set type=upgrade --set helmrepo=objectscale --version x.y.z --set global.registry=asdrepo.isus.emc.com:8099
 
 HEREDOC
 }  
@@ -83,6 +84,18 @@ function install_portal()
     if [ $? -ne 0 ]
     then
         echomsg "ERROR: unable to install ObjectScale UI"
+    fi
+
+}
+
+function upgrade_portal() 
+{
+    cmd="helm upgrade objectscale-ui ${helm_repo}/objectscale-portal $dryrun --reuse-values --version $version --set $registry --set $regSecret --devel"
+    echomsg log $cmd
+    eval $cmd
+    if [ $? -ne 0 ]
+    then
+        echomsg "ERROR: unable to upgrade ObjectScale UI"
     fi
 
 }
@@ -287,7 +300,7 @@ function install_objectscale_manager()
         --set global.monitoring_registry=$registryName \
 		--set objectscale-monitoring.influxdb.persistence.storageClassName=$primaryStorageClassName \
 	    --set objectscale-monitoring.rsyslog.persistence.storageClassName=$secondaryStorageClassName --devel \
-         -f ./tmp/objectscale-manager-values.yaml > ./tmp/objectscale-manager-customvalues.yaml && sed -i '1,5d' ./tmp/objectscale-manager-customvalues.yaml
+         -f ./tmp/objectscale-manager-values.yaml > ./tmp/objectscale-manager-customvalues.yaml
     if [ $? -ne 0 ]
     then
         echomsg error "unable to generate $component custom values"
@@ -340,7 +353,7 @@ yq_bin="./bin/yq_linux_amd64"
 # use getopt and store the output into $OPTS
 # note the use of -o for the short options, --long for the long name options
 # and a : for any option that takes a parameter
-OPTS=$(getopt -o "dhvn:" --long "debug,dry-run,help,namespace:,set:,verbose" -n "$progname" -- "$@")
+OPTS=$(getopt -o "dhvn:" --long "debug,dry-run,help,version:,namespace:,set:,verbose" -n "$progname" -- "$@")
 if [ $? != 0 ] ; then echo "Error in command line arguments." >&2 ; usage; exit 1 ; fi
 eval set -- "$OPTS"
 
@@ -351,6 +364,7 @@ while true; do
   case "$1" in
     -h | --help ) usage; exit; ;;
     --set ) parse_set_opts $2 ; shift 2 ;;
+    --version ) version="$2"; shift 2 ;;
     --debug) set -x; shift ;; 
     --dry-run ) dryrun="--dry-run"; shift ;;
     -v | --verbose ) verbose=$((verbose + 1)); shift ;;
@@ -366,6 +380,7 @@ if (( $verbose > 0 )); then
    set_opts=${set_opts[*]}
    verbose=$verbose
    dryrun=$dryrun
+   version=$version
    type=$install_type
    helmrepo=$helm_repo
    sc=$primaryStorageClassName
@@ -442,7 +457,8 @@ case $install_type in
         objectscale_list_components
         ;;
     upgrade)
-        echomsg "not implemented..."
+        echomsg "upgrading portal chart..."
+        upgrade_portal
         ;;
     delete|remove|uninstall)
         for comp in decks kahm objectscale-manager logging-injector 
