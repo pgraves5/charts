@@ -15,28 +15,31 @@ function usage()
 {
    cat << HEREDOC
 
-   Usage: $progname  --set type=<install_type> --set helmrepo=<repo> --set primaryStorageClassName=... [--set global.registry=myfavereg.docker.com]
-                        [--verbose] [--debug]
+   Usage: $progname  --set type=<install_type> --set helmrepo=<repo> --set primaryStorageClassName=... [--set global.registry=myfavereg.docker.com] [--set global.watchAllNamespaces=false]
+                        [--verbose] [--debug] [--version 0.76.0] [--namespace default]
 
-   required arguments:
+   required arguments for install:
      --set type={install|list|remove}       set install type
      --set helmrepo=repo_name               location of helm repository or directory where charts located
-     --set primaryStorageClassName=<string> name of storage class to install high performance persistent volumes (e.g. csi-baremetal-ssdlvg)
+     --set primaryStorageClassName=<string> name of storage class to install high performance persistent volumes (e.g. csi-baremetal-ssdlvg). Required only for type=install
 
    optional arguments:
      --set global.registry=<string>           where to pull ObjectScale container images
      --set global.registrySecret=<string>     what registry login to use to pull down container images
      --set secondaryStorageClassName=<string> name of storage class for normal performance persistent volumes (e.g. csi-baremetal-hddlvg)
+     --set global.watchAllNamespaces=<true|false> allow deploying objectstore across the namespaces
      -h, --help                               show this help message and exit
      -v, --verbose                            increase the verbosity of the bash script
      --debug                                  shell debug (-x) mode, lots of output
+     --version                                version of the chart to upgrade
+     --namespaace                             namespace to install the plugin
 
    Example for OpenShift:
    ----------------------
    helm repo add objectscale "https://MY_PRIVATE_TOKEN@raw.githubusercontent.com/emcecs/charts/v0.7x.0/docs"
    helm repo update
    ./objectscale-install.sh --set type=install --set helmrepo=objectscale --set global.registry=asdrepo.isus.emc.com:8099 --set primaryStorageClassName=csi-baremetal-sc-ssdlvg --set secondaryStorageClassName=csi-baremetal-sc-hddlvg
-   ./objectscale-install.sh --set type=upgrade --set helmrepo=objectscale --version x.y.z --set global.registry=asdrepo.isus.emc.com:8099
+   ./objectscale-install.sh --set type=upgrade --set helmrepo=objectscale --version x.y.z
 
 HEREDOC
 }  
@@ -68,7 +71,9 @@ function parse_set_opts()
             regSecret="$nameval"
             registryName="$setValue"
             ;;
-
+        "global.watchAllNamespaces")
+            watchAllNamespaceFlag="$setValue"
+            ;;
         *)  
             set_opts+=($nameval) ;;
     esac
@@ -78,7 +83,7 @@ function parse_set_opts()
 function install_portal() 
 {
     uiStorageClass=${secondaryStorageClassName:-$primaryStorageClassName}
-    cmd="helm install objectscale-ui ${helm_repo}/objectscale-portal $dryrun --set global.platform=$platform,$registry,$regSecret --set global.storageClassName=$uiStorageClass --devel"
+    cmd="helm install objectscale-ui ${helm_repo}/objectscale-portal $dryrun -n $namespace $set_ver --set global.watchAllNamespaces=$watchAllNamespaceFlag --set global.platform=$platform,$registry,$regSecret --set global.storageClassName=$uiStorageClass --devel"
     echomsg log $cmd
     eval $cmd
     if [ $? -ne 0 ]
@@ -90,7 +95,8 @@ function install_portal()
 
 function upgrade_portal() 
 {
-    cmd="helm upgrade objectscale-ui ${helm_repo}/objectscale-portal $dryrun --reuse-values --version $version --set $registry --set $regSecret --devel"
+    cmd="helm upgrade objectscale-ui ${helm_repo}/objectscale-portal $dryrun --reuse-values -n $namespace $set_ver --set global.platform=$platform --devel"
+
     echomsg log $cmd
     eval $cmd
     if [ $? -ne 0 ]
@@ -164,7 +170,7 @@ function install_logging_injector()
     fi
 
     ## now gen the app resource
-    helm template --show-only templates/logging-injector-app.yaml logging-injector ${helm_repo}/logging-injector --devel \
+    helm template --show-only templates/logging-injector-app.yaml logging-injector ${helm_repo}/logging-injector -n $namespace $set_ver --set global.watchAllNamespaces=$watchAllNamespaceFlag --devel \
 	    -f ./tmp/logging-injector-values.yaml -f ./tmp/logging-injector-customvalues.yaml > ./tmp/logging-injector-app.yaml
     if [ $? -ne 0 ]
     then
@@ -215,7 +221,7 @@ function install_kahm()
     fi 
 
     ## now gen the app resource
-    helm template --show-only templates/kahm-app.yaml kahm ${helm_repo}/kahm  --devel \
+    helm template --show-only templates/kahm-app.yaml kahm ${helm_repo}/kahm  -n $namespace $set_ver --set global.watchAllNamespaces=$watchAllNamespaceFlag --devel \
 	    -f ./tmp/kahm-values.yaml -f ./tmp/kahm-customvalues.yaml > ./tmp/kahm-app.yaml
     if [ $? -ne 0 ]
     then
@@ -262,7 +268,7 @@ function install_decks()
     fi 
 
     ## now gen the app resource
-    helm template --show-only templates/decks-app.yaml decks ${helm_repo}/decks  --devel \
+    helm template --show-only templates/decks-app.yaml decks ${helm_repo}/decks  -n $namespace $set_ver --set global.watchAllNamespaces=$watchAllNamespaceFlag --devel \
 	    -f ./tmp/decks-values.yaml -f ./tmp/decks-customvalues.yaml > ./tmp/decks-app.yaml
     if [ $? -ne 0 ]
     then
@@ -300,7 +306,7 @@ function install_objectscale_manager()
         --set global.monitoring_registry=$registryName \
 		--set objectscale-monitoring.influxdb.persistence.storageClassName=$primaryStorageClassName \
 	    --set objectscale-monitoring.rsyslog.persistence.storageClassName=$secondaryStorageClassName --devel \
-         -f ./tmp/objectscale-manager-values.yaml > ./tmp/objectscale-manager-customvalues.yaml
+         -f ./tmp/objectscale-manager-values.yaml > ./tmp/objectscale-manager-customvalues.yaml && sed -i '1,4d' ./tmp/objectscale-manager-customvalues.yaml
     if [ $? -ne 0 ]
     then
         echomsg error "unable to generate $component custom values"
@@ -316,8 +322,7 @@ function install_objectscale_manager()
 
     echomsg "Generating $component application resource..."
     ## now gen the app resource
-    helm template --show-only templates/objectscale-manager-app.yaml objectscale-manager ${helm_repo}/objectscale-manager  --devel \
-	    -f ./tmp/objectscale-manager-values.yaml -f ./tmp/objectscale-manager-customvalues.yaml > ./tmp/objectscale-manager-app.yaml
+    helm template --show-only templates/objectscale-manager-app.yaml objectscale-manager ${helm_repo}/objectscale-manager  -n $namespace $set_ver --set global.watchAllNamespaces=$watchAllNamespaceFlag --devel -f ./tmp/objectscale-manager-values.yaml -f ./tmp/objectscale-manager-customvalues.yaml > ./tmp/objectscale-manager-app.yaml
     if [ $? -ne 0 ]
     then
         echomsg error "unable to create $component application resource yaml"
@@ -347,6 +352,9 @@ function objectscale_list_components()
 progname=$(basename $0)
 verbose=0
 platform="OpenShift"
+watchAllNamespaceFlag="true"
+namespace="default"
+set_ver=""
 
 yq_bin="./bin/yq_linux_amd64"
 
@@ -364,7 +372,8 @@ while true; do
   case "$1" in
     -h | --help ) usage; exit; ;;
     --set ) parse_set_opts $2 ; shift 2 ;;
-    --version ) version="$2"; shift 2 ;;
+    --version ) chart_version="$2"; shift 2 ;;
+    --namespace ) namespace="$2"; shift 2 ;;
     --debug) set -x; shift ;; 
     --dry-run ) dryrun="--dry-run"; shift ;;
     -v | --verbose ) verbose=$((verbose + 1)); shift ;;
@@ -380,13 +389,23 @@ if (( $verbose > 0 )); then
    set_opts=${set_opts[*]}
    verbose=$verbose
    dryrun=$dryrun
-   version=$version
+   version=$chart_version
    type=$install_type
    helmrepo=$helm_repo
    sc=$primaryStorageClassName
+   namespace=$namespace
+   watchAllNamespacesFlag=$watchAllNamespaceFlag
 EOM
 fi
 
+function set_version()
+{
+    echomsg "chart versio if set..."
+    if [ ! -z ${chart_version} ]
+    then
+       set_ver="--version $chart_version"
+    fi
+}
 
 case "$install_type" in
     install)
@@ -415,6 +434,8 @@ case "$install_type" in
     ;;
 
 esac
+
+set_version
 
 ## check for helm and kubectl in the path
 helm --help > /dev/null
