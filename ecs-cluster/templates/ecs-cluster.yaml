@@ -420,10 +420,12 @@ spec:
       controllerServiceAccountName: {{ .Release.Name }}-pravega
       segmentStoreServiceAccountName: {{ .Release.Name }}-pravega
       {{- if .Values.pravega.controller.affinity }}
-      controllerPodAffinity: {{ toYaml .Values.pravega.controller.affinity | indent 8 }}
+      controllerPodAffinity:
+        {{ toYaml .Values.pravega.controller.affinity | nindent 8 | trim }}
       {{- end }}
       {{- if .Values.pravega.segmentStore.affinity }}
-      segmentStorePodAffinity: {{ toYaml .Values.pravega.segmentStore.affinity | indent 8 }}
+      segmentStorePodAffinity:
+        {{ toYaml .Values.pravega.segmentStore.affinity | nindent 8 | trim }}
       {{- end }}
 
   storageServer:
