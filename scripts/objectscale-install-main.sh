@@ -39,7 +39,8 @@ function usage()
    helm repo add objectscale "https://MY_PRIVATE_TOKEN@raw.githubusercontent.com/emcecs/charts/v0.7x.0/docs"
    helm repo update
    ./objectscale-install.sh --set type=install --set helmrepo=objectscale --set global.registry=asdrepo.isus.emc.com:8099 --set primaryStorageClassName=csi-baremetal-sc-ssdlvg --set secondaryStorageClassName=csi-baremetal-sc-hddlvg
-   ./objectscale-install.sh --set type=upgrade --set helmrepo=objectscale --version x.y.z
+   helm repo add objectscale "https://MY_PRIVATE_TOKEN@raw.githubusercontent.com/emcecs/charts/v0.7y.0/docs"
+   ./objectscale-install.sh --set type=upgrade --set helmrepo=objectscale
 
 HEREDOC
 }  
@@ -400,7 +401,7 @@ fi
 
 function set_version()
 {
-    echomsg "chart versio if set..."
+    echomsg "chart version if set..."
     if [ ! -z ${chart_version} ]
     then
        set_ver="--version $chart_version"
