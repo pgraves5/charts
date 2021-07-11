@@ -400,6 +400,38 @@ spec:
       debugLogging: {{ .Values.pravega.debugLogging }}
       controllerServiceAccountName: {{ .Release.Name }}-pravega
       segmentStoreServiceAccountName: {{ .Release.Name }}-pravega
+      {{- if eq .Values.pravega.controller.disableAntiAffinity false }}
+      controllerPodAffinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: component
+                operator: In
+                values:
+                - pravega-controller
+              - key: pravega_cluster
+                operator: In
+                values:
+                - {{ .Release.Name }}-pvg
+            topologyKey: kubernetes.io/hostname
+      {{- end }}
+      {{- if eq .Values.pravega.segmentStore.disableAntiAffinity false }}
+      segmentStorePodAffinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: component
+                operator: In
+                values:
+                - pravega-segmentstore
+              - key: pravega_cluster
+                operator: In
+                values:
+                - {{ .Release.Name }}-pvg
+            topologyKey: kubernetes.io/hostname
+      {{- end }}
 
   storageServer:
     serviceAccount: {{ .Release.Name }}-storageserver
