@@ -217,7 +217,7 @@ spec:
       serviceAccountName: {{.Release.Name}}-storageserver
       annotations:
 {{ include "common-lib.vsphere-emm-integrated_annotation" . | indent 8}}
-{{- if eq .Values.zookeeper.disableAntiAffinity false }}
+{{- if eq .Values.zookeeper.enableAntiAffinity true }}
       affinity:
         podAntiAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:

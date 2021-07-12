@@ -205,7 +205,7 @@ zookeeper:
   # Override the number of nodes in the zookeeper cluster
   # replicas: 3
 
-  disableAntiAffinity: false
+  enableAntiAffinity: true
 
   image:
     repository: zookeeper
