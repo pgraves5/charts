@@ -205,6 +205,8 @@ zookeeper:
   # Override the number of nodes in the zookeeper cluster
   # replicas: 3
 
+  disableAntiAffinity: false
+
   image:
     repository: zookeeper
     tag: 0.2.10-179-74e8fd5 # rfw-update-this zookeeper-docker-image
