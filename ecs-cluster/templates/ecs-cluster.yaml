@@ -412,7 +412,7 @@ spec:
       debugLogging: {{ .Values.pravega.debugLogging }}
       controllerServiceAccountName: {{ .Release.Name }}-pravega
       segmentStoreServiceAccountName: {{ .Release.Name }}-pravega
-      {{- if eq .Values.pravega.controller.disableAntiAffinity false }}
+      {{- if eq .Values.pravega.controller.enableAntiAffinity true }}
       controllerPodAffinity:
         podAntiAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
@@ -428,7 +428,7 @@ spec:
                 - {{ .Release.Name }}-pvg
             topologyKey: kubernetes.io/hostname
       {{- end }}
-      {{- if eq .Values.pravega.segmentStore.disableAntiAffinity false }}
+      {{- if eq .Values.pravega.segmentStore.enableAntiAffinity true }}
       segmentStorePodAffinity:
         podAntiAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:

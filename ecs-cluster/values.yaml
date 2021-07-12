@@ -123,12 +123,12 @@ pravega:
     replicas: 2
     service:
       type: ClusterIP
-    disableAntiAffinity: false
+    enableAntiAffinity: true
   segmentStore:
 #    replicas: 1
     service:
       type: ClusterIP
-    disableAntiAffinity: false
+    enableAntiAffinity: true
   debugLogging: false
   externalAccess:
     enabled: false
