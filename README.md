@@ -1,22 +1,66 @@
-# Dell EMC ObjectScale Helm Charts
+# Dell EMC ObjectScale Helm Charts Sources
 
-This repository provides all Dell EMC ObjectScale related packages for [Kubernetes](http://kubernetes.io), formatted as [Helm](https://helm.sh) packages.
-
-To add this repository to your local Helm installation:
-
-> *_NOTE: Currently, this is a private repository, so use the private repo instructions below. Public repo options will be available once we go public._*
+This repository provides all Dell EMC ObjectScale related sources for [Kubernetes](http://kubernetes.io), formatted as [Helm](https://helm.sh) packages.
 
 This is the chart source repo, binaries were migrated to [EMCECS/charts-bin repo](https://github.com/EMCECS/charts-bin) 
 
-## Adding the ECS Repository
+## Adding the ObjectScale Repository
 
+Add the repository to helm:
+
+Master Branch:
 ```bash
-$ helm repo add ecs https://emcecs.github.io/charts-bin
+$ helm repo add objectscale https://emcecs.github.io/charts-bin
 $ helm repo update
 ```
+
+Specific version:
+```bash
+$ helm repo add objectscale https://raw.githubusercontent.com/emcecs/charts-bin/<version tag>/docs
+$ helm repo update
+```
+
+Ensure that you can see the ObjectScale charts:
+
+```bash
+$ helm search repo objectscale
+NAME                          	CHART VERSION	APP VERSION	DESCRIPTION                                       
+objectscale/atlas-operator            	0.32.0       	0.14.0     	Atlas operator deploys a custom resource for an...
+objectscale/bookkeeper-operator       	0.1.3        	0.1.3      	Bookkeeper Operator Helm chart for Kubernetes     
+objectscale/common-lib                	0.77.0       	0.77.0     	A Helm chart for Kubernetes                       
+objectscale/dcm                       	0.74.0       	0.74.0     	A Helm chart for Dell EMC DCM                     
+objectscale/decks                     	2.77.0       	2.77.0     	A Helm chart for Dell EMC Common Kubernetes Ser...
+objectscale/decks-support-store       	2.77.0       	2.77.0     	A Helm chart for Dell EMC Common Kubernetes Ser...
+objectscale/dellemc-license           	2.77.0       	2.77.0     	A Helm chart for applying a Dell EMC License fo...
+objectscale/dks-testapp               	1.2.0        	1.2.0      	A Helm chart for DKS (DECKS, KAHM, and SRSGatew...
+objectscale/ecs-cluster               	0.77.0       	0.77.0     	Dell EMC ObjectScale is highly scalable, and hi...
+objectscale/federation                	0.77.0       	0.77.0     	A Helm chart for Dell EMC Federation Service      
+objectscale/fio-test                  	0.28.2       	3.14.1     	A Helm chart for Kubernetes Applications Health...
+objectscale/helm-controller           	0.77.0       	0.77.0     	helm-controller runs inside the cluster and act...
+objectscale/iam                       	0.65.0       	0.65.0     	A Helm chart for Dell EMC IAM                     
+objectscale/influxdb-operator         	0.77.0       	0.77.0     	InfluxDB Operator deploys operator pod which is...
+objectscale/kahm                      	2.77.0       	2.77.0     	A Helm chart for Kubernetes Applications Health...
+objectscale/logging-injector          	0.77.0       	0.77.0     	Rsyslog client sidecar injector                   
+objectscale/mongoose                  	0.1.3        	4.1.1      	Mongoose is a horizontally scalable and configu...
+objectscale/objectscale-dcm           	0.77.0       	0.77.0     	A Helm chart for Dell EMC DCM                     
+objectscale/objectscale-gateway       	0.77.0       	0.77.0     	A Helm chart for Dell EMC Objectscale Gateway     
+objectscale/objectscale-graphql       	0.77.0       	0.77.0     	A Helm chart for Kubernetes                       
+objectscale/objectscale-iam           	0.77.0       	0.77.0     	A Helm chart for Dell EMC IAM                     
+objectscale/objectscale-manager       	0.77.0       	0.77.0     	Dell EMC ObjectScale is highly scalable, and hi...
+objectscale/objectscale-portal        	0.77.0       	0.77.0     	ObjectScale Portal                                
+objectscale/objectscale-vsphere       	0.77.0       	0.77.0     	ObjectScale VMware vSphere Plugin                 
+objectscale/pravega-operator          	0.5.2        	0.5.2      	Pravega Operator Helm chart for Kubernetes        
+objectscale/service-pod               	2.77.0       	2.77.0     	A Helm chart for Dell EMC Service Pod             
+objectscale/sonobuoy                  	0.16.6       	0.16.6     	A Helm chart for sonobuoy                         
+objectscale/srs-gateway               	1.2.0        	1.2.0      	A Helm chart for Dell EMC SRS Gateway Custom Re...
+objectscale/statefuldaemonset-operator	0.77.0       	0.77.0     	StatefulDaemonSet operator deploys operator pod...
+objectscale/supportassist             	2.77.0       	2.77.0     	Helm chart for Dell SupportAssist ESE             
+objectscale/zookeeper-operator        	0.28.0       	0.28.0     	Zookeeper operator deploys a custom resource fo...
+```
+
 ## Available Charts
 
-* [ECS Flex Operator](ecs-flex-operator)
+* [ObjectScale Manager](objectscale-manager)
 * [ECS Cluster](ecs-cluster)
 * [Atlas Operator](atlas-operator)
 * [Zookeeper Operator](zookeeper-operator)
@@ -27,43 +71,6 @@ $ helm repo update
 * [DellEMC license](dellemc-license)
 * [IAM](objectscale-iam)
 * [DCM](objectscale-dcm)
-
-## Adding private Helm repository and Docker registries
-
-In this development phase, both the Helm repostory and referenced Docker registries are private. Before installing charts from this repository, you must add private credentials to Helm and Kubernetes for Github and Docker Hub, respectively.
-
-### Add Private Github-Hosted Helm Repository
-
-1. Create an authentication token in Github with read access to the charts repository.
-
-  - Navigate to your account [personal access tokens](https://github.com/settings/tokens)
-  - Click "Create new token" at the top right. This will select all permissions for repositories.
-  - Add a token description
-  - Select the "repo" permissions checkbox
-  - Copy the token for use in the next step
-
-2. Create the repository using your token:
-
-```bash
-$ helm repo add ecs \
-  "https://MY_PRIVATE_TOKEN@raw.githubusercontent.com/emcecs/charts-bin/master/docs"
-$ helm repo update
-```
-
-3. Ensure that you can see the ECS charts
-
-```bash
-$ helm search ecs
-NAME                  	CHART VERSION	APP VERSION	DESCRIPTION                                                 
-ecs/ecs-cluster       	0.1.6        	0.1.6      	Dell EMC Elastic Cloud Storage is highly scalable, and hi...
-ecs/ecs-flex-operator 	0.1.6        	0.1.6      	Dell EMC Elastic Cloud Storage is highly scalable, and hi...
-ecs/decks             	0.2.0        	0.2.0      	A Helm chart for Dell EMC Common Kubernetes Services        
-ecs/kahm              	0.2.0        	0.2.0      	A Helm chart for Kubernetes Applications Health Management  
-ecs/mongoose          	0.1.3        	4.1.1      	Mongoose is a horizontally scalable and configurable S3 p...
-ecs/srs-gateway       	0.2.0        	0.2.0      	A Helm chart for Dell EMC SRS Gateway Custom Resource Sup...
-ecs/zookeeper-operator	0.1.6        	0.2.0      	Zookeeper operator deploys a custom resource for a zookee...
-ecs/dellemc-license     0.6.0   	0.6.0           A Helm chart to install a Dell EMC License for a product	
-```
 
 ### Add Private Docker Registry for your Kubernetes Cluster
 
@@ -80,4 +87,4 @@ $ kubectl create secret docker-registry ecs-flex-registry \
   --docker-email=<DOCKER_EMAIL>
 ```
 
-You can then set it in the Helm chart installations (`ecs-flex-operator` and `ecs-cluster`) with a Helm setting: `--set global.registrySecret=<SECRET_NAME>`.  If you set the `registrySecret` setting in the ecs-flex-operator, it will be assumed in any operator created ECS clusters; however, the parameter can still be set in an `ecs-cluster` release.
+You can then set it in the Helm chart installations (`objectscale-manager` and `ecs-cluster`) with a Helm setting: `--set global.registrySecret=<SECRET_NAME>`.  If you set the `registrySecret` setting in the ecs-flex-operator, it will be assumed in any operator created ECS clusters; however, the parameter can still be set in an `ecs-cluster` release.
