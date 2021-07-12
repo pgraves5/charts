@@ -16,6 +16,15 @@ spec:
     plural: serviceprocedures
     singular: serviceprocedure
   scope: Namespaced
+  additionalPrinterColumns:
+    - name: STATUS
+      type: string
+      description: The status of service procedure
+      JSONPath: .status.reason
+    - description: The creation date
+      JSONPath: .metadata.creationTimestamp
+      name: Age
+      type: date
   subresources:
     status: {}
   validation:
@@ -49,6 +58,16 @@ spec:
                 uuid:
                   type: string
               type: object
+            podsInfo:
+              items:
+                description: ObjectInfo defines objects name and UUID
+                properties:
+                  name:
+                    type: string
+                  uuid:
+                    type: string
+                type: object
+              type: array
             type:
               type: string
           required:
