@@ -191,10 +191,10 @@ bookkeeper:
       volumeSize: 30Gi
     journal:
       # storageClassName:
-      volumeSize: 13Gi
+      volumeSize: 20Gi
     index:
       # storageClassName:
-      volumeSize: 1Gi
+      volumeSize: 2Gi
   options:
     emptyDirVolumeMounts: "heap-dump=/crash-dump,log=/opt/bookkeeper/logs"
     log:
