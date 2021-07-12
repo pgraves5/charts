@@ -120,7 +120,7 @@ pravega:
     pullPolicy: IfNotPresent
     tag: 0.9.1-2791.bafc8b7a2 # rfw-update-this pravega-docker-image
   controller:
-#    replicas: 1
+    replicas: 2
     service:
       type: ClusterIP
     disableAntiAffinity: false
