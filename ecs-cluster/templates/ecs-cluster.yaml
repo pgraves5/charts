@@ -217,6 +217,18 @@ spec:
       serviceAccountName: {{.Release.Name}}-storageserver
       annotations:
 {{ include "common-lib.vsphere-emm-integrated_annotation" . | indent 8}}
+{{- if eq .Values.zookeeper.enableAntiAffinity true }}
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: app
+                operator: In
+                values:
+                - {{ .Release.Name }}-zookeeper
+            topologyKey: kubernetes.io/hostname
+{{- end }}
     labels:
       app: zookeeper
       component: zk
@@ -400,6 +412,38 @@ spec:
       debugLogging: {{ .Values.pravega.debugLogging }}
       controllerServiceAccountName: {{ .Release.Name }}-pravega
       segmentStoreServiceAccountName: {{ .Release.Name }}-pravega
+      {{- if eq .Values.pravega.controller.enableAntiAffinity true }}
+      controllerPodAffinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: component
+                operator: In
+                values:
+                - pravega-controller
+              - key: pravega_cluster
+                operator: In
+                values:
+                - {{ .Release.Name }}-pvg
+            topologyKey: kubernetes.io/hostname
+      {{- end }}
+      {{- if eq .Values.pravega.segmentStore.enableAntiAffinity true }}
+      segmentStorePodAffinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: component
+                operator: In
+                values:
+                - pravega-segmentstore
+              - key: pravega_cluster
+                operator: In
+                values:
+                - {{ .Release.Name }}-pvg
+            topologyKey: kubernetes.io/hostname
+      {{- end }}
 
   storageServer:
     serviceAccount: {{ .Release.Name }}-storageserver

@@ -120,13 +120,15 @@ pravega:
     pullPolicy: IfNotPresent
     tag: 0.9.1-2791.bafc8b7a2 # rfw-update-this pravega-docker-image
   controller:
-#    replicas: 1
+    replicas: 2
     service:
       type: ClusterIP
+    enableAntiAffinity: true
   segmentStore:
 #    replicas: 1
     service:
       type: ClusterIP
+    enableAntiAffinity: true
   debugLogging: false
   externalAccess:
     enabled: false
@@ -189,10 +191,10 @@ bookkeeper:
       volumeSize: 30Gi
     journal:
       # storageClassName:
-      volumeSize: 13Gi
+      volumeSize: 20Gi
     index:
       # storageClassName:
-      volumeSize: 1Gi
+      volumeSize: 2Gi
   options:
     emptyDirVolumeMounts: "heap-dump=/crash-dump,log=/opt/bookkeeper/logs"
     log:
@@ -202,6 +204,8 @@ bookkeeper:
 zookeeper:
   # Override the number of nodes in the zookeeper cluster
   # replicas: 3
+
+  enableAntiAffinity: true
 
   image:
     repository: zookeeper
