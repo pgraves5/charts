@@ -42,8 +42,11 @@ pipeline {
                        sh('''
                             make dep
                             PATH=/tmp:$PATH
-                            make chart-dep
+                            make charts-dep
                             make test
+                            make build
+                            make package
+                            make generate-issues-events-all
                        ''')
                     }
                 }
