@@ -1,0 +1,5 @@
+- symptomid: OBJSOP-2001
+  description: ObjectScale CSR issue and approval notifications
+  remedies:
+    - Approve CSR if a CSR is pending
+    - kubectl get csr should show all the pending CSR

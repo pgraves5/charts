@@ -523,6 +523,8 @@ s3:
     #   rootCA: xxxx
     #   intermediateCA:      # provide the intermediate CA here (optional)
 
+    // notiTimeBeforeCertExpire in days
+    notiTimeBeforeCertExpire: 60
     signingRequest:
       # commonName:        # override common Name for this CSR.  Defaults to cluster.local FQDN.
       # email: insertyouremail@example.com.local
@@ -600,6 +602,8 @@ geoReceiver:
     #   rootCA: xxxx
     #   intermediateCA:      # provide the intermediate CA here (optional)
 
+    // notiTimeBeforeCertExpire in days
+    notiTimeBeforeCertExpire: 60
     signingRequest:
       # commonName: ecs-cluster
       # email: insertyouremail@example.com.local
@@ -668,6 +672,8 @@ managementGateway:
     #   rootCA: xxxx
     #   intermediateCA:      # provide the intermediate CA here (optional)
 
+    // notiTimeBeforeCertExpire in days
+    notiTimeBeforeCertExpire: 60
     signingRequest:
       # commonName:        # override common Name for this CSR.  Defaults to cluster.local FQDN.
       # email: insertyouremail@example.com.local
