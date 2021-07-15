@@ -1,4 +1,5 @@
 - symptomid: OBJSOP-2002
-  description: ObjectScale TLS certificate about to expire notification or expired notifications
+  description: ObjectScale TLS certificate expiration notifications
   remedies:
-    - Renew your certifcate before it gets expired
+    - Check the expiration dates of the certificates
+    - Renew the certificate(s) before they expire
