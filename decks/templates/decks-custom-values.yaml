@@ -18,4 +18,10 @@ decks-support-store:
     storageClassName: {{ index .Values "decks-support-store" "persistentVolume" "storageClassName" }}
 
 createdecksappResource: {{ .Values.createdecksappResource }}
+
+{{- if .Values.decks }}
+## pull in any other custom values from the builder set with --set decks.image.tag=best-tag-evah
+{{ toYaml .Values.decks }}
+{{- end }}
+
 {{- end }}
