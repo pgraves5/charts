@@ -16,4 +16,10 @@ global:
   platform: {{ .Values.global.platform }}
 
 createApplicationResource: {{ .Values.createApplicationResource }}
+
+{{- if .Values.logging_injector }}
+## pull in any other custom values from the builder set with --set logging_injector.platform=OpenShift
+{{ toYaml .Values.logging_injector }}
+{{- end }}
+
 {{- end }}

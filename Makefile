@@ -3,14 +3,14 @@ HELM_URL     := https://get.helm.sh
 HELM_TGZ      = helm-${HELM_VERSION}-linux-amd64.tar.gz
 YQ_VERSION   := 4.4.1
 YAMLLINT_VERSION := 1.20.0
-ALL_CHARTS := common-lib ecs-cluster objectscale-manager mongoose zookeeper-operator atlas-operator decks kahm dks-testapp fio-test sonobuoy dellemc-license service-pod helm-controller objectscale-graphql objectscale-vsphere objectscale-portal objectscale-gateway objectscale-iam pravega-operator bookkeeper-operator supportassist decks-support-store statefuldaemonset-operator influxdb-operator federation logging-injector objectscale-dcm
+ALL_CHARTS := common-lib ecs-cluster objectscale-manager mongoose zookeeper-operator atlas-operator decks kahm dks-testapp fio-test sonobuoy dellemc-license service-pod helm-controller objectscale-graphql objectscale-vsphere objectscale-portal objectscale-gateway objectscale-iam pravega-operator bookkeeper-operator supportassist decks-support-store statefuldaemonset-operator influxdb-operator federation logging-injector objectscale-dcm snmp-notifier
 CHARTS = ${ALL_CHARTS}
 DECKSCHARTS := decks kahm supportassist service-pod dellemc-license decks-support-store
 FLEXCHARTS := common-lib ecs-cluster objectscale-manager objectscale-vsphere objectscale-graphql helm-controller objectscale-portal objectscale-gateway objectscale-iam statefuldaemonset-operator influxdb-operator federation logging-injector objectscale-dcm
 
 # release version
 MAJOR=0
-MINOR=76
+MINOR=77
 PATCH=0
 PRERELEASE=
 
@@ -159,8 +159,8 @@ flexver: yqcheck graphqlver zookeeper-operatorver pravega-operatorver atlas-oper
 
 chart-dep: charts-dep
 charts-dep:
-	rm **/charts/**; \
-	rm -r **/tmpcharts; \
+	rm -f **/charts/**; \
+	rm -rf **/tmpcharts; \
 	if [ "$${CHARTS}" = "$${ALL_CHARTS}" ] ; then \
 		BUILD_CHARTS=`python tools/build_helper/sort_charts_by_deps.py -c ${CHARTS}`; \
 	else  \
@@ -168,35 +168,24 @@ charts-dep:
 	fi ; \
  	for CHART in $${BUILD_CHARTS}; do \
  		echo "Updating dependencies for $${CHART}" ; \
- 		helm dep up $${CHART}; \
+ 		helm dep up $${CHART} || exit $?; \
  	done ;
 
 resolve-versions:
 	python tools/build_helper/version_resolver.py -vs ${VERSION_SLICE_PATH}
 
-
-build: yqcheck
-	REINDEX=0; \
+build:
 	if [ "$${CHARTS}" == "$${ALL_CHARTS}" ] ; then \
 	    BUILD_CHARTS=`python tools/build_helper/sort_charts_by_deps.py -c ${CHARTS}`; \
 	else  \
 	    BUILD_CHARTS=`python tools/build_helper/sort_charts_by_deps.py -c ${ALL_CHARTS} -s ${CHARTS}`; \
 	fi ; \
 	for CHART in $${BUILD_CHARTS}; do \
-		CURRENT_VER=`yq e .version $$CHART/Chart.yaml` ; \
-		yq e ".entries.$${CHART}[].version" docs/index.yaml | grep -q "\- $${CURRENT_VER}$$" ; \
-		if [ "$${?}" -eq "1" ] || [ "$${REBUILDHELMPKG}" ] ; then \
-		    echo "Updating package for $${CHART}" ; \
-		    helm dep update $${CHART}; \
-			helm package $${CHART} --destination docs ; \
-			REINDEX=1 ; \
-		else  \
-		    echo "Packages for $${CHART} are up to date" ; \
-		fi ; \
+		echo "Updating package for $${CHART}" ; \
+		helm dep update $${CHART} || exit $?; \
+		helm package $${CHART} --destination docs || exit $?; \
 	done ; \
-	if [ "$${REINDEX}" -eq "1" ]; then \
-		cd docs && helm repo index . ; \
-	fi
+    cd docs && helm repo index . ;
 
 
 package: clean-package create-temp-package create-manifests combine-crds create-packages archive-package
@@ -243,7 +232,7 @@ create-manager-app: create-temp-package
 	# nautilus.dellemc.com/chart-values of objectscale-manager with tons of default values
 	# from child charts. After that replace this value by sed.
 	cd objectscale-manager; \
-	helm template --show-only templates/objectscale-manager-custom-values.yaml objectscale-manager ../objectscale-manager -n ${NAMESPACE} ${HELM_MANAGER_ARGS} \
+	helm template --show-only templates/objectscale-manager-custom-values.yaml objectscale-manager ../objectscale-manager -n ${NAMESPACE} \
 	--set useCustomValues=true \
 	--set global.platform=VMware \
 	--set global.watchAllNamespaces=${WATCH_ALL_NAMESPACES} \
@@ -256,7 +245,7 @@ create-manager-app: create-temp-package
 	--set objectscale-monitoring.influxdb.persistence.storageClassName=${STORAGECLASSNAME} \
 	--set objectscale-monitoring.rsyslog.persistence.storageClassName=${STORAGECLASSNAME_VSAN_SNA} \
 	${HELM_MANAGER_ARGS} ${HELM_MONITORING_ARGS} \
-	-f values.yaml > ./customvalues.yaml && sed -i '1,5d' ./customvalues.yaml; \
+	-f values.yaml > ./customvalues.yaml && sed -i -e "/^-/d" -e "/^\#/d" ./customvalues.yaml; \
 	# helm does not template referenced files, so we cannot | toJson a file inline
 	yq eval objectscale-manager/customvalues.yaml -j -I 0 > objectscale-manager/customvalues.json; \
 	# Build the actual objectscale-manager application and master yaml file
@@ -324,7 +313,7 @@ create-logging-injector-app: create-temp-package
     	--set global.registrySecret=${REGISTRYSECRET} \
     	--set global.objectscale_release_name=objectscale-manager \
     	--set global.rsyslog_client_stdout_enabled=${ENABLE_STDOUT_LOGS_COLLECTION} \
-    -f values.yaml > ./customvalues.yaml
+		-f values.yaml > ./customvalues.yaml
   	# helm does not template referenced files, so we cannot | toJson a file inline
 	yq eval logging-injector/customvalues.yaml -j -I 0 > logging-injector/customvalues.json; \
 	# Build the actual logging injector appication yaml file to apply

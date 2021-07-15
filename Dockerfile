@@ -10,14 +10,14 @@
 ARG KUBECTL_BINARY=kubectl-linux-amd64-1.18.10
 ARG APP_YAMLS="./temp_package/yaml/apps"
 # Dockerfile for install-controller
-
-FROM asdrepo.isus.emc.com:8099/install-controller:latest
+FROM asdrepo.isus.emc.com:8099/install-controller:1.3-W6-ea53dff2
 
 COPY $KUBECTL_BINARY /usr/local/bin/kubectl
 RUN  chmod +x /usr/local/bin/kubectl
 
 RUN  mkdir -p ./apps 
 COPY ${APP_YAMLS} ./apps
+
 
 COPY ./docs /docs
 
