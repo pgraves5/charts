@@ -12,7 +12,7 @@ maintainers:
 dependencies:
   - name: ecs-monitoring
     # rfw-update-next ecs-monitoring-helm-chart
-    version: 3.7.0-1269.0d5810c9 # no_auto_change__monitoring_auto_change
+    version: 3.7.0-1262.c39b0321 # no_auto_change__monitoring_auto_change
     condition: global.monitoring.enabled
     repository: http://big-bang.lss.emc.com/export/home/emc/vazhem/build/charts/
   - name: rsyslog-client
