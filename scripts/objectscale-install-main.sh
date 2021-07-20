@@ -16,7 +16,7 @@ function usage()
    cat << HEREDOC
 
    Usage: $progname  --set type=<install_type> --set helmrepo=<repo> --set primaryStorageClassName=... [--set global.registry=myfavereg.docker.com] [--set global.watchAllNamespaces=false]
-                        [--verbose] [--debug] [--version 0.76.0] [--namespace default]
+                        [--verbose] [--debug] [--namespace default]
 
    required arguments for install:
      --set type={install|list|remove}       set install type
@@ -31,7 +31,6 @@ function usage()
      -h, --help                               show this help message and exit
      -v, --verbose                            increase the verbosity of the bash script
      --debug                                  shell debug (-x) mode, lots of output
-     --version                                version of the chart to upgrade
      --namespaace                             namespace to install the plugin
 
    Example for OpenShift:
@@ -84,7 +83,7 @@ function parse_set_opts()
 function install_portal() 
 {
     uiStorageClass=${secondaryStorageClassName:-$primaryStorageClassName}
-    cmd="helm install objectscale-ui ${helm_repo}/objectscale-portal $dryrun -n $namespace $set_ver --set global.watchAllNamespaces=$watchAllNamespaceFlag --set global.platform=$platform,$registry,$regSecret --set global.storageClassName=$uiStorageClass --devel"
+    cmd="helm install objectscale-ui ${helm_repo}/objectscale-portal $dryrun -n $namespace --set global.watchAllNamespaces=$watchAllNamespaceFlag --set global.platform=$platform,$registry,$regSecret --set global.storageClassName=$uiStorageClass --devel"
     echomsg log $cmd
     eval $cmd
     if [ $? -ne 0 ]
@@ -96,7 +95,7 @@ function install_portal()
 
 function upgrade_portal() 
 {
-    cmd="helm upgrade objectscale-ui ${helm_repo}/objectscale-portal $dryrun --reuse-values -n $namespace $set_ver --set global.platform=$platform --devel"
+    cmd="helm upgrade objectscale-ui ${helm_repo}/objectscale-portal $dryrun --reuse-values -n $namespace --set global.platform=$platform --devel"
 
     echomsg log $cmd
     eval $cmd
@@ -171,7 +170,7 @@ function install_logging_injector()
     fi
 
     ## now gen the app resource
-    helm template --show-only templates/logging-injector-app.yaml logging-injector ${helm_repo}/logging-injector -n $namespace $set_ver --set global.watchAllNamespaces=$watchAllNamespaceFlag --devel \
+    helm template --show-only templates/logging-injector-app.yaml logging-injector ${helm_repo}/logging-injector -n $namespace --set global.watchAllNamespaces=$watchAllNamespaceFlag --devel \
 	    -f ./tmp/logging-injector-values.yaml -f ./tmp/logging-injector-customvalues.yaml > ./tmp/logging-injector-app.yaml
     if [ $? -ne 0 ]
     then
@@ -222,7 +221,7 @@ function install_kahm()
     fi 
 
     ## now gen the app resource
-    helm template --show-only templates/kahm-app.yaml kahm ${helm_repo}/kahm  -n $namespace $set_ver --set global.watchAllNamespaces=$watchAllNamespaceFlag --devel \
+    helm template --show-only templates/kahm-app.yaml kahm ${helm_repo}/kahm  -n $namespace --set global.watchAllNamespaces=$watchAllNamespaceFlag --devel \
 	    -f ./tmp/kahm-values.yaml -f ./tmp/kahm-customvalues.yaml > ./tmp/kahm-app.yaml
     if [ $? -ne 0 ]
     then
@@ -269,7 +268,7 @@ function install_decks()
     fi 
 
     ## now gen the app resource
-    helm template --show-only templates/decks-app.yaml decks ${helm_repo}/decks  -n $namespace $set_ver --set global.watchAllNamespaces=$watchAllNamespaceFlag --devel \
+    helm template --show-only templates/decks-app.yaml decks ${helm_repo}/decks  -n $namespace --set global.watchAllNamespaces=$watchAllNamespaceFlag --devel \
 	    -f ./tmp/decks-values.yaml -f ./tmp/decks-customvalues.yaml > ./tmp/decks-app.yaml
     if [ $? -ne 0 ]
     then
@@ -323,7 +322,7 @@ function install_objectscale_manager()
 
     echomsg "Generating $component application resource..."
     ## now gen the app resource
-    helm template --show-only templates/objectscale-manager-app.yaml objectscale-manager ${helm_repo}/objectscale-manager  -n $namespace $set_ver --set global.watchAllNamespaces=$watchAllNamespaceFlag --devel -f ./tmp/objectscale-manager-values.yaml -f ./tmp/objectscale-manager-customvalues.yaml > ./tmp/objectscale-manager-app.yaml
+    helm template --show-only templates/objectscale-manager-app.yaml objectscale-manager ${helm_repo}/objectscale-manager  -n $namespace --set global.watchAllNamespaces=$watchAllNamespaceFlag --devel -f ./tmp/objectscale-manager-values.yaml -f ./tmp/objectscale-manager-customvalues.yaml > ./tmp/objectscale-manager-app.yaml
     if [ $? -ne 0 ]
     then
         echomsg error "unable to create $component application resource yaml"
@@ -355,14 +354,13 @@ verbose=0
 platform="OpenShift"
 watchAllNamespaceFlag="true"
 namespace="default"
-set_ver=""
 
 yq_bin="./bin/yq_linux_amd64"
 
 # use getopt and store the output into $OPTS
 # note the use of -o for the short options, --long for the long name options
 # and a : for any option that takes a parameter
-OPTS=$(getopt -o "dhvn:" --long "debug,dry-run,help,version:,namespace:,set:,verbose" -n "$progname" -- "$@")
+OPTS=$(getopt -o "dhvn:" --long "debug,dry-run,help,namespace:,set:,verbose" -n "$progname" -- "$@")
 if [ $? != 0 ] ; then echo "Error in command line arguments." >&2 ; usage; exit 1 ; fi
 eval set -- "$OPTS"
 
@@ -373,7 +371,6 @@ while true; do
   case "$1" in
     -h | --help ) usage; exit; ;;
     --set ) parse_set_opts $2 ; shift 2 ;;
-    --version ) chart_version="$2"; shift 2 ;;
     --namespace ) namespace="$2"; shift 2 ;;
     --debug) set -x; shift ;; 
     --dry-run ) dryrun="--dry-run"; shift ;;
@@ -390,7 +387,6 @@ if (( $verbose > 0 )); then
    set_opts=${set_opts[*]}
    verbose=$verbose
    dryrun=$dryrun
-   version=$chart_version
    type=$install_type
    helmrepo=$helm_repo
    sc=$primaryStorageClassName
@@ -398,15 +394,6 @@ if (( $verbose > 0 )); then
    watchAllNamespacesFlag=$watchAllNamespaceFlag
 EOM
 fi
-
-function set_version()
-{
-    echomsg "chart version if set..."
-    if [ ! -z ${chart_version} ]
-    then
-       set_ver="--version $chart_version"
-    fi
-}
 
 case "$install_type" in
     install)
@@ -435,8 +422,6 @@ case "$install_type" in
     ;;
 
 esac
-
-set_version
 
 ## check for helm and kubectl in the path
 helm --help > /dev/null
@@ -486,11 +471,11 @@ case $install_type in
         for comp in decks kahm objectscale-manager logging-injector 
         do
             echomsg "Removing component: $comp"
-            kubectl delete app $comp
-            helm delete $comp
+            kubectl delete app $comp -n $namespace
+            helm delete $comp -n $namespace
         done
         echomsg "Removing objectscale-ui"
-        helm delete objectscale-ui 
+        helm delete objectscale-ui -n $namespace
         ;;
     *)
         echomsg error "invalid install type specified: must be one of 'install|list|remove|upgrade"
