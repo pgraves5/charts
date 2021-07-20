@@ -1,0 +1,16 @@
+---
+{{- if eq .Values.global.platform "OpenShift" }}
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: {{ .Release.Name }}-{{ .Release.Namespace }}-scc-anyuid
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: system:openshift:scc:anyuid
+subjects:
+- apiGroup: rbac.authorization.k8s.io
+  kind: Group
+  name: system:serviceaccounts
+  namespace: {{ .Release.Namespace }}
+{{- end }}

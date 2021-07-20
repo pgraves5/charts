@@ -48,7 +48,9 @@ decks:
     service:
       name: decks-support-store
       port: 7443
-#
+# openshift-scc
+openshift:
+  enabled: false
 # graphql endpoint settings
 graphql:
   enabled: true
