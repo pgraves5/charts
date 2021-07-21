@@ -59,7 +59,7 @@ graphql:
 
 # federation service endpoint settings
 fedsvc:
-  serviceName: fedsvc
+  serviceName: objectscale-federation
   port: 9500
 
 enabled: false
