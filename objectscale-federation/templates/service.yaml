@@ -11,9 +11,13 @@ metadata:
 spec:
   type: {{ .Values.fedsvc.service.type }}
   ports:
-    - port: {{ .Values.fedsvc.service.port }}
+    - port: {{ .Values.fedsvc.service.httpPort }}
       targetPort: http
       protocol: TCP
       name: http
+    - port: {{ .Values.fedsvc.service.httpsPort }}
+      targetPort: https
+      protocol: TCP
+      name: https
   selector:
     {{- include "fedsvc.selectorLabels" . | nindent 4 }}

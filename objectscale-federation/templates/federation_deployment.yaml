@@ -55,6 +55,9 @@ spec:
           - name: http
             containerPort: 9501 
             protocol: TCP
+          - name: https
+            containerPort: 9502
+            protocol: TCP
         livenessProbe:
             httpGet:
                 path: {{ .Values.fedsvc.livenessProbe.probePath }}
