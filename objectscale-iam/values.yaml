@@ -18,7 +18,7 @@ global:
 image:
   pullPolicy: IfNotPresent
   repository: iamsvc
-  tag: 3.7.0.0-136862.5da38528499 # rfw-update-this iamsvc-docker-image
+  tag: 3.7.0.0-137058.d9df4094db6 # rfw-update-this iamsvc-docker-image
 
 # Number of replicas for the ObjectScale IAM deployment
 replicaCount: 3
