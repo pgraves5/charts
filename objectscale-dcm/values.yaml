@@ -7,7 +7,7 @@ global:
 image:
   pullPolicy: IfNotPresent
   repository: dcm
-  tag: 3.7.0.0.137059.36d93d7 # rfw-update-this dcm-docker-image
+  tag: 3.7.0.0-137059.36d93d72632 # rfw-update-this dcm-docker-image
 
 # Number of replicas for the ObjectScale DCM deployment
 replicaCount: 1
