@@ -30,7 +30,7 @@ global:
 
 # The default docker tag and pull policy for the ECS Cluster
 # rfw-update-next *comp*object-services
-tag: 3.7.0.0-136856.97fd8d5b656
+tag: 3.7.0.0-137058.d9df4094db6
 pullPolicy: IfNotPresent
 
 # Override the default number of replicas which taken according to performance profile for each service
@@ -300,7 +300,7 @@ objectsvc:
   # Docker repository to be used for objectsvc instances
   image:
     repository: object-service
-    tag: 3.7.0.0-2847.8ccdbeef # rfw-update-this objectsvc-docker-image
+    tag: 3.7.0.0-2885.bc2bbe9a # rfw-update-this objectsvc-docker-image
     # pullPolicy: IfNotPresent
 
   # Elements to add to the service's ConfigMap. This is a map of string -> string
@@ -640,7 +640,7 @@ managementGateway:
   # Docker repository to be used for managementGateway instances
   image:
     repository: management-gateway
-    tag: 0.77.0.0-194.006a889 # rfw-update-this management-gateway-docker-image
+    tag: 0.78.0.0-196.84bccd0 # rfw-update-this management-gateway-docker-image
     # pullPolicy: IfNotPresent
 
   service:
@@ -710,7 +710,7 @@ expandsp:
 cmfswitch:
   image:
     repository: cmf-switch
-    tag: 0.6.0-194.006a889 # rfw-update-this cmf-switch-docker-image
+    tag: 0.6.0-196.84bccd0 # rfw-update-this cmf-switch-docker-image
     # pullPolicy: IfNotPresent
 
 #
@@ -722,7 +722,7 @@ cmfswitch:
 syslogAgent:
   image:
     repository: rsyslog
-    tag: 3.7.0.0-1262.c39b0321 # rfw-update-this rsyslog-docker-image
+    tag: 3.7.0.0-1273.9895d247 # rfw-update-this rsyslog-docker-image
     # pullPolicy: IfNotPresent
 
 # The log agent configuration for log collection of ECS services with a Syslog
@@ -730,7 +730,7 @@ syslogAgent:
 fluentbitAgent:
   image:
     repository: fluent-bit
-    tag: 3.7.0.0-1262.c39b0321 # rfw-update-this fluent-bit-docker-image
+    tag: 3.7.0.0-1273.9895d247 # rfw-update-this fluent-bit-docker-image
     # pullPolicy: IfNotPresent
 
 # The fabric proxy sidecar configuration for ECS Service Discovery and container
@@ -765,12 +765,12 @@ healthChecks:
   connectivity:
     image:
       repository: objectstore-connectivity
-      tag: 0.77.0-57.2066821 # rfw-update-this objectstore-connectivity-image
+      tag: 0.78.0-59.f3aae99 # rfw-update-this objectstore-connectivity-image
   preUpdate:
     image:
       repository: objectstore-pre-update
-      tag: 0.77.0-57.2066821 # rfw-update-this objectstore-pre-update-image
+      tag: 0.78.0-59.f3aae99 # rfw-update-this objectstore-pre-update-image
   postUpgrade:
     image:
       repository: objectstore-post-upgrade
-      tag: 0.77.0-57.2066821 # rfw-update-this objectstore-pre-update-image
+      tag: 0.78.0-59.f3aae99 # rfw-update-this objectstore-pre-update-image
