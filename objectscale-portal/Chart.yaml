@@ -20,12 +20,12 @@ dependencies:
     version: 0.77.0
     repository: file://../common-lib
   - name: common-monitoring-lib
-    repository: https://asdrepo.isus.emc.com/artifactory/objectscale-helm-build/
+    repository: http://big-bang.lss.emc.com/export/home/polyav/build/charts/
     # rfw-update-next common-monitoring-lib-helm-chart
     version: 3.7.0-1273.9895d247 # no_auto_change__monitoring_auto_change
     import-values:
       - default
   - name: rsyslog-client
-    repository: https://asdrepo.isus.emc.com/artifactory/objectscale-helm-build/
+    repository: http://big-bang.lss.emc.com/export/home/polyav/build/charts/
     # rfw-update-next rsyslog-client-helm-chart
     version: 3.7.0-1273.9895d247 # no_auto_change__monitoring_auto_change

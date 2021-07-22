@@ -22,7 +22,7 @@ dependencies:
     # rfw-update-next objectscale-monitoring-helm-chart
     version: 3.7.0-1273.9895d247 # no_auto_change__monitoring_auto_change
     condition: global.monitoring.enabled
-    repository: https://asdrepo.isus.emc.com/artifactory/objectscale-helm-build/
+    repository: http://big-bang.lss.emc.com/export/home/polyav/build/charts/
   - name: objectscale-gateway
     version: 0.77.0
     repository: file://../objectscale-gateway
