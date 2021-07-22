@@ -82,10 +82,10 @@ function parse_set_opts()
 
 function install_portal() 
 {
-    openshift_scc = "--set openshift.enabled=true"
+    openshift_scc="--set openshift.enabled=true"
     if [ $namespace == 'default' ]
     then
-       openshift_scc = "--set openshift.enabled=false" 
+       openshift_scc="--set openshift.enabled=false" 
     fi 
     uiStorageClass=${secondaryStorageClassName:-$primaryStorageClassName}
     cmd="helm install objectscale-ui ${helm_repo}/objectscale-portal $dryrun -n $namespace $openshift_scc --set global.watchAllNamespaces=$watchAllNamespaceFlag --set global.platform=$platform,$registry,$regSecret --set global.storageClassName=$uiStorageClass --devel"
