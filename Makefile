@@ -10,7 +10,7 @@ FLEXCHARTS := common-lib openshift-scc ecs-cluster objectscale-manager objectsca
 
 # release version
 MAJOR=0
-MINOR=77
+MINOR=78
 PATCH=0
 PRERELEASE=
 
