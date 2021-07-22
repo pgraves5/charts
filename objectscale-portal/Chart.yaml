@@ -1,23 +1,23 @@
 ---
 apiVersion: v2
 name: objectscale-portal
-version: 0.77.0
-appVersion: 0.77.0
+version: 0.78.0-1213
+appVersion: 0.78.0-1213
 description: ObjectScale Portal
 maintainers:
   - name: Dell EMC
     url: https://dellemc.com
 dependencies:
   - name: objectscale-graphql
-    version: 0.77.0
+    version: 0.78.0-1213
     repository: file://../objectscale-graphql
     condition: graphql.enabled
   - name: openshift-scc
-    version: 0.78.0
+    version: 0.78.0-1213
     repository: file://../openshift-scc
     condition: openshift.enabled
   - name: common-lib
-    version: 0.77.0
+    version: 0.78.0-1213
     repository: file://../common-lib
   - name: common-monitoring-lib
     repository: https://asdrepo.isus.emc.com/artifactory/objectscale-helm-build/
