@@ -89,3 +89,4 @@ spec:
       - name: mgmt-shared-secret
         secret:
           secretName: mgmt-servicelogin-shared-secret
+      priorityClassName: objectscale-iam-priority

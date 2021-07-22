@@ -85,3 +85,5 @@ spec:
         - name: config
           configMap:
             name: objectscale-federation-log-config
+
+      priorityClassName: objectscale-federation-priority
