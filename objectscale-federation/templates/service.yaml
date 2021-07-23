@@ -9,13 +9,13 @@ metadata:
   annotations:
     objectscale.dellemc.com/federationRegistration: "ObjectScale"
 spec:
-  type: {{ .Values.fedsvc.service.type }}
+  type: {{ .Values.service.type }}
   ports:
-    - port: {{ .Values.fedsvc.service.httpPort }}
+    - port: {{ .Values.service.httpPort }}
       targetPort: http
       protocol: TCP
       name: http
-    - port: {{ .Values.fedsvc.service.httpsPort }}
+    - port: {{ .Values.service.httpsPort }}
       targetPort: https
       protocol: TCP
       name: https

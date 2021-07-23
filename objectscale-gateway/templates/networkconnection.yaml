@@ -16,13 +16,13 @@ metadata:
   annotations:
     objectscale.dellemc.com/federationRegistration: "ObjectScale"
 spec:
-{{- if .Values.objectscaleGateway.external.service }}
+{{- if .Values.external.service }}
   service:
-      {{ toYaml .Values.objectscaleGateway.external.service | nindent 6 | trim }}
+      {{ toYaml .Values.external.service | nindent 6 | trim }}
 {{- end }}
-{{- if .Values.objectscaleGateway.external.tls }}
+{{- if .Values.external.tls }}
   tls:
-      {{ toYaml .Values.objectscaleGateway.external.tls | nindent 6 | trim }}
+      {{ toYaml .Values.external.tls | nindent 6 | trim }}
 {{- end }}
 ---
 apiVersion: "ecs.dellemc.com/v1beta1"
@@ -43,11 +43,11 @@ metadata:
     objectscale.dellemc.com/federationRegistration: "ObjectScale"
     objectscale.dellemc.com/federationSigned: "InternalCA"
 spec:
-{{- if .Values.objectscaleGateway.internal.service }}
+{{- if .Values.internal.service }}
   service:
-      {{ toYaml .Values.objectscaleGateway.internal.service | nindent 6 | trim }}
+      {{ toYaml .Values.internal.service | nindent 6 | trim }}
 {{- end }}
-{{- if .Values.objectscaleGateway.internal.tls }}
+{{- if .Values.internal.tls }}
   tls:
-      {{ toYaml .Values.objectscaleGateway.internal.tls | nindent 6 | trim }}
+      {{ toYaml .Values.internal.tls | nindent 6 | trim }}
 {{- end }}

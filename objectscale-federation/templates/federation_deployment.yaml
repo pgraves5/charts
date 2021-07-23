@@ -6,7 +6,7 @@ metadata:
   labels:
     {{- include "fedsvc.labels" . | nindent 4 }}
 spec:
-  replicas: {{ .Values.fedsvc.replicaCount }}
+  replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
       {{- include "fedsvc.selectorLabels" . | nindent 6 }}
@@ -49,8 +49,8 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: status.podIP
-        image: {{ default  .Values.global.registry .Values.fedsvc.image.registry }}/{{ .Values.fedsvc.image.repository }}:{{ default .Values.tag .Values.fedsvc.image.tag }}
-        imagePullPolicy: {{ .Values.fedsvc.image.pullPolicy }}
+        image: {{ default  .Values.global.registry .Values.image.registry }}/{{ .Values.image.repository }}:{{ default .Values.tag .Values.image.tag }}
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
         ports:
           - name: http
             containerPort: 9501 
@@ -60,18 +60,18 @@ spec:
             protocol: TCP
         livenessProbe:
             httpGet:
-                path: {{ .Values.fedsvc.livenessProbe.probePath }}
+                path: {{ .Values.livenessProbe.probePath }}
                 port: http
-            failureThreshold: {{ .Values.fedsvc.livenessProbe.failureThreshold | default 3 }}
-            periodSeconds: {{ .Values.fedsvc.livenessProbe.periodSeconds | default 60 }}
-            initialDelaySeconds: {{ .Values.fedsvc.livenessProbe.initialDelaySeconds | default 60 }}
+            failureThreshold: {{ .Values.livenessProbe.failureThreshold | default 3 }}
+            periodSeconds: {{ .Values.livenessProbe.periodSeconds | default 60 }}
+            initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds | default 60 }}
         readinessProbe:
             httpGet:
-                path: {{ .Values.fedsvc.readinessProbe.probePath }}
+                path: {{ .Values.readinessProbe.probePath }}
                 port: http
-            failureThreshold: {{ .Values.fedsvc.readinessProbe.failureThreshold | default 3 }}
-            periodSeconds: {{ .Values.fedsvc.readinessProbe.periodSeconds | default 60 }}
-            initialDelaySeconds: {{ .Values.fedsvc.readinessProbe.initialDelaySeconds | default 60 }}
+            failureThreshold: {{ .Values.readinessProbe.failureThreshold | default 3 }}
+            periodSeconds: {{ .Values.readinessProbe.periodSeconds | default 60 }}
+            initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds | default 60 }}
         volumeMounts:
         - name: log
           mountPath: /opt/storageos/logs

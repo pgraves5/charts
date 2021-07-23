@@ -7,20 +7,20 @@ global:
   # Platform:
   platform: Default
 
-fedsvc:
-  image:
-    pullPolicy: IfNotPresent
-    repository: fedsvc
-    tag: 3.7.0.0-71.256cfc4 # rfw-update-this fedsvc-docker-image
-  livenessProbe:
-    probePath: /fedsvchealthcheck
-  readinessProbe:
-    probePath: /fedsvchealthcheck
-  replicaCount: 3
-  service:
-    httpPort: 9500
-    httpsPort: 443
-    type: ClusterIP
+image:
+  pullPolicy: IfNotPresent
+  repository: fedsvc
+  tag: 3.7.0.0-71.256cfc4 # rfw-update-this fedsvc-docker-image
+livenessProbe:
+  probePath: /fedsvchealthcheck
+readinessProbe:
+  probePath: /fedsvchealthcheck
+replicaCount: 3
+service:
+  httpPort: 9500
+  httpsPort: 443
+  type: ClusterIP
+
 # Atlas Cluster configuration for ObjectScale persistent Storage
 atlas:
 
