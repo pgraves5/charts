@@ -79,7 +79,7 @@ createApplicationResource: true
 debugMode: false
 
 # The default docker tag and pull policy for objectscale-manager services
-tag: 0.78.0
+tag: 0.79.0-1217
 pullPolicy: IfNotPresent
 
 # The default number of replicas for the objectscale-manager deployment
@@ -88,7 +88,7 @@ replicaCount: 1
 # The image configured for the ObjectScale Manager
 image:
   repository: objectscale-operator
-  tag: 0.78.0-579.bcb52a2e # rfw-update-this operator-docker-image
+  tag: 0.78.0-582.41395b1f # rfw-update-this operator-docker-image
   # pullPolicy: IfNotPresent
 
 # A customer provided log server can be used for external log aggregation.
@@ -132,7 +132,7 @@ logReceiver:
   # The Docker image used for the rSyslog receiver
   image:
     repository: rsyslog
-    tag: 3.7.0.0-1273.9895d247 # rfw-update-this rsyslog-docker-image
+    tag: 3.7.0.0-1276.2810dcb9 # rfw-update-this rsyslog-docker-image
     # pullPolicy: IfNotPresent
 
   persistence:
@@ -182,7 +182,7 @@ affinity: {}
 fluentbitAgent:
   image:
     repository: fluent-bit
-    tag: 3.7.0.0-1273.9895d247 # rfw-update-this fluent-bit-docker-image
+    tag: 3.7.0.0-1276.2810dcb9 # rfw-update-this fluent-bit-docker-image
     # pullPolicy: IfNotPresent
 
 # hook for VMWare platform

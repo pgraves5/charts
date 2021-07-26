@@ -30,7 +30,7 @@ global:
 
 # The default docker tag and pull policy for the ECS Cluster
 # rfw-update-next *comp*object-services
-tag: 3.7.0.0-137058.d9df4094db6
+tag: 3.7.0.0-137071.f0d13fbac25
 pullPolicy: IfNotPresent
 
 # Override the default number of replicas which taken according to performance profile for each service
@@ -722,7 +722,7 @@ cmfswitch:
 syslogAgent:
   image:
     repository: rsyslog
-    tag: 3.7.0.0-1273.9895d247 # rfw-update-this rsyslog-docker-image
+    tag: 3.7.0.0-1276.2810dcb9 # rfw-update-this rsyslog-docker-image
     # pullPolicy: IfNotPresent
 
 # The log agent configuration for log collection of ECS services with a Syslog
@@ -730,7 +730,7 @@ syslogAgent:
 fluentbitAgent:
   image:
     repository: fluent-bit
-    tag: 3.7.0.0-1273.9895d247 # rfw-update-this fluent-bit-docker-image
+    tag: 3.7.0.0-1276.2810dcb9 # rfw-update-this fluent-bit-docker-image
     # pullPolicy: IfNotPresent
 
 # The fabric proxy sidecar configuration for ECS Service Discovery and container
