@@ -12,7 +12,7 @@ global:
   registry: emccorp
 
 # The default docker tag and pull policy for dell-supportassist-ese
-tag: 2.79.0-1217
+tag: 2.79.0-1218
 pullPolicy: IfNotPresent
 
 # enabled - true - enable snmp-notifier false - disable it
@@ -23,7 +23,7 @@ enabled: true
 # The image configured for snmp notifier
 image:
   repository: snmp-notifier
-  tag: 2.78.0-167.d216af1 # rfw-update-this snmp-notifier-image
+  tag: 2.78.0-168.133d7e8 # rfw-update-this snmp-notifier-image
   # pullPolicy: Always
 # the GRPC setting between KAHM and snmp-notifier
 grpc:
