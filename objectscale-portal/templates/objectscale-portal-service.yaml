@@ -43,7 +43,7 @@ metadata:
     operator: objectscale-operator
     product: objectscale
 spec:
-  type: LoadBalancer
+  type: {{ .Values.service.type }}
   selector:
     app.kubernetes.io/name: objectscale-manager
     app.kubernetes.io/component: objectscale-portal
