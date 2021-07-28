@@ -640,7 +640,7 @@ managementGateway:
   # Docker repository to be used for managementGateway instances
   image:
     repository: management-gateway
-    tag: 0.78.0.0-196.84bccd0 # rfw-update-this management-gateway-docker-image
+    tag: 0.78.0.0-197.e548172 # rfw-update-this management-gateway-docker-image
     # pullPolicy: IfNotPresent
 
   service:
@@ -710,7 +710,7 @@ expandsp:
 cmfswitch:
   image:
     repository: cmf-switch
-    tag: 0.6.0-196.84bccd0 # rfw-update-this cmf-switch-docker-image
+    tag: 0.6.0-197.e548172 # rfw-update-this cmf-switch-docker-image
     # pullPolicy: IfNotPresent
 
 #
