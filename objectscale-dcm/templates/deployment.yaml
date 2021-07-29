@@ -81,6 +81,8 @@ spec:
               readOnly: true
             - name: mgmt-shared-secret
               mountPath: "/etc/mgmt/sharedsecret"
+            - name: trusted-anchors-secret
+              mountPath: "/etc/mgmt/trustedanchors"
       volumes:
         - name: log
           emptyDir: {}
@@ -93,4 +95,7 @@ spec:
         - name: mgmt-shared-secret
           secret:
             secretName: mgmt-servicelogin-shared-secret
+        - name: trusted-anchors-secret
+          secret:
+            secretName: objectscale-federation-trusted-anchors
 
