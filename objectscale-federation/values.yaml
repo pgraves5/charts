@@ -1,5 +1,5 @@
 ---
-tag: 0.79.0-1221
+tag: 0.79.0-1222
 global:
   registry: emccorp
   # Default: true == Watch ALL namespaces
