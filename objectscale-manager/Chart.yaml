@@ -20,9 +20,9 @@ dependencies:
     condition: atlas.enabled
   - name: objectscale-monitoring
     # rfw-update-next objectscale-monitoring-helm-chart
-    version: 3.7.0-1279.eca115f5 # no_auto_change__monitoring_auto_change
+    version: 3.7.0-1304.1346960d # no_auto_change__monitoring_auto_change
     condition: global.monitoring.enabled
-    repository: https://asdrepo.isus.emc.com/artifactory/objectscale-helm-build/
+    repository: http://asdrepo.isus.emc.com:8081/artifactory/objectscale-helm-dev/
   - name: objectscale-gateway
     version: 0.79.0-1222
     repository: file://../objectscale-gateway

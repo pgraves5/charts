@@ -23,9 +23,9 @@ dependencies:
     repository: file://../helm-controller
     condition: helmController.enabled
   - name: common-monitoring-lib
-    repository: https://asdrepo.isus.emc.com/artifactory/objectscale-helm-build/
+    repository: http://asdrepo.isus.emc.com:8081/artifactory/objectscale-helm-dev/
     # rfw-update-next common-monitoring-lib-helm-chart
-    version: 3.7.0-1279.eca115f5 # no_auto_change__monitoring_auto_change
+    version: 3.7.0-1304.1346960d # no_auto_change__monitoring_auto_change
     import-values:
       - default
   - name: common-lib
