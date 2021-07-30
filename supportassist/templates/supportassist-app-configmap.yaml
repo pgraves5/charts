@@ -37,6 +37,15 @@ data:
             - Verify a valid AccessKey and PIN were used.
     health: |-
       spec:
+        - name: pre-update
+          container: {{.Values.global.registry}}/{{.Values.healthChecks.preUpdate.image.repository}}:{{default .Values.tag .Values.healthChecks.preUpdate.image.tag}}
+          serviceaccount: {{.Release.Name}}-healthchecks
+          timelimit: "5m"
+          reason: "pre-update"
+          symptomID: "DECKS-HC-1000"
+          args:
+            - -target-version
+            - {{ default .Values.tag .Values.healthChecks.preUpdate.image.tag }}
         - name: inventory
           container: {{.Values.global.registry}}/{{ .Values.telemetry.inventory.image.repository }}:{{default .Values.tag .Values.telemetry.inventory.image.tag}}
           serviceaccount: {{ .Release.Name }}-telemetry-upload

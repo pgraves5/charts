@@ -83,5 +83,5 @@ supportStore:
 healthChecks:
   preUpdate:
     image:
-      repository: decks-pre-update
-      tag: 2.78.0-221.79a9cc6 # rfw-update-this decks-pre-update-image
+      repository: objectscale-component-pre-update
+      tag: 2.78.0-221.79a9cc6 # rfw-update-this objectscale-component-pre-update-image

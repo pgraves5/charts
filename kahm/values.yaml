@@ -166,5 +166,5 @@ postgresql-ha:
 healthChecks:
   preUpdate:
     image:
-      repository: kahm-pre-update
-      tag: 2.78.0-169.273b06c # rfw-update-this kahm-pre-update-image
+      repository: objectscale-component-pre-update
+      tag: 2.78.0-169.273b06c # rfw-update-this objectscale-component-pre-update-image
