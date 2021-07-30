@@ -147,7 +147,7 @@ function install_logging_injector()
 {
     component=logging-injector
     echomsg "Installing $component..."
-    cmd="helm show values ${helm_repo}/logging-injector > ./tmp/logging-injector-values.yaml"
+    cmd="helm show values --devel ${helm_repo}/logging-injector > ./tmp/logging-injector-values.yaml"
     echomsg log $cmd
     eval $cmd
     if [ $? -ne 0 ]
@@ -196,7 +196,7 @@ function install_kahm()
 {
     component=kahm
     echomsg "Install $component"
-    cmd="helm show values ${helm_repo}/kahm > ./tmp/kahm-values.yaml"
+    cmd="helm show values --devel ${helm_repo}/kahm > ./tmp/kahm-values.yaml"
     echomsg log $cmd
     eval $cmd
     if [ $? -ne 0 ]
@@ -244,7 +244,7 @@ function install_kahm()
 function install_decks()
 {
     component=decks
-    cmd="helm show values ${helm_repo}/decks > ./tmp/decks-values.yaml"
+    cmd="helm show values --devel ${helm_repo}/decks > ./tmp/decks-values.yaml"
     echomsg log "$cmd"
     eval $cmd 
     if [ $? -ne 0 ]
@@ -293,7 +293,7 @@ function install_objectscale_manager()
 {
     component="objectscale-manager"
     echomsg "Installing $component"
-    cmd="helm show values ${helm_repo}/objectscale-manager > ./tmp/objectscale-manager-values.yaml"
+    cmd="helm show values --devel ${helm_repo}/objectscale-manager > ./tmp/objectscale-manager-values.yaml"
     echomsg log "$cmd"
     eval $cmd
     if [ $? -ne 0 ]
