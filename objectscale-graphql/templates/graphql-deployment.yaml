@@ -41,13 +41,8 @@ spec:
       serviceAccountName: objectscale-api
       containers:
       - name: objectscale-graphql
-{{- if .Values.debug}}
+        {{- if .Values.debug}}
         image: {{ .Values.global.registry }}/{{ .Values.image.repository }}-debug:{{ default .Values.tag .Values.image.tag }}
-{{- else }}
-        image: {{ .Values.global.registry }}/{{ .Values.image.repository }}:{{ default .Values.tag .Values.image.tag }}
-{{- end }}
-        imagePullPolicy: {{ default .Values.pullPolicy .Values.image.pullPolicy }}
-{{- if .Values.debug}}
         ports:
         - containerPort: 40000
           name: debug
@@ -55,7 +50,13 @@ spec:
         securityContext:
           capabilities:
             add: ["SYS_PTRACE"]
-{{- end }}
+        {{- else }}
+        image: {{ .Values.global.registry }}/{{ .Values.image.repository }}:{{ default .Values.tag .Values.image.tag }}
+        {{- end }}
+        imagePullPolicy: {{ default .Values.pullPolicy .Values.image.pullPolicy }}
+        args:
+        - --
+        - -startapps
         env:
         - name: OBJSTORE_AVAILABLE_VERSIONS
           value: {{ .Values.objectStoreAvailableVersions | toJson | quote }}
@@ -64,13 +65,13 @@ spec:
             fieldRef:
               fieldPath: metadata.namespace
         - name: WATCH_NAMESPACE
-{{- if eq .Values.global.watchAllNamespaces true}}
+          {{- if eq .Values.global.watchAllNamespaces true}}
           value: ""
-{{- else }}
+          {{- else }}
           valueFrom:
             fieldRef:
               fieldPath: metadata.namespace
-{{- end }}
+          {{- end }}
         - name: EVENT_PAGINATION_SOURCE
           value: {{ default "GRAPHQL" .Values.eventPaginationSource }}
         - name: GLOBAL_REGISTRY
@@ -98,21 +99,40 @@ spec:
           value: {{ .Values.global.storageClassName }}
         {{- end }}
         - name: LOG_DIRECTION
-{{- if .Values.logReceiver.type }}
+        {{- if .Values.logReceiver.type }}
           value: file
-{{- else }}
+        {{- else }}
           value: stdout
-{{- end }}
+        {{- end }}
         - name: HELM_CONTROLLER_ENDPOINT
           value: http://{{ .Release.Name }}-installer
         - name: KUBERNETES_PLATFORM
           value: {{ .Values.global.platform }}
         - name: RELEASE_NAME
           value: {{ .Release.Name }}
-{{- if .Values.withPlayground }}
-        args:
-          - "-P"
-{{- end }}
+        ## used for graplql app deployment
+        - name: GLOBAL_VALUES
+          value: {{ .Values.global | toJson | quote }}
+        {{- if .Values.global.secondaryStorageClass }}
+        - name: GLOBAL_SECONDARY_STORAGE_CLASS
+          value: {{ .Values.global.secondaryStorageClass }}
+        {{- end }}
+        {{- if .Values.kahmCustomValues }}
+        - name: KAHM_CUSTOM_VALUES
+          value: {{ .Values.kahmCustomValues | toJson | quote }}
+        {{- end }}
+        {{- if .Values.loggingInjectorCustomValues }}
+        - name: LOGGING_INJECTOR_CUSTOM_VALUES
+          value: {{ .Values.loggingInjectorCustomValues | toJson | quote }}
+        {{- end }}
+        {{- if .Values.objectScaleManagerCustomValues }}
+        - name: OBJECTSCALE_MANAGER_CUSTOM_VALUES
+          value: {{ .Values.objectScaleManagerCustomValues | toJson | quote }}
+        {{- end }}
+        {{- if .Values.decksCustomValues }}
+        - name: DECKS_CUSTOM_VALUES
+          value: {{ .Values.decksCustomValues | toJson | quote }}
+        {{- end }}
 {{- if not .Values.logReceiver.type }}
 {{ include "common-monitoring-lib.rsyslog_client_sidecar_stdout" . | indent 6 }}
 {{- end }}

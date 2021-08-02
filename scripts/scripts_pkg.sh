@@ -40,7 +40,7 @@ then
     fi
     svc_vs7u3_id="objectscale-${service_id}"  # in VS7U3+ need to append custom name to svcid
     label="${label}-${USER}-${service_id}"
-    sed "${sed_inplace[@]}" "s/SERVICE_ID/-${service_id}/g" temp_package/yaml/objectscale-manager.yaml
+    sed "${sed_inplace[@]}" "s/SERVICE_ID/-${service_id}/g" temp_package/yaml/objectscale-vsphere7-manifest.yaml
     
     ## apply crds outside of the plugin
     svc_vs7u3_crd_opts=" "
@@ -60,7 +60,7 @@ EOF
 )
 
 else 
-     sed "${sed_inplace[@]}" "s/SERVICE_ID//g" temp_package/yaml/objectscale-manager.yaml
+     sed "${sed_inplace[@]}" "s/SERVICE_ID//g" temp_package/yaml/objectscale-vsphere7-manifest.yaml
      actual_crd=$(awk '{printf "%4s%s\n", "", $0}' temp_package/yaml/objectscale-crd.yaml)
 fi
 
@@ -84,10 +84,7 @@ data:
   ${service_id}-crd.yaml: |-
 ${actual_crd}
   ${service_id}-operator.yaml: |-
-$(awk '{printf "%4s%s\n", "", $0}' temp_package/yaml/objectscale-manager.yaml)
-$(awk '{printf "%4s%s\n", "", $0}' temp_package/yaml/kahm.yaml)
-$(awk '{printf "%4s%s\n", "", $0}' temp_package/yaml/decks.yaml)
-$(awk '{printf "%4s%s\n", "", $0}' temp_package/yaml/logging-injector.yaml)
+$(awk '{printf "%4s%s\n", "", $0}' temp_package/yaml/objectscale-vsphere7-manifest.yaml)
   ${service_id}.yaml: |-
     apiVersion: appplatform.wcp.vmware.com/v1alpha1
     kind: SupervisorService
@@ -109,24 +106,22 @@ $(awk '{printf "%4s%s\n", "", $0}' temp_package/yaml/logging-injector.yaml)
 EOT
 
 ## Remove trailing whitespaace
-sed "${sed_inplace[@]}" 's/[[:space:]]*$//' temp_package/yaml/${vsphere7_plugin_file}
+sed "${sed_inplace[@]}" 's/[[:space:]]*$//' temp_package/yaml/*.yaml
 
 ## Template the namespace value
-sed "${sed_inplace[@]}" "s/$namespace/{{ .service.namespace }}/g" temp_package/yaml/${vsphere7_plugin_file}
-sed "${sed_inplace[@]}" "s/$namespace/{{ .service.namespace }}/g" temp_package/yaml/*
+sed "${sed_inplace[@]}" "s/$namespace/{{ .service.namespace }}/g" temp_package/yaml/*.yaml
 
 ## Template registry from supervisor service input
-sed "${sed_inplace[@]}" -e "s/REGISTRYTEMPLATE/{{ .Values.registryName }}/g" temp_package/yaml/*
+sed "${sed_inplace[@]}" -e "s/REGISTRYTEMPLATE/{{ .Values.registryName }}/g" temp_package/yaml/*.yaml
 
 ## Template docker username and password from supervisor service input
 dockersecret='{{printf "{\\"auths\\": {\\"%s\\": {\\"auth\\": \\"%s\\"}}}" .Values.registryName (printf "%s:%s" .Values.registryUsername .Values.registryPasswd | b64enc) | b64enc}}'
-sed "${sed_inplace[@]}" -e "s/DOCKERSECRETPLACEHOLDER/$dockersecret/g" temp_package/yaml/*
+sed "${sed_inplace[@]}" -e "s/DOCKERSECRETPLACEHOLDER/$dockersecret/g" temp_package/yaml/*.yaml
 
 ## Template the vsphere service prefix value
-sed "${sed_inplace[@]}" "s/VSPHERE_SERVICE_PREFIX_VALUE/{{ .service.prefix }}/g" temp_package/yaml/${vsphere7_plugin_file}
-sed "${sed_inplace[@]}" "s/VSPHERE_SERVICE_PREFIX_VALUE/{{ .service.prefix }}/g" temp_package/yaml/*
+sed "${sed_inplace[@]}" "s/VSPHERE_SERVICE_PREFIX_VALUE/{{ .service.prefix }}/g" temp_package/yaml/*.yaml
 
-cp -p ./scripts/deploy-objectscale-plugin.sh temp_package/scripts 
+cp -p ./scripts/deploy-objectscale-plugin.sh temp_package/scripts
 
 ### Building the U2 (the edge) plugin script
 
@@ -171,7 +166,7 @@ fi
 chmod +x scripts/$vsphere_script
 mkdir -p temp_package/vs7u3/tmp
 
-(cd temp_package/yaml; cat logging-injector.yaml objectscale-manager.yaml kahm.yaml decks.yaml > ../vs7u3/tmp/objectscale-vsphere-service-src.yaml )
+(cd temp_package/yaml; cp objectscale-vsphere7-manifest.yaml ../vs7u3/tmp/objectscale-vsphere-service-src.yaml )
 sed "${sed_inplace[@]}" "s/dellemc-${service_id}/$svc_vs7u3_id/g" temp_package/vs7u3/tmp/objectscale-vsphere-service-src.yaml
 
 ## Append the 7.0 U3 Persistence Service Config to our yaml.  Eventually the 'create-vsphere-app.py' above will support this
@@ -205,7 +200,6 @@ cp scripts/deploy-objectscale-plugin.sh $vs7u3_pre_install_script
 cat scripts/common_funcs.sh >> $vs7u3_pre_install_script
 
 cat <<EOS >> $vs7u3_pre_install_script
-add_vsphere7_clusterrole_rules
 
 ${extra_crd_install}
 

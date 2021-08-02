@@ -75,16 +75,16 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.namespace
-          {{- end }}
+              {{- end }}
           imagePullPolicy: {{ .Values.image.pullPolicy | default .Values.pullPolicy }}
           ports:
             - containerPort: {{ .Values.service.targetPort | default 8080 }}
               name: http
-{{- if .Values.debug }}
+          {{- if .Values.debug }}
             - containerPort: 40000
               name: debug
               protocol: TCP
           securityContext:
             capabilities:
               add: ["SYS_PTRACE"]
-{{- end }}
+          {{- end }}

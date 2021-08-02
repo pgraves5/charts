@@ -7,8 +7,6 @@ then
     exit 1
 fi
 
-## Now check if the api groups have been added for VMware vSphere7 app platform:
-add_vsphere7_clusterrole_rules
 
 echomsg dl 
 echomsg "Adding the ObjectScale plugin for vSphere7"

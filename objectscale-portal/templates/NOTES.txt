@@ -4,7 +4,7 @@ a Dell EMC ObjectScale User Interface (portal)
 
 This release is named {{ .Release.Name }}.
 
-1. To get started, read your service account token:
+1. To get started, obtain the login service account token:
 
   $ read -r SVCACCOUNT_TOKEN \
         <<< $(kubectl get secret -o jsonpath='{.data.token}' $(kubectl get sa "objectscale-api" -o json | jq -r '.secrets[] | select (.name | test("objectscale-api-token-")).name') | base64 --decode; echo -n " ")
@@ -15,8 +15,10 @@ This release is named {{ .Release.Name }}.
    NAME                          TYPE           CLUSTER-IP      EXTERNAL-IP     PORT(S)          AGE
    objectscale-portal-external   LoadBalancer   172.30.160.33   10.236.228.48   4443:31474/TCP   118s
 
-3. Bring up a browser and connect to the above URL: https://<addr>:4443
+3. Bring up a browser and connect to the above URL: https://<external-ip>:4443
 
-4. Then paste this service account token into the ObjectScale Portal login page.
+4. Then paste this service account token into the ObjectScale User Interface login page.
+
+5. To create an object store: Click on Object Stores -> New Object Store
 
 ---

@@ -33,6 +33,5 @@ spec:
     keywords:
       - "snmp"
       - "notifier"
-    info:
-      - "Copyright (c) 2021 Dell Inc. or its subsidiaries. All Rights Reserved."
+    notes: "Copyright (c) 2021 Dell Inc. or its subsidiaries. All Rights Reserved."
 {{- end}}

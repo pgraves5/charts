@@ -21,9 +21,9 @@ spec:
     - ecs-cluster
   scope: Namespaced
   versions:
-    - name: v1beta1
-      served: true
-      storage: true
+  - name: v1beta1
+    served: true
+    storage: true
   additionalPrinterColumns:
   - name: PHASE
     type: string

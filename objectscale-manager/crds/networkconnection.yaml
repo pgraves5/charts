@@ -17,7 +17,7 @@ spec:
     plural: networkconnections
     singular: networkconnection
     shortNames:
-    - tls 
+    - tls
     - cert
     - connection
     - netcon

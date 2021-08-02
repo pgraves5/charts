@@ -31,7 +31,7 @@ global:
   objectscale_release_name: objectscale-manager
   #
   # default k8s fqdn dns name:
-  #dns: kube-dns.kube-system.svc.cluster.local
+  # dns: kube-dns.kube-system.svc.cluster.local
 
   # Enable log forwarding to central objectscale rsyslog
   rsyslog_enabled: true

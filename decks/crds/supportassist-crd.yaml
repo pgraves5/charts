@@ -16,8 +16,7 @@ spec:
       served: true
       storage: true
   additionalPrinterColumns:
-  - name: PHASE
-    type: string
-    description: The current phase of SupportAssist
-    JSONPath: .status.phase
-  
+    - name: PHASE
+      type: string
+      description: The current phase of SupportAssist
+      JSONPath: .status.phase

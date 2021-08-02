@@ -1,5 +1,5 @@
 #
-# Copyright © 2020 Dell Inc. or its subsidiaries. All Rights Reserved.
+# Copyright © 2020-2021 Dell Inc. or its subsidiaries. All Rights Reserved.
 #
 # This software contains the intellectual property of Dell Inc.
 # or is licensed to Dell Inc. from third parties. Use of this software
@@ -8,7 +8,6 @@
 # on behalf of Dell Inc. or its subsidiaries.
 
 # Dockerfile for install-controller
-
 FROM asdrepo.isus.emc.com:8099/install-controller:1.3-W6-ea53dff2
 
 COPY ./docs /docs
