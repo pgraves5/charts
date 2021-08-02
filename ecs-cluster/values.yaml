@@ -28,6 +28,16 @@ global:
   # Set objectscale release name (needed for central logging and monitoring)
   objectscale_release_name: objectscale-manager
 
+  # Name of the target platform
+  # By setting this value all necessary resources for objectscale-graphql will be created and configured accordingly.
+  # Valid values are
+  # "VMware" - VMWare Persistent Services Platform
+  # "Vmware-PKS" - PKS platform with vSphere UI integration
+  # "Atlantic" - Project Atlantic Bare-Metal Kubernetes platform
+  # "OpenShift" - RedHat OpenShift k8s Container Platform
+  # "Default" - All others
+  platform: Default
+
 # The default docker tag and pull policy for the ECS Cluster
 # rfw-update-next *comp*object-services
 tag: 3.7.0.0-137090.9b0458d96af
