@@ -46,5 +46,7 @@ atlas:
   resources:
     limits:
       memory: 1000Mi
+      cpu: 400m
     requests:
-      memory: 256Mi
+      memory: 1000Mi
+      cpu: 400m

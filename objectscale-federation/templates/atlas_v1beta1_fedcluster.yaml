@@ -23,8 +23,10 @@ spec:
   resources:
     limits:
       memory: {{ .Values.atlas.resources.limits.memory }}
+      cpu: {{ .Values.atlas.resources.limits.cpu }}
     requests:
       memory: {{ .Values.atlas.resources.requests.memory }}
+      cpu: {{ .Values.atlas.resources.requests.cpu }} 
   labels:
     component: atlas
 {{ include "common-lib.labels-sp-integrated-all" . | indent 4}}
@@ -33,6 +35,7 @@ spec:
   pod:
     annotations:
 {{ include "common-lib.vsphere-emm-integrated_annotation" . | indent 6}}
+{{ include "common-monitoring-lib.logging-inject-resource-annotations" (dict "limits_memory" "100Mi" "limits_cpu" "0.5" "requests_memory" "100Mi" "requests_cpu" "0.5")  | indent 6 }}
 {{- if .Values.atlas.disableAntiAffinity }}
   # junk node affinity allows multiple atlas instances on the same node
   # - needed for 3 replicas deployed on a single node(test only)
