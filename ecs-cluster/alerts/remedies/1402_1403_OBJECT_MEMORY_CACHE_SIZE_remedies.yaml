@@ -1,8 +1,0 @@
-- symptomid: OBJST-1402
-  description: Page Table memory cache size for objectsvc exceeded threshold
-  remedies:
-    - KB https://support.emc.com/kb/536253
-- symptomid: OBJST-1403
-  description: Page Table memory cache size for objectsvc exceeded threshold
-  remedies:
-    - KB https://support.emc.com/kb/536253
