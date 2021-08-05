@@ -39,7 +39,7 @@ debug: false
 #
 image:
   repository: ecs-flex-graphql
-  tag: 0.79.0-698.839c89dd # rfw-update-this graphql-image
+  tag: 0.79.0-699.2f2a6346 # rfw-update-this graphql-image
   # pullPolicy: IfNotPresent
 withPlayground: false
 port: 8080
