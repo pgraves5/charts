@@ -37,7 +37,7 @@ global:
   rsyslog_enabled: true
 
 # The default docker tag and pull policy for objectscale-portal and other containers
-tag: 0.79.0-1239
+tag: 0.79.0
 pullPolicy: IfNotPresent
 
 # This package gets values from objectscale-manager/values.yaml
