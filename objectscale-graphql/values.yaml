@@ -27,10 +27,10 @@ global:
   # storageClassName  - set default storageClassName for objectscale-manager/graphql
 # This is the list of available objectstore versions to graphql for UI to configure the store.
 objectStoreAvailableVersions:
-  - 0.79.0-1238
+  - 0.79.0-1239
 #
 # The default docker tag and pull policy for objectscale-graphql services
-tag: 0.79.0-1238
+tag: 0.79.0-1239
 pullPolicy: IfNotPresent
 #
 # This will create the graphql container with the debug image. debug image will always be {{image.repository}}-debug
@@ -39,7 +39,7 @@ debug: false
 #
 image:
   repository: ecs-flex-graphql
-  tag: 0.79.0-693.fb1735e # rfw-update-this graphql-image
+  tag: 0.79.0-699.921d9ad # rfw-update-this graphql-image
   # pullPolicy: IfNotPresent
 withPlayground: false
 port: 8080
@@ -48,8 +48,8 @@ service:
   type: ClusterIP
 #
 decks:
-  licenseChartVersion: "2.79.0-1238"
-  supportAssistChartVersion: "2.79.0-1238"
+  licenseChartVersion: "2.79.0-1239"
+  supportAssistChartVersion: "2.79.0-1239"
   srsGatewayChartVersion: "1.2.0"
 #
 logReceiver:
