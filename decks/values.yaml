@@ -20,7 +20,7 @@ global:
   platform: Default
 
 # The default docker tag and pull policy for the DECKS
-tag: 2.79.0-1239
+tag: 2.79.0-1240
 pullPolicy: IfNotPresent
 
 # The number of replicas for the DECKS deployment
