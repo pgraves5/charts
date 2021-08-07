@@ -21,6 +21,6 @@ dependencies:
     # rfw-update-next common-monitoring-lib-helm-chart
     version: 3.7.0-1284.94838a58 # no_auto_change__monitoring_auto_change
   - name: common-lib
-    version: 0.79.0-1241 # no_auto_change__flex_auto_change
+    version: 0.79.0-1242 # no_auto_change__flex_auto_change
     repository: file://../common-lib
 engine: gotpl
