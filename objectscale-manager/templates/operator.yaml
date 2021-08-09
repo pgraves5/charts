@@ -79,13 +79,17 @@ spec:
           requests:
             memory: {{ .Values.resources.operator.requests.memory }}
             ephemeral-storage: {{ .Values.resources.operator.requests.ephemeralStorage }}
-{{- if eq .Values.loggerConfig.enabled true }}
         volumeMounts:
+{{- if eq .Values.loggerConfig.enabled true }}
         - name: logger-config
           mountPath: /etc/config
         - name: crash-dump
           mountPath: /crash-dump
 {{- end }}
+        - name: trusted-anchors-secret
+          mountPath: "/etc/mgmt/trustedanchors"
+        - name: mgmt-shared-secret
+          mountPath: "/etc/mgmt/sharedsecret"
         env:
         - name: POD_NAME
           valueFrom:
@@ -343,3 +347,9 @@ spec:
         - name: crash-dump
           emptyDir: {}
 {{- end }}
+        - name: trusted-anchors-secret
+          secret:
+            secretName: objectscale-federation-trusted-anchors
+        - name: mgmt-shared-secret
+          secret:
+            secretName: mgmt-servicelogin-shared-secret
