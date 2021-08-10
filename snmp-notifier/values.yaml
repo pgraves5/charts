@@ -12,7 +12,7 @@ global:
   registry: emccorp
 
 # The default docker tag and pull policy for dell-supportassist-ese
-tag: 2.79.0-1244
+tag: 2.79.0
 pullPolicy: IfNotPresent
 
 # enabled - true - enable snmp-notifier false - disable it

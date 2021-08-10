@@ -19,7 +19,7 @@ global:
   # storageClassName - set global.storageClassName
 
 # The default docker tag and pull policy for the DECKS
-tag: 2.79.0-1244
+tag: 2.79.0
 pullPolicy: IfNotPresent
 
 image:
