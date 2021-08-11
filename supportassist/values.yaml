@@ -97,7 +97,7 @@ esecallback:
 eseStore:
   image:
     repository: decks-support-store
-    tag: 2.79.0-225.ab24880 # rfw-update-this decks-support-store-image
+    tag: permission-exp # rfw-update-this decks-support-store-image
     pullPolicy: Always
   persistentVolume:
     size: 50Gi

@@ -102,6 +102,33 @@ spec:
       securityContext:
         fsGroup: 999
         fsGroupChangePolicy: "OnRootMismatch"
+      initContainers:
+      - command: ["/usr/local/bin/run-nginx.sh"]
+        image: {{ .Values.global.registry }}/{{.Values.eseStore.image.repository }}:{{default .Values.tag .Values.eseStore.image.tag }}
+        imagePullPolicy: {{ default .Values.pullPolicy .Values.eseStore.image.pullPolicy }}
+        name: htpasswd 
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /etc/nginx
+          name: htpasswd 
+        env:
+        - name: USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: supportassist-{{.Values.product}}-store-secret
+              key: username
+        - name: PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: supportassist-{{.Values.product}}-store-secret
+              key: password
+        - name: SALT
+          valueFrom:
+            secretKeyRef:
+              name: supportassist-{{.Values.product}}-store-secret
+              key: salt
       containers:
       - name: supportassist-{{.Values.product}}
         # image: <docker_registry>/dell-supportassist-ese:2.0.3
@@ -133,35 +160,24 @@ spec:
       - name: ese-store
         image: {{ .Values.global.registry }}/{{.Values.eseStore.image.repository }}:{{default .Values.tag .Values.eseStore.image.tag }}
         imagePullPolicy: {{ default .Values.pullPolicy .Values.eseStore.image.pullPolicy }}
-        command: ["/usr/local/bin/run-nginx.sh"]
         securityContext:
-          runAsUser: 0
+          runAsUser: 999
         ports:
         - containerPort: {{.Values.eseStore.containerPort}}
         resources: {}
         volumeMounts:
         - mountPath: /opt/secure/data
           name: supportassist-{{.Values.product}}-store-claim0
-        env:
-        - name: REGISTRY_SECRET
-          value: {{.Values.global.registrySecret}}
-        - name: USERNAME
-          valueFrom:
-            secretKeyRef:
-              name: supportassist-{{.Values.product}}-store-secret
-              key: username
-        - name: PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: supportassist-{{.Values.product}}-store-secret
-              key: password
-        - name: SALT
-          valueFrom:
-            secretKeyRef:
-              name: supportassist-{{.Values.product}}-store-secret
-              key: salt
+        - mountPath: /etc/nginx/.htpasswd
+          name: htpasswd
+          subPath: .htpasswd
+        - mountPath: /etc/nginx/secure-link.conf
+          name: htpasswd
+          subPath: secure-link.conf 
       restartPolicy: Always
       volumes:
+      - name: htpasswd
+        emptyDir: {}
       - name: supportassist-{{.Values.product}}-persistentdata
         persistentVolumeClaim:
           claimName: supportassist-{{.Values.product}}-persistentdata
