@@ -56,6 +56,18 @@ spec:
             {{- end }}
         {{- end }}
 {{ include "common-monitoring-lib.rsyslog_client_volumes" . | indent 8 }}
+{{- if eq .Values.enableAntiAffinity true }}
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchLabels:
+                app.kubernetes.io/component: objectscale-portal
+                app.kubernetes.io/name: objectscale-manager
+            namespaces:
+            - {{ .Release.Namespace }}
+            topologyKey: kubernetes.io/hostname
+{{- end }}
       containers:
         - name: objectscale-portal
           image: {{ .Values.global.registry }}/{{ .Values.image.repository }}:{{ default .Values.tag .Values.image.tag }}

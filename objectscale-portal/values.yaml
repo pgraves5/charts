@@ -40,6 +40,9 @@ global:
 tag: 0.79.0
 pullPolicy: IfNotPresent
 
+# Enable AntiAffinity or not
+enableAntiAffinity: true
+
 # This package gets values from objectscale-manager/values.yaml
 
 # The service name and port that decks-support-store is listening on for download requests
