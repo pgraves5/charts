@@ -6,6 +6,7 @@ global:
   watchAllNamespaces: true
   # Platform:
   platform: Default
+  # storageClassName  - set default storageClassName for fedsvc
 
 image:
   pullPolicy: IfNotPresent

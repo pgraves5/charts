@@ -13,6 +13,7 @@ global:
 
   # The container image registry hosting containers for the Atlas operator
   registry: emccorp
+  # storageClassName  - set default storageClassName for iam
 
 # The image configured for the ObjectScale IAM
 image:

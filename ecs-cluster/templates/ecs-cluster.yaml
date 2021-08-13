@@ -52,7 +52,9 @@ spec:
       pullPolicy: {{ default .Values.pullPolicy .Values.atlas.image.pullPolicy }}
     persistence:
       spec:
+        {{- if or .Values.storageClassName .Values.atlas.persistence.storageClassName}}
         storageClassName: {{ default .Values.storageClassName .Values.atlas.persistence.storageClassName }}
+        {{- end }}
         resources:
           requests:
             storage: {{ required "atlas.persistence.size is required" .Values.atlas.persistence.size }}

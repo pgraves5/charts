@@ -20,8 +20,8 @@ spec:
     pullPolicy: {{ .Values.atlas.image.pullPolicy }}
   persistence:
     spec:
-      {{- if .Values.global.storageClassName}}
-      storageClassName: {{.Values.global.storageClassName}}
+      {{- if or .Values.global.storageClassName .Values.atlas.persistence.storageClassName}}
+      storageClassName: {{ default .Values.global.storageClassName .Values.atlas.persistence.storageClassName }}
       {{- end }}
       resources:
         requests:
