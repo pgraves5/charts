@@ -33,31 +33,7 @@ spec:
   topologyFaultDomainKey: {{ .Values.topology.faultDomainKey}}
 {{- end }}
 
-{{- if or (and .Values.topology.excludedFaultDomains .Values.topology.faultDomainKey) .Values.topology.nodeSelector }}
-  topologyNodeAffinity:
-    requiredDuringSchedulingIgnoredDuringExecution:
-      nodeSelectorTerms:
-      - matchExpressions:
-        # exclude any fault domains that the customer doesn't want in the
-        # node selectors
-        {{- if and .Values.topology.excludedFaultDomains .Values.topology.faultDomainKey }}
-        - key: {{.Values.topology.faultDomainKey}}
-          operator: NotIn
-          values:
-          {{- range .Values.topology.excludedFaultDomains }}
-          - {{ . }}
-          {{- end }}
-        {{- end }}
-        # Limit scheduling to only those listed in the node selector
-        # if we want this to be a multi-select list, we could actually do that
-        # just as easily
-        {{- if .Values.topology.nodeSelector }}
-        - key: {{.Values.topology.nodeSelector.key }}
-          operator: In
-          values:
-          - {{ .Values.topology.nodeSelector.value }}
-        {{- end }}
-{{- end }}
+  {{- include "topologyNodeAffinity" . | indent 2 }}
 
   atlas:
     replicas: {{ coalesce .Values.atlas.replicas (index (dict "Large" 3) (title .Values.performanceProfile)) 1 }}
@@ -216,7 +192,7 @@ spec:
       serviceAccountName: {{.Release.Name}}-storageserver
       annotations:
 {{ include "common-lib.vsphere-emm-integrated_annotation" . | indent 8}}
-{{- if eq .Values.zookeeper.enableAntiAffinity true }}
+{{- if or (eq .Values.zookeeper.enableAntiAffinity true) (or (and .Values.topology.excludedFaultDomains .Values.topology.faultDomainKey) .Values.topology.nodeSelector) }}
       affinity:
         podAntiAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
@@ -227,6 +203,7 @@ spec:
                 values:
                 - {{ .Release.Name }}-zookeeper
             topologyKey: kubernetes.io/hostname
+        {{- include "nodeAffinity" . | indent 8 }}
 {{- end }}
     labels:
       app: zookeeper
@@ -426,6 +403,7 @@ spec:
                 values:
                 - {{ .Release.Name }}-pvg
             topologyKey: kubernetes.io/hostname
+        {{- include "nodeAffinity" . | indent 8 }}
       {{- end }}
       {{- if eq .Values.pravega.segmentStore.enableAntiAffinity true }}
       segmentStorePodAffinity:
@@ -442,6 +420,7 @@ spec:
                 values:
                 - {{ .Release.Name }}-pvg
             topologyKey: kubernetes.io/hostname
+        {{- include "nodeAffinity" . | indent 8 }}
       {{- end }}
 
   storageServer:

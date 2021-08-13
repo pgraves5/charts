@@ -30,3 +30,42 @@ Create chart name and version as used by the chart label.
 {{- define "objectscale-manager.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
+
+{{ define "topologyNodeAffinity" -}}
+{{- if or (and .Values.topology.excludedFaultDomains .Values.topology.faultDomainKey) .Values.topology.nodeSelector }}
+topologyNodeAffinity:
+{{- include "nodeAffinityInternal" . }}
+{{- end }}
+{{- end -}}
+
+{{ define "nodeAffinity" -}}
+{{- if or (and .Values.topology.excludedFaultDomains .Values.topology.faultDomainKey) .Values.topology.nodeSelector }}
+nodeAffinity:
+{{- include "nodeAffinityInternal" . }}
+{{- end }}
+{{- end -}}
+
+{{ define "nodeAffinityInternal" }}
+  requiredDuringSchedulingIgnoredDuringExecution:
+    nodeSelectorTerms:
+    - matchExpressions:
+      # exclude any fault domains that the customer doesn't want in the
+      # node selectors
+      {{- if and .Values.topology.excludedFaultDomains .Values.topology.faultDomainKey }}
+      - key: {{.Values.topology.faultDomainKey}}
+        operator: NotIn
+        values:
+        {{- range .Values.topology.excludedFaultDomains }}
+        - {{ . }}
+        {{- end }}
+      {{- end }}
+      # Limit scheduling to only those listed in the node selector
+      # if we want this to be a multi-select list, we could actually do that
+      # just as easily
+      {{- if .Values.topology.nodeSelector }}
+      - key: {{.Values.topology.nodeSelector.key }}
+        operator: In
+        values:
+        - {{ .Values.topology.nodeSelector.value }}
+      {{- end }}
+{{- end -}}
