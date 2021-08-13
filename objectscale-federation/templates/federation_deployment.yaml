@@ -49,6 +49,14 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: status.podIP
+        - name: WATCH_NAMESPACE
+{{- if eq .Values.global.watchAllNamespaces true }}
+          value: ""
+{{- else }}
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+{{- end }}
         image: {{ default  .Values.global.registry .Values.image.registry }}/{{ .Values.image.repository }}:{{ default .Values.tag .Values.image.tag }}
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         ports:
