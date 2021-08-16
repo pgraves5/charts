@@ -10,6 +10,23 @@ metadata:
     app.kubernetes.io/part-of: objectscale-manager
     app.kubernetes.io/managed-by: nautilus
 spec:
+  additionalPrinterColumns:
+    - JSONPath: .status.reason
+      description: The status of service procedure
+      name: STATUS
+      type: string
+    - JSONPath: .spec.nodeInfo.name
+      description: The node name affecting by the service procedure
+      name: NODE
+      type: string
+    - JSONPath: .spec.diskInfo.name
+      description: The PVC name handling by the service procedure
+      name: PVC
+      type: string
+    - description: The creation date
+      JSONPath: .metadata.creationTimestamp
+      name: Age
+      type: date
   group: ecs.dellemc.com
   names:
     kind: ServiceProcedure
@@ -17,15 +34,6 @@ spec:
     plural: serviceprocedures
     singular: serviceprocedure
   scope: Namespaced
-  additionalPrinterColumns:
-    - name: STATUS
-      type: string
-      description: The status of service procedure
-      JSONPath: .status.reason
-    - description: The creation date
-      JSONPath: .metadata.creationTimestamp
-      name: Age
-      type: date
   subresources:
     status: {}
   validation:
