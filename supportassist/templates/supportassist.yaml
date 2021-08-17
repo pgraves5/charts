@@ -160,6 +160,8 @@ spec:
             secretKeyRef:
               name: supportassist-{{.Values.product}}-store-secret
               key: salt
+        - name: FS_GROUP
+          value: "999"
       restartPolicy: Always
       volumes:
       - name: supportassist-{{.Values.product}}-persistentdata
