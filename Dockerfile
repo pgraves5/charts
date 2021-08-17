@@ -8,6 +8,6 @@
 # on behalf of Dell Inc. or its subsidiaries.
 
 # Dockerfile for install-controller
-FROM asdrepo.isus.emc.com:8099/install-controller:1.3-W6-ea53dff2
+FROM asdrepo.isus.emc.com:8099/install-controller:1.3-W14-a19c4aa3
 
 COPY ./docs /docs
