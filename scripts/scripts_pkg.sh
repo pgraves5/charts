@@ -155,7 +155,7 @@ chmod 500 $vs7u2_plugin_script
 
 ### Building vSphere 7.0 U3+ ObjectScale WCP Plugin
 set -x
-vsphere_script=create-vsphere-app.py
+vsphere_script=create_vsphere_app_with_parameterized_vc_info.py
 wget -O scripts/$vsphere_script https://asdrepo.isus.emc.com/artifactory/objectscale-tps-staging-local-mw/com/vmware/create-vsphere-app/7.0u3/$vsphere_script
 if [ $? != 0 ]
 then
@@ -169,23 +169,8 @@ mkdir -p temp_package/vs7u3/tmp
 (cd temp_package/yaml; cp objectscale-vsphere7-manifest.yaml ../vs7u3/tmp/objectscale-vsphere-service-src.yaml )
 sed "${sed_inplace[@]}" "s/dellemc-${service_id}/$svc_vs7u3_id/g" temp_package/vs7u3/tmp/objectscale-vsphere-service-src.yaml
 
-## Append the 7.0 U3 Persistence Service Config to our yaml.  Eventually the 'create-vsphere-app.py' above will support this
-cat <<EOP >> temp_package/vs7u3/tmp/objectscale-vsphere-service-src.yaml
----
-#PersistenceServiceConfiguration
-apiVersion: psp.wcp.vmware.com/v1beta1
-kind: PersistenceServiceConfiguration
-metadata:
-  name: {{ .service.prefix }}-psp-config
-  namespace: {{ .service.namespace }}
-spec:
-  enableHostLocalStorage: true
-  serviceID: $svc_vs7u3_id
----
-EOP
-
 scripts/$vsphere_script $svc_vs7u3_crd_opts -p temp_package/vs7u3/tmp/objectscale-vsphere-service-src.yaml -v $objs_ver --display-name "$label" \
-  --description "$objs_desc" -e dellemc_eula.txt -o temp_package/vs7u3/objectscale-${objs_ver}-vsphere-service.yaml $svc_vs7u3_id
+  --description "$objs_desc" -e dellemc_eula.txt -t -o temp_package/vs7u3/objectscale-${objs_ver}-vsphere-service.yaml $svc_vs7u3_id
 
 if [ $? -ne 0 ]
 then
@@ -193,7 +178,7 @@ then
     exit 1
 fi
 
-## Now generating U3 preinstall script until OBSDEF-7223 is fixed.
+## Now generating U3 preinstall script only used for custom service ids to pre-copy CRDs
 
 vs7u3_pre_install_script="temp_package/vs7u3/objectscale-pre-install.sh"
 cp scripts/deploy-objectscale-plugin.sh $vs7u3_pre_install_script
@@ -206,16 +191,4 @@ ${extra_crd_install}
 EOS
 
 chmod 500 $vs7u3_pre_install_script
-
-mkdir -p temp_package/openshift 
-install_script=temp_package/openshift/objectscale-install.sh
-echo "objectscale_version=$objs_ver" > temp_package/openshift/objectscale-install.sh
-cat scripts/common_funcs.sh scripts/objectscale-install-main.sh >> temp_package/openshift/objectscale-install.sh
-
-rm -f yq_linux_amd64*
-wget http://asdrepo.isus.emc.com/artifactory/objectscale-build/com/github/yq/v4.4.1/yq_linux_amd64
-tar -czvf yq.tar.gz yq_linux_amd64 && base64 yq.tar.gz >> temp_package/openshift/objectscale-install.sh
-
-rm -f yq_linux_amd64* yq.tar.gz
-chmod 500 temp_package/openshift/objectscale-install.sh
 
