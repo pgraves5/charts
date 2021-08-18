@@ -16,6 +16,14 @@ metadata:
     release: {{ .Release.Name }}
     product: {{ required "product (e.g. objectscale) is required" .Values.global.product }} 
 rules:
+{{- if or (eq .Values.global.platform "Atlantic") (eq .Values.global.platform "OpenShift") }}
+- apiGroups:
+  - csi-baremetal.dell.com
+  resources:
+  - '*'
+  verbs:
+  - "*"
+{{- end }}
 - apiGroups:
   - ecs.dellemc.com
   resources:
