@@ -1,5 +1,5 @@
 ---
-{{- if or (eq .Values.global.platform "VMware") (eq .Values.global.watchAllNamespaces true) }}
+{{- if (eq .Values.global.watchAllNamespaces true) }}
 kind: ClusterRole
 {{- else }}
 kind: Role
@@ -7,7 +7,7 @@ kind: Role
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: {{ .Release.Namespace }}-object-store-monitor
-  {{- if and (ne .Values.global.platform "VMware") (eq .Values.global.watchAllNamespaces false) }}
+  {{- if (eq .Values.global.watchAllNamespaces false) }}
   namespace: {{ .Release.Namespace }}
   {{- end }}
   labels:
@@ -21,10 +21,8 @@ metadata:
     release: {{ .Release.Name}}
     operator: objectscale-operator
     product: objectscale
-    {{- if eq .Values.global.platform "VMware" }}
     rbac.authorization.k8s.io/aggregate-to-edit: "true"
     rbac.authorization.k8s.io/aggregate-to-view: "true"
-    {{- end }}
 rules:
 - apiGroups:
   - ecs.dellemc.com
@@ -138,3 +136,11 @@ rules:
   verbs:
     - get
     - list
+- apiGroups:
+  - rbac.authorization.k8s.io
+  resources:
+  - rolebindings
+  verbs:
+  - get
+  - list
+
