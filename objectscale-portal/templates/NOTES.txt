@@ -4,20 +4,17 @@ a Dell EMC ObjectScale User Interface (portal)
 
 This release is named {{ .Release.Name }}.
 
-1. To get started, obtain the login service account token:
-
-  $ read -r SVCACCOUNT_TOKEN \
-        <<< $(kubectl get secret -o jsonpath='{.data.token}' $(kubectl get sa "objectscale-api" -o json | jq -r '.secrets[] | select (.name | test("objectscale-api-token-")).name') | base64 --decode; echo -n " ")
-
-2. Use "kubectl get svc objectscale-portal-external" to obtain the network address of the ObjectScale Portal
+1. Use "kubectl get svc objectscale-portal-external" to obtain the network address of the ObjectScale Portal
 
    kubectl get svc objectscale-portal-external
    NAME                          TYPE           CLUSTER-IP      EXTERNAL-IP     PORT(S)          AGE
    objectscale-portal-external   LoadBalancer   172.30.160.33   10.236.228.48   4443:31474/TCP   118s
 
-3. Bring up a browser and connect to the above URL: https://<external-ip>:4443
+2. Bring up a browser and connect to the above URL: https://<external-ip>:4443
 
-4. Then paste this service account token into the ObjectScale User Interface login page.
+3. For OpenShift obtain your credentials using the identity provider configured for k8s (e.g. HTPasswd)
+
+4. Login with your credentials (username/password)
 
 5. To create an object store: Click on Object Stores -> New Object Store
 
