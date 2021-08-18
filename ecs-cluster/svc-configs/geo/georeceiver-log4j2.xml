@@ -91,6 +91,9 @@
         <Logger name="com.emc.storageos.objcontrol.object.shared.PerformanceCounter" level="DEBUG" additivity="false">
             <AppenderRef ref="asyncP"/>
         </Logger>
+        <Logger name="com.emc.storageos.objcontrol.object.shared.policy.bucketpolicy" level="DEBUG" additivity="false">
+                <AppenderRef ref="asyncR"/>
+        </Logger>
         <Logger name="com.emc.storageos.data.monitoring.MonitoringWorker" level="INFO">
             <AppenderRef ref="asyncM"/>
         </Logger>
