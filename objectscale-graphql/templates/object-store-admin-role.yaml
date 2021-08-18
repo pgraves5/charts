@@ -22,6 +22,7 @@ metadata:
     operator: objectscale-operator
     product: objectscale
     rbac.authorization.k8s.io/aggregate-to-edit: "true"
+    rbac.authorization.k8s.io/aggregate-to-admin: "true"
 rules:
 - apiGroups:
   - ecs.dellemc.com
