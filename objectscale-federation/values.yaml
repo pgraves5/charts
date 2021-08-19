@@ -1,5 +1,5 @@
 ---
-tag: 0.80.0-1259
+tag: 0.80.0-1275
 global:
   registry: emccorp
   # Default: true == Watch ALL namespaces
@@ -11,7 +11,7 @@ global:
 image:
   pullPolicy: IfNotPresent
   repository: fedsvc
-  tag: 3.7.0.0-75.7dc65e2 # rfw-update-this fedsvc-docker-image
+  tag: 3.7.0.0-76.2bd59e5 # rfw-update-this fedsvc-docker-image
 livenessProbe:
   probePath: /fedsvchealthcheck
 readinessProbe:

@@ -40,7 +40,7 @@ global:
 
 # The default docker tag and pull policy for the ECS Cluster
 # rfw-update-next *comp*object-services
-tag: 3.7.0.0-137154.0392f78bdf5
+tag: 3.7.0.0-137170.d81c6dcb142
 pullPolicy: IfNotPresent
 
 # Override the default number of replicas which taken according to performance profile for each service
@@ -310,7 +310,7 @@ objectsvc:
   # Docker repository to be used for objectsvc instances
   image:
     repository: object-service
-    tag: 3.7.0.0-2917.ce427279 # rfw-update-this objectsvc-docker-image
+    tag: 3.7.0.0-2936.90277dc9 # rfw-update-this objectsvc-docker-image
     # pullPolicy: IfNotPresent
 
   # Elements to add to the service's ConfigMap. This is a map of string -> string
@@ -650,7 +650,7 @@ managementGateway:
   # Docker repository to be used for managementGateway instances
   image:
     repository: management-gateway
-    tag: 0.78.0.0-202.811d3c4 # rfw-update-this management-gateway-docker-image
+    tag: 0.80.0-203.6630c2f # rfw-update-this management-gateway-docker-image
     # pullPolicy: IfNotPresent
 
   service:
@@ -720,7 +720,7 @@ expandsp:
 cmfswitch:
   image:
     repository: cmf-switch
-    tag: 0.6.0-202.811d3c4 # rfw-update-this cmf-switch-docker-image
+    tag: 0.6.0-203.6630c2f # rfw-update-this cmf-switch-docker-image
     # pullPolicy: IfNotPresent
 
 #
