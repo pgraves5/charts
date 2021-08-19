@@ -1,8 +1,8 @@
 ---
 apiVersion: v2
 name: openshift-scc
-version: 0.80.0-1276
-appVersion: 0.80.0-1276
+version: 0.80.0-1280
+appVersion: 0.80.0-1280
 description: modify SCC for the namespace
 maintainers:
   - name: Dell EMC
