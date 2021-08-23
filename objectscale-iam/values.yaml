@@ -24,6 +24,12 @@ image:
 # Number of replicas for the ObjectScale IAM deployment
 replicaCount: 3
 
+resources:
+    limits:
+      memory: 2.5Gi
+    requests:
+      memory: 2.5Gi
+
 # Liveness and Readiness Probe configurations for the ObjectScale IAM Deployment
 livenessProbe:
   probePath: /iamhealthcheck

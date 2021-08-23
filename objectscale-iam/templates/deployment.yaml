@@ -26,9 +26,9 @@ spec:
       - name: iam
         resources:
           limits:
-            memory: 2Gi
+            memory: {{ .Values.resources.limits.memory }}
           requests:
-            memory: 2Gi
+            memory: {{ .Values.resources.requests.memory }}
         env:
         - name: SPRING_PROFILES_ACTIVE
           value: "atlas,flex,dns"
