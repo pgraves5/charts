@@ -53,7 +53,7 @@ HELM_DECKS_ARGS      = # --set image.tag=${YOUR_VERSION_HERE}
 HELM_KAHM_ARGS       = # --set image.tag=${YOUR_VERSION_HERE}
 HELM_DECKS_SUPPORT_STORE_ARGS      = # --set decks-support-store.image.tag=${YOUR_VERSION_HERE}
 SED_INPLACE         := -i
-ENABLE_STDOUT_LOGS_COLLECTION   := false
+ENABLE_STDOUT_LOGS_COLLECTION   := true
 
 DOCKER_LABELS := --label "GIT_BRANCH=${GIT_BRANCH_ID}" --label "VERSION=${FLEXVER}" --label "PRODUCT_VERSION=${FULL_PACKAGE_VERSION}" --label "GITSHA=${GIT_COMMIT_SHORT_ID}"
 
