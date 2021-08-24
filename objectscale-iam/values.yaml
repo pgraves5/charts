@@ -25,10 +25,10 @@ image:
 replicaCount: 3
 
 resources:
-    limits:
-      memory: 2.5Gi
-    requests:
-      memory: 2.5Gi
+  limits:
+    memory: 2.5Gi
+  requests:
+    memory: 2.5Gi
 
 # Liveness and Readiness Probe configurations for the ObjectScale IAM Deployment
 livenessProbe:
