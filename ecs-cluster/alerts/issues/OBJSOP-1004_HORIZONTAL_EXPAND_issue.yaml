@@ -1,5 +1,5 @@
 - description: "Horizontal Expand SS service procedure handling by Operator"
-  name: "OperatorExpand"
+  name: "OperatorHorizontalExpand"
   issueCategory: Auto
   matchOnList:
     - matchon:
