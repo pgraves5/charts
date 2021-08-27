@@ -1,12 +1,12 @@
 ---
 apiVersion: v2
 name: logging-injector
-version: 0.81.0-3
-appVersion: 0.81.0-3
+version: 0.81.0-10
+appVersion: 0.81.0-10
 description: Rsyslog client sidecar injector
 engine: gotpl
 dependencies:
   - name: logging-injector
     repository: https://asdrepo.isus.emc.com/artifactory/objectscale-helm-build/
     # rfw-update-next logging-injector-helm-chart
-    version: 3.7.0-1290.afb04591 # no_auto_change__monitoring_auto_change
+    version: 3.7.0-1297.0ebd4167 # no_auto_change__monitoring_auto_change
