@@ -732,7 +732,7 @@ cmfswitch:
 syslogAgent:
   image:
     repository: rsyslog
-    tag: 3.7.0.0-1297.0ebd4167 # rfw-update-this rsyslog-docker-image
+    tag: 3.7.0.0-1299.e1a4521b # rfw-update-this rsyslog-docker-image
     # pullPolicy: IfNotPresent
 
 # The log agent configuration for log collection of ECS services with a Syslog
@@ -740,7 +740,7 @@ syslogAgent:
 fluentbitAgent:
   image:
     repository: fluent-bit
-    tag: 3.7.0.0-1297.0ebd4167 # rfw-update-this fluent-bit-docker-image
+    tag: 3.7.0.0-1299.e1a4521b # rfw-update-this fluent-bit-docker-image
     # pullPolicy: IfNotPresent
 
 # The fabric proxy sidecar configuration for ECS Service Discovery and container
