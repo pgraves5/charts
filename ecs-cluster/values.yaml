@@ -128,7 +128,7 @@ pravega:
   # labels:
   image:
     pullPolicy: IfNotPresent
-    tag: 0.9.2-2796.50aa7b214 # rfw-update-this pravega-docker-image
+    tag: 0.9.2-2797.2b0ac9696-cherry-pick-6253 # rfw-update-this pravega-docker-image
   controller:
     replicas: 2
     service:
@@ -775,12 +775,12 @@ healthChecks:
   connectivity:
     image:
       repository: objectstore-connectivity
-      tag: 0.80.0-70.042a05d # rfw-update-this objectstore-connectivity-image
+      tag: 0.80.0-71.4a96bdd # rfw-update-this objectstore-connectivity-image
   preUpdate:
     image:
       repository: objectstore-pre-update
-      tag: 0.80.0-70.042a05d # rfw-update-this objectstore-pre-update-image
+      tag: 0.80.0-71.4a96bdd # rfw-update-this objectstore-pre-update-image
   postUpgrade:
     image:
       repository: objectstore-post-upgrade
-      tag: 0.80.0-70.042a05d # rfw-update-this objectstore-pre-update-image
+      tag: 0.80.0-71.4a96bdd # rfw-update-this objectstore-pre-update-image

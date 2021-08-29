@@ -32,4 +32,4 @@ healthChecks:
   preUpdate:
     image:
       repository: objectscale-component-pre-update
-      tag: 0.80.0-70.042a05d # rfw-update-this objectscale-component-pre-update-image
+      tag: 0.80.0-71.4a96bdd # rfw-update-this objectscale-component-pre-update-image
