@@ -25,7 +25,7 @@ global:
 image:
   repository: statefuldaemonset-operator
   # no need to insert rfw marker here because version comes from global.monitoring_tag
-  # tag: stable
+  tag: gusakk-test
   pullPolicy: IfNotPresent
 
 nameOverride: ""
