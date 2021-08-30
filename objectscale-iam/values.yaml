@@ -27,8 +27,10 @@ replicaCount: 3
 resources:
   limits:
     memory: 2.5Gi
+    cpu: 2
   requests:
     memory: 2.5Gi
+    cpu: 2
 
 # Liveness and Readiness Probe configurations for the ObjectScale IAM Deployment
 livenessProbe:
@@ -115,6 +117,8 @@ atlas:
   # Atlas pods limits and requests memory setting
   resources:
     limits:
-      memory: 1000Mi
+      memory: 400Mi
+      cpu: 400m
     requests:
-      memory: 256Mi
+      memory: 400Mi
+      cpu: 400m
