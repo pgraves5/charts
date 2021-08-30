@@ -27,9 +27,11 @@ spec:
       - name: {{ .Chart.Name }}
         resources:
           limits:
-            memory: 1000M
+            memory: {{ .Values.resources.limits.memory }}
+            cpu: {{ .Values.resources.limits.cpu }}
           requests:
-            memory: 1000M
+            memory: {{ .Values.resources.requests.memory }}
+            cpu: {{ .Values.resources.requests.cpu }} 
         env:
         - name: ATLAS_SERVICE_HOSTNAME
           value: {{ include "fedsvc.name" . }}-atlas-client
