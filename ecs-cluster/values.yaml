@@ -128,7 +128,7 @@ pravega:
   # labels:
   image:
     pullPolicy: IfNotPresent
-    tag: 0.9.2-2797.2b0ac9696-cherry-pick-6253 # rfw-update-this pravega-docker-image
+    tag: 0.9.2-2794.9981c5da5 # rfw-update-this pravega-docker-image
   controller:
     replicas: 2
     service:
@@ -219,7 +219,7 @@ zookeeper:
 
   image:
     repository: zookeeper
-    tag: 0.2.10-179-74e8fd5 # rfw-update-this zookeeper-docker-image
+    tag: 0.2.10-180-326a981 # rfw-update-this zookeeper-docker-image
     # pullPolicy: IfNotPresent
 
   # Persistent storage options for zookeeper volume requests
@@ -650,7 +650,7 @@ managementGateway:
   # Docker repository to be used for managementGateway instances
   image:
     repository: management-gateway
-    tag: 0.80.0-204.8f962db # rfw-update-this management-gateway-docker-image
+    tag: 0.80.0-205.63f6b87 # rfw-update-this management-gateway-docker-image
     # pullPolicy: IfNotPresent
 
   service:
@@ -720,7 +720,7 @@ expandsp:
 cmfswitch:
   image:
     repository: cmf-switch
-    tag: 0.6.0-204.8f962db # rfw-update-this cmf-switch-docker-image
+    tag: 0.6.0-205.63f6b87 # rfw-update-this cmf-switch-docker-image
     # pullPolicy: IfNotPresent
 
 #
