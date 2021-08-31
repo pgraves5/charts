@@ -79,7 +79,7 @@ createApplicationResource: true
 debugMode: false
 
 # The default docker tag and pull policy for objectscale-manager services
-tag: 0.81.0-18
+tag: 0.81.0-19
 pullPolicy: IfNotPresent
 
 # The default number of replicas for the objectscale-manager deployment
@@ -237,23 +237,23 @@ healthChecks:
   preUpdate:
     image:
       repository: objectscale-manager-pre-update
-      tag: 0.80.0-71.4a96bdd # rfw-update-this objectscale-manager-pre-update-image
+      tag: 0.81.0-72.5dc9ce4 # rfw-update-this objectscale-manager-pre-update-image
   licenseUsage:
     image:
       repository: objectscale-license-usage
-      tag: 0.80.0-71.4a96bdd # rfw-update-this objectscale-license-usage-image
+      tag: 0.81.0-72.5dc9ce4 # rfw-update-this objectscale-license-usage-image
     schedule: "0 */6 * * *"
     disabled: false
   inventory:
     image:
       repository: objectscale-inventory
-      tag: 0.80.0-71.4a96bdd # rfw-update-this objectscale-inventory-image
+      tag: 0.81.0-72.5dc9ce4 # rfw-update-this objectscale-inventory-image
     schedule: "0 * * * *"
     disabled: false
   capacity:
     image:
       repository: objectscale-capacity
-      tag: 0.80.0-71.4a96bdd # rfw-update-this objectscale-capacity-image
+      tag: 0.81.0-72.5dc9ce4 # rfw-update-this objectscale-capacity-image
     schedule: "0 * * * *"
     disabled: false
     # pull all records in a given window (60 minutes)
@@ -261,7 +261,7 @@ healthChecks:
   performance:
     image:
       repository: objectscale-performance
-      tag: 0.80.0-71.4a96bdd # rfw-update-this objectscale-performance-image
+      tag: 0.81.0-72.5dc9ce4 # rfw-update-this objectscale-performance-image
     schedule: "*/10 * * * *"
     disabled: false
     # pull all records in a given window (10 minutes)
@@ -269,7 +269,7 @@ healthChecks:
   health:
     image:
       repository: objectscale-health
-      tag: 0.80.0-71.4a96bdd # rfw-update-this objectscale-health-image
+      tag: 0.81.0-72.5dc9ce4 # rfw-update-this objectscale-health-image
     schedule: "*/10 * * * *"
     disabled: false
     uploadSkylineHealth: true
