@@ -10,13 +10,12 @@ metadata:
 {{ include "statefuldaemonset-operator.labels" . | indent 4}}
 rules:
 - apiGroups:
-  - apps
+  - ""
   resources:
-  - statefulsets
-  - statefulsets/finalizers
+  - persistentvolumeclaims
+  - persistentvolumeclaims/finalizers
   verbs:
   - create
-  - delete
   - get
   - list
   - patch
@@ -26,6 +25,7 @@ rules:
   - ""
   resources:
   - pods
+  - pods/finalizers
   verbs:
   - create
   - delete
