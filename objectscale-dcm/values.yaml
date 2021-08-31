@@ -1,5 +1,5 @@
 ---
-tag: 0.82.0-1294
+tag: 0.82.0-1297
 global:
   registry: emccorp
   # storageClassName  - set default storageClassName for dcm
