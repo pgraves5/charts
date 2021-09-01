@@ -40,7 +40,7 @@ global:
 
 # The default docker tag and pull policy for the ECS Cluster
 # rfw-update-next *comp*object-services
-tag: 3.7.0.0-137206.3f5153383a2
+tag: 3.7.0.0-137238.cb4757cc132
 pullPolicy: IfNotPresent
 
 # Override the default number of replicas which taken according to performance profile for each service
@@ -128,7 +128,7 @@ pravega:
   # labels:
   image:
     pullPolicy: IfNotPresent
-    tag: 0.9.2-2796.50aa7b214 # rfw-update-this pravega-docker-image
+    tag: 0.9.2-2797.2b0ac9696-cherry-pick-6253 # rfw-update-this pravega-docker-image
   controller:
     replicas: 2
     service:
@@ -310,7 +310,7 @@ objectsvc:
   # Docker repository to be used for objectsvc instances
   image:
     repository: object-service
-    tag: 3.7.0.0-2958.16ce2df3 # rfw-update-this objectsvc-docker-image
+    tag: 3.7.0.0-3003.b8e86365 # rfw-update-this objectsvc-docker-image
     # pullPolicy: IfNotPresent
 
   # Elements to add to the service's ConfigMap. This is a map of string -> string
@@ -650,7 +650,7 @@ managementGateway:
   # Docker repository to be used for managementGateway instances
   image:
     repository: management-gateway
-    tag: 0.80.0-204.8f962db # rfw-update-this management-gateway-docker-image
+    tag: 0.81.0-206.603b91e # rfw-update-this management-gateway-docker-image
     # pullPolicy: IfNotPresent
 
   service:
@@ -720,7 +720,7 @@ expandsp:
 cmfswitch:
   image:
     repository: cmf-switch
-    tag: 0.6.0-204.8f962db # rfw-update-this cmf-switch-docker-image
+    tag: 0.6.0-206.603b91e # rfw-update-this cmf-switch-docker-image
     # pullPolicy: IfNotPresent
 
 #
@@ -775,12 +775,12 @@ healthChecks:
   connectivity:
     image:
       repository: objectstore-connectivity
-      tag: 0.80.0-70.042a05d # rfw-update-this objectstore-connectivity-image
+      tag: 0.81.0-72.5dc9ce4 # rfw-update-this objectstore-connectivity-image
   preUpdate:
     image:
       repository: objectstore-pre-update
-      tag: 0.80.0-70.042a05d # rfw-update-this objectstore-pre-update-image
+      tag: 0.81.0-72.5dc9ce4 # rfw-update-this objectstore-pre-update-image
   postUpgrade:
     image:
       repository: objectstore-post-upgrade
-      tag: 0.80.0-70.042a05d # rfw-update-this objectstore-pre-update-image
+      tag: 0.81.0-72.5dc9ce4 # rfw-update-this objectstore-pre-update-image
