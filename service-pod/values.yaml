@@ -23,7 +23,7 @@ global:
 
 
 # The default docker tag and pull policy for service-pod
-tag: 2.82.0-1299
+tag: 2.82.0-1302
 pullPolicy: IfNotPresent
 # product for which the service pod is required
 # product: objectscale
@@ -31,7 +31,7 @@ pullPolicy: IfNotPresent
 # The image configured for the service-pod
 image:
   repository: base-service-tools
-  tag: 2.81.0-206.603b91e # rfw-update-this objectscale-service-tools-docker-image
+  tag: 2.81.0-207.c9bb428 # rfw-update-this objectscale-service-tools-docker-image
   # pullPolicy: IfNotPresent
 
 sshCred:

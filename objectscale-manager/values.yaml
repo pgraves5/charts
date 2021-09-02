@@ -79,7 +79,7 @@ createApplicationResource: true
 debugMode: false
 
 # The default docker tag and pull policy for objectscale-manager services
-tag: 0.82.0-1299
+tag: 0.82.0-1302
 pullPolicy: IfNotPresent
 
 # The default number of replicas for the objectscale-manager deployment
@@ -88,7 +88,7 @@ replicaCount: 1
 # The image configured for the ObjectScale Manager
 image:
   repository: objectscale-operator
-  tag: 0.81.0-643.1e93a557 # rfw-update-this operator-docker-image
+  tag: 0.81.0-644.664488d2 # rfw-update-this operator-docker-image
   # pullPolicy: IfNotPresent
 
 # A customer provided log server can be used for external log aggregation.
