@@ -23,10 +23,8 @@ spec:
   resources:
     limits:
       memory: {{ .Values.atlas.resources.limits.memory }}
-      cpu: {{ .Values.atlas.resources.limits.cpu }}
     requests:
       memory: {{ .Values.atlas.resources.requests.memory }}
-      cpu: {{ .Values.atlas.resources.requests.cpu }} 
   labels:
     component: atlas
 {{ include "common-lib.labels-sp-integrated-all" . | indent 4}}

@@ -12,14 +12,6 @@ image:
   pullPolicy: IfNotPresent
   repository: fedsvc
   tag: 3.7.0.0-81.f3182a3 # rfw-update-this fedsvc-docker-image
-# Federation pods limits and requests memory setting
-resources:
-  limits:
-    memory: 1000M
-    cpu: 1
-  requests:
-    memory: 1000M
-    cpu: 1
 livenessProbe:
   probePath: /fedsvchealthcheck
 readinessProbe:
@@ -53,8 +45,6 @@ atlas:
   # Atlas pods limits and requests memory setting
   resources:
     limits:
-      memory: 256Mi
-      cpu: 400m
+      memory: 1000Mi
     requests:
       memory: 256Mi
-      cpu: 400m
