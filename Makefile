@@ -11,7 +11,7 @@ FLEXCHARTS := common-lib openshift-scc ecs-cluster objectscale-manager objectsca
 # release version
 MAJOR=0
 MINOR=78
-PATCH=0
+PATCH=1-0.hotfix
 PRERELEASE=
 
 FULL_PACKAGE_VERSION=${MAJOR}.${MINOR}.${PATCH}$(if $(PRERELEASE),-$(PRERELEASE),)
