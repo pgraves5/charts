@@ -12,7 +12,7 @@ FLEXCHARTS := common-lib openshift-scc ecs-cluster objectscale-manager objectsca
 MAJOR=0
 MINOR=82
 PATCH=0
-PRERELEASE=1286
+PRERELEASE=1302
 
 FULL_PACKAGE_VERSION=${MAJOR}.${MINOR}.${PATCH}$(if $(PRERELEASE),-$(PRERELEASE),)
 FLEXVER=${FULL_PACKAGE_VERSION}
@@ -90,7 +90,7 @@ dep:
 	chmod +x /tmp/helm
 	helm plugin list | grep -q "unittest" ; \
 	if [ "$${?}" -eq "1" ] ; then \
-		helm plugin install https://github.com/lrills/helm-unittest ; \
+		helm plugin install https://github.com/vbehar/helm3-unittest ; \
  	fi
 	export PATH=/tmp:${PATH}
 	sudo pip install yamllint=="${YAMLLINT_VERSION}" requests
