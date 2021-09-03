@@ -1,14 +1,14 @@
 ---
 apiVersion: v2
-appVersion: 2.81.0-32
+appVersion: 2.81.0-33
 description: A Helm chart for Dell EMC Service Pod
 name: service-pod
-version: 2.81.0-32
+version: 2.81.0-33
 icon: https://avatars0.githubusercontent.com/u/12926680
 maintainers:
   - name: Dell EMC
     url: http://dellemc.com
 dependencies:
   - name: common-lib
-    version: 0.81.0-32 # no_auto_change__flex_auto_change
+    version: 0.81.0-33 # no_auto_change__flex_auto_change
     repository: file://../common-lib
