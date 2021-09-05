@@ -1,8 +1,8 @@
 ---
 apiVersion: v2
 name: logging-injector
-version: 0.81.0-44
-appVersion: 0.81.0-44
+version: 0.81.0
+appVersion: 0.81.0
 description: Rsyslog client sidecar injector
 engine: gotpl
 dependencies:
