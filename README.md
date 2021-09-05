@@ -1,4 +1,4 @@
-TEST_MERGE_SUCCESS
+TEST_MERGE_SUCCESS_3
 # Dell EMC ObjectScale Helm Charts Sources
 
 This repository provides all Dell EMC ObjectScale related sources for [Kubernetes](http://kubernetes.io), formatted as [Helm](https://helm.sh) packages.
