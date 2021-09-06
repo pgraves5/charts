@@ -71,6 +71,11 @@ bookkeeper:
 dcm:
   enabled: true
 
+# Node rebuild watchdog - default timeout is 60 minutes
+rebuldWatchdog:
+  enabled: false
+  timeout: 3600
+
 # Create an application resource for management  using Dell EMC common installer or other application-resource
 # controllers
 createApplicationResource: true
