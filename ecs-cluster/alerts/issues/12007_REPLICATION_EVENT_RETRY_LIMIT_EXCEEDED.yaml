@@ -1,0 +1,11 @@
+- description: "Replication event exceeds retry limit"
+  name: "REPLICATION_EVENT_RETRY_LIMIT_EXCEEDED"
+  issueCategory: Manual
+  matchOnList:
+    - matchon:
+        # ERROR
+        - label: SymptomID
+          value: OBJST-12007
+  notifiers:
+    - objectscale-snmp-notifier
+

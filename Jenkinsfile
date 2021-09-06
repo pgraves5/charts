@@ -7,9 +7,6 @@ pipeline {
 
     environment {
         PWD = pwd()
-        DOCKER_IMAGE = 'asdrepo.isus.emc.com:8085/emcecs/fabric/devkit:latest'
-        CONTAINER_PATH = '/charts'
-        DOCKER_ARGS = '-e "EUID=0" -e "EGID=0" -e "USER_NAME=root" -e "STDOUT=true" -e "JENKINS_RUN=true"  -w $CONTAINER_PATH -v $PWD:$CONTAINER_PATH:rw,z'
         GH_CREDS = ''
     }
 
@@ -31,23 +28,20 @@ pipeline {
                     success = false
                 }
 
-                withDockerContainer(image: DOCKER_IMAGE, args: DOCKER_ARGS) {
-                    sshagent([GH_CREDS]) {
+                script {
+                    common.withPeakitContainer() {
+                        sshagent([GH_CREDS]) {
 
-                        // NOTE this is to fix non-default (not in /usr/bin) location of pip in newer python2.7
-                        sh("sed -i 's/\\(secure_path=\\\"\\)/\\1\\/usr\\/local\\/bin:/' /etc/sudoers")
-                        // remove old version of yq provided by fabric devkit
-                        sh("rm -rf /usr/local/bin/yq")
-
-                       sh('''
-                            make dep
-                            PATH=/tmp:$PATH
-                            make charts-dep
-                            make test
-                            make build
-                            make package
-                            make generate-issues-events-all
-                       ''')
+                           sh('''
+                                make dep
+                                PATH=/tmp:$PATH
+                                make charts-dep
+                                make test
+                                make build
+                                make package
+                                make generate-issues-events-all
+                           ''')
+                        }
                     }
                 }
             }

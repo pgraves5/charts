@@ -85,6 +85,10 @@
         <Logger name="org.eclipse.jetty.servlets.DoSFilter" level="WARN"/>
         <Logger name="org.eclipse.jetty.util.thread.QueuedThreadPool" level="WARN"/>
 
+        <Logger name="com.emc.storageos.objcontrol.object.shared.policy.bucketpolicy" level="DEBUG" additivity="false">
+            <AppenderRef ref="asyncR"/>
+        </Logger>
+
         <Logger name="com.emc.storageos.services.util.AlertsLogger" level="WARN" additivity="false">
             <AppenderRef ref="alertsLogger"/>
         </Logger>

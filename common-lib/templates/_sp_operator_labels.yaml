@@ -20,10 +20,16 @@ objectscale.dellemc.com/sp-integrated: "true"
 {{- end }}
 
 #
-# Label for registering for ignoring stateless pods readiness post check on TMM.
+# IgnoreChecksLabel Contains name of checks to be ignored during service procedures in the following format
+# 'fmt.Sprintf(%s-%s, <ServiceProcedureName>, <CheckName>)' E.g. PMM-EnoughCapacityPreCheck, TMM-PodsAreReadyPostCheck
+# Label may contain multiple checks to ignored split by the '_'
 #
-{{ define "common-lib.labels-sp-integrated-depends-on-stateful" -}}
-objectscale.dellemc.com/sp-integrated-depends-on-stateful: "true"
+# Example how to add ignore all PMM checks and TMM pod readiness precheck rules in the template:
+# {{ include "common-lib.labels-sp-integrated-ignore-checks" (dict "checks" "PMM-AllChecks_TMM-PodsAreReadyPreCheck") | indent 8}}
+#
+#
+{{ define "common-lib.labels-sp-integrated-ignore-checks" -}}
+objectscale.dellemc.com/sp-integrated-ignore-checks: "{{- .checks -}}"
 {{- end }}
 
 #
