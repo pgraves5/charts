@@ -96,7 +96,7 @@
             <AppenderRef ref="asyncE" level="error"/>
         </Logger>
 
-        <Root level="info">
+        <Root level="debug">
             <AppenderRef ref="asyncR"/>
             <AppenderRef ref="asyncE" level="error"/>
         </Root>
