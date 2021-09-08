@@ -115,12 +115,8 @@ spec:
         - name: DCM_SERVICE_HOSTNAME
           value: "objectscale-dcm"
 {{- end }}
-{{- if .Values.rebuldWatchdog.enabled }}
-        - name: WATCHDOG_ENABLE
-          value: true
-{{- end }}
 {{- if .Values.rebuldWatchdog.timeout }}
-        - name: REBUILD_TIMEOUT
+        - name: REBUILD_WATCHDOG_TIMEOUT
           value: {{ .Values.rebuildWatchdog.timeout }}
 {{- end }}
 {{- if .Values.logReceiver.create }}
