@@ -46,7 +46,12 @@ port: 8080
 serviceName: objectscale-graphql
 service:
   type: ClusterIP
-#
+
+# Enable AntiAffinity or not
+enableAntiAffinity: true
+
+replicas: 3
+
 decks:
   licenseChartVersion: "2.82.0-1302"
   supportAssistChartVersion: "2.82.0-1302"

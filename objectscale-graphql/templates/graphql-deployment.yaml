@@ -16,7 +16,7 @@ metadata:
     operator: objectscale-operator
     product: objectscale
 spec:
-  replicas: 1
+  replicas: {{ .Values.replicas }}
   selector:
     matchLabels:
       app.kubernetes.io/name: objectscale-manager
@@ -38,6 +38,18 @@ spec:
       annotations:
 {{ include "common-lib.vsphere-emm-integrated_annotation" . | indent 8}}
     spec:
+{{- if eq .Values.enableAntiAffinity true }}
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchLabels:
+                  app.kubernetes.io/component: objectscale-graphql
+                  app.kubernetes.io/name: objectscale-manager
+              namespaces:
+                - {{ .Release.Namespace }}
+              topologyKey: kubernetes.io/hostname
+{{- end }}
       serviceAccountName: objectscale-api
       containers:
       - name: objectscale-graphql
