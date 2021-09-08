@@ -12,10 +12,6 @@ dependencies:
     version: 0.82.0-1302
     repository: file://../objectscale-graphql
     condition: graphql.enabled
-  - name: openshift-scc
-    version: 0.82.0-1302
-    repository: file://../openshift-scc
-    condition: openshift.enabled
   - name: common-lib
     version: 0.82.0-1302
     repository: file://../common-lib
