@@ -38,6 +38,20 @@ global:
   # "Default" - All others
   platform: Default
 
+  # Configuration parameters for topology spread and fault domain selection
+  topology:
+    # The node label key for topology spread and fault domains
+    # for example - topology.kubernetes.io/rack
+    faultDomainKey: { }
+  # Fault domains to be excluded from resource scheduling
+  # excludedFaultDomains:
+  #   - zone1
+  #   - zone3
+  # The nodes to be targeted for resource scheduling
+  # nodeSelector:
+  #   key: row
+  #   value: 3
+
 # The default docker tag and pull policy for the ECS Cluster
 # rfw-update-next *comp*object-services
 tag: 3.7.0.0-137238.cb4757cc132
@@ -64,20 +78,6 @@ createApplicationResource: true
 
 # progressDeadlineSeconds field for all Deployments installed in ECS cluster
 deploymentDeadlineSeconds: 2400
-
-# Configuration parameters for topology spread and fault domain selection
-topology:
-  # The node label key for topology spread and fault domains
-  # for example - topology.kubernetes.io/rack
-  faultDomainKey: {}
-# Fault domains to be excluded from resource scheduling
-# excludedFaultDomains:
-#   - zone1
-#   - zone3
-# The nodes to be targeted for resource scheduling
-# nodeSelector:
-#   key: row
-#   value: 3
 
 # Different features of ECSCluster that can be enabled or disabled
 features:
