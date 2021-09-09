@@ -1,0 +1,10 @@
+- description: "Vertical Expand SS service procedure handling by Operator"
+  name: "OperatorVerticalExpand"
+  issueCategory: Auto
+  matchOnList:
+    - matchon:
+        - label: SymptomID
+          value: OBJSOP-1005
+  notifiers:
+    - objectscale-snmp-notifier
+

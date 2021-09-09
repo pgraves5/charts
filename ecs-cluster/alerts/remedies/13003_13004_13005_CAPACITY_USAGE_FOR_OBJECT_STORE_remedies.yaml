@@ -1,0 +1,20 @@
+- symptomid: OBJST-13003
+  description: Capacity usage for the object store exceeded the warning threshold
+  remedies:
+    - Check capacity usage for object store
+    - Free up capacity on the object store
+    - Expand the object store or adjust the thresholds 
+
+- symptomid: OBJST-13005
+  description: Capacity usage for the object store exceed the critical threshold
+  remedies:
+    - Check capacity usage for the object store
+    - Free up capacity on the object store
+    - Expand the object store or adjust the thresholds 
+
+- symptomid: OBJST-13004
+  description: Capacity usage for objectStore exceed error threshold
+  remedies:
+    - The object store has exceeded 90% capacity
+    - Free up capacity on the object store
+    - Expand the object store if storage is available

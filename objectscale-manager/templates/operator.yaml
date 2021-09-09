@@ -90,6 +90,8 @@ spec:
           mountPath: "/etc/mgmt/trustedanchors"
         - name: mgmt-shared-secret
           mountPath: "/etc/mgmt/sharedsecret"
+        - name: operator-bypass-config
+          mountPath: "/etc/bypass_config"
         env:
         - name: POD_NAME
           valueFrom:
@@ -329,6 +331,9 @@ spec:
         - name: service-procedures-config
           configMap:
             name: objectscale-service-procedures-config
+        - name: operator-bypass-config
+          configMap:
+            name: objectscale-manager-bypass-config
 # Because volumes config was created if platform is not VMware and logReceiver is active it's needed to add this
 # checking here to save previous logic
 {{- if or (eq .Values.loggerConfig.enabled true) (and (ne .Values.global.platform "VMware") (or .Values.logReceiver.type .Values.logReceiver.create)) }}

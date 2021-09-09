@@ -3,16 +3,16 @@ HELM_URL     := https://get.helm.sh
 HELM_TGZ      = helm-${HELM_VERSION}-linux-amd64.tar.gz
 YQ_VERSION   := 4.4.1
 YAMLLINT_VERSION := 1.20.0
-ALL_CHARTS := common-lib openshift-scc ecs-cluster objectscale-manager mongoose zookeeper-operator atlas-operator decks kahm dks-testapp fio-test sonobuoy dellemc-license service-pod helm-controller objectscale-graphql objectscale-vsphere objectscale-portal objectscale-gateway objectscale-iam pravega-operator bookkeeper-operator supportassist decks-support-store statefuldaemonset-operator influxdb-operator objectscale-federation logging-injector objectscale-dcm snmp-notifier
+ALL_CHARTS := common-lib ecs-cluster objectscale-manager mongoose zookeeper-operator atlas-operator decks kahm dks-testapp fio-test sonobuoy dellemc-license service-pod helm-controller objectscale-graphql objectscale-vsphere objectscale-portal objectscale-gateway objectscale-iam pravega-operator bookkeeper-operator supportassist decks-support-store statefuldaemonset-operator influxdb-operator objectscale-federation logging-injector objectscale-dcm snmp-notifier
 CHARTS = ${ALL_CHARTS}
 DECKSCHARTS := decks kahm supportassist service-pod dellemc-license decks-support-store snmp-notifier
-FLEXCHARTS := common-lib openshift-scc ecs-cluster objectscale-manager objectscale-vsphere objectscale-graphql helm-controller objectscale-portal objectscale-gateway objectscale-iam statefuldaemonset-operator influxdb-operator objectscale-federation logging-injector objectscale-dcm
+FLEXCHARTS := common-lib ecs-cluster objectscale-manager objectscale-vsphere objectscale-graphql helm-controller objectscale-portal objectscale-gateway objectscale-iam statefuldaemonset-operator influxdb-operator objectscale-federation logging-injector objectscale-dcm
 
 # release version
 MAJOR=0
-MINOR=80
+MINOR=82
 PATCH=0
-PRERELEASE=1276
+PRERELEASE=1302
 
 FULL_PACKAGE_VERSION=${MAJOR}.${MINOR}.${PATCH}$(if $(PRERELEASE),-$(PRERELEASE),)
 FLEXVER=${FULL_PACKAGE_VERSION}
@@ -53,7 +53,7 @@ HELM_DECKS_ARGS      = # --set image.tag=${YOUR_VERSION_HERE}
 HELM_KAHM_ARGS       = # --set image.tag=${YOUR_VERSION_HERE}
 HELM_DECKS_SUPPORT_STORE_ARGS      = # --set decks-support-store.image.tag=${YOUR_VERSION_HERE}
 SED_INPLACE         := -i
-ENABLE_STDOUT_LOGS_COLLECTION   := false
+ENABLE_STDOUT_LOGS_COLLECTION   := true
 
 DOCKER_LABELS := --label "GIT_BRANCH=${GIT_BRANCH_ID}" --label "VERSION=${FLEXVER}" --label "PRODUCT_VERSION=${FULL_PACKAGE_VERSION}" --label "GITSHA=${GIT_COMMIT_SHORT_ID}"
 
@@ -90,7 +90,7 @@ dep:
 	chmod +x /tmp/helm
 	helm plugin list | grep -q "unittest" ; \
 	if [ "$${?}" -eq "1" ] ; then \
-		helm plugin install https://github.com/lrills/helm-unittest ; \
+		helm plugin install https://github.com/vbehar/helm3-unittest ; \
  	fi
 	export PATH=/tmp:${PATH}
 	sudo pip install yamllint=="${YAMLLINT_VERSION}" requests
