@@ -20,7 +20,7 @@ global:
   platform: Default
 
 # The default docker tag and pull policy for the DECKS
-tag: 2.82.0-1302
+tag: 2.82.0-1319
 pullPolicy: IfNotPresent
 
 # The number of replicas for the DECKS deployment
@@ -29,7 +29,7 @@ replicaCount: 1
 # The image configured for the DECKS
 image:
   repository: decks
-  tag: 2.81.0-231.a3a794c # rfw-update-this decks-image
+  tag: 2.82.0-232.ff3325c # rfw-update-this decks-image
   # pullPolicy: IfNotPresent
 
 ## Allow callers to bypass creating app resource
@@ -84,4 +84,4 @@ healthChecks:
   preUpdate:
     image:
       repository: objectscale-component-pre-update
-      tag: 0.81.0-72.5dc9ce4 # rfw-update-this objectscale-component-pre-update-image
+      tag: 0.81.0-76.8b41e7a # rfw-update-this objectscale-component-pre-update-image
