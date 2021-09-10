@@ -23,7 +23,7 @@ global:
 
 
 # The default docker tag and pull policy for service-pod
-tag: 2.82.0-1319
+tag: 2.82.0-1321
 pullPolicy: IfNotPresent
 # product for which the service pod is required
 # product: objectscale
