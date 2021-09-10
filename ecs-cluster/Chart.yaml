@@ -12,9 +12,9 @@ maintainers:
 dependencies:
   - name: ecs-monitoring
     # rfw-update-next ecs-monitoring-helm-chart
-    version: 3.7.0-1310.73bafb3b # no_auto_change__monitoring_auto_change
+    version: 3.7.0-1354.99247551 # no_auto_change__monitoring_auto_change
     condition: global.monitoring.enabled
-    repository: https://asdrepo.isus.emc.com/artifactory/objectscale-helm-build/
+    repository: https://asdrepo.isus.emc.com/artifactory/objectscale-helm-dev/
   - name: rsyslog-client
     repository: https://asdrepo.isus.emc.com/artifactory/objectscale-helm-build/
     # rfw-update-next rsyslog-client-helm-chart
