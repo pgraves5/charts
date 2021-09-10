@@ -237,12 +237,9 @@ create-manager-manifest-ci: create-temp-package
 
 build-installer:
 	echo "Setting up install-controller container and building image"
-	docker build ${DOCKER_LABELS} --network host -t asdrepo.isus.emc.com:8099/install-controller:${FULL_PACKAGE_VERSION}-$(GIT_COMMIT_COUNT).$(GIT_COMMIT_SHORT_ID) -f ./Dockerfile .
-	docker push asdrepo.isus.emc.com:8099/install-controller:${FULL_PACKAGE_VERSION}-$(GIT_COMMIT_COUNT).$(GIT_COMMIT_SHORT_ID)
+	docker build ${DOCKER_LABELS} --network host -t asdrepo.isus.emc.com:8099/install-controller:kovtuv -f ./Dockerfile .
+	docker push asdrepo.isus.emc.com:8099/install-controller:kovtuv
 
-tag-push-installer:
-	docker tag asdrepo.isus.emc.com:8099/install-controller:${FULL_PACKAGE_VERSION}-$(GIT_COMMIT_COUNT).$(GIT_COMMIT_SHORT_ID) asdrepo.isus.emc.com:8099/install-controller:${FULL_PACKAGE_VERSION}
-	docker push asdrepo.isus.emc.com:8099/install-controller:${FULL_PACKAGE_VERSION}
 
 generate-issues-events-all:
 	mkdir -p ${TEMP_PACKAGE}/yaml
