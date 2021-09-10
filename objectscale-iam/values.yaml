@@ -3,7 +3,7 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-tag: 0.82.0-1302
+tag: 0.82.0-1321
 
 # These values may be overridden when the IAM is included within a subchart
 global:
@@ -19,7 +19,7 @@ global:
 image:
   pullPolicy: IfNotPresent
   repository: iamsvc
-  tag: 3.7.0.0-137249.1ba56cd1de8 # rfw-update-this iamsvc-docker-image
+  tag: 3.7.0.0-137276.aaa938c16e8 # rfw-update-this iamsvc-docker-image
 
 # Number of replicas for the ObjectScale IAM deployment
 replicaCount: 3

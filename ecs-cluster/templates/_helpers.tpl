@@ -32,14 +32,14 @@ Create chart name and version as used by the chart label.
 {{- end -}}
 
 {{ define "topologyNodeAffinity" -}}
-{{- if or (and .Values.topology.excludedFaultDomains .Values.topology.faultDomainKey) .Values.topology.nodeSelector }}
+{{- if or (and .Values.global.topology.excludedFaultDomains .Values.global.topology.faultDomainKey) .Values.global.topology.nodeSelector }}
 topologyNodeAffinity:
 {{- include "nodeAffinityInternal" . }}
 {{- end }}
 {{- end -}}
 
 {{ define "nodeAffinity" -}}
-{{- if or (and .Values.topology.excludedFaultDomains .Values.topology.faultDomainKey) .Values.topology.nodeSelector }}
+{{- if or (and .Values.global.topology.excludedFaultDomains .Values.global.topology.faultDomainKey) .Values.global.topology.nodeSelector }}
 nodeAffinity:
 {{- include "nodeAffinityInternal" . }}
 {{- end }}
@@ -51,21 +51,21 @@ nodeAffinity:
     - matchExpressions:
       # exclude any fault domains that the customer doesn't want in the
       # node selectors
-      {{- if and .Values.topology.excludedFaultDomains .Values.topology.faultDomainKey }}
-      - key: {{.Values.topology.faultDomainKey}}
+      {{- if and .Values.global.topology.excludedFaultDomains .Values.global.topology.faultDomainKey }}
+      - key: {{.Values.global.topology.faultDomainKey}}
         operator: NotIn
         values:
-        {{- range .Values.topology.excludedFaultDomains }}
+        {{- range .Values.global.topology.excludedFaultDomains }}
         - {{ . }}
         {{- end }}
       {{- end }}
       # Limit scheduling to only those listed in the node selector
       # if we want this to be a multi-select list, we could actually do that
       # just as easily
-      {{- if .Values.topology.nodeSelector }}
-      - key: {{.Values.topology.nodeSelector.key }}
+      {{- if .Values.global.topology.nodeSelector }}
+      - key: {{.Values.global.topology.nodeSelector.key }}
         operator: In
         values:
-        - {{ .Values.topology.nodeSelector.value }}
+        - {{ .Values.global.topology.nodeSelector.value }}
       {{- end }}
 {{- end -}}
