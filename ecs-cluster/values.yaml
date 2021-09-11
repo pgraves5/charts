@@ -54,7 +54,7 @@ global:
 
 # The default docker tag and pull policy for the ECS Cluster
 # rfw-update-next *comp*object-services
-tag: 3.7.0.0-137275.9a0d438229c
+tag: 3.7.0.0-137282.aeb576af235
 pullPolicy: IfNotPresent
 
 # Override the default number of replicas which taken according to performance profile for each service
