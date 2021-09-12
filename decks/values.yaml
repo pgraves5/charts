@@ -20,7 +20,7 @@ global:
   platform: Default
 
 # The default docker tag and pull policy for the DECKS
-tag: 2.82.0-1327
+tag: 2.83.0-1329
 pullPolicy: IfNotPresent
 
 # The number of replicas for the DECKS deployment
@@ -84,4 +84,4 @@ healthChecks:
   preUpdate:
     image:
       repository: objectscale-component-pre-update
-      tag: 0.81.0-76.8b41e7a # rfw-update-this objectscale-component-pre-update-image
+      tag: 0.82.0-78.65ca424 # rfw-update-this objectscale-component-pre-update-image

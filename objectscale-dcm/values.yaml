@@ -1,5 +1,5 @@
 ---
-tag: 0.82.0-1327
+tag: 0.83.0-1329
 global:
   registry: emccorp
   # storageClassName  - set default storageClassName for dcm
@@ -37,7 +37,7 @@ atlas:
   image:
     pullPolicy: IfNotPresent
     repository: atlas
-    tag: 1.1.4-23.g065d124 # rfw-update-this atlas-docker-image
+    tag: 1.1.4-26.gb64b44a # rfw-update-this atlas-docker-image
   persistence:
     size: 3Gi
 

@@ -54,7 +54,7 @@ global:
 
 # The default docker tag and pull policy for the ECS Cluster
 # rfw-update-next *comp*object-services
-tag: 3.7.0.0-137282.aeb576af235
+tag: 3.7.0.0-137275.9a0d438229c
 pullPolicy: IfNotPresent
 
 # Override the default number of replicas which taken according to performance profile for each service
@@ -114,7 +114,7 @@ atlas:
 
   image:
     repository: atlas
-    tag: 1.1.4-23.g065d124 # rfw-update-this atlas-docker-image
+    tag: 1.1.4-26.gb64b44a # rfw-update-this atlas-docker-image
     pullPolicy: IfNotPresent
 
   persistence:
@@ -775,12 +775,12 @@ healthChecks:
   connectivity:
     image:
       repository: objectstore-connectivity
-      tag: 0.81.0-76.8b41e7a # rfw-update-this objectstore-connectivity-image
+      tag: 0.82.0-78.65ca424 # rfw-update-this objectstore-connectivity-image
   preUpdate:
     image:
       repository: objectstore-pre-update
-      tag: 0.81.0-76.8b41e7a # rfw-update-this objectstore-pre-update-image
+      tag: 0.82.0-78.65ca424 # rfw-update-this objectstore-pre-update-image
   postUpgrade:
     image:
       repository: objectstore-post-upgrade
-      tag: 0.81.0-76.8b41e7a # rfw-update-this objectstore-pre-update-image
+      tag: 0.82.0-78.65ca424 # rfw-update-this objectstore-pre-update-image
