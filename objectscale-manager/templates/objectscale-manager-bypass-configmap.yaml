@@ -18,3 +18,5 @@ data:
   objectscale-manager-bypass-config.yaml: |-
     TMM:
       bypass: false 
+    PMM:
+      bypass: false
