@@ -95,5 +95,5 @@ spec:
         secret:
           secretName: objectscale-federation-trusted-anchors
       - name: config
-         configMap:
-           name: objectscale-iam-log-config
+        configMap:
+          name: objectscale-iam-log-config
