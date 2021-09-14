@@ -194,7 +194,7 @@ spec:
       serviceAccountName: {{.Release.Name}}-storageserver
       annotations:
 {{ include "common-lib.vsphere-emm-integrated_annotation" . | indent 8}}
-{{- if or (eq .Values.zookeeper.enableAntiAffinity true) (or (and .Values.global.topology.excludedFaultDomains .Values.global.topology.faultDomainKey) .Values.global.topology.nodeSelector) }}
+{{- if or (eq .Values.zookeeper.enableAntiAffinity true) (or (and .Values.global.topology.excludedFaultDomains .Values.global.topology.faultDomainKey) .Values.global.topology.excludedNodes) }}
       affinity:
         podAntiAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
