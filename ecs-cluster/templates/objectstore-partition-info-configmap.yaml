@@ -13,3 +13,6 @@ metadata:
       product: objectscale
       release: {{.Release.Name}}
 data:
+  currentPartition: |-
+
+  partitionToCleanup: |-
