@@ -8,113 +8,124 @@
     </CustomLevels>
     <Appenders>
         <RollingFile name="R" fileName="${sys:product.home}/logs/objmt.log"
-                     filePattern="${sys:product.home}/logs/objmt.log.%i">
+                     filePattern="${sys:product.home}/logs/objmt.log.%d{yyyyMMdd-HHmmss}.gz">
             <PatternLayout>
-                <Pattern>%d{ISO8601} [%t] %5p  %F (line %L) %m%n%ex</Pattern>
+                <Pattern>%d{ISO8601} [%t] %5p %F (line %L) %m%n%ex</Pattern>
             </PatternLayout>
             <Policies>
-                <SizeBasedTriggeringPolicy size="5 MB"/>
+                <SizeBasedTriggeringPolicy size="50 MB"/>
             </Policies>
-            <DefaultRolloverStrategy max="1"/>
         </RollingFile>
 
         <RollingFile name="P" fileName="${sys:product.home}/logs/objmt-perf-counter.log"
-                     filePattern="${sys:product.home}/logs/objmt-perf-counter.log.%i">
+                     filePattern="${sys:product.home}/logs/objmt-perf-counter.log.%d{yyyyMMdd-HHmmss}.gz">
             <PatternLayout>
                 <Pattern>%d{ISO8601} %m%n%ex</Pattern>
             </PatternLayout>
             <Policies>
-                <SizeBasedTriggeringPolicy size="5 MB"/>
+                <SizeBasedTriggeringPolicy size="50 MB"/>
             </Policies>
-            <DefaultRolloverStrategy max="1"/>
         </RollingFile>
 
-        <RollingFile name="E" fileName="${sys:product.home}/logs/objmt-error.log"
-                     filePattern="${sys:product.home}/logs/objmt-error.log.%i">
+        <RollingFile name="ST" fileName="${sys:product.home}/logs/objmt-stream.log"
+                     filePattern="${sys:product.home}/logs/objmt-stream.log.%d{yyyyMMdd-HHmmss}.gz">
             <PatternLayout>
                 <Pattern>%d{ISO8601} [%t] %5p  %F (line %L) %m%n%ex</Pattern>
             </PatternLayout>
             <Policies>
-                <SizeBasedTriggeringPolicy size="5 MB"/>
+                <SizeBasedTriggeringPolicy size="50 MB"/>
             </Policies>
-            <DefaultRolloverStrategy max="1"/>
+        </RollingFile>
+
+
+        <RollingFile name="E" fileName="${sys:product.home}/logs/objmt-error.log"
+                     filePattern="${sys:product.home}/logs/objmt-error.log.%d{yyyyMMdd-HHmmss}.gz">
+            <PatternLayout>
+                <Pattern>%d{ISO8601} [%t] %5p %F (line %L) %m%n%ex</Pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="50 MB"/>
+            </Policies>
         </RollingFile>
 
         <RollingFile name="M" fileName="${sys:product.home}/logs/objmt-stats.log"
-                     filePattern="${sys:product.home}/logs/objmt-stats.log.%i">
+                     filePattern="${sys:product.home}/logs/objmt-stats.log.%d{yyyyMMdd-HHmmss}.gz">
             <PatternLayout>
-                <Pattern>%d{ISO8601} [%t] %5p  %F (line %L) %m%n%ex</Pattern>
+                <Pattern>%d{ISO8601} [%t] %5p %F (line %L) %m%n%ex</Pattern>
             </PatternLayout>
             <Policies>
-                <SizeBasedTriggeringPolicy size="5 MB"/>
+                <SizeBasedTriggeringPolicy size="50 MB"/>
             </Policies>
-            <DefaultRolloverStrategy max="1"/>
         </RollingFile>
 
         <RollingFile name="O" fileName="${sys:product.home}/logs/objmt-ownership.log"
-                     filePattern="${sys:product.home}/logs/objmt-ownership.log.%i">
+                     filePattern="${sys:product.home}/logs/objmt-ownership.log.%d{yyyyMMdd-HHmmss}.gz">
             <PatternLayout>
-                <Pattern>%d{ISO8601} [%t] %5p  %F (line %L) %m%n%ex</Pattern>
+                <Pattern>%d{ISO8601} [%t] %5p %F (line %L) %m%n%ex</Pattern>
             </PatternLayout>
             <Policies>
-                <SizeBasedTriggeringPolicy size="5 MB"/>
+                <SizeBasedTriggeringPolicy size="50 MB"/>
             </Policies>
-            <DefaultRolloverStrategy max="1"/>
         </RollingFile>
 
         <RollingFile name="N" fileName="${sys:product.home}/logs/objmt-georeplayer.log"
-                     filePattern="${sys:product.home}/logs/objmt-georeplayer.log.%i">
+                     filePattern="${sys:product.home}/logs/objmt-georeplayer.log.%d{yyyyMMdd-HHmmss}.gz">
             <PatternLayout>
-                <Pattern>%d{ISO8601} [%t] %5p  %F (line %L) %m%n%ex</Pattern>
+                <Pattern>%d{ISO8601} [%t] %5p %F (line %L) %m%n%ex</Pattern>
             </PatternLayout>
             <Policies>
-                <SizeBasedTriggeringPolicy size="5 MB"/>
+                <SizeBasedTriggeringPolicy size="50 MB"/>
             </Policies>
-            <DefaultRolloverStrategy max="1"/>
         </RollingFile>
 
         <RollingFile name="G" fileName="${sys:product.home}/logs/objmt-chunk-reclaim.log"
-                     filePattern="${sys:product.home}/logs/objmt-chunk-reclaim.log.%i">
+                     filePattern="${sys:product.home}/logs/objmt-chunk-reclaim.log.%d{yyyyMMdd-HHmmss}.gz">
             <PatternLayout>
-                <Pattern>%d{ISO8601} [%t] %5p  %F (line %L) %m%n%ex</Pattern>
+                <Pattern>%d{ISO8601} [%t] %5p %F (line %L) %m%n%ex</Pattern>
             </PatternLayout>
             <Policies>
-                <SizeBasedTriggeringPolicy size="5 MB"/>
+                <SizeBasedTriggeringPolicy size="50 MB"/>
             </Policies>
-            <DefaultRolloverStrategy max="1"/>
         </RollingFile>
 
         <RollingFile name="B" fileName="${sys:product.home}/logs/objmt-zk.log"
-                     filePattern="${sys:product.home}/logs/objmt-zk.log.%i">
+                     filePattern="${sys:product.home}/logs/objmt-zk.log.%d{yyyyMMdd-HHmmss}.gz">
             <PatternLayout>
-                <Pattern>%d{ISO8601} [%t] %5p  %F (line %L) %m%n%ex</Pattern>
+                <Pattern>%d{ISO8601} [%t] %5p %F (line %L) %m%n%ex</Pattern>
             </PatternLayout>
             <Policies>
-                <SizeBasedTriggeringPolicy size="5 MB"/>
+                <SizeBasedTriggeringPolicy size="50 MB"/>
             </Policies>
-            <DefaultRolloverStrategy max="1"/>
         </RollingFile>
 
         <RollingFile name="L" fileName="${sys:product.home}/logs/objmt-chunk-lifecycle.log"
-                     filePattern="${sys:product.home}/logs/objmt-chunk-lifecycle.log.%i">
+                     filePattern="${sys:product.home}/logs/objmt-chunk-lifecycle.log.%d{yyyyMMdd-HHmmss}.gz">
             <PatternLayout>
                 <Pattern>%d{ISO8601} %m%n%ex</Pattern>
             </PatternLayout>
             <Policies>
-                <SizeBasedTriggeringPolicy size="5 MB"/>
+                <SizeBasedTriggeringPolicy size="50 MB"/>
             </Policies>
-            <DefaultRolloverStrategy max="1"/>
         </RollingFile>
 
         <RollingFile name="D" fileName="${sys:product.home}/logs/objmt-btree-dump.log"
-                     filePattern="${sys:product.home}/logs/objmt-btree-dump.log.%i">
+                     filePattern="${sys:product.home}/logs/objmt-btree-dump.log.%d{yyyyMMdd-HHmmss}.gz">
             <PatternLayout>
-                <Pattern>%d{ISO8601} [%t%X{apiRequestId}] %5p  %F (line %L) %m%n%ex</Pattern>
+                <Pattern>%d{ISO8601} [%t%X{apiRequestId}] %5p %F (line %L) %m%n%ex</Pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="50 MB"/>
+            </Policies>
+        </RollingFile>
+
+        <RollingFile name="ST" fileName="${sys:product.home}/logs/objmt-stream.log"
+                     filePattern="${sys:product.home}/logs/objmt-stream.log.%i">
+            <PatternLayout>
+                <Pattern>%d{ISO8601} [%t] %5p  %F (line %L) %m%n%ex</Pattern>
             </PatternLayout>
             <Policies>
                 <SizeBasedTriggeringPolicy size="5 MB"/>
             </Policies>
-            <DefaultRolloverStrategy max="1"/>
         </RollingFile>
 
         <Syslog name="alertsLogger" host="localhost" port="514" protocol="UDP" facility="LOCAL7"/>
@@ -149,6 +160,9 @@
         <Async name="asyncD" includeLocation="true">
             <AppenderRef ref="D"/>
         </Async>
+        <Async name="asyncST" includeLocation="true">
+            <AppenderRef ref="ST"/>
+        </Async>
 
     </Appenders>
 
@@ -156,6 +170,12 @@
         <Logger name="org.apache.zookeeper" level="INFO"/>
         <Logger name="org.perf4j.TimingLogger" level="ERROR"/>
 
+        // Currently set to DEBUG level for easier debug purpose
+        // need to change to INFO level later
+        <Logger name="com.emc.storageos.data.objmt.journaleventprocessor" level="DEBUG" additivity="false">
+            <AppenderRef ref="asyncR"/>
+            <AppenderRef ref="asyncE" level="ERROR"/>
+        </Logger>
         <Logger name="com.emc.storageos.objcontrol.object.shared.PerformanceCounter" level="DEBUG" additivity="false">
             <AppenderRef ref="asyncP"/>
             <AppenderRef ref="asyncE" level="ERROR"/>
@@ -173,6 +193,11 @@
             <AppenderRef ref="asyncO"/>
             <AppenderRef ref="asyncE" level="ERROR"/>
         </Logger>
+        <Logger name="com.emc.storageos.data.objmt.mttable.bgOps" level="DEBUG" additivity="false">
+            <AppenderRef ref="asyncO"/>
+            <AppenderRef ref="asyncE" level="ERROR"/>
+        </Logger>
+
         <Logger name="com.emc.storageos.data.object.impl.gc" level="DEBUG" additivity="false">
             <AppenderRef ref="asyncG"/>
             <AppenderRef ref="asyncE" level="ERROR"/>
@@ -208,12 +233,21 @@
             <AppenderRef ref="asyncE" level="ERROR"/>
         </Logger>
 
+        <Logger name="com.emc.storageos.data.stream" level="DEBUG">
+            <AppenderRef ref="asyncR" level="INFO"/>
+            <AppenderRef ref="asyncST"/>
+        </Logger>
+        <Logger name="io.pravega.client" level="DEBUG">
+            <AppenderRef ref="asyncR" level="WARN"/>
+            <AppenderRef ref="asyncST"/>
+        </Logger>
+
         <Logger name="org.apache.http" level="WARN" additivity="false">
             <AppenderRef ref="asyncR" level="WARN"/>
             <AppenderRef ref="asyncE" level="ERROR"/>
         </Logger>
 
-        <Root level="info">
+        <Root level="debug">
             <AppenderRef ref="asyncR"/>
             <AppenderRef ref="asyncE" level="error"/>
         </Root>

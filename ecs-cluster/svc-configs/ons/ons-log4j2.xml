@@ -85,6 +85,7 @@
             <Policies>
                 <SizeBasedTriggeringPolicy size="5 MB"/>
             </Policies>
+            <DefaultRolloverStrategy max="1"/>
         </RollingFile>
 
         <Syslog name="alertsLogger" host="localhost" port="514" protocol="UDP" facility="LOCAL7"/>
@@ -113,7 +114,6 @@
     </Appenders>
 
     <Loggers>
-        <Logger name="org.apache.zookeeper" level="INFO"/>
         <Logger name="org.perf4j.TimingLogger" level="ERROR"/>
 
         <Logger name="com.emc.storageos.services.util.AlertsLogger" level="WARN" additivity="false">
@@ -149,7 +149,6 @@
             <AppenderRef ref="asyncR" level="WARN"/>
             <AppenderRef ref="asyncST"/>
         </Logger>
-
         <Logger name="io.pravega.client" level="INFO" additivity="false">
             <AppenderRef ref="asyncR" level="WARN"/>
             <AppenderRef ref="asyncST"/>
@@ -195,7 +194,7 @@
             <AppenderRef ref="asyncR"/>
         </Logger>
 
-        <Root level="INFO">
+        <Root level="DEBUG">
             <AppenderRef ref="asyncR"/>
             <AppenderRef ref="asyncE" level="ERROR"/>
         </Root>
