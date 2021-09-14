@@ -167,6 +167,7 @@ data:
                 return 200 '{{ .Values.features | toJson }}';
             }
             location / {
+                add_header X-Frame-Options "SAMEORIGIN";
                 root   /usr/share/nginx/html;
                 index  index.html index.htm;
             }
