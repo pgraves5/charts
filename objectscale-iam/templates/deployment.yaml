@@ -82,6 +82,9 @@ spec:
           mountPath: "/etc/mgmt/sharedsecret"
         - name: trusted-anchors-secret
           mountPath: "/etc/mgmt/trustedanchors"
+        - name: config
+          mountPath: /opt/storageos/conf/iamsvc-log4j2.xml
+          subPath: iamsvc-log4j2.xml
       volumes:
       - name: log
         emptyDir: {}

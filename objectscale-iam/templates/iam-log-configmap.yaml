@@ -13,84 +13,84 @@ metadata:
 data:
   iamsvc-log4j2.xml: |
     <?xml version="1.0" encoding="UTF-8"?>
-<Configuration monitorInterval="60" shutdownHook="disable">
-    <Appenders>
-        <RollingFile name="R" fileName="${sys:product.home}/logs/iamsvc.log"
-                     filePattern="${sys:product.home}/logs/iamsvc.log.%i">
-            <PatternLayout>
-                <Pattern>%d{ISO8601} [%t%X{apiRequestId}] %5p  %F (line %L) %m%n%ex</Pattern>
-            </PatternLayout>
-            <Policies>
-                <SizeBasedTriggeringPolicy size="5 MB"/>
-            </Policies>
-            <DefaultRolloverStrategy max="1"/>
-        </RollingFile>
-
-        <RollingFile name="P" fileName="${sys:product.home}/logs/iamsvc-perf-counter.log"
-                     filePattern="${sys:product.home}/logs/iamsvc-perf-counter.log.%i">
-            <PatternLayout>
-                <Pattern>%d{ISO8601} %m%n%ex</Pattern>
-            </PatternLayout>
-            <Policies>
-                <SizeBasedTriggeringPolicy size="5 MB"/>
-            </Policies>
-            <DefaultRolloverStrategy max="1"/>
-        </RollingFile>
-
-        <RollingFile name="E" fileName="${sys:product.home}/logs/iamsvc-error.log"
-                     filePattern="${sys:product.home}/logs/iamsvc-error.log.%i">
-            <PatternLayout>
-                <Pattern>%d{ISO8601} [%t%X{apiRequestId}] %5p  %F (line %L) %m%n%ex</Pattern>
-            </PatternLayout>
-            <Policies>
-                <SizeBasedTriggeringPolicy size="5 MB"/>
-            </Policies>
-            <DefaultRolloverStrategy max="1"/>
-        </RollingFile>
-
-        <RollingFile name="M" fileName="${sys:product.home}/logs/iamsvc-stats.log"
-                     filePattern="${sys:product.home}/logs/iamsvc-stats.log.%i">
-            <PatternLayout>
-                <Pattern>%d{ISO8601} [%t] %5p  %F (line %L) %m%n%ex</Pattern>
-            </PatternLayout>
-            <Policies>
-                <SizeBasedTriggeringPolicy size="5 MB"/>
-            </Policies>
-            <DefaultRolloverStrategy max="1"/>
-        </RollingFile>
-
-
-        <Syslog name="alertsLogger" host="localhost" port="514" protocol="UDP" facility="LOCAL7"/>
-
-        <Async name="asyncR" includeLocation="true">
-            <AppenderRef ref="R"/>
-        </Async>
-        <Async name="asyncE" includeLocation="true">
-            <AppenderRef ref="E"/>
-        </Async>
-        <Async name="asyncP" includeLocation="true">
-            <AppenderRef ref="P"/>
-        </Async>
-        <Async name="asyncM" includeLocation="true">
-            <AppenderRef ref="M"/>
-        </Async>
-    </Appenders>
-
-    <Loggers>
-        <Root level="info">
-            <AppenderRef ref="R"/>
-            <AppenderRef ref="asyncE" level="error"/>
-        </Root>
-        <Logger name="com.emc.storageos.objcontrol.object.shared.PerformanceCounter" level="DEBUG" additivity="false">
-            <AppenderRef ref="asyncP"/>
-        </Logger>
-        <Logger name="com.dell.flex.federation.common.utils.PerformanceCounter" level="DEBUG" additivity="false">
-            <AppenderRef ref="asyncP"/>
-        </Logger>
-        <Logger name="com.emc.storageos.objcontrol.object.shared.SensitivePerformanceCounter" level="DEBUG" additivity="false">
-            <AppenderRef ref="asyncP"/>
-        </Logger>
-    </Loggers>
-
-</Configuration>
+    <Configuration monitorInterval="60" shutdownHook="disable">
+        <Appenders>
+            <RollingFile name="R" fileName="${sys:product.home}/logs/iamsvc.log"
+                         filePattern="${sys:product.home}/logs/iamsvc.log.%i">
+                <PatternLayout>
+                    <Pattern>%d{ISO8601} [%t%X{apiRequestId}] %5p  %F (line %L) %m%n%ex</Pattern>
+                </PatternLayout>
+                <Policies>
+                    <SizeBasedTriggeringPolicy size="5 MB"/>
+                </Policies>
+                <DefaultRolloverStrategy max="1"/>
+            </RollingFile>
+    
+            <RollingFile name="P" fileName="${sys:product.home}/logs/iamsvc-perf-counter.log"
+                         filePattern="${sys:product.home}/logs/iamsvc-perf-counter.log.%i">
+                <PatternLayout>
+                    <Pattern>%d{ISO8601} %m%n%ex</Pattern>
+                </PatternLayout>
+                <Policies>
+                    <SizeBasedTriggeringPolicy size="5 MB"/>
+                </Policies>
+                <DefaultRolloverStrategy max="1"/>
+            </RollingFile>
+    
+            <RollingFile name="E" fileName="${sys:product.home}/logs/iamsvc-error.log"
+                         filePattern="${sys:product.home}/logs/iamsvc-error.log.%i">
+                <PatternLayout>
+                    <Pattern>%d{ISO8601} [%t%X{apiRequestId}] %5p  %F (line %L) %m%n%ex</Pattern>
+                </PatternLayout>
+                <Policies>
+                    <SizeBasedTriggeringPolicy size="5 MB"/>
+                </Policies>
+                <DefaultRolloverStrategy max="1"/>
+            </RollingFile>
+    
+            <RollingFile name="M" fileName="${sys:product.home}/logs/iamsvc-stats.log"
+                         filePattern="${sys:product.home}/logs/iamsvc-stats.log.%i">
+                <PatternLayout>
+                    <Pattern>%d{ISO8601} [%t] %5p  %F (line %L) %m%n%ex</Pattern>
+                </PatternLayout>
+                <Policies>
+                    <SizeBasedTriggeringPolicy size="5 MB"/>
+                </Policies>
+                <DefaultRolloverStrategy max="1"/>
+            </RollingFile>
+    
+    
+            <Syslog name="alertsLogger" host="localhost" port="514" protocol="UDP" facility="LOCAL7"/>
+    
+            <Async name="asyncR" includeLocation="true">
+                <AppenderRef ref="R"/>
+            </Async>
+            <Async name="asyncE" includeLocation="true">
+                <AppenderRef ref="E"/>
+            </Async>
+            <Async name="asyncP" includeLocation="true">
+                <AppenderRef ref="P"/>
+            </Async>
+            <Async name="asyncM" includeLocation="true">
+                <AppenderRef ref="M"/>
+            </Async>
+        </Appenders>
+    
+        <Loggers>
+            <Root level="info">
+                <AppenderRef ref="R"/>
+                <AppenderRef ref="asyncE" level="error"/>
+            </Root>
+            <Logger name="com.emc.storageos.objcontrol.object.shared.PerformanceCounter" level="DEBUG" additivity="false">
+                <AppenderRef ref="asyncP"/>
+            </Logger>
+            <Logger name="com.dell.flex.federation.common.utils.PerformanceCounter" level="DEBUG" additivity="false">
+                <AppenderRef ref="asyncP"/>
+            </Logger>
+            <Logger name="com.emc.storageos.objcontrol.object.shared.SensitivePerformanceCounter" level="DEBUG" additivity="false">
+                <AppenderRef ref="asyncP"/>
+            </Logger>
+        </Loggers>
+    
+    </Configuration>
 ---
