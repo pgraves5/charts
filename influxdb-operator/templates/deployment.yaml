@@ -11,6 +11,7 @@ spec:
   selector:
     matchLabels:
       app.kubernetes.io/name: {{ include "influxdb-operator.fullname" . }}
+      app.kubernetes.io/component: {{ include "influxdb-operator.name" . }}
       app.kubernetes.io/instance: {{ .Release.Name }}
   template:
     metadata:
