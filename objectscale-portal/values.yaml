@@ -101,3 +101,10 @@ features:
   objectscaleSystems: true
   # Possible Logging modes - ERROR, INFO, DEBUG, WARNING Only
   uiLoggingLevel: ERROR
+
+# hook for the pre-delete
+hooks:
+  image:
+    repository: ecs-flex-graphql
+    tag: 0.82.0-769.a415d196 # rfw-update-this graphql-imagee
+    # pullPolicy: IfNotPresent

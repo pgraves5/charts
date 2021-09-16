@@ -1,0 +1,103 @@
+{{- if eq .Values.global.platform "OpenShift" }}
+---
+
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: "objectscale-portal-pre-delete"
+  namespace: {{ .Release.Namespace }}
+  annotations:
+    "helm.sh/hook": pre-delete
+    "helm.sh/hook-weight": "-5"
+    "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
+{{- if .Values.global.registrySecret }}
+imagePullSecrets:
+  - name: {{ .Values.global.registrySecret }}
+{{- end }}
+---
+
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: "{{.Release.Namespace}}-pre-delete"
+  annotations:
+    "helm.sh/hook": pre-delete
+    "helm.sh/hook-weight": "-4"
+    "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
+rules:
+  - apiGroups:
+      - decks.ecs.dellemc.com
+    resources:
+      - licenses
+      - supportassists
+    verbs:
+      - get
+      - list
+  - apiGroups:
+      - ecs.dellemc.com
+    resources:
+      - ecsclusters
+    verbs:
+      - get
+      - list
+  - apiGroups:
+      - app.k8s.io
+    resources:
+      - applications
+    verbs:
+      - get
+      - list
+      - delete
+      - update
+---
+
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: "{{.Release.Namespace}}-pre-delete"
+  annotations:
+    "helm.sh/hook": pre-delete
+    "helm.sh/hook-weight": "-3"
+    "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
+subjects:
+  - kind: ServiceAccount
+    name: "objectscale-portal-pre-delete"
+    namespace: {{ .Release.Namespace }}
+roleRef:
+  kind: ClusterRole
+  name: "{{.Release.Namespace}}-pre-delete"
+  apiGroup: rbac.authorization.k8s.io
+
+---
+
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: "{{.Release.Namespace}}-objectscale-portal-pre-delete"
+  namespace: {{.Release.Namespace}}
+  annotations:
+    "helm.sh/hook": pre-delete
+    "helm.sh/hook-weight": "-1"
+    "helm.sh/hook-delete-policy": before-hook-creation
+spec:
+  backoffLimit: 3
+  activeDeadlineSeconds: 300
+  template:
+    metadata:
+      name: "{{.Release.Namespace}}-objectscale-portal-pre-delete"
+    spec:
+      serviceAccountName: "objectscale-portal-pre-delete"
+      restartPolicy: Never
+      {{- if .Values.global.registrySecret }}
+      imagePullSecrets:
+        - name: {{ .Values.global.registrySecret }}
+      {{- end }}
+      containers:
+        - name: pre-delete-job
+          imagePullPolicy: {{ default .Values.pullPolicy .Values.hook.image.pullPolicy }}
+          image: "{{ .Values.global.registry }}/{{ .Values.hooks.image.repository }}:{{ .Values.hooks.image.tag }}"
+          args:
+            - --
+            - -deleteapps
+{{- end }}
+
