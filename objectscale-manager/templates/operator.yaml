@@ -299,3 +299,34 @@ spec:
           value: stdout
   {{- end }}
 {{- end }}
+      volumes:
+        - name: service-procedures-config
+          configMap:
+            name: objectscale-service-procedures-config
+        - name: operator-bypass-config
+          configMap:
+            name: objectscale-manager-bypass-config
+# Because volumes config was created if platform is not VMware and logReceiver is active it's needed to add this
+# checking here to save previous logic
+{{- if or (eq .Values.loggerConfig.enabled true) (and (ne .Values.global.platform "VMware") (or .Values.logReceiver.type .Values.logReceiver.create)) }}
+        {{- if and (ne .Values.global.platform "VMware") (or .Values.logReceiver.type .Values.logReceiver.create) }}
+        - name: log
+          emptyDir: {}
+        - name: config
+          configMap:
+            name: {{ .Release.Name }}-manager-logs-config
+        {{- end }}
+        {{- if eq .Values.loggerConfig.enabled true }}
+        - name: logger-config
+          configMap:
+            name: logger-config
+        {{- end }}
+        - name: crash-dump
+          emptyDir: {}
+{{- end }}
+        - name: trusted-anchors-secret
+          secret:
+            secretName: objectscale-federation-trusted-anchors
+        - name: mgmt-shared-secret
+          secret:
+            secretName: mgmt-servicelogin-shared-secret
