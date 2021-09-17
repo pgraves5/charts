@@ -16,7 +16,7 @@ metadata:
     operator: objectscale-operator
     product: objectscale
 spec:
-  replicas: {{ .Values.replicas }}
+  replicas: 1
   selector:
     matchLabels:
       app.kubernetes.io/name: objectscale-manager
@@ -38,18 +38,6 @@ spec:
       annotations:
 {{ include "common-lib.vsphere-emm-integrated_annotation" . | indent 8}}
     spec:
-{{- if eq .Values.enableAntiAffinity true }}
-      affinity:
-        podAntiAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            - labelSelector:
-                matchLabels:
-                  app.kubernetes.io/component: objectscale-graphql
-                  app.kubernetes.io/name: objectscale-manager
-              namespaces:
-                - {{ .Release.Namespace }}
-              topologyKey: kubernetes.io/hostname
-{{- end }}
       serviceAccountName: objectscale-api
       containers:
       - name: objectscale-graphql
@@ -69,6 +57,9 @@ spec:
         args:
         - --
         - -startapps
+        volumeMounts:
+        - name: mgmt-shared-secret
+          mountPath: "/etc/mgmt/sharedsecret"
         env:
         - name: OBJSTORE_AVAILABLE_VERSIONS
           value: {{ .Values.objectStoreAvailableVersions | toJson | quote }}
@@ -154,6 +145,10 @@ spec:
         - name: DECKS_CUSTOM_VALUES
           value: {{ .Values.decksCustomValues | toJson | quote }}
         {{- end }}
+      volumes:
+        - name: mgmt-shared-secret
+          secret:
+            secretName: mgmt-servicelogin-shared-secret
 {{- if not .Values.logReceiver.type }}
 {{ include "common-monitoring-lib.rsyslog_client_sidecar_stdout" . | indent 6 }}
 {{- end }}
