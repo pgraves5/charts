@@ -64,6 +64,12 @@ spec:
 {{- if .Values.chunkManager.replicas }}
     replicas: {{ .Values.chunkManager.replicas }}
 {{- end }}
+    pod:
+      annotations:
+        logginginjector.dellemc.com/sidecar-limits-cpu: "200m"
+        logginginjector.dellemc.com/sidecar-limits-memory: "300M"
+        logginginjector.dellemc.com/sidecar-requests-cpu: "200m"
+        logginginjector.dellemc.com/sidecar-requests-memory: "300M"
     image:
       repository: {{ .Values.global.registry }}/{{ .Values.chunkManager.image.repository }}
 {{- if .Values.chunkManager.image.tag }}
