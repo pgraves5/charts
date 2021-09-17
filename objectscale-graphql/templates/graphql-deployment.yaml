@@ -131,19 +131,19 @@ spec:
         {{- end }}
         {{- if .Values.kahmCustomValues }}
         - name: KAHM_CUSTOM_VALUES
-          value: {{ .Values.kahmCustomValues | toJson | quote }}
+          value: {{ .Values.kahmCustomValues | quote }}
         {{- end }}
         {{- if .Values.loggingInjectorCustomValues }}
         - name: LOGGING_INJECTOR_CUSTOM_VALUES
-          value: {{ .Values.loggingInjectorCustomValues | toJson | quote }}
+          value: {{ .Values.loggingInjectorCustomValues | quote }}
         {{- end }}
         {{- if .Values.objectScaleManagerCustomValues }}
         - name: OBJECTSCALE_MANAGER_CUSTOM_VALUES
-          value: {{ .Values.objectScaleManagerCustomValues | toJson | quote }}
+          value: {{ .Values.objectScaleManagerCustomValues | quote }}
         {{- end }}
         {{- if .Values.decksCustomValues }}
         - name: DECKS_CUSTOM_VALUES
-          value: {{ .Values.decksCustomValues | toJson | quote }}
+          value: {{ .Values.decksCustomValues | quote }}
         {{- end }}
 {{- if not .Values.logReceiver.type }}
 {{ include "common-monitoring-lib.rsyslog_client_sidecar_stdout" . | indent 6 }}

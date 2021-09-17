@@ -44,13 +44,14 @@ STORAGECLASSNAME_VSAN_SNA     = dellemc-${SERVICE_ID}-vsan-sna-thick
 VERSION_SLICE_PATH   = version_slice.json
 
 WATCH_ALL_NAMESPACES = false # --set global.watchAllNamespaces={true | false}
-HELM_MANAGER_ARGS    = # --set image.tag={YOUR_VERSION_HERE}
 HELM_MONITORING_ARGS = # --set global.monitoring.tag=${YOUR_VERSION_HERE}
 HELM_UI_ARGS         = # --set image.tag=${YOUR_VERSION_HERE}
 HELM_GRAPHQL_ARGS    = # --set objectscale-graphql.tag=${YOUR_VERSION_HERE}
 HELM_INSTALLER_ARGS  = # --set objectscale-graphql.helm-controller.tag=${YOUR_VERSION_HERE}
-HELM_DECKS_ARGS      = # --set image.tag=${YOUR_VERSION_HERE}
-HELM_KAHM_ARGS       = # --set image.tag=${YOUR_VERSION_HERE}
+HELM_MANAGER_ARGS    = # ${YOUR_CUSTOM_VALUES_FILE_NAME}
+HELM_DECKS_ARGS      = # ${YOUR_CUSTOM_VALUES_FILE_NAME}
+HELM_KAHM_ARGS       = # ${YOUR_CUSTOM_VALUES_FILE_NAME}
+HELM_LOGGING_INJECTOR_ARGS       = # ${YOUR_CUSTOM_VALUES_FILE_NAME}
 HELM_DECKS_SUPPORT_STORE_ARGS      = # --set decks-support-store.image.tag=${YOUR_VERSION_HERE}
 SED_INPLACE         := -i
 ENABLE_STDOUT_LOGS_COLLECTION   := true
@@ -208,7 +209,11 @@ create-vsphere-manifest: create-temp-package
 	--set global.registrySecret=${REGISTRYSECRET} \
 	--set global.rsyslog_client_stdout_enabled=${ENABLE_STDOUT_LOGS_COLLECTION} \
 	--set global.storageClassName=${STORAGECLASSNAME} \
-	--set global.secondaryStorageClass=${STORAGECLASSNAME_VSAN_SNA}	${HELM_UI_ARGS} ${HELM_GRAPHQL_ARGS} ${HELM_INSTALLER_ARGS} ${HELM_MANAGER_ARGS} ${HELM_MONITORING_ARGS} ${HELM_DECKS_ARGS} ${HELM_KAHM_ARGS} \
+	--set global.secondaryStorageClass=${STORAGECLASSNAME_VSAN_SNA}	${HELM_UI_ARGS} ${HELM_GRAPHQL_ARGS} ${HELM_INSTALLER_ARGS} ${HELM_MONITORING_ARGS} \
+	--set-file objectscale-portal.objectscale-graphql.kahmCustomValues=${HELM_KAHM_ARGS} \
+	--set-file objectscale-portal.objectscale-graphql.objectScaleManagerCustomValues=${HELM_MANAGER_ARGS} \
+	--set-file objectscale-portal.objectscale-graphql.decksCustomValues=${HELM_DECKS_ARGS} \
+	--set-file objectscale-portal.objectscale-graphql.loggingInjectorCustomValues=${HELM_LOGGING_INJECTOR_ARGS} \
 	-f objectscale-vsphere/values.yaml > ${TEMP_PACKAGE}/yaml/${OBJS_VSPHERE_MANIFEST}
 
 archive-package:
