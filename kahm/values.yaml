@@ -29,7 +29,7 @@ replicaCount: 1
 # The image configured for the KAHM
 image:
   repository: kahm
-  tag: 2.82.0-179.e6c1404 # rfw-update-this kahm-image
+  tag: 2.82.0-182.8c633d0 # rfw-update-this kahm-image
   # pullPolicy: IfNotPresent
 
 ## Allow callers to bypass creating app resource
@@ -41,7 +41,7 @@ createkahmappResource: true
 # Test image for KAHM.  Runs via helm test.
 testImage:
   repository: kahm-testapp
-  tag: 2.82.0-179.e6c1404 # rfw-update-this kahm-testapp-image
+  tag: 2.82.0-182.8c633d0 # rfw-update-this kahm-testapp-image
   # pullPolicy: IfNotPresent
 
 # We usually recommend not to specify default resources and to leave this as a
@@ -91,9 +91,11 @@ postgresql-ha:
   postgresqlImage:
     registry: asdrepo.isus.emc.com:9042
     repository: postgresql-repmgr
+    tag: 2.82.0-182.8c633d0 # rfw-update-this postgresql-image
   pgpoolImage:
     registry: asdrepo.isus.emc.com:9042
     repository: pgpool
+    tag: 2.82.0-182.8c633d0 # rfw-update-this pgpool-image
   persistence:
     # storageClass:
     # default size is 8 Gi
