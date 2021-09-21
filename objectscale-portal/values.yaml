@@ -38,7 +38,7 @@ global:
 
 # The default docker tag and pull policy for objectscale-portal and other containers
 tag: 0.83.0-1329
-pullPolicy: IfNotPresent
+pullPolicy: Always
 
 # Enable AntiAffinity or not
 enableAntiAffinity: true
@@ -106,5 +106,5 @@ features:
 hooks:
   image:
     repository: ecs-flex-graphql
-    tag: 0.82.0-769.a415d196 # rfw-update-this graphql-imagee
+    tag: 0.82.0-770.2554dcd5 # rfw-update-this graphql-imagee
     # pullPolicy: IfNotPresent

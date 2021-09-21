@@ -49,6 +49,25 @@ rules:
       - list
       - delete
       - update
+  - apiGroups:
+      - ""
+    resources:
+      - secrets
+    verbs:
+      - get
+      - list
+      - watch
+      - create
+  - apiGroups:
+      - ""
+    resources:
+      - pods
+      - namespaces
+      - configmaps
+    verbs:
+      - get
+      - list
+      - watch
 ---
 
 kind: ClusterRoleBinding
@@ -78,7 +97,7 @@ metadata:
   annotations:
     "helm.sh/hook": pre-delete
     "helm.sh/hook-weight": "-1"
-    "helm.sh/hook-delete-policy": before-hook-creation
+    "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
 spec:
   backoffLimit: 3
   activeDeadlineSeconds: 300
@@ -94,10 +113,8 @@ spec:
       {{- end }}
       containers:
         - name: pre-delete-job
-          imagePullPolicy: {{ default .Values.pullPolicy .Values.hook.image.pullPolicy }}
+          imagePullPolicy: {{ .Values.hooks.image.pullPolicy | default .Values.pullPolicy }}
           image: "{{ .Values.global.registry }}/{{ .Values.hooks.image.repository }}:{{ .Values.hooks.image.tag }}"
-          args:
-            - --
-            - -deleteapps
+          args: [-startapps=false, -deleteapps=true]
 {{- end }}
 
