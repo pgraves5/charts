@@ -78,7 +78,7 @@ resolve-and-release: decksver flexver resolve-versions build generate-issues-eve
 test:
 	helm version
 	yamllint --version
-	helm lint ${CHARTS} --set product=objectscale --set global.product=objectscale
+	helm lint ${CHARTS} --set product=objectscale --set global.product=objectscale --set objectscale-portal.accept_eula=09Sep2020 --set accept_eula=09Sep2020
 	yamllint -c .yamllint.yml */Chart.yaml */values.yaml
 	yamllint -c .yamllint-crd.yml */crds/*.yaml
 	yamllint -c .yamllint.yml -s .yamllint.yml .travis.yml
@@ -210,6 +210,7 @@ create-vsphere-manifest: create-temp-package
 	--set global.rsyslog_client_stdout_enabled=${ENABLE_STDOUT_LOGS_COLLECTION} \
 	--set global.storageClassName=${STORAGECLASSNAME} \
 	--set global.secondaryStorageClass=${STORAGECLASSNAME_VSAN_SNA}	${HELM_UI_ARGS} ${HELM_GRAPHQL_ARGS} ${HELM_INSTALLER_ARGS} ${HELM_MONITORING_ARGS} \
+	--set objectscale-portal.accept_eula=09Sep2020 \
 	--set-file objectscale-portal.objectscale-graphql.kahmCustomValues=${HELM_KAHM_ARGS} \
 	--set-file objectscale-portal.objectscale-graphql.objectScaleManagerCustomValues=${HELM_MANAGER_ARGS} \
 	--set-file objectscale-portal.objectscale-graphql.decksCustomValues=${HELM_DECKS_ARGS} \

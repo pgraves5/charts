@@ -74,6 +74,12 @@ spec:
           env:
             - name: OPERATOR_NAME
               value: objectscale-operator
+            {{- if ne .Values.accept_eula "09Sep2020" }}
+              {{- fail "value for accept_eula is the incorrect date" }}
+            {{- else }}
+            - name: ACCEPT_EULA
+              value: {{ .Values.accept_eula | quote }}
+            {{- end }}
           imagePullPolicy: {{ default .Values.pullPolicy .Values.image.pullPolicy }}
           volumeMounts:
             - name: config-volume

@@ -45,8 +45,6 @@ enableAntiAffinity: true
 
 replicas: 3
 
-# This package gets values from objectscale-manager/values.yaml
-
 # The service name and port that decks-support-store is listening on for download requests
 decks:
   supportStore:
