@@ -38,7 +38,7 @@ global:
 
 # The default docker tag and pull policy for objectscale-portal and other containers
 tag: 0.83.0-1329
-pullPolicy: Always
+pullPolicy: IfNotPresent
 
 # Enable AntiAffinity or not
 enableAntiAffinity: true
