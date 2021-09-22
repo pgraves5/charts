@@ -19,7 +19,7 @@ global:
   platform: Default
 
 # The default docker tag and pull policy for the KAHM
-tag: 2.83.0-1329
+tag: 2.83.0
 pullPolicy: IfNotPresent
 
 # The number of replicas for the KAHM deployment
@@ -29,7 +29,7 @@ replicaCount: 1
 # The image configured for the KAHM
 image:
   repository: kahm
-  tag: 2.82.0-182.8c633d0 # rfw-update-this kahm-image
+  tag: 2.83.0-185.504172e # rfw-update-this kahm-image
   # pullPolicy: IfNotPresent
 
 ## Allow callers to bypass creating app resource
@@ -41,7 +41,7 @@ createkahmappResource: true
 # Test image for KAHM.  Runs via helm test.
 testImage:
   repository: kahm-testapp
-  tag: 2.82.0-182.8c633d0 # rfw-update-this kahm-testapp-image
+  tag: 2.83.0-185.504172e # rfw-update-this kahm-testapp-image
   # pullPolicy: IfNotPresent
 
 # We usually recommend not to specify default resources and to leave this as a
@@ -91,11 +91,11 @@ postgresql-ha:
   postgresqlImage:
     registry: asdrepo.isus.emc.com:9042
     repository: postgresql-repmgr
-    tag: 2.82.0-182.8c633d0 # rfw-update-this postgresql-image
+    tag: 2.83.0-185.504172e # rfw-update-this postgresql-image
   pgpoolImage:
     registry: asdrepo.isus.emc.com:9042
     repository: pgpool
-    tag: 2.82.0-182.8c633d0 # rfw-update-this pgpool-image
+    tag: 2.83.0-185.504172e # rfw-update-this pgpool-image
   persistence:
     # storageClass:
     # default size is 8 Gi
@@ -168,4 +168,4 @@ healthChecks:
   preUpdate:
     image:
       repository: objectscale-component-pre-update
-      tag: 0.82.0-78.65ca424 # rfw-update-this objectscale-component-pre-update-image
+      tag: 0.83.0-82.db3cd23 # rfw-update-this objectscale-component-pre-update-image
