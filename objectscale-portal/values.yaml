@@ -37,7 +37,7 @@ global:
   rsyslog_enabled: true
 
 # The default docker tag and pull policy for objectscale-portal and other containers
-tag: 0.83.0-1329
+tag: 0.83.0-1376
 pullPolicy: IfNotPresent
 
 # Enable AntiAffinity or not
@@ -65,7 +65,7 @@ fedsvc:
 enabled: false
 image:
   repository: ecs-flex-vsphere-plugin
-  tag: 0.82.0.0-1452.945728c51 # rfw-update-this ecs-flex-vsphere-plugin-docker-image
+  tag: 0.83.0.0-1478.b6c7c6e3f # rfw-update-this ecs-flex-vsphere-plugin-docker-image
   # pullPolicy: IfNotPresent
 service:
   # Type of Kubernetes service to create: ClusterIP, NodePort, or LoadBalancer
