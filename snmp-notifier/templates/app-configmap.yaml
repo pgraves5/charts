@@ -31,7 +31,7 @@ data:
         - {{.Values.product}}-snmp-notifier
     eventRemedies: |
       symptoms:
-        - symptomid: SNMPNOT-1000
+        - symptomid: SNMPNOTI-1000
           description: Dell EMC SNMP Notifier is unable to send traps due to connection or authetication failure for the product {{.Values.product}}
           remedies:
             - Verify the SNMP credentials are configured with the correct authetication values
