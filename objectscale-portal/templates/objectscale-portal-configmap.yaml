@@ -168,7 +168,7 @@ data:
                 return 200 '{{ .Values.features | toJson }}';
             }
 
-            location /build-details {
+            location /version {
                 return 200 '{{ .Chart.AppVersion }}';
             }
 
