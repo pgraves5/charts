@@ -163,9 +163,15 @@ data:
                 default_type application/json;
                 return 200 '{"value":"{{ .Values.global.platform }}"}';
             }
+            
             location /features {
                 return 200 '{{ .Values.features | toJson }}';
             }
+
+            location /build-details {
+                return 200 '{{ .Chart.AppVersion }}';
+            }
+
             location / {
                 add_header X-Frame-Options "SAMEORIGIN";
                 root   /usr/share/nginx/html;
