@@ -1,0 +1,6 @@
+- symptomid: OBJST-12004
+  description: Unable to write object to replication destination bucket due to bucket quota limitation.
+  remedies:
+    - Modify the destination bucket quota size
+    - Clean up some of the data in that bucket to free up space for replication to continue
+    - For further information visit: https://www.dell.com/support/home/en-us/product-support/product/objectscale/docs
