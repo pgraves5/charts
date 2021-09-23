@@ -77,6 +77,10 @@ spec:
         ports:
         - containerPort: {{ .Values.containerPort }}
         resources: {}
+        securityContext:
+          fsGroup: 100
+          runAsGroup: 100
+          runAsUser: 1000
         volumeMounts:
         - name: decks-support-store-claim0
           mountPath: /opt/secure/data
