@@ -296,7 +296,7 @@ blob:
   # Docker repository to be used for chunk manager instances
   image:
     repository: blob-service
-    tag: # rfw-update-this blob-service-docker-image, non-component-version
+    tag: 3.7.0.0-137297.cf8f93ab663 # rfw-update-this blob-service-docker-image, non-component-version
     # pullPolicy: IfNotPresent
 
 # The ECS Object Service configuration specification
@@ -310,7 +310,7 @@ objectsvc:
   # Docker repository to be used for objectsvc instances
   image:
     repository: object-service
-    tag: 3.7.0.0-3039.7b3422f9 # rfw-update-this objectsvc-docker-image
+    tag: 3.7.0.0-3044.5ba40075 # rfw-update-this objectsvc-docker-image
     # pullPolicy: IfNotPresent
 
   # Elements to add to the service's ConfigMap. This is a map of string -> string
@@ -434,7 +434,7 @@ event:
 
   image:
     repository: event-service
-    tag: # rfw-update-this event-service-docker-image, non-component-version
+    tag: 3.7.0.0-137297.cf8f93ab663 # rfw-update-this event-service-docker-image, non-component-version
     # pullPolicy: IfNotPresent
 
 # The ECS resource service configuration specification

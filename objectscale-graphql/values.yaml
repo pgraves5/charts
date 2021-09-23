@@ -27,10 +27,10 @@ global:
   # storageClassName  - set default storageClassName for objectscale-manager/graphql
 # This is the list of available objectstore versions to graphql for UI to configure the store.
 objectStoreAvailableVersions:
-  - 0.82.0
+  - 0.82.0-hotfix.id7801
 #
 # The default docker tag and pull policy for objectscale-graphql services
-tag: 0.82.0
+tag: 0.82.0-hotfix.id7801
 pullPolicy: IfNotPresent
 #
 # This will create the graphql container with the debug image. debug image will always be {{image.repository}}-debug
@@ -50,8 +50,8 @@ service:
 enableAntiAffinity: true
 replicas: 3
 decks:
-  licenseChartVersion: "2.82.0"
-  supportAssistChartVersion: "2.82.0"
+  licenseChartVersion: "2.82.0-hotfix.id7801"
+  supportAssistChartVersion: "2.82.0-hotfix.id7801"
   srsGatewayChartVersion: "1.2.0"
 #
 logReceiver:

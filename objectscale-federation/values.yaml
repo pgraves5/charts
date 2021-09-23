@@ -1,5 +1,5 @@
 ---
-tag: 0.82.0
+tag: 0.82.0-hotfix.id7801
 global:
   registry: emccorp
   # Default: true == Watch ALL namespaces
