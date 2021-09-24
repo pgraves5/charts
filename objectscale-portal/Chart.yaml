@@ -16,12 +16,12 @@ dependencies:
     version: 0.83.0
     repository: file://../common-lib
   - name: common-monitoring-lib
-    repository: https://asdrepo.isus.emc.com/artifactory/objectscale-helm-build/
+    repository: http://asdrepo.isus.emc.com:8081/artifactory/objectscale-helm-dev/
     # rfw-update-next common-monitoring-lib-helm-chart
-    version: 3.7.0-1334.45d1715e # no_auto_change__monitoring_auto_change
+    version: 3.7.0-1334.bb6ce83a # no_auto_change__monitoring_auto_change
     import-values:
       - default
   - name: rsyslog-client
-    repository: https://asdrepo.isus.emc.com/artifactory/objectscale-helm-build/
+    repository: http://asdrepo.isus.emc.com:8081/artifactory/objectscale-helm-dev/
     # rfw-update-next rsyslog-client-helm-chart
-    version: 3.7.0-1334.45d1715e # no_auto_change__monitoring_auto_change
+    version: 3.7.0-1334.bb6ce83a # no_auto_change__monitoring_auto_change
