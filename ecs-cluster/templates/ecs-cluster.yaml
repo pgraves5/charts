@@ -45,6 +45,9 @@ spec:
     pod:
       annotations:
 {{ include "common-lib.vsphere-emm-integrated_annotation" . | indent 8}}
+        prometheus.io/scrape: 'true'
+        prometheus.io/port: {{ .Values.atlas.metrics.port | quote }}
+        prometheus.io/path: {{ .Values.atlas.metrics.path }}
       release: {{ .Release.Name }}
     image:
       repository: {{ .Values.global.registry }}/{{ .Values.atlas.image.repository }}
