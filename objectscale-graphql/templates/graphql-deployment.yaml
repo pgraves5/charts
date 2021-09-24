@@ -106,11 +106,6 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: metadata.name
-        - name: SHARED_SECRET
-          valueFrom:
-            secretKeyRef:
-              name: mgmt-servicelogin-shared-secret-graphql
-              key: key
         {{- if (eq .Values.global.platform "VMware") }}
         - name: VSPHERE_SERVICE_PREFIX
           value: VSPHERE_SERVICE_PREFIX_VALUE
@@ -154,6 +149,13 @@ spec:
         - name: DECKS_CUSTOM_VALUES
           value: {{ .Values.decksCustomValues | quote }}
         {{- end }}
+        volumeMounts:
+        - name: mgmt-shared-secret
+          mountPath: "/etc/mgmt/sharedsecret"
+      volumes:
+      - name: mgmt-shared-secret
+        secret:
+          secretName: mgmt-servicelogin-shared-secret-graphql
 {{- if not .Values.logReceiver.type }}
 {{ include "common-monitoring-lib.rsyslog_client_sidecar_stdout" . | indent 6 }}
 {{- end }}
