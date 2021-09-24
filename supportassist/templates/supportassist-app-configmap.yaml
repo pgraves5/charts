@@ -35,6 +35,7 @@ data:
             - Is SupportAssist still disabled?
             - Verify connectivity of configured gateways.
             - Verify a valid AccessKey and PIN were used.
+          component: decks
     health: |-
       spec:
         - name: pre-update

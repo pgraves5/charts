@@ -39,4 +39,14 @@ data:
             - Verify the product SNMP notifier is configured with the correct host/IP address and port
             - Verify connectivity to the SNMP server, check firewalls, network routing etc...
             - Verify the SNMP v2c configuration has the correct community string
+          component: kahm
+        - symptomid: TEST-TRAP
+          description: To verify SNMP server connections using the TEST-TRAP
+          remedies:
+            - Verify the SNMP credentials are configured with the correct authetication values
+            - Verify the engineID matches with the engineID configured for the product in the SNMP server
+            - Verify the product SNMP notifier is configured with the correct host/IP address and port
+            - Verify connectivity to the SNMP server, check firewalls, network routing etc...
+            - Verify the SNMP v2c configuration has the correct community string
+          component: kahm
     health: |-
