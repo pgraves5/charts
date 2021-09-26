@@ -4,10 +4,6 @@
   issueCategory: Auto
   matchOnList:
     - matchon:
-        # NORMAL
-        - label: SymptomID
-          value: OBJST-1701
-    - matchon:
         # WARNING
         - label: SymptomID
           value: OBJST-1700

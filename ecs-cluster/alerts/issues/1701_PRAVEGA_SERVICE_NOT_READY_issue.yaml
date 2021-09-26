@@ -1,0 +1,13 @@
+- description: "Pravega Service Status"
+  name: "PRAVEGA_SERVICE_STATUS"
+  defaultAutoClearTimeOut: 60
+  issueCategory: Auto
+  matchOnList:
+    - matchon:
+        # WARNING
+        - label: SymptomID
+          value: OBJST-1701
+  notifiers:
+    - objectscale-supportassist-ese
+    - objectscale-snmp-notifier
+
