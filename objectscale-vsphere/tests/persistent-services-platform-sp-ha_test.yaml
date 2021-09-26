@@ -6,6 +6,7 @@ tests:
   - it: should create a storage policy
     set:
       global.platform: "VMware"
+      objectscale-portal.accept_eula: "09Sep2020"
     asserts:
       - isKind:
           of: StoragePolicy
@@ -13,6 +14,7 @@ tests:
     set:
       global.platform: "VMware"
       global.storageClassName: "dellemc-objectscale-highly-available"
+      objectscale-portal.accept_eula: "09Sep2020"
     asserts:
       - equal:
           path: metadata.name
@@ -20,6 +22,7 @@ tests:
   - it: should have the correct hostFailuresToTolerate rule
     set:
       global.platform: "VMware"
+      objectscale-portal.accept_eula: "09Sep2020"
     asserts:
       - equal:
           path: spec.rules.VSAN\.hostFailuresToTolerate
@@ -27,10 +30,13 @@ tests:
   - it: should have the correct stripeWidth rule
     set:
       global.platform: "VMware"
+      objectscale-portal.accept_eula: "09Sep2020"
     asserts:
       - equal:
           path: spec.rules.VSAN\.stripeWidth
           value: "1"
   - it: should not create a storage policy
+    set:
+      objectscale-portal.accept_eula: "09Sep2020"
     assert:
       - nil

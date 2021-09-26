@@ -3,16 +3,16 @@ HELM_URL     := https://get.helm.sh
 HELM_TGZ      = helm-${HELM_VERSION}-linux-amd64.tar.gz
 YQ_VERSION   := 4.4.1
 YAMLLINT_VERSION := 1.20.0
-ALL_CHARTS := common-lib openshift-scc ecs-cluster objectscale-manager mongoose zookeeper-operator atlas-operator decks kahm dks-testapp fio-test sonobuoy dellemc-license service-pod helm-controller objectscale-graphql objectscale-vsphere objectscale-portal objectscale-gateway objectscale-iam pravega-operator bookkeeper-operator supportassist decks-support-store statefuldaemonset-operator influxdb-operator objectscale-federation logging-injector objectscale-dcm snmp-notifier
+ALL_CHARTS := common-lib ecs-cluster objectscale-manager mongoose zookeeper-operator atlas-operator decks kahm dks-testapp fio-test sonobuoy dellemc-license service-pod helm-controller objectscale-graphql objectscale-vsphere objectscale-portal objectscale-gateway objectscale-iam pravega-operator bookkeeper-operator supportassist decks-support-store statefuldaemonset-operator influxdb-operator objectscale-federation logging-injector objectscale-dcm snmp-notifier
 CHARTS = ${ALL_CHARTS}
 DECKSCHARTS := decks kahm supportassist service-pod dellemc-license decks-support-store snmp-notifier
-FLEXCHARTS := common-lib openshift-scc ecs-cluster objectscale-manager objectscale-vsphere objectscale-graphql helm-controller objectscale-portal objectscale-gateway objectscale-iam statefuldaemonset-operator influxdb-operator objectscale-federation logging-injector objectscale-dcm
+FLEXCHARTS := common-lib ecs-cluster objectscale-manager objectscale-vsphere objectscale-graphql helm-controller objectscale-portal objectscale-gateway objectscale-iam statefuldaemonset-operator influxdb-operator objectscale-federation logging-injector objectscale-dcm
 
 # release version
 MAJOR=0
-MINOR=82
+MINOR=84
 PATCH=0
-PRERELEASE=1294
+PRERELEASE=1385
 
 FULL_PACKAGE_VERSION=${MAJOR}.${MINOR}.${PATCH}$(if $(PRERELEASE),-$(PRERELEASE),)
 FLEXVER=${FULL_PACKAGE_VERSION}
@@ -44,13 +44,14 @@ STORAGECLASSNAME_VSAN_SNA     = dellemc-${SERVICE_ID}-vsan-sna-thick
 VERSION_SLICE_PATH   = version_slice.json
 
 WATCH_ALL_NAMESPACES = false # --set global.watchAllNamespaces={true | false}
-HELM_MANAGER_ARGS    = # --set image.tag={YOUR_VERSION_HERE}
 HELM_MONITORING_ARGS = # --set global.monitoring.tag=${YOUR_VERSION_HERE}
 HELM_UI_ARGS         = # --set image.tag=${YOUR_VERSION_HERE}
 HELM_GRAPHQL_ARGS    = # --set objectscale-graphql.tag=${YOUR_VERSION_HERE}
 HELM_INSTALLER_ARGS  = # --set objectscale-graphql.helm-controller.tag=${YOUR_VERSION_HERE}
-HELM_DECKS_ARGS      = # --set image.tag=${YOUR_VERSION_HERE}
-HELM_KAHM_ARGS       = # --set image.tag=${YOUR_VERSION_HERE}
+HELM_MANAGER_ARGS    = # ${YOUR_CUSTOM_VALUES_FILE_NAME}
+HELM_DECKS_ARGS      = # ${YOUR_CUSTOM_VALUES_FILE_NAME}
+HELM_KAHM_ARGS       = # ${YOUR_CUSTOM_VALUES_FILE_NAME}
+HELM_LOGGING_INJECTOR_ARGS       = # ${YOUR_CUSTOM_VALUES_FILE_NAME}
 HELM_DECKS_SUPPORT_STORE_ARGS      = # --set decks-support-store.image.tag=${YOUR_VERSION_HERE}
 SED_INPLACE         := -i
 ENABLE_STDOUT_LOGS_COLLECTION   := true
@@ -77,7 +78,7 @@ resolve-and-release: decksver flexver resolve-versions build generate-issues-eve
 test:
 	helm version
 	yamllint --version
-	helm lint ${CHARTS} --set product=objectscale --set global.product=objectscale
+	helm lint ${CHARTS} --set product=objectscale --set global.product=objectscale --set objectscale-portal.accept_eula=09Sep2020 --set accept_eula=09Sep2020
 	yamllint -c .yamllint.yml */Chart.yaml */values.yaml
 	yamllint -c .yamllint-crd.yml */crds/*.yaml
 	yamllint -c .yamllint.yml -s .yamllint.yml .travis.yml
@@ -90,7 +91,7 @@ dep:
 	chmod +x /tmp/helm
 	helm plugin list | grep -q "unittest" ; \
 	if [ "$${?}" -eq "1" ] ; then \
-		helm plugin install https://github.com/lrills/helm-unittest ; \
+		helm plugin install https://github.com/vbehar/helm3-unittest ; \
  	fi
 	export PATH=/tmp:${PATH}
 	sudo pip install yamllint=="${YAMLLINT_VERSION}" requests
@@ -208,7 +209,12 @@ create-vsphere-manifest: create-temp-package
 	--set global.registrySecret=${REGISTRYSECRET} \
 	--set global.rsyslog_client_stdout_enabled=${ENABLE_STDOUT_LOGS_COLLECTION} \
 	--set global.storageClassName=${STORAGECLASSNAME} \
-	--set global.secondaryStorageClass=${STORAGECLASSNAME_VSAN_SNA}	${HELM_UI_ARGS} ${HELM_GRAPHQL_ARGS} ${HELM_INSTALLER_ARGS} ${HELM_MANAGER_ARGS} ${HELM_MONITORING_ARGS} ${HELM_DECKS_ARGS} ${HELM_KAHM_ARGS} \
+	--set global.secondaryStorageClass=${STORAGECLASSNAME_VSAN_SNA}	${HELM_UI_ARGS} ${HELM_GRAPHQL_ARGS} ${HELM_INSTALLER_ARGS} ${HELM_MONITORING_ARGS} \
+	--set objectscale-portal.accept_eula=09Sep2020 \
+	--set-file objectscale-portal.objectscale-graphql.kahmCustomValues=${HELM_KAHM_ARGS} \
+	--set-file objectscale-portal.objectscale-graphql.objectScaleManagerCustomValues=${HELM_MANAGER_ARGS} \
+	--set-file objectscale-portal.objectscale-graphql.decksCustomValues=${HELM_DECKS_ARGS} \
+	--set-file objectscale-portal.objectscale-graphql.loggingInjectorCustomValues=${HELM_LOGGING_INJECTOR_ARGS} \
 	-f objectscale-vsphere/values.yaml > ${TEMP_PACKAGE}/yaml/${OBJS_VSPHERE_MANIFEST}
 
 archive-package:

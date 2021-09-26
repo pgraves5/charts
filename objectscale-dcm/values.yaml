@@ -1,5 +1,5 @@
 ---
-tag: 0.82.0-1294
+tag: 0.84.0-1385
 global:
   registry: emccorp
   # storageClassName  - set default storageClassName for dcm
@@ -8,7 +8,7 @@ global:
 image:
   pullPolicy: IfNotPresent
   repository: dcm
-  tag: 3.7.0.0-137206.3f5153383a2 # rfw-update-this dcm-docker-image
+  tag: 3.7.0.0-137353.28942c5db4d # rfw-update-this dcm-docker-image
 
 # Number of replicas for the ObjectScale DCM deployment
 replicaCount: 1
@@ -37,7 +37,7 @@ atlas:
   image:
     pullPolicy: IfNotPresent
     repository: atlas
-    tag: 1.1.4-23.g065d124 # rfw-update-this atlas-docker-image
+    tag: 1.1.4-31.gb436315 # rfw-update-this atlas-docker-image
   persistence:
     size: 3Gi
 

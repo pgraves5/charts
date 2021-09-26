@@ -37,13 +37,13 @@ global:
   rsyslog_enabled: true
 
 # The default docker tag and pull policy for objectscale-portal and other containers
-tag: 0.82.0-1294
+tag: 0.84.0-1385
 pullPolicy: IfNotPresent
 
 # Enable AntiAffinity or not
 enableAntiAffinity: true
 
-# This package gets values from objectscale-manager/values.yaml
+replicas: 3
 
 # The service name and port that decks-support-store is listening on for download requests
 decks:
@@ -51,9 +51,6 @@ decks:
     service:
       name: decks-support-store
       port: 7443
-# openshift-scc
-openshift:
-  enabled: false
 # graphql endpoint settings
 graphql:
   enabled: true
@@ -68,7 +65,7 @@ fedsvc:
 enabled: false
 image:
   repository: ecs-flex-vsphere-plugin
-  tag: 0.81.0.0-1414.b54f84352 # rfw-update-this ecs-flex-vsphere-plugin-docker-image
+  tag: 0.83.0.0-1497.1e0e0da9a # rfw-update-this ecs-flex-vsphere-plugin-docker-image
   # pullPolicy: IfNotPresent
 service:
   # Type of Kubernetes service to create: ClusterIP, NodePort, or LoadBalancer

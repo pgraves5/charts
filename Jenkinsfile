@@ -1,5 +1,8 @@
 import com.emc.pipelines.artifactory.*
 
+String releaseSlice
+String versionSlicePath = 'version_slice.json'
+
 pipeline {
     agent {
             label 'sc_ci_devkit && location_us'
@@ -7,9 +10,6 @@ pipeline {
 
     environment {
         PWD = pwd()
-        DOCKER_IMAGE = 'asdrepo.isus.emc.com:8085/emcecs/fabric/devkit:latest'
-        CONTAINER_PATH = '/charts'
-        DOCKER_ARGS = '-e "EUID=0" -e "EGID=0" -e "USER_NAME=root" -e "STDOUT=true" -e "JENKINS_RUN=true"  -w $CONTAINER_PATH -v $PWD:$CONTAINER_PATH:rw,z'
         GH_CREDS = ''
     }
 
@@ -18,7 +18,8 @@ pipeline {
     }
 
     stages {
-        stage('Make') {
+
+        stage('Startup') {
             steps {
                 script {
                     loader.loadFrom('pipelines': [common: 'common',
@@ -30,24 +31,125 @@ pipeline {
                                          [state: github.COMMIT_BUILD_STATUSES.IN_PROGRESS])
                     success = false
                 }
+            }
+        }
 
-                withDockerContainer(image: DOCKER_IMAGE, args: DOCKER_ARGS) {
-                    sshagent([GH_CREDS]) {
+        stage('Get version slice') {
+            steps {
+                script {
+                    relVersion = sh(script: "grep -E 'appVersion:' objectscale-manager/Chart.yaml | cut -d ' ' -f2 |cut -d '.' -f1-2",
+                                           returnStdout: true).trim()
 
-                        // NOTE this is to fix non-default (not in /usr/bin) location of pip in newer python2.7
-                        sh("sed -i 's/\\(secure_path=\\\"\\)/\\1\\/usr\\/local\\/bin:/' /etc/sudoers")
-                        // remove old version of yq provided by fabric devkit
-                        sh("rm -rf /usr/local/bin/yq")
+                    print("Going with version ${relVersion}")
 
-                       sh('''
-                            make dep
-                            PATH=/tmp:$PATH
-                            make charts-dep
-                            make test
-                            make build
-                            make package
-                            make generate-issues-events-all
-                       ''')
+                    releaseSlice = common.getSliceForProductAcceptance(product: 'objectscale',
+                                                                       releaseVersion: relVersion)
+                }
+            }
+        }
+
+        //
+        // Note: all commands should be executed inside peakit container, but it is also required
+        // to format output as separate stages.
+        // Currently it is not clear how it is possible to execute stages inside peakit,
+        // and pipeline does not allow common.withPeakitContainer above stage()
+        // So unfortunately it is required to start each command with 'make dep' because
+        // OS settings made by each 'make dep' are not saved between stages
+        //
+        // TODO think about how this can be improved
+        //
+
+        stage('Make test') {
+            steps {
+                script {
+                    common.withPeakitContainer() {
+                        sshagent([GH_CREDS]) {
+
+                           sh('''
+                                make dep
+                                PATH=/tmp:$PATH
+                                make charts-dep
+                                make test
+                           ''')
+                        }
+                    }
+                }
+            }
+        }
+
+        stage('Resolve versions') {
+            steps {
+                script {
+                    common.withPeakitContainer() {
+                        sshagent([GH_CREDS]) {
+
+                           // adding file version slice
+                           writeFile(file: versionSlicePath, text: releaseSlice)
+
+                           sh('''
+                                make dep
+                                PATH=/tmp:$PATH
+                                make decksver
+                                make flexver
+                                make resolve-versions
+                           ''')
+                        }
+                    }
+                }
+            }
+        }
+
+
+        stage('Make build & package') {
+            steps {
+                script {
+                    common.withPeakitContainer() {
+                        sshagent([GH_CREDS]) {
+
+                           sh('''
+                                make dep
+                                PATH=/tmp:$PATH
+                                make build
+                                make package
+                           ''')
+                        }
+                    }
+                }
+            }
+        }
+
+        stage('Make package with service id') {
+            steps {
+                script {
+                    common.withPeakitContainer() {
+                        sshagent([GH_CREDS]) {
+
+                           Random random = new Random()
+                           String nonDefService = "svc" + random.nextInt(99999)
+
+                           sh("""
+                                make dep
+                                PATH=/tmp:$PATH
+                                make package SERVICE_ID=${nonDefService}
+                           """)
+                        }
+                    }
+                }
+            }
+        }
+
+        stage('Generate events table') {
+            steps {
+                script {
+                    common.withPeakitContainer() {
+                        sshagent([GH_CREDS]) {
+
+                           sh('''
+                                make dep
+                                PATH=/tmp:$PATH
+                                make generate-issues-events-all
+                           ''')
+                        }
                     }
                 }
             }

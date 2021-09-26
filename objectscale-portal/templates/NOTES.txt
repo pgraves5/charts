@@ -5,10 +5,11 @@ a Dell EMC ObjectScale User Interface (portal)
 This release is named {{ .Release.Name }}.
 
 1. Use "kubectl get svc objectscale-portal-external" to obtain the network address of the ObjectScale Portal
+   (sample output below)
 
    kubectl get svc objectscale-portal-external
    NAME                          TYPE           CLUSTER-IP      EXTERNAL-IP     PORT(S)          AGE
-   objectscale-portal-external   LoadBalancer   172.30.160.33   10.236.228.48   4443:31474/TCP   118s
+   objectscale-portal-external   LoadBalancer   a.b.c.d         t.x.y.z         4443:31474/TCP   118s
 
 2. Bring up a browser and connect to the above URL: https://<external-ip>:4443
 

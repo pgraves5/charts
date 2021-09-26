@@ -1,0 +1,6 @@
+- symptomid: OBJST-12005
+  description: Unable to write object to replication destination object store, due to destination object store is full.
+  remedies:
+    - Add more space to the destination object store
+    - Clean up some of the data in that object store to free up space for replication to continue
+    - For further information visit: https://www.dell.com/support/home/en-us/product-support/product/objectscale/docs

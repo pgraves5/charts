@@ -36,6 +36,7 @@ Common labels
 */}}
 {{- define "statefuldaemonset-operator.labels" -}}
 app.kubernetes.io/name: {{ include "statefuldaemonset-operator.fullname" . }}
+app.kubernetes.io/component: {{ include "statefuldaemonset-operator.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
