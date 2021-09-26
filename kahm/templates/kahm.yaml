@@ -24,6 +24,8 @@ spec:
       annotations:
 {{ include "common-lib.vsphere-emm-integrated_annotation" . | indent 8}}
     spec:
+      securityContext:
+        fsGroup: 1001
       serviceAccountName: "kahm"
 {{- if .Values.global.registrySecret }}
       imagePullSecrets:

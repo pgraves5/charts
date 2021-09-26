@@ -14,7 +14,7 @@ metadata:
   name: {{.Release.Namespace}}-{{.Release.Name}}-{{.Values.global.product}}-service-pod-cr
   labels:
     release: {{ .Release.Name }}
-    product: {{ required "product (e.g. objectscale) is required" .Values.global.product }} 
+    product: {{ required "product (e.g. objectscale) is required" .Values.global.product }}
 rules:
 {{- if or (eq .Values.global.platform "Atlantic") (eq .Values.global.platform "OpenShift") }}
 - apiGroups:
@@ -52,24 +52,27 @@ rules:
   - ""
   - extensions
   resources:
+  - applications
+  - clusterroles
+  - clusterrolebindings
+  - configmaps
+  - daemonsets
+  - deployments
+  - endpoints
+  - events
+  - namespaces
+  - nodes
+  - persistentvolumeclaims
+  - persistentvolumes
   - pods
   - pods/exec
   - pods/log
   - pods/portforward
-  - services
-  - endpoints
-  - persistentvolumes
-  - persistentvolumeclaims
-  - events
-  - configmaps
-  - secrets
-  - applications
-  - nodes
-  - namespaces
-  - replicationcontrollers
-  - daemonsets
-  - deployments
   - replicasets
+  - replicationcontrollers
+  - secrets
+  - serviceaccounts
+  - services
   verbs:
   - "*"
 - apiGroups:
@@ -115,7 +118,7 @@ metadata:
   name: {{.Release.Namespace}}-{{.Release.Name}}-{{.Values.global.product}}-service-pod-crb
   labels:
     release: {{ .Release.Name }}
-    product: {{ required "product (e.g. objectscale) is required" .Values.global.product }} 
+    product: {{ required "product (e.g. objectscale) is required" .Values.global.product }}
 subjects:
 - kind: ServiceAccount
   name: {{ .Release.Name }}-service-pod-sa
@@ -123,4 +126,148 @@ subjects:
 roleRef:
   kind: ClusterRole
   name: {{.Release.Namespace}}-{{.Release.Name}}-{{.Values.global.product}}-service-pod-cr
+  apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: {{ .Release.Name }}-service-pod-sa-basic
+  namespace: {{ .Release.Namespace }}
+  labels:
+    release: {{ .Release.Name }}
+    product: {{ required "product (e.g. objectscale) is required" .Values.global.product }}
+---
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: {{.Release.Namespace}}-{{.Release.Name}}-{{.Values.global.product}}-service-pod-cr-basic
+  labels:
+    release: {{ .Release.Name }}
+    product: {{ required "product (e.g. objectscale) is required" .Values.global.product }}
+rules:
+  {{- if or (eq .Values.global.platform "Atlantic") (eq .Values.global.platform "OpenShift") }}
+  - apiGroups:
+      - csi-baremetal.dell.com
+    resources:
+      - '*'
+    verbs:
+      - "*"
+  {{- end }}
+  - apiGroups:
+      - ecs.dellemc.com
+    resources:
+      - '*'
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - decks.ecs.dellemc.com
+    resources:
+      - '*'
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - kahm.emcecs.github.com
+    resources:
+      - notifiers
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - app.k8s.io
+    resources:
+      - '*'
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - ""
+      - extensions
+    resources:
+      - applications
+      - configmaps
+      - daemonsets
+      - deployments
+      - endpoints
+      - events
+      - namespaces
+      - nodes
+      - persistentvolumeclaims
+      - persistentvolumes
+      - pods
+      - pods/exec
+      - pods/log
+      - pods/portforward
+      - replicasets
+      - replicationcontrollers
+      - services
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - batch
+    resources:
+      - jobs
+      - cronjobs
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - policy
+    resources:
+      - poddisruptionbudgets
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - apps
+    resources:
+      - deployments
+      - daemonsets
+      - replicasets
+      - statefulsets
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - zookeeper.pravega.io
+    resources:
+      - '*'
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - storage.k8s.io
+    resources:
+      - storageclasses
+      - storageclasslists
+    verbs:
+      - get
+      - list
+      - watch
+---
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: {{.Release.Namespace}}-{{.Release.Name}}-{{.Values.global.product}}-service-pod-crb-basic
+  labels:
+    release: {{ .Release.Name }}
+    product: {{ required "product (e.g. objectscale) is required" .Values.global.product }}
+subjects:
+  - kind: ServiceAccount
+    name: {{ .Release.Name }}-service-pod-sa-basic
+    namespace: {{ .Release.Namespace }}
+roleRef:
+  kind: ClusterRole
+  name: {{.Release.Namespace}}-{{.Release.Name}}-{{.Values.global.product}}-service-pod-cr-basic
   apiGroup: rbac.authorization.k8s.io

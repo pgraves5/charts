@@ -25,7 +25,7 @@ rules:
   - apiGroups:
       - csi-baremetal.dell.com
     resources:
-      - availablecapacities
+      - "*"
     verbs:
       - get
       - list

@@ -6,16 +6,20 @@ tests:
   - it: should create a VCUIPlugin
     set:
       global.platform: "VMware"
+      objectscale-portal.accept_eula: "09Sep2020"
     asserts:
       - isKind:
           of: VCUIPlugin
   - it: should have the correct name
     set:
       global.platform: "VMware"
+      objectscale-portal.accept_eula: "09Sep2020"
     asserts:
       - equal:
           path: metadata.name
           value: objectscale-ui-NAMESPACE
   - it: should not create a operator
+    set:
+      objectscale-portal.accept_eula: "09Sep2020"
     assert:
       - nil

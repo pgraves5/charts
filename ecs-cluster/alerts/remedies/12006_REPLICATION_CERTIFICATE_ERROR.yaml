@@ -1,0 +1,6 @@
+- symptomid: OBJST-12006
+  description: Connection to remote replication endpoint cannot establish due to TLS problem
+  remedies:
+    - Check or update the TLS settings used for internal communication.
+    - Contact the network administrator to assist in analyzing the configuration
+    - For further information visit: https://www.dell.com/support/home/en-us/product-support/product/objectscale/docs

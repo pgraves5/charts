@@ -40,14 +40,20 @@ def update_line(line, marker_text):
 def load_artifacts(input_file):
     with open(input_file, "r+") as ijs:
         slice = json.load(ijs)
-        for art in slice.get('resolvedArtifacts'):
-            if 'artifactId' in art:
-                art[NON_COMPON_VERSION] = art['version'] if art['componentVersion'] != art['version'] else ''
-                artmap[art['artifactId']] = art
 
         for (comp, version) in slice.get('resolvedComponentVersions').items():
             compid = "*comp*" + comp
             artmap[compid] = {DEFAULT_ARTMAP_KEY: version}
+
+        # to identify NON_COMPON_VERSION flag, count version from resolvedComponentVersions section,
+        # not from artifact itself (not componentVersion) - this is required for hotfix processing
+
+        for art in slice.get('resolvedArtifacts'):
+            if 'artifactId' in art:
+                comp_mod_name = "*comp*" + art['componentName']
+                art[NON_COMPON_VERSION] = art['version'] if artmap[comp_mod_name][DEFAULT_ARTMAP_KEY] != art['version'] else ''
+                artmap[art['artifactId']] = art
+
 
 def process_yaml(input_yaml, return_modified=False):
     with open(input_yaml, "r+") as iym:

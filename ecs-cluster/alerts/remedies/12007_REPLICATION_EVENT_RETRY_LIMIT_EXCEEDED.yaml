@@ -1,0 +1,5 @@
+- symptomid: OBJST-12007
+  description: Replication event exceeds retry limit.
+  remedies:
+    - Contact Dell service to find replication issue and do manual retrigger for that event.
+    - For further information visit: https://www.dell.com/support/home/en-us/product-support/product/objectscale/docs

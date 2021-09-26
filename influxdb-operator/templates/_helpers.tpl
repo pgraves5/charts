@@ -36,6 +36,7 @@ Common labels
 */}}
 {{- define "influxdb-operator.labels" -}}
 app.kubernetes.io/name: {{ include "influxdb-operator.fullname" . }}
+app.kubernetes.io/component: {{ include "influxdb-operator.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}

@@ -3,7 +3,7 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-tag: 0.82.0-1294
+tag: 0.84.0-1385
 
 # These values may be overridden when the IAM is included within a subchart
 global:
@@ -19,7 +19,7 @@ global:
 image:
   pullPolicy: IfNotPresent
   repository: iamsvc
-  tag: 3.7.0.0-137219.f17f3a6ca31 # rfw-update-this iamsvc-docker-image
+  tag: 3.7.0.0-137358.b56a83113d8 # rfw-update-this iamsvc-docker-image
 
 # Number of replicas for the ObjectScale IAM deployment
 replicaCount: 3
@@ -103,7 +103,7 @@ atlas:
   image:
     pullPolicy: IfNotPresent
     repository: atlas
-    tag: 1.1.4-23.g065d124 # rfw-update-this atlas-docker-image
+    tag: 1.1.4-31.gb436315 # rfw-update-this atlas-docker-image
 
   # Persistent storage options for Atlas Cluster
   persistence:
