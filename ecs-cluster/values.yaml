@@ -54,7 +54,7 @@ global:
 
 # The default docker tag and pull policy for the ECS Cluster
 # rfw-update-next *comp*object-services
-tag: 3.7.0.0-137351.a0dfa120c0c
+tag: 3.7.0.0-137356.4d5421fe035
 pullPolicy: IfNotPresent
 
 # Override the default number of replicas which taken according to performance profile for each service
@@ -131,7 +131,7 @@ pravega:
   # labels:
   image:
     pullPolicy: IfNotPresent
-    tag: 0.10.0-2984.083a88b09 # rfw-update-this pravega-docker-image
+    tag: 0.10.0-2986.3283338fc-atlantic # rfw-update-this pravega-docker-image
   controller:
     replicas: 2
     service:
@@ -182,7 +182,7 @@ bookkeeper:
   # labels:
   image:
     pullPolicy: IfNotPresent
-    tag: 0.9.2-2798.872148c # rfw-update-this bookkeeper-docker-image
+    tag: 4.14.3-10-1c9832394 # rfw-update-this bookkeeper-docker-image
   blockOwnerDeletion: false
   autoRecovery: false
   probes:

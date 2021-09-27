@@ -37,7 +37,7 @@ global:
   rsyslog_enabled: true
 
 # The default docker tag and pull policy for objectscale-portal and other containers
-tag: 0.84.0-1385
+tag: 0.84.0-1390
 pullPolicy: IfNotPresent
 
 # Enable AntiAffinity or not
