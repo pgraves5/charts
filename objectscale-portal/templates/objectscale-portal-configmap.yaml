@@ -169,7 +169,8 @@ data:
             }
 
             location /version {
-                return 200 '{{ .Chart.AppVersion }}';
+                default_type application/json;
+                return 200 '{"value":"{{ .Chart.AppVersion }}"}';
             }
 
             location / {
