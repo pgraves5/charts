@@ -3,3 +3,4 @@
   remedies:
     - If near or above capacity, remove stale object stores
     - If near or above capacity, contact Dell Technologies for an updated license
+  component: "objectscale-healthchecks"
