@@ -223,6 +223,22 @@ spec:
 {{- else }}
       pullPolicy: {{ .Values.pullPolicy }}
 {{- end }}
+    initContainers:
+    - command:
+      - sh
+      - -c
+      - chown -R container:1000 /data /opt /zk-sp.sh
+      image: {{ .Values.global.registry }}/{{ .Values.zookeeper.image.repository }}/{{ .Values.zookeeper.image.tag }}
+      name: initscripts
+      resources: {}
+      securityContext:
+        runAsUser: 0
+      volumeMounts:
+      - mountPath: /data
+        name: data
+    securityContext:
+      runAsGroup: 1000
+      runAsUser: container
     volumes:
       - name: log
         emptyDir:
@@ -390,6 +406,12 @@ spec:
       debugLogging: {{ .Values.pravega.debugLogging }}
       controllerServiceAccountName: {{ .Release.Name }}-pravega
       segmentStoreServiceAccountName: {{ .Release.Name }}-pravega
+      controllerSecurityContext:
+        runAsGroup: 1000
+        runAsUser: container
+      segmentStoreSecurityContext:
+        runAsGroup: 1000
+        runAsUser: container
       {{- if eq .Values.pravega.controller.enableAntiAffinity true }}
       controllerPodAffinity:
         podAntiAffinity:
