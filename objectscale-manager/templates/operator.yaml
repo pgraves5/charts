@@ -21,10 +21,6 @@ spec:
     matchLabels:
       app.kubernetes.io/name: objectscale-manager
       app.kubernetes.io/component: objectscale-operator
-  securityContext:
-    runAsUser: 1000
-    runAsGroup: 100
-    fsGroup: 100
   template:
     metadata:
       labels:
@@ -43,6 +39,10 @@ spec:
       annotations:
 {{ include "common-lib.vsphere-emm-integrated_annotation" . | indent 8}}
     spec:
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 100
+        fsGroup: 100
       serviceAccountName: objectscale-operator
 {{- if .Values.global.registrySecret }}
       imagePullSecrets:
