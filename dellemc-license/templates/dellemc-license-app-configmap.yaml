@@ -81,5 +81,19 @@ data:
           remedies:
             - Verify the {{.Values.product}} license is correct and the feature was intended to
               be removed.
-    healthChecks: |-
           component: decks
+        - symptomid: DECKS-LIC-1005
+          description: Dell EMC subscription license expired for product {{.Values.product}}
+          remedies:
+            - Check the end date of the {{.Values.product}} license
+            - Visit the Dell EMC Software Licensing Center (SLC) to
+              renew/extend the {{.Values.product}} license.
+            - Contact your Dell EMC sales representative to
+              renew/extend the {{.Values.product}} license
+          component: decks
+        - symptomid: DECKS-LIC-1002
+          description: Dell EMC license is installed for product  {{.Values.product}}
+          remedies:
+            - Make sure that License is installed properly
+          component: decks
+    healthChecks: |-
