@@ -1,0 +1,4 @@
+- symptomid: OBJST-1701
+  description: Pravega service status
+  remedies:
+    - Please check pravega service status
