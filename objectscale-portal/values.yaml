@@ -106,5 +106,5 @@ features:
 hooks:
   image:
     repository: ecs-flex-graphql
-    tag: 0.82.0-770.2554dcd5 # rfw-update-this graphql-imagee
+    tag: 0.83.0-796.e758af31 # rfw-update-this graphql-image
     # pullPolicy: IfNotPresent
