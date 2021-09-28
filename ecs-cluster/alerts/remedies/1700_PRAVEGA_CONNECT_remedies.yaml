@@ -1,4 +1,4 @@
 - symptomid: OBJST-1700
-  description: Pravega connect status
+  description: Pravega service status
   remedies:
     - Please check pravega service status
