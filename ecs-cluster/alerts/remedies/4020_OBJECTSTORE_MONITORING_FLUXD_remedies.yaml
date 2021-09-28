@@ -1,4 +1,5 @@
 - symptomid: OBJST-MON-4020
+  component: monitoring
   description: Fluxd has not responded for the last 30 minutes
   remedies:
     - Please check fluxd service status
