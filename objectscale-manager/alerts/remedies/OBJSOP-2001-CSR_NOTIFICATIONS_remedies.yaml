@@ -1,4 +1,5 @@
 - symptomid: OBJSOP-2001
+  component: objectscale-manager
   description: ObjectScale CSR issue and approval notifications
   remedies:
     - Approve the certificate signing request if the CSR is pending

@@ -1,4 +1,5 @@
 - symptomid: OBJSOP-1005
+  component: objectstore
   description: Issue occured during vertical SS expand processing by Operator
   remedies:
     - Check Object Store Status, Operator logs and platform logs (if applicable) for details

@@ -1,4 +1,5 @@
 - symptomid: OBJSC-SP-0003
+  component: objectscale-manager
   description: Issue occured during node temporary maintenance mode processing by SP operator
   remedies:
     - Check TMM service procedure CR in the K8s and SP operator logs for details

@@ -1,4 +1,5 @@
 - symptomid: OBJSOP-1001
+  component: objectstore
   description: Issue occured during node permanent maintenance mode processing by Operator
   remedies:
     - Check Object Store Status, Operator logs and platform logs (if applicable) for details
