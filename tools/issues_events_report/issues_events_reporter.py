@@ -105,6 +105,9 @@ def parse_remedies(tx):
         if 'description' in sm and not 'description' in srec[sim]:
             srec[sim]['description'] = sm['description']
 
+        if 'component' in sm:
+            srec[sim]['component'] = sm['component'].title()
+
 def remap_for_json(args):
     js = []
     for sim in sorted(srec.keys()):
@@ -119,6 +122,9 @@ def remap_for_json(args):
         if 'defaultAutoClearTimeOut' in rc and 'issueCategory' in rc:
             rc['issueCategory'] += ', ' + str(rc['defaultAutoClearTimeOut'])
             del rc['defaultAutoClearTimeOut']
+
+        if not 'component' in rc:
+            rc['component'] = 'Undefined'
 
         js.append(rc)
 
@@ -168,10 +174,10 @@ Wiki page source sample:
 <ac:structured-macro ac:macro-id="X3" ac:name="json-table" ac:schema-version="1">
   <ac:parameter ac:name="output">wiki</ac:parameter>
   <ac:parameter ac:name="sortColumn">SymptomId</ac:parameter>
-  <ac:parameter ac:name="columns">SymptomId,name,description,issueCategory,notifiers,remedies</ac:parameter>
+  <ac:parameter ac:name="columns">SymptomId,component,name,description,issueCategory,notifiers,remedies</ac:parameter>
   <ac:parameter ac:name="paths">issues</ac:parameter>
   <ac:parameter ac:name="url">X4</ac:parameter>
-  <ac:parameter ac:name="augments">[%SymptomId%|Alert %SymptomId%],,,,,</ac:parameter>
+  <ac:parameter ac:name="augments">[%SymptomId%|Alert %SymptomId%],[%component%|Component %component%],,,,,</ac:parameter>
 </ac:structured-macro>
 
 """
