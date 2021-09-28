@@ -1,0 +1,6 @@
+- symptomid: OBJST-12001
+  description: Replication stream has large backlog in pravega.
+  component: crr
+  remedies:
+    - Check if still need to keep this destination paused
+    - "For further information visit: https://www.dell.com/support/home/en-us/product-support/product/objectscale/docs"
