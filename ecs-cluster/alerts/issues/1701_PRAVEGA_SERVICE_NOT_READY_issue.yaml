@@ -7,6 +7,7 @@
         # WARNING
         - label: SymptomID
           value: OBJST-1701
+  component: Pravega
   notifiers:
     - objectscale-supportassist-ese
     - objectscale-snmp-notifier
