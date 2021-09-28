@@ -8,4 +8,5 @@
           value: OBJST-1006
   notifiers:
     - objectscale-snmp-notifier
+  component: objmt
 # Do not generate SR

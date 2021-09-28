@@ -2,3 +2,4 @@
   description: Hard quota limit exceeded for bucket
   remedies:
     - Free up space in the bucket
+  component: objmt

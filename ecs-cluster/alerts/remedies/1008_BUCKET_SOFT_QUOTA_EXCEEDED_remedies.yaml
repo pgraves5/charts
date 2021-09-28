@@ -1,0 +1,5 @@
+- symptomid: OBJST-1008
+  description: Soft quota limit exceeded for bucket
+  remedies:
+    - Free up space in the bucket
+  component: objmt
