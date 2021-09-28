@@ -1,5 +1,5 @@
 - symptomid: OBJSC-SP-0002
-  component: objectscale-manager
+  component: objectscale-sp-operator
   description: Issue occured during node permanent maintenance mode processing by SP operator
   remedies:
     - Check PMM service procedure CR in the K8s and SP operator logs for details

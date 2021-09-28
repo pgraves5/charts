@@ -1,5 +1,5 @@
 - symptomid: OBJSOP-1004
-  component: objectstore
+  component: objectscale-operator
   description: Issue occured during horizontal SS expand processing by Operator
   remedies:
     - Check Object Store Status, Operator logs and platform logs (if applicable) for details

@@ -1,5 +1,5 @@
 - symptomid: OBJSOP-2002
-  component: objectscale-manager
+  component: objectscale-operator
   description: ObjectScale TLS certificate expiration notifications
   remedies:
     - Check the expiration dates of the certificates
