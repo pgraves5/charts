@@ -1,0 +1,5 @@
+- symptomid: OBJSC-SP-0000
+  component: objectscale-sp-operator
+  description: Issue occured during recovery processing by SP operator
+  remedies:
+    - Check recovery service procedure CR in the K8s and SP operator logs for details
